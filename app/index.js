@@ -1,4 +1,6 @@
 module.exports = {
+    bot: require('./bot'),
+
     // Utilities
     logger: require('./utils/logger/Logger'),
     configLoader: require('./utils/config/ConfigLoader'),
