@@ -1,4 +1,6 @@
 module.exports = {
+    commands: require('./commands'),
+
     // Event Handlers
     handlers: {
         // Connection Handlers
