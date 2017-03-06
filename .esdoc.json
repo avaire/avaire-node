@@ -1,0 +1,28 @@
+{
+    "source": "./app",
+    "destination": "./docs",
+    "package": "./package.json",
+    "autoPrivate": true,
+    "unexportIdentifier": true,
+    "undocumentIdentifier": true,
+    "builtinExternal": false,
+    "coverage": true,
+    "includeSource": true,
+    "test": {
+        "type": "mocha",
+        "source": "./tests"
+    },
+    "title": "AvaIre",
+    "index": "./README.md",
+    "lint": true,
+    "experimentalProposal": {
+        "classProperties": true,
+        "objectRestSpread": true,
+        "decorators": true,
+        "doExpressions": true,
+        "functionBind": true,
+        "asyncGenerators": true,
+        "exportExtensions": true,
+        "dynamicImport": true
+    }
+}
