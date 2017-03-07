@@ -1,11 +1,12 @@
 <p align="center">
 <img src="https://img.shields.io/badge/stable-0.1.0-179BE6.svg" alt="Latest Stable Version">
 <img src="https://img.shields.io/badge/license-MIT-4A8F80.svg" alt="License">
+<img src="https://avaire.senither.com/badge.svg" alt="Documented code">
 </p>
 
 ## About AvaIre
 
-AvaIre is a multipurpose Discord bot made for fun, written in JavaScript [Node.JS](https://nodejs.org), using the [Discordie](https://qeled.github.io/discordie) library.
+AvaIre is a multipurpose Discord bot made for fun, written in JavaScript [Node.JS](https://nodejs.org), using the [Discordie](https://qeled.github.io/discordie) library, to learn more checkout the temporary [documentation](https://avaire.senither.com/) website.
 
 ## License
 
