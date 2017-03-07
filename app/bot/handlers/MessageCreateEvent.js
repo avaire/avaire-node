@@ -1,6 +1,6 @@
 /** @ignore */
 const EventHandler = require('./EventHandler');
-const _ = require('lodash');
+const ProcessCommand = require('./../middleware/ProcessCommand');
 
 /**
  * Emitted when a user sends a text message in any valid text channel in a guild.
@@ -29,13 +29,7 @@ class MessageCreateEvent extends EventHandler {
         // Checks to see if a valid command was found from the message context, if a
         // command was found the onCommand method will be called for the handler.
         if (command != null) {
-            let user = socket.message.author;
-
-            app.logger.info(`Executing Command <${socket.message.resolveContent()}> from ${user.username}#${user.discriminator}`);
-
-            return command.handler.onCommand(
-                user, socket.message, _.drop(socket.message.content.trim().split(' ')), socket
-            );
+            return MessageCreateEvent.prototype.processCommand(socket, command);
         }
     }
 
@@ -46,7 +40,7 @@ class MessageCreateEvent extends EventHandler {
      * @return {Command|null}
      */
     getCommand(message) {
-        let trigger = _.toLower(message.split(' ')[0].trim());
+        let trigger = message.split(' ')[0].toLowerCase();
 
         for (let commandName in app.bot.commands) {
             let command = app.bot.commands[commandName];
@@ -59,6 +53,37 @@ class MessageCreateEvent extends EventHandler {
         }
 
         return null;
+    }
+
+    processCommand(socket, command) {
+        let middlewareGroup = command.handler.getOptions('middleware', []);
+        let stack = new ProcessCommand;
+        let param = [command];
+
+        if (middlewareGroup.length == 0) {
+            return stack.handle(socket, null, command);
+        }
+
+        for (let index in middlewareGroup) {
+            let split = middlewareGroup[index].split(':');
+            
+            let middleware = split[0];
+            let args = [];
+
+            if (! app.bot.middleware.hasOwnProperty(middleware)) {
+                continue;
+            }
+
+            if (split.length > 1) {
+                args = split[1].split(',');
+            }
+
+            stack = new app.bot.middleware[middleware](stack, param);
+            param = args;
+        }
+
+        return stack.handle(socket, stack.next.bind(stack), ...param);
+        // Process middleware for the command here and then run the entire thing.
     }
 }
 

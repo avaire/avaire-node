@@ -1,6 +1,10 @@
 module.exports = {
     commands: require('./commands'),
 
+    middleware: {
+        'isBotAdmin': require('./middleware/isBotAdmin'),
+    },
+
     // Event Handlers
     handlers: {
         // Connection Handlers
