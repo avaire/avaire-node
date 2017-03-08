@@ -2,7 +2,7 @@ module.exports = {
     commands: require('./commands'),
 
     middleware: {
-        'isBotAdmin': require('./middleware/isBotAdmin'),
+        'isBotAdmin': require('./middleware/IsBotAdmin'),
     },
 
     // Event Handlers
