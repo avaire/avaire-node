@@ -3,6 +3,7 @@ module.exports = {
 
     // Utilities
     logger: require('./utils/logger/Logger'),
+    cache: require('./utils/cache/CacheManager'),
     configLoader: require('./utils/config/ConfigLoader'),
 
     // Bot Version
