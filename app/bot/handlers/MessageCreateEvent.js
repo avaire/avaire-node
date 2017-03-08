@@ -1,5 +1,6 @@
 /** @ignore */
 const EventHandler = require('./EventHandler');
+/** @ignore */
 const ProcessCommand = require('./../middleware/ProcessCommand');
 
 /**
@@ -55,6 +56,13 @@ class MessageCreateEvent extends EventHandler {
         return null;
     }
 
+    /**
+     * Process command by building the middleware stack and running it.
+     * 
+     * @param  {GatewaySocket} socket   The Discordie gateway socket
+     * @param  {Command}       command  The command that should be executed
+     * @return {mixed}
+     */
     processCommand(socket, command) {
         let middlewareGroup = command.handler.getOptions('middleware', []);
         let stack = new ProcessCommand;
@@ -83,7 +91,6 @@ class MessageCreateEvent extends EventHandler {
         }
 
         return stack.handle(socket, stack.next.bind(stack), ...param);
-        // Process middleware for the command here and then run the entire thing.
     }
 }
 

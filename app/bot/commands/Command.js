@@ -1,3 +1,4 @@
+/** @ignore */
 const _ = require('lodash');
 
 class Command {

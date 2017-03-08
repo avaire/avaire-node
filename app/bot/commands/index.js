@@ -1,5 +1,8 @@
+/** @ignore */
 const _ = require('lodash');
+/** @ignore */
 const Command = require('./Command');
+/** @ignore */
 const directory = require('require-directory');
 
 var triggers = [];

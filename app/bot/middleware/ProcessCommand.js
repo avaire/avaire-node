@@ -1,5 +1,6 @@
 /** @ignore */
 const Middleware = require('./Middleware');
+/** @ignore */
 const _ = require('lodash');
 
 /**

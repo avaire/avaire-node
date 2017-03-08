@@ -1,11 +1,19 @@
+/** @ignore */
 const Winston = require('winston');
+/** @ignore */
 const path = require('path');
 
+/** @ignore */
 var storage = path.resolve('storage', 'logs');
 
 Winston.emitErrs = true;
 
-module.exports = new Winston.Logger({
+/**
+ * The Winston logger instance.
+ * 
+ * @type {Winston}
+ */
+const Logger = new Winston.Logger({
     colors: {
         info: 'green',
         warn: 'yellow',
@@ -45,3 +53,5 @@ module.exports = new Winston.Logger({
     ],
     exitOnError: true
 });
+
+module.exports = Logger;

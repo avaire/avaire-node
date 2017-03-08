@@ -1,5 +1,6 @@
 /** @ignore */
 const Command = require('./../Command');
+/** @ignore */
 const request = require('request');
 
 class RollCommand extends Command {
