@@ -13,8 +13,8 @@ class IsBotAdmin extends Middleware {
      * Handles the incomming command request
      *
      * @override
-     * @param {GatewaySocket} request  Discordie message create socket
-     * @param {Closure}       next     The next request in the stack
+     * @param  {GatewaySocket} request  Discordie message create socket
+     * @param  {Closure}       next     The next request in the stack
      * @return {mixed} 
      */
     handle(request, next) {
@@ -28,8 +28,8 @@ class IsBotAdmin extends Middleware {
     /**
      * Checks if the users id is in the "botAccess" property in the config.json file.
      * 
-     * @param  {IUser} author  Discordie user object
-     * @return {Boolean}       Returns ture if the user is a bot admin 
+     * @param  {IUser}    author  Discordie user object
+     * @return {Boolean}          Returns ture if the user is a bot admin 
      */
     isBotAdmin (author) {
         for (let index in app.config.botAccess) {

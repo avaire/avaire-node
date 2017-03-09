@@ -47,11 +47,8 @@ class Require extends Middleware {
     /**
      * Checks if both the bot and the user has the provided permission node.
      *
-     * @param  {IPermissions}  userGuild    The users guild permissions
-     * @param  {IPermissions}  userChannel  The users channel permissions
-     * @param  {IPermissions}  botGuild     The bots guild permissions
-     * @param  {IPermissions}  botChannel   The bots channel permissions
-     * @param  {String}        permission   The permission node that should be checked
+     * @param  {Object}  payload     The user and bot payload permissions
+     * @param  {String}  permission  The permission node that should be checked
      * @return {Boolean|Integer}
      */
     hasPermission({userGuild, userChannel, botGuild, botChannel}, permission) {

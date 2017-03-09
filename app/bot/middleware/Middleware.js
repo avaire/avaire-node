@@ -9,8 +9,8 @@ class Middleware {
     /**
      * Setups the middleware
      * 
-     * @param  {Middleware} nextMiddleware 
-     * @param  {Array} params
+     * @param {Middleware} nextMiddleware 
+     * @param {Array}      params
      */
     constructor(nextMiddleware, params) {
         this.nextMiddleware = nextMiddleware;
@@ -32,7 +32,7 @@ class Middleware {
     /**
      * Calls the next middleware in the stack
      * 
-     * @param  {GatewaySocket}  request Discordie message create socket
+     * @param  {GatewaySocket} request  Discordie message create socket
      * @return {mixed}
      */
     next(request) {
