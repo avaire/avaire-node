@@ -3,6 +3,7 @@ process.title = 'AvaIre';
 
 var _ = require('lodash');
 var Discordie = require('discordie');
+var directory = require('require-directory');
 
 global.app = require('./app');
 
@@ -23,6 +24,14 @@ _.each(app.bot.handlers, function (handler, key) {
             bot.Dispatcher.on(event, new handler);
         }
     });
+});
+
+let jobs = directory(module, './app/bot/jobs');
+app.logger.info(` - Registering ${Object.keys(jobs).length - 1} jobs`);
+_.each(jobs, function (job, key) {
+    if (key !== 'Job') {
+        app.scheduler.registerJob(new job);
+    }
 });
 
 app.logger.info('Connecting to the Discord network...');

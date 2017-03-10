@@ -4,6 +4,7 @@ module.exports = {
     // Utilities
     logger: require('./utils/logger/Logger'),
     cache: require('./utils/cache/CacheManager'),
+    scheduler: require('./utils/scheduler/Scheduler'),
     configLoader: require('./utils/config/ConfigLoader'),
 
     // Bot Version
