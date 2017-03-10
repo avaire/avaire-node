@@ -56,7 +56,7 @@ class Task {
      * @return {Task}
      */
     start() {
-        if (! this.isRunning()) {
+        if (this.isRunning()) {
             return this;
         }
 
