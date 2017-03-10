@@ -18,7 +18,7 @@ class ThrottleUser extends Middleware {
      * @return {mixed}
      */
     handle(request, next, maxAttempts = 1, decaySeconds = 5) {
-        let key = `throttle-user.${request.message.author.id}.${this.getCommand().name}`;
+        let key = `throttle-user.${request.message.guild.id}.${request.message.author.id}.${this.getCommand().name}`;
 
         if (app.throttle.can(key, maxAttempts, decaySeconds)) {
             return next(request);
