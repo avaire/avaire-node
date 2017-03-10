@@ -4,6 +4,7 @@ module.exports = {
     middleware: {
         'isBotAdmin': require('./middleware/IsBotAdmin'),
         'require': require('./middleware/Require'),
+        'throttle.user': require('./middleware/ThrottleUser'),
     },
 
     // Event Handlers

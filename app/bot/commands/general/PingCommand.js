@@ -3,7 +3,11 @@ const Command = require('./../Command');
 
 class PingCommand extends Command {
     constructor() {
-        super('!', 'ping', ['pingme']);
+        super('!', 'ping', ['pingme'], {
+            middleware: [
+                'throttle.user:2,5'
+            ]
+        });
     }
 
     onCommand(sender, message, args) {
