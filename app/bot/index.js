@@ -1,5 +1,6 @@
 module.exports = {
     commands: require('./commands'),
+    statistics: require('./RuntimeStatistics'),
 
     middleware: {
         'isBotAdmin': require('./middleware/IsBotAdmin'),

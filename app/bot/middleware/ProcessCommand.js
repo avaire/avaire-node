@@ -26,6 +26,7 @@ class ProcessCommand extends Middleware {
         let user = socket.message.author;
         
         app.logger.info(`Executing Command <${socket.message.resolveContent()}> from ${user.username}#${user.discriminator}`);
+        app.bot.statistics.commands++;
         
         return command.handler.onCommand(
             user, socket.message, _.drop(socket.message.content.trim().split(' ')), socket
