@@ -6,7 +6,10 @@ const request = require('request');
 class RandomCatCommand extends Command {
     constructor() {
         super('>', 'randomcat', ['cat'], {
-            description: 'I will get a random cat for you'
+            description: 'I will get a random cat for you',
+            middleware: [
+                'throttle.channel:1,1'
+            ]
         });
     }
 
