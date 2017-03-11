@@ -20,7 +20,8 @@ class StatsCommand extends Command {
             description = '**Latest changes:**\n';
     
             app.cache.get('github.commits').slice(0, 3).forEach(commit => {
-                description += `[\`${commit.sha.substr(0, 7)}\`](${commit.html_url}) ${commit.commit.message}\n`;
+                let message = commit.commit.message.split('\n')[0];
+                description += `[\`${commit.sha.substr(0, 7)}\`](${commit.html_url}) ${message}\n`;
             });
         }
 
