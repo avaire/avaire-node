@@ -14,13 +14,22 @@ class StatsCommand extends Command {
         let members  = this.getMemberStats();
         let channels = this.getChannelStats();
         let author = bot.Users.find(user => { return user.id === '88739639380172800' });
+        let description = 'Created by Senither#8023 using the Discordie framework!';
+
+        if (app.cache.has('github.commits')) {
+            description = '**Latest changes:**\n';
+    
+            app.cache.get('github.commits').slice(0, 3).forEach(commit => {
+                description += `[\`${commit.sha.substr(0, 7)}\`](${commit.html_url}) ${commit.commit.message}\n`;
+            });
+        }
 
         message.channel.sendMessage('', false, {
             timestamp: new Date,
             color: 0x3498db,
             url: 'https://discordapp.com/invite/gt2FWER',
             title: 'Official Bot Server Invite',
-            description: 'Github commit messages will be displayed here soon!',
+            description: description.trim(),
             author: {
                 icon_url: `https://cdn.discordapp.com/avatars/${author.id}/${author.avatar}.png?size=256`, 
                 name: `${author.username}#${author.discriminator}`
