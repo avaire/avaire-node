@@ -1,5 +1,5 @@
 /** @ignore */
-const Job = require('./job');
+const Job = require('./Job');
 /** @ignore */
 const request = require('request');
 
