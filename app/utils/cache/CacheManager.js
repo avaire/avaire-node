@@ -7,7 +7,7 @@ class CacheManager {
 
     /**
      * Store an item in the cache for a given number of seconds.
-     * 
+     *
      * @param  {String} token     The cache item token
      * @param  {mixed}  value     The item that should be stored in the cache
      * @param  {mixed}  seconds   The amount of seconds the item should be stored for
@@ -20,7 +20,7 @@ class CacheManager {
 
     /**
      * Get an item from the cache, or store the default value.
-     * 
+     *
      * @param  {String}  token     The cache item token
      * @param  {mixed}   seconds   The amount of seconds the item should be stored for
      * @param  {Closure} callback  The closure that should be invoked if the cache doesn't exists
@@ -33,7 +33,7 @@ class CacheManager {
 
     /**
      * Store an item in the cache indefinitely.
-     * 
+     *
      * @param  {String}  token     The cache item token
      * @param  {mixed}   value     The item that should be stored in the cache
      * @param  {String}  adapter   The adapter that should be used
@@ -45,7 +45,7 @@ class CacheManager {
 
     /**
      * Retrieve an item from the cache by key.
-     * 
+     *
      * @param  {String} token     The cache item token
      * @param  {mixed}  fallback  The fallback value if the item doesn't exists
      * @param  {String} adapter   The adapter that should be used
@@ -57,7 +57,7 @@ class CacheManager {
 
     /**
      * Determine if an item exists in the cache.
-     * 
+     *
      * @param  {String} token     The cache item token
      * @param  {String} adapter   The adapter that should be used
      * @return {Boolean}
@@ -68,7 +68,7 @@ class CacheManager {
 
     /**
      * Remove an item from the cache.
-     * 
+     *
      * @param  {String} token     The cache item token
      * @param  {String} adapter   The adapter that should be used
      * @return {Boolean}
@@ -79,7 +79,7 @@ class CacheManager {
 
     /**
      * Remove all items from the cache.
-     * 
+     *
      * @param  {String} adapter   The adapter that should be used
      * @return {Boolean}
      */
@@ -89,26 +89,26 @@ class CacheManager {
 
     /**
      * Resolves the cache adapter.
-     * 
+     *
      * @param  {String} adapter   The adapter that should be used
      * @return {CacheAdapter}
      */
     resolveAdapter(adapter) {
-        if (adapter == undefined) {
-            if (typeof this.defaultAdapter == 'undefined') {
+        if (adapter === undefined) {
+            if (typeof this.defaultAdapter === 'undefined') {
                 this.defaultAdapter = 'file';
             }
-            
+
             return this.resolveAdapter(this.defaultAdapter);
         }
 
         switch (adapter.toLowerCase()) {
             case 'memory':
                 return this.prepareAdapter(MemoryCache);
-            
+
             case 'file':
                 return this.prepareAdapter(FileCache);
-            
+
             default:
                 return this.resolveAdapter(this.defaultAdapter);
         }
@@ -116,7 +116,7 @@ class CacheManager {
 
     /**
      * Prepares the cache adapter.
-     * 
+     *
      * @param {String} adapter  The adapter that should be used
      */
     prepareAdapter(adapter) {
@@ -128,7 +128,7 @@ class CacheManager {
 
     /**
      * Sets the default cache adapter
-     * 
+     *
      * @param {String} adapter  The adapter that should be used
      */
     setDefaultAdapter(adapter) {

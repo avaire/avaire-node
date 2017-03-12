@@ -2,21 +2,21 @@
 const Middleware = require('./Middleware');
 
 /**
- * Makes sure both the bot and the user that executed the command 
+ * Makes sure both the bot and the user that executed the command
  * for the middleware has the provided list of permissions.
- * 
+ *
  * @extends {Middleware}
  */
 class Require extends Middleware {
-    
+
     /**
      * Handles the incomming command request
-     * 
+     *
      * @override
      * @param  {GatewaySocket} request      Discordie message create socket
      * @param  {Closure}       next         The next request in the stack
      * @param  {Array}         permissions  List of permissions that should be checked
-     * @return {mixed} 
+     * @return {mixed}
      */
     handle(request, next, ...permissions) {
         if (request.message.isPrivate) {
@@ -34,7 +34,7 @@ class Require extends Middleware {
             let permission = permissions[i];
             let permissionState = this.hasPermission(payload, permission);
 
-            if (permissionState == 1) {
+            if (permissionState === 1) {
                 continue;
             }
 
@@ -52,19 +52,19 @@ class Require extends Middleware {
      * @return {Boolean|Integer}
      */
     hasPermission({userGuild, userChannel, botGuild, botChannel}, permission) {
-        if (! app.bot.permissions.hasOwnProperty(permission)) {
+        if (!app.bot.permissions.hasOwnProperty(permission)) {
             return false;
         }
 
         let permissionParts = app.bot.permissions[permission];
-        if (permissionParts.length != 2) {
+        if (permissionParts.length !== 2) {
             return false;
         }
 
         let group = permissionParts[0];
         let perms = permissionParts[1];
 
-        if (! botGuild[group][perms] || ! botChannel[group][perms]) {
+        if (!botGuild[group][perms] || !botChannel[group][perms]) {
             return -1;
         }
 
@@ -81,10 +81,10 @@ class Require extends Middleware {
      */
     cancelMiddleware(request, permission, permissionState) {
         let author = request.message.author;
-        let message = "You're missing the required permission node for this command:";
+        let message = 'You\'re missing the required permission node for this command:';
 
         if (permissionState === -1) {
-            message = "I don't have the required permission node to execute this command:";
+            message = 'I don\'t have the required permission node to execute this command:';
         }
 
         request.message.channel.sendMessage(`:warning: ${message} ${permission}`);

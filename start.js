@@ -18,21 +18,21 @@ global.bot = new Discordie({
 });
 
 app.logger.info(` - Registering ${Object.keys(app.bot.handlers).length + 1} event handlers`);
-_.each(app.bot.handlers, function (handler, key) {
+_.each(app.bot.handlers, function (Handler, key) {
     _.each(Discordie.Events, function (event) {
         if (key === event) {
-            bot.Dispatcher.on(event, new handler);
+            bot.Dispatcher.on(event, new Handler);
         }
     });
 });
 
 let jobs = directory(module, './app/bot/jobs');
 app.logger.info(` - Registering ${Object.keys(jobs).length - 1} jobs`);
-_.each(jobs, function (job, key) {
+_.each(jobs, function (Job, key) {
     if (key !== 'Job') {
-        app.scheduler.registerJob(new job);
+        app.scheduler.registerJob(new Job);
     }
 });
 
 app.logger.info('Connecting to the Discord network...');
-bot.connect({ token: app.config.bot.token });
+bot.connect({token: app.config.bot.token});

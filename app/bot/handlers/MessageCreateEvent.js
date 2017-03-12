@@ -5,22 +5,22 @@ const ProcessCommand = require('./../middleware/ProcessCommand');
 
 /**
  * Emitted when a user sends a text message in any valid text channel in a guild.
- * 
+ *
  * @extends {EventHandler}
  */
 class MessageCreateEvent extends EventHandler {
 
     /**
      * The event-handler that is executed by Discords event dispatcher.
-     * 
+     *
      * @param  {GatewaySocket} socket  The Discordie gateway socket
      * @return {mixed}
      */
     handle(socket) {
-        // Checks if the message was sent from the bot itself, or another bot, if that's 
-        // the case we want to simply just end the event there, otherwise we'll end up 
+        // Checks if the message was sent from the bot itself, or another bot, if that's
+        // the case we want to simply just end the event there, otherwise we'll end up
         // with an endless loop of messages going on and on and on and on and...
-        if (bot.User.id == socket.message.author.id || socket.message.author.bot) {
+        if (bot.User.id === socket.message.author.id || socket.message.author.bot) {
             return;
         }
 
@@ -29,14 +29,14 @@ class MessageCreateEvent extends EventHandler {
 
         // Checks to see if a valid command was found from the message context, if a
         // command was found the onCommand method will be called for the handler.
-        if (command != null) {
+        if (command !== null) {
             return MessageCreateEvent.prototype.processCommand(socket, command);
         }
     }
 
     /**
      * Gets the command with matching triggers to what the user sent.
-     * 
+     *
      * @param  {String} message  The message that was sent by the user.
      * @return {Command|null}
      */
@@ -47,7 +47,7 @@ class MessageCreateEvent extends EventHandler {
             let command = app.bot.commands[commandName];
 
             for (let triggerIndex in command.triggers) {
-                if (trigger == command.prefix + command.triggers[triggerIndex]) {
+                if (trigger === command.prefix + command.triggers[triggerIndex]) {
                     return command;
                 }
             }
@@ -58,7 +58,7 @@ class MessageCreateEvent extends EventHandler {
 
     /**
      * Process command by building the middleware stack and running it.
-     * 
+     *
      * @param  {GatewaySocket} socket   The Discordie gateway socket
      * @param  {Command}       command  The command that should be executed
      * @return {mixed}
@@ -68,17 +68,17 @@ class MessageCreateEvent extends EventHandler {
         let stack = new ProcessCommand;
         let param = [command];
 
-        if (middlewareGroup.length == 0) {
+        if (middlewareGroup.length === 0) {
             return stack.handle(socket, null, command);
         }
 
         for (let index in middlewareGroup) {
             let split = middlewareGroup[index].split(':');
-            
+
             let middleware = split[0];
             let args = [];
 
-            if (! app.bot.middleware.hasOwnProperty(middleware)) {
+            if (!app.bot.middleware.hasOwnProperty(middleware)) {
                 continue;
             }
 

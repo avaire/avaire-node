@@ -5,7 +5,7 @@ class ConfigLoader {
 
     /**
      * Loads the json configuration with the provided name.
-     * 
+     *
      * @param  {[type]}   name      The name of the config
      * @param  {Closure}  callback  The error callback handler
      * @return {Object}
@@ -13,12 +13,12 @@ class ConfigLoader {
     loadConfiguration(name, callback) {
         try {
             return require(path.resolve(name));
-        } catch (exception) {
-            if (typeof callback == 'function') {
-                return callback(exception);
+        } catch (err) {
+            if (typeof callback === 'function') {
+                return callback(err);
             }
 
-            throw exception;
+            throw err;
         }
     }
 }

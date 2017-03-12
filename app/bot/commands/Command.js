@@ -45,8 +45,8 @@ class Command {
         let option = this.options;
         for (let index in items) {
             let item = items[index];
-            
-            if (! option.hasOwnProperty(item)) {
+
+            if (!option.hasOwnProperty(item)) {
                 return fallback;
             }
 
@@ -57,7 +57,7 @@ class Command {
     }
 
     getDescription() {
-        return this.getOptions('description', "This command doesn't have a description yet...");
+        return this.getOptions('description', 'This command doesn\'t have a description yet...');
     }
 
     getUsage() {

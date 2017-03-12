@@ -1,7 +1,7 @@
 /** @ignore */
-const Command = require('./../Command');
-/** @ignore */
 const request = require('request');
+/** @ignore */
+const Command = require('./../Command');
 
 class RandomCatCommand extends Command {
     constructor() {
@@ -18,11 +18,11 @@ class RandomCatCommand extends Command {
             if (!error && response.statusCode === 200) {
                 try {
                     let parsed = JSON.parse(body);
-                    
+
                     message.channel.sendMessage(parsed.file);
-                } catch (e) {
+                } catch (err) {
                     message.channel.sendMessage('The API returned an unconventional response.');
-                    app.logger.error(e);
+                    app.logger.error(err);
                 }
             }
         });

@@ -3,14 +3,14 @@ const Middleware = require('./Middleware');
 
 /**
  * Throttles the command for the channel it was executed in.
- * 
+ *
  * @extends {Middleware}
  */
 class ThrottleChannel extends Middleware {
 
     /**
      * Handles the incomming command request
-     * 
+     *
      * @param  {GatewaySocket} request       Discordie message create socket
      * @param  {Closure}       next          The next request in the stack
      * @param  {Integer}       maxAttempts   The maxAttempts of commands that can be run within the timeout period
@@ -39,7 +39,7 @@ class ThrottleChannel extends Middleware {
 
     /**
      * Gets the command the middleware was invoked by.
-     * 
+     *
      * @return {Command}
      */
     getCommand() {
@@ -48,7 +48,7 @@ class ThrottleChannel extends Middleware {
 
     /**
      * Gets the commands main command trigger.
-     * 
+     *
      * @return {String}
      */
     getCommandTrigger() {

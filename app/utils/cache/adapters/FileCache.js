@@ -1,17 +1,17 @@
 /** @ignore */
-const CacheAdapter = require('./CacheAdapter');
+const path = require('path');
 /** @ignore */
 const crypto = require('crypto');
 /** @ignore */
 const fs = require('fs-extra');
 /** @ignore */
-const path = require('path');
+const CacheAdapter = require('./CacheAdapter');
 
 class FileCache extends CacheAdapter {
 
     /**
      * Setup and prepares the adapter for use.
-     * 
+     *
      * @return {undefined}
      */
     setup() {
@@ -21,7 +21,7 @@ class FileCache extends CacheAdapter {
 
     /**
      * Checks if the adapter is ready to be used.
-     * 
+     *
      * @return {Boolean}
      */
     isReady() {
@@ -30,8 +30,8 @@ class FileCache extends CacheAdapter {
 
     /**
      * Parses the options into the adapter.
-     * 
-     * @param  {Object} options  The object of options needed for the adapter 
+     *
+     * @param  {Object} options  The object of options needed for the adapter
      * @return {undefined}
      */
     parseOptions(options) {
@@ -42,7 +42,7 @@ class FileCache extends CacheAdapter {
 
     /**
      * Store an item in the cache for a given number of seconds.
-     * 
+     *
      * @param  {String} token     The cache item token
      * @param  {mixed}  value     The item that should be stored in the cache
      * @param  {mixed}  seconds   The amount of seconds the item should be stored for
@@ -57,7 +57,7 @@ class FileCache extends CacheAdapter {
             }
         });
 
-        if (! fs.existsSync(token.path.full)) {
+        if (!fs.existsSync(token.path.full)) {
             fs.closeSync(fs.openSync(token.path.full, 'w'));
         }
 
@@ -66,13 +66,13 @@ class FileCache extends CacheAdapter {
             expire: new Date(time),
             data: value
         }));
-        
+
         return true;
     }
 
     /**
      * Get an item from the cache, or store the default value.
-     * 
+     *
      * @param  {String}  token     The cache item token
      * @param  {mixed}   seconds   The amount of seconds the item should be stored for
      * @param  {Closure} callback  The closure that should be invoked if the cache doesn't exists
@@ -91,7 +91,7 @@ class FileCache extends CacheAdapter {
 
     /**
      * Store an item in the cache indefinitely.
-     * 
+     *
      * @param  {String}  token     The cache item token
      * @param  {mixed}   value     The item that should be stored in the cache
      * @return {mixed}
@@ -102,7 +102,7 @@ class FileCache extends CacheAdapter {
 
     /**
      * Retrieve an item from the cache by key.
-     * 
+     *
      * @param  {String} token     The cache item token
      * @param  {mixed}  fallback  The fallback value if the item doesn't exists
      * @return {mixed}
@@ -110,16 +110,16 @@ class FileCache extends CacheAdapter {
     get(token, fallback) {
         let result = this.getRaw(token, fallback);
 
-        if (! result.hasOwnProperty('data')) {
+        if (!result.hasOwnProperty('data')) {
             return fallback;
         }
-        
+
         return result.data;
     }
 
     /**
      * Retrieve an item from the cache in raw form by key.
-     * 
+     *
      * @param  {String} token     The cache item token
      * @param  {mixed}  fallback  The fallback value if the item doesn't exists
      * @return {mixed}
@@ -130,14 +130,14 @@ class FileCache extends CacheAdapter {
             data: fallback
         };
 
-        if (! this.has(token)) {
-            return fallback ;
+        if (!this.has(token)) {
+            return fallback;
         }
 
         token = this.formatToken(token);
         let item = fs.readJsonSync(token.path.full, {throws: false});
 
-        if (item == null) {
+        if (item === null) {
             return fallback;
         }
 
@@ -146,23 +146,23 @@ class FileCache extends CacheAdapter {
 
     /**
      * Determine if an item exists in the cache.
-     * 
+     *
      * @param  {String} token     The cache item token
      * @return {Boolean}
      */
     has(token) {
-        if (token == undefined) {
+        if (token === undefined) {
             return false;
         }
 
         token = this.formatToken(token);
-        if (! fs.existsSync(token.path.full)) {
+        if (!fs.existsSync(token.path.full)) {
             return false;
         }
 
-        let item = fs.readJsonSync(token.path.full, {throws: false});;
+        let item = fs.readJsonSync(token.path.full, {throws: false});
 
-        if (item == null) {
+        if (item === null) {
             return false;
         }
 
@@ -171,12 +171,12 @@ class FileCache extends CacheAdapter {
 
     /**
      * Remove an item from the cache.
-     * 
+     *
      * @param  {String} token     The cache item token
      * @return {Boolean}
      */
     forget(token) {
-        if (! this.has(token)) {
+        if (!this.has(token)) {
             return false;
         }
 
@@ -187,7 +187,7 @@ class FileCache extends CacheAdapter {
 
     /**
      * Remove all items from the cache.
-     * 
+     *
      * @return {Boolean}
      */
     flush() {
@@ -202,23 +202,23 @@ class FileCache extends CacheAdapter {
 
     /**
      * Formats the token to the storage path.
-     * 
+     *
      * @param  {String} token     The cache item token
      * @return {Object}
      */
     formatToken(token) {
-        let hash = crypto.createHash('md5').update(token.toLowerCase()).digest("hex");
+        let hash = crypto.createHash('md5').update(token.toLowerCase()).digest('hex');
         let name = hash.substr(6, hash.length);
         let cachePath = path.resolve(
             this.storagePath, hash.substr(0, 2), hash.substr(2, 2), hash.substr(4, 2)
         );
-        
-        return { 
-            name: name, 
+
+        return {
+            name: name,
             path: {
                 storage: cachePath,
                 full: path.resolve(cachePath, name)
-            },
+            }
         };
     }
 }

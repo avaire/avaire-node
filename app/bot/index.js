@@ -3,11 +3,11 @@ module.exports = {
     statistics: require('./RuntimeStatistics'),
 
     middleware: {
-        'isBotAdmin': require('./middleware/IsBotAdmin'),
-        'require': require('./middleware/Require'),
+        isBotAdmin: require('./middleware/IsBotAdmin'),
+        require: require('./middleware/Require'),
         'throttle.user': require('./middleware/ThrottleUser'),
         'throttle.channel': require('./middleware/ThrottleChannel'),
-        'throttle.guild': require('./middleware/ThrottleGuild'),
+        'throttle.guild': require('./middleware/ThrottleGuild')
     },
 
     // Event Handlers
@@ -40,14 +40,14 @@ module.exports = {
         GUILD_BAN_REMOVE: require('./handlers/GuildBanRemoveEvent'),
         GUILD_ROLE_CREATE: require('./handlers/GuildRoleCreateEvent'),
         GUILD_ROLE_UPDATE: require('./handlers/GuildRoleUpdateEvent'),
-        GUILD_ROLE_DELETE: require('./handlers/GuildRoleDeleteEvent'),
+        GUILD_ROLE_DELETE: require('./handlers/GuildRoleDeleteEvent')
     },
 
     permissions: {
         // General guild permissions
         'general.administrator': ['General', 'ADMINISTRATOR'],
         'general.manage_roles': ['General', 'MANAGE_ROLES'],
-        'general.manage_channels': ['General','MANAGE_CHANNELS'],
+        'general.manage_channels': ['General', 'MANAGE_CHANNELS'],
         'general.kick_members': ['General', 'KICK_MEMBERS'],
         'general.ban_members': ['General', 'BAN_MEMBERS'],
         'general.create_instant_invite': ['General', 'CREATE_INSTANT_INVITE'],
@@ -72,6 +72,6 @@ module.exports = {
         'voice.mute_members': ['Voice', 'MUTE_MEMBERS'],
         'voice.deafen_members': ['Voice', 'DEAFEN_MEMBERS'],
         'voice.move_members': ['Voice', 'MOVE_MEMBERS'],
-        'voice.use_vad': ['Voice', 'USE_VAD'],
+        'voice.use_vad': ['Voice', 'USE_VAD']
     }
 };

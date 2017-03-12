@@ -2,8 +2,8 @@ class CacheAdapter {
 
     /**
      * Parses the options into the adapter.
-     * 
-     * @param  {Object} options  The object of options needed for the adapter 
+     *
+     * @param  {Object} options  The object of options needed for the adapter
      * @return {undefined}
      */
     parseOptions(options) {
@@ -12,7 +12,7 @@ class CacheAdapter {
 
     /**
      * Setup and prepares the adapter for use.
-     * 
+     *
      * @return {undefined}
      */
     setup() {
@@ -21,7 +21,7 @@ class CacheAdapter {
 
     /**
      * Checks if the adapter is ready to be used.
-     * 
+     *
      * @return {Boolean}
      */
     isReady() {
@@ -30,7 +30,7 @@ class CacheAdapter {
 
     /**
      * Store an item in the cache for a given number of seconds.
-     * 
+     *
      * @param  {String} token     The cache item token
      * @param  {mixed}  value     The item that should be stored in the cache
      * @param  {mixed}  seconds   The amount of seconds the item should be stored for
@@ -42,7 +42,7 @@ class CacheAdapter {
 
     /**
      * Get an item from the cache, or store the default value.
-     * 
+     *
      * @param  {String}  token     The cache item token
      * @param  {mixed}   seconds   The amount of seconds the item should be stored for
      * @param  {Closure} callback  The closure that should be invoked if the cache doesn't exists
@@ -54,7 +54,7 @@ class CacheAdapter {
 
     /**
      * Store an item in the cache indefinitely.
-     * 
+     *
      * @param  {String}  token     The cache item token
      * @param  {mixed}   value     The item that should be stored in the cache
      * @return {mixed}
@@ -65,7 +65,7 @@ class CacheAdapter {
 
     /**
      * Retrieve an item from the cache by key.
-     * 
+     *
      * @param  {String} token     The cache item token
      * @param  {mixed}  fallback  The fallback value if the item doesn't exists
      * @return {mixed}
@@ -76,7 +76,7 @@ class CacheAdapter {
 
     /**
      * Retrieve an item from the cache in raw form by key.
-     * 
+     *
      * @param  {String} token     The cache item token
      * @param  {mixed}  fallback  The fallback value if the item doesn't exists
      * @return {mixed}
@@ -87,7 +87,7 @@ class CacheAdapter {
 
     /**
      * Determine if an item exists in the cache.
-     * 
+     *
      * @param  {String} token     The cache item token
      * @return {Boolean}
      */
@@ -97,7 +97,7 @@ class CacheAdapter {
 
     /**
      * Remove an item from the cache.
-     * 
+     *
      * @param  {String} token     The cache item token
      * @return {Boolean}
      */
@@ -107,7 +107,7 @@ class CacheAdapter {
 
     /**
      * Remove all items from the cache.
-     * 
+     *
      * @return {Boolean}
      */
     flush() {

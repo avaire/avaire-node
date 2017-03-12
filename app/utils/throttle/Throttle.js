@@ -2,7 +2,7 @@ class Throttle {
 
     /**
      * Checks if the fingerprint is allowed to run with the provided settings.
-     * 
+     *
      * @param  {String}  fingerprint   The fingerprint that is used to store data in the cache
      * @param  {Integer} maxAttempts   The max number of attempts before the method should return false
      * @param  {Integer} decaySeconds  The number of seconds that has to pass for the cache to decay
@@ -20,7 +20,7 @@ class Throttle {
 
     /**
      * Gets the raw cache throttle item.
-     * 
+     *
      * @param  {String} fingerprint  The fingerprint that is used to store data in the cache
      * @return {Object}
      */
@@ -30,7 +30,7 @@ class Throttle {
 
     /**
      * Returns the memory cache adapter.
-     * 
+     *
      * @return {MemoryCache}
      */
     getCacheAdapter() {

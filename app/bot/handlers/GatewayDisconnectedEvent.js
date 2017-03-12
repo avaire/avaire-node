@@ -3,22 +3,22 @@ const EventHandler = require('./EventHandler');
 
 /**
  * Emitted when login or gateway auth failed, or primary gateway
- * socket disconnects, closing all open sockets. Not emitted 
+ * socket disconnects, closing all open sockets. Not emitted
  * if disconnected using client.disconnect().
  *
- * If the socket disconnected due to a loss of connection the 
- * handler will try and auto reconnect to the gateway, if 
+ * If the socket disconnected due to a loss of connection the
+ * handler will try and auto reconnect to the gateway, if
  * that fails it will try and open a new connecction.
  *
  * @see http://qeled.github.io/discordie/#/docs/DISCONNECTED
- * 
+ *
  * @extends {EventHandler}
  */
 class GatewayDisconnectedEvent extends EventHandler {
 
     /**
      * The event-handler that is executed by Discords event dispatcher.
-     * 
+     *
      * @param  {GatewaySocket} socket  The Discordie gateway socket
      * @return {mixed}
      */

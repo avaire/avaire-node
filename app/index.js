@@ -9,5 +9,5 @@ module.exports = {
     configLoader: require('./utils/config/ConfigLoader'),
 
     // Bot Version
-    version: require('../package').version,
+    version: require('../package').version
 };

@@ -5,7 +5,7 @@ class MemoryCache extends CacheAdapter {
 
     /**
      * Setup and prepares the adapter for use.
-     * 
+     *
      * @return {undefined}
      */
     setup() {
@@ -15,7 +15,7 @@ class MemoryCache extends CacheAdapter {
 
     /**
      * Checks if the adapter is ready to be used.
-     * 
+     *
      * @return {Boolean}
      */
     isReady() {
@@ -24,7 +24,7 @@ class MemoryCache extends CacheAdapter {
 
     /**
      * Store an item in the cache for a given number of seconds.
-     * 
+     *
      * @param  {String} token     The cache item token
      * @param  {mixed}  value     The item that should be stored in the cache
      * @param  {mixed}  seconds   The amount of seconds the item should be stored for
@@ -37,13 +37,13 @@ class MemoryCache extends CacheAdapter {
             expire: new Date(time),
             data: value
         };
-        
+
         return true;
     }
 
     /**
      * Get an item from the cache, or store the default value.
-     * 
+     *
      * @param  {String}  token     The cache item token
      * @param  {mixed}   seconds   The amount of seconds the item should be stored for
      * @param  {Closure} callback  The closure that should be invoked if the cache doesn't exists
@@ -62,7 +62,7 @@ class MemoryCache extends CacheAdapter {
 
     /**
      * Store an item in the cache indefinitely.
-     * 
+     *
      * @param  {String}  token     The cache item token
      * @param  {mixed}   value     The item that should be stored in the cache
      * @return {mixed}
@@ -73,13 +73,13 @@ class MemoryCache extends CacheAdapter {
 
     /**
      * Retrieve an item from the cache by key.
-     * 
+     *
      * @param  {String} token     The cache item token
      * @param  {mixed}  fallback  The fallback value if the item doesn't exists
      * @return {mixed}
      */
     get(token, fallback) {
-        if (! this.has(token)) {
+        if (!this.has(token)) {
             return fallback;
         }
 
@@ -88,13 +88,13 @@ class MemoryCache extends CacheAdapter {
 
     /**
      * Retrieve an item from the cache in raw form by key.
-     * 
+     *
      * @param  {String} token     The cache item token
      * @param  {mixed}  fallback  The fallback value if the item doesn't exists
      * @return {mixed}
      */
     getRaw(token, fallback) {
-        if (! this.has(token)) {
+        if (!this.has(token)) {
             return {
                 expire: new Date,
                 data: fallback
@@ -106,12 +106,12 @@ class MemoryCache extends CacheAdapter {
 
     /**
      * Determine if an item exists in the cache.
-     * 
+     *
      * @param  {String} token     The cache item token
      * @return {Boolean}
      */
     has(token) {
-        if (token == undefined || ! this.cache.hasOwnProperty(token.toLowerCase())) {
+        if (token === undefined || !this.cache.hasOwnProperty(token.toLowerCase())) {
             return false;
         }
         return this.cache[token.toLowerCase()].expire >= new Date;
@@ -119,12 +119,12 @@ class MemoryCache extends CacheAdapter {
 
     /**
      * Remove an item from the cache.
-     * 
+     *
      * @param  {String} token     The cache item token
      * @return {Boolean}
      */
     forget(token) {
-        if (! this.has(token)) {
+        if (!this.has(token)) {
             return false;
         }
 
@@ -134,7 +134,7 @@ class MemoryCache extends CacheAdapter {
 
     /**
      * Remove all items from the cache.
-     * 
+     *
      * @return {Boolean}
      */
     flush() {

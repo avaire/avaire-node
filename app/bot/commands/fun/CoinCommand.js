@@ -8,8 +8,8 @@ class CoinCommand extends Command {
         });
 
         this.images = {
-            '1': 'https://cdn.discordapp.com/attachments/279462105277530112/279614727406223360/Heads.png',
-            '2': 'https://cdn.discordapp.com/attachments/279462105277530112/279614727431258112/Tails.png'
+            1: 'https://cdn.discordapp.com/attachments/279462105277530112/279614727406223360/Heads.png',
+            2: 'https://cdn.discordapp.com/attachments/279462105277530112/279614727431258112/Tails.png'
         };
     }
 

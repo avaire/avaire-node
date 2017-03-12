@@ -4,29 +4,29 @@ const cron = require('node-schedule');
 const Task = require('./Task');
 
 /**
- * Task and cronjob scheduler, allows you to run closures 
+ * Task and cronjob scheduler, allows you to run closures
  * on a delay, or closures to repeat themselves on a delay.
  */
 class Scheduler {
 
     /**
      * Registeres a cronjob task.
-     * 
+     *
      * @param  {Job} job  The job that should be registered
      * @return {CronJob}
      */
     registerJob(job) {
         let rule = new cron.RecurrenceRule();
 
-        return cron.scheduleJob(job.runCondition(rule), () => { 
+        return cron.scheduleJob(job.runCondition(rule), () => {
             job.run();
         });
     }
 
     /**
      * Schedules a repeating task.
-     * 
-     * @param  {Closure} closure         The closure/callback that should be called 
+     *
+     * @param  {Closure} closure         The closure/callback that should be called
      * @param  {Integer} delay           The delay before the repeating task begins
      * @param  {Integer} repeatingDelay  The interval between repeating tasks
      * @return {Task}
@@ -37,8 +37,8 @@ class Scheduler {
 
     /**
      * Schedules a delayed task.
-     * 
-     * @param  {Closure} closure  The closure/callback that should be called 
+     *
+     * @param  {Closure} closure  The closure/callback that should be called
      * @param  {Integer} delay    The delay before the task should be invoked
      * @return {Task}
      */
@@ -48,7 +48,7 @@ class Scheduler {
 
     /**
      * Creates and prepares the task instances.
-     * 
+     *
      * @param  {Closure} closure         The closure/callback that should be used in the task
      * @param  {Integer} delay           The delay before the task should be invoked
      * @param  {Integer} repeatingDelay  The delay before the task should repeat itself
