@@ -3,7 +3,27 @@ const Job = require('./Job');
 /** @ignore */
 const request = require('request');
 
+/**
+ * Github change job, this job runs once an hour, every cycle 
+ * the job will fetch the latest commits from the public 
+ * github repository and store them in the file cache.
+ *
+ * @extends {Job}
+ */
 class GithubChangeJob extends Job {
+
+    /**
+     * The jobs constructor, this will check if the cache 
+     * already exists, if it doesn't it will create 
+     * it by calling the run method.
+     */
+    constructor() {
+        super();
+
+        if (! app.cache.has('github.commits')) {
+            this.run();
+        }
+    }
 
     /**
      * This method determines when the job should be execcuted.
@@ -12,7 +32,7 @@ class GithubChangeJob extends Job {
      * @return {mixed}
      */
     runCondition(rule) {
-        return '*/15 * * * *';
+        return '0 * * * *';
     }
 
     /**
@@ -27,8 +47,7 @@ class GithubChangeJob extends Job {
             url: 'https://api.github.com/repos/senither/AvaIre/commits',
             method: 'GET'
         }, function (error, response, body) {
-
-            if (!error && response.statusCode === 200) {
+            if (! error && response.statusCode === 200) {
                 try {
                     let parsed = JSON.parse(body);
                     
