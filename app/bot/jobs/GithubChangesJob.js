@@ -27,7 +27,8 @@ class GithubChangeJob extends Job {
 
     /**
      * This method determines when the job should be execcuted.
-     * 
+     *
+     * @override
      * @param  {RecurrenceRule} rule  A node-schedule CRON recurrence rule instance
      * @return {mixed}
      */
@@ -37,7 +38,7 @@ class GithubChangeJob extends Job {
 
     /**
      * The jobs main logic method, this method is executed 
-     * whenever the {#runCondition()} method returns true.
+     * whenever the {@link Job#runCondition} method returns true.
      * 
      * @override
      */

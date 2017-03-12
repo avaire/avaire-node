@@ -26,7 +26,7 @@ class ChangeGameJob extends Job {
 
     /**
      * The jobs main logic method, this method is executed 
-     * whenever the {#runCondition()} method returns true.
+     * whenever the {@link Job#runCondition} method returns true.
      * 
      * @override
      */

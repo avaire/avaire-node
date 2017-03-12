@@ -18,7 +18,7 @@ class Job {
 
     /**
      * The jobs main logic method, this method executed 
-     * whenever the {#runCondition()} method returns true.
+     * whenever the {@link Job#runCondition} method returns true.
      */
     run() {
         // 
