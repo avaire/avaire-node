@@ -1,3 +1,4 @@
 module.exports = {
-    commands: 0
+    commands: 0,
+    databaseQueries: 0
 };
