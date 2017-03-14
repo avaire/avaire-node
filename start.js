@@ -4,6 +4,7 @@ process.title = 'AvaIre';
 var _ = require('lodash');
 var Discordie = require('discordie');
 var directory = require('require-directory');
+var Database = require('./app/database/Database');
 
 global.app = require('./app');
 
@@ -11,6 +12,12 @@ app.logger.info(`Bootstraping AvaIre v${app.version}`);
 
 app.logger.info(' - Loading configuration');
 app.config = app.configLoader.loadConfiguration('config.json');
+
+app.logger.info(' - Setting up database and tables');
+app.database = new Database();
+app.database.runMigrations().catch(err => {
+    app.logger.error(err);
+});
 
 app.logger.info(' - Creating bot instance');
 global.bot = new Discordie({
