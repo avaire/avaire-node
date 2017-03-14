@@ -34,6 +34,7 @@
             "camelcase": 0,
             "new-parens": 0,
             "guard-for-in": 0,
+            "no-eval": 0,
             "no-unused-vars": 0,
             "no-prototype-builtins": 0,
             "unicorn/filename-case": 0,

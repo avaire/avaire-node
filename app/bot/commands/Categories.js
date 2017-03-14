@@ -1,5 +1,6 @@
 module.exports = [
     'Administration',
     'Fun',
-    'General'
+    'General',
+    'System'
 ];
