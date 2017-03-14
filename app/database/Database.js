@@ -6,7 +6,7 @@ const Knex = require('knex');
  * different database types as well as fetching guild, channel
  * and user data easily from the database.
  *
- * @see http://knexjs.org/ Knex.JS
+ * @see http://knexjs.org/
  */
 class Database {
 
