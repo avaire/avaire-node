@@ -92,7 +92,7 @@ class Database {
                             id: guild.id,
                             owner: guild.owner_id,
                             name: guild.name
-                        }), 5);
+                        }), 300);
 
                         this.insert(app.constants.GUILD_TABLE_NAME, {
                             id: guild.id,
@@ -100,7 +100,7 @@ class Database {
                             name: guild.name
                         });
                     } else {
-                        Cache.put(token, new GuildTransformer(response[0]), 5);
+                        Cache.put(token, new GuildTransformer(response[0]), 300);
                     }
 
                     resolve(Cache.get(token));
