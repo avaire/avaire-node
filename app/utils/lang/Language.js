@@ -93,7 +93,7 @@ class Language {
         let cache = app.cache.resolveAdapter('memory');
         if (cache.has(`database.${message.guild.id}`)) {
             let transformer = cache.get(`database.${message.guild.id}`);
-            let guildLocal = transformer.get('local') === null ? this.defaultLocal : transformer.get('local');
+            let guildLocal = typeof transformer.get('local') === 'string' ? transformer.get('local') : this.defaultLocal;
 
             guildLocalCache[message.guild.id] = guildLocal;
 
