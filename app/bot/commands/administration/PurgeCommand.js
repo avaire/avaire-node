@@ -6,7 +6,7 @@ const Command = require('./../Command');
 class PurgeCommand extends Command {
     constructor() {
         super('.', 'purge', ['clear'], {
-            description: 'Deletes up to 100 chat messages in any channel, you can mention a user if you only want to delete messages by the mentioned user.',
+            description: 'Deletes up to 1,000 chat messages in any channel, you can mention a user if you only want to delete messages by the mentioned user.',
             middleware: [
                 'throttle.channel:1,5',
                 'require:text.manage_messages'
@@ -19,11 +19,46 @@ class PurgeCommand extends Command {
             return message.channel.sendMessage(':warning: Missing arguments, use `.help .purge` to learn more about the command');
         }
 
-        // Limits the amount of messages that can be deleted per command to 1,000
         let amount = Math.min(Math.max(parseInt(args[0], 10), 1) + 1, 1000);
 
-        return this.deleteMessages(message.channel, amount).then(amountOfDeletedMessages => {
-            return message.channel.sendMessage(':white_check_mark: `' + amountOfDeletedMessages + '` messages has been deleted!').then(message => {
+        // If no users was tagged in the command we'll just process the deleted messages
+        // without any filter, this will delete all the messages that can be fetched
+        // from the Discord API within the message amount limit given.
+        if (message.mentions.length === 0) {
+            let promise = this.deleteMessages(message.channel, amount);
+
+            return this.processDeletedMessages(promise, message, 'commands.administration.purge.all-messages');
+        }
+
+        let mentions = message.mentions;
+        let users = [];
+
+        for (let i = 0; i < mentions.length; i++) {
+            users.push(`${mentions[i].username}#${mentions[i].discriminator}`);
+        }
+
+        return this.processDeletedMessages(this.deleteMessages(message.channel, amount, function (messages) {
+            return _.filter(messages, message => {
+                let authorId = message.author.id;
+
+                for (let i = 0; i < mentions.length; i++) {
+                    if (mentions[i].id === authorId) {
+                        return true;
+                    }
+                }
+
+                return false;
+            });
+        }), message, 'commands.administration.purge.user-messages', {users: users});
+    }
+
+    processDeletedMessages(promise, message, languageString, placeholders = {}) {
+        return promise.then(amountOfDeletedMessages => {
+            placeholders.amount = amountOfDeletedMessages;
+
+            // Sends the deleted messages confirmation message from the language files
+            // and starts and delayed taks to delete the message after 3½ seconds.
+            return message.channel.sendMessage(app.lang.get(message, languageString, placeholders)).then(message => {
                 return app.scheduler.scheduleDelayedTask(() => {
                     return message.delete();
                 }, 3500);
@@ -34,8 +69,15 @@ class PurgeCommand extends Command {
         });
     }
 
-    deleteMessages(channel, left, deletedMessages = 0) {
+    deleteMessages(channel, left, filter = null, deletedMessages = 0) {
         return channel.fetchMessages(Math.min(left, 100)).then(result => {
+            // If the filter variable is a callback and the list of messages isn't undefined
+            // we'll parse in the messages from the Discord API request to filter them
+            // down so we're left with only the messages matching our filter.
+            if (typeof filter === 'function' && typeof result.messages !== 'undefined') {
+                result.messages = filter(result.messages);
+            }
+
             return bot.Messages.deleteMessages(result.messages).then(() => {
                 deletedMessages += result.messages.length;
 
@@ -43,7 +85,7 @@ class PurgeCommand extends Command {
                 // the last request to the Discord API returned less then what we requested for, if
                 // that is the case we can assume the channel doesn't have anymore messages.
                 if (left > 100 && result.limit === 100 && result.limit === result.messages.length) {
-                    return this.deleteMessages(channel, left - 100, deletedMessages);
+                    return this.deleteMessages(channel, left - 100, filter, deletedMessages);
                 }
 
                 return deletedMessages;

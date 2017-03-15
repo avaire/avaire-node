@@ -1,0 +1,6 @@
+{
+    "purge": {
+        "all-messages": ":white_check_mark: `:amount` beskeder er blevet slettet!",
+        "user-messages": ":white_check_mark: `:amount` beskeder er blevet slettet fra `:users`"
+    }
+}
