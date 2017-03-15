@@ -22,7 +22,9 @@ class IsBotAdmin extends Middleware {
             return next(request);
         }
 
-        request.message.channel.sendMessage(':warning: You must be a bot administrator to use this command!');
+        request.message.channel.sendMessage(
+            app.lang.get(request.message.channel, 'language.errors.must-be-bot-admin')
+        );
     }
 
     /**

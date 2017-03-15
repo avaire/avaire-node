@@ -1,0 +1,11 @@
+{
+    "name": "Dansk",
+    "selected": "Alle kommando beskeder vil ikke bruge de `Danske (DK)` sprogfiler.",
+
+    "errors": {
+        "must-be-bot-admin": ":warning: Du skal være en bot administrator for at bruge denne kommando!",
+        "throttle-limit-hit": "For mange `:command` forsøg. Prøv igen om **:seconds** sekunder.",
+        "require-bot-missing": "Jeg har ikke den krævede tilladelse til at udføre denne kommando: *:permission*",
+        "require-user-missing": "Du mangler den nødvendige tilladelse for denne kommando: *:permission*"
+    }
+}

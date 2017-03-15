@@ -3,6 +3,7 @@ module.exports = {
     constants: require('./constants'),
 
     // Utilities
+    lang: require('./utils/lang/Language'),
     logger: require('./utils/logger/Logger'),
     cache: require('./utils/cache/CacheManager'),
     throttle: require('./utils/throttle/Throttle'),
