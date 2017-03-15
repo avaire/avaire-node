@@ -23,6 +23,11 @@ class StatsCommand extends Command {
 
             app.cache.get('github.commits').slice(0, 3).forEach(commit => {
                 let message = commit.commit.message.split('\n')[0];
+
+                if (message.length > 72) {
+                    message = message.substr(0, 69) + '...';
+                }
+
                 description += `[\`${commit.sha.substr(0, 7)}\`](${commit.html_url}) ${message}\n`;
             });
         }
