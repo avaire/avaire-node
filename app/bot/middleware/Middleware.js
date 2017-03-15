@@ -13,7 +13,18 @@ class Middleware {
      * @param {Array}      params
      */
     constructor(nextMiddleware, params) {
+        /**
+         * The next middleware that should be called in the stack.
+         *
+         * @type {Middleware}
+         */
         this.nextMiddleware = nextMiddleware;
+
+        /**
+         * The parameters that should be accessable inside the middleware.
+         *
+         * @type {Array}
+         */
         this.params = params;
     }
 
