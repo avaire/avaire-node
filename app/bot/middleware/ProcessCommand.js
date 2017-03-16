@@ -22,13 +22,13 @@ class ProcessCommand extends Middleware {
      * @param  {Command}       command  The command that is about to be executed
      * @return {mixed}
      */
-    handle(socket, next, command) {
+    handle(socket, next) {
         let user = socket.message.author;
 
         app.logger.info(`Executing Command <${socket.message.resolveContent()}> from ${user.username}#${user.discriminator}`);
         app.bot.statistics.commands++;
 
-        return command.handler.onCommand(
+        return this.command.handler.onCommand(
             user, socket.message, _.drop(socket.message.content.trim().split(' ')), socket
         );
     }

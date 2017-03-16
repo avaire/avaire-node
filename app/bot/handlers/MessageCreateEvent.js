@@ -65,8 +65,8 @@ class MessageCreateEvent extends EventHandler {
      */
     processCommand(socket, command) {
         let middlewareGroup = command.handler.getOptions('middleware', []);
-        let stack = new ProcessCommand;
-        let param = [command];
+        let stack = new ProcessCommand(undefined, [], command);
+        let param = [];
 
         if (middlewareGroup.length === 0) {
             return stack.handle(socket, null, command);
@@ -86,7 +86,7 @@ class MessageCreateEvent extends EventHandler {
                 args = split[1].split(',');
             }
 
-            stack = new app.bot.middleware[middleware](stack, param);
+            stack = new app.bot.middleware[middleware](stack, param, command);
             param = args;
         }
 

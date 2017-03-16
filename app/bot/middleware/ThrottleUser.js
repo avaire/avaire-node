@@ -18,7 +18,7 @@ class ThrottleUser extends Middleware {
      * @return {mixed}
      */
     handle(request, next, maxAttempts = 1, decaySeconds = 5) {
-        let key = `throttle-user.${request.message.guild.id}.${request.message.author.id}.${this.getCommand().name}`;
+        let key = `throttle-user.${request.message.guild.id}.${request.message.author.id}.${this.command.name}`;
 
         if (app.throttle.can(key, maxAttempts, decaySeconds)) {
             return next(request);
@@ -41,21 +41,12 @@ class ThrottleUser extends Middleware {
     }
 
     /**
-     * Gets the command the middleware was invoked by.
-     *
-     * @return {Command}
-     */
-    getCommand() {
-        return this.params[0];
-    }
-
-    /**
      * Gets the commands main command trigger.
      *
      * @return {String}
      */
     getCommandTrigger() {
-        return this.getCommand().handler.getPrefix() + this.getCommand().handler.getTriggers()[0];
+        return this.command.handler.getPrefix() + this.command.handler.getTriggers()[0];
     }
 }
 

@@ -9,10 +9,11 @@ class Middleware {
     /**
      * Setups the middleware
      *
-     * @param {Middleware} nextMiddleware
-     * @param {Array}      params
+     * @param {Middleware} nextMiddleware  The next middleware in the stack
+     * @param {Array}      params          The parameters that should be parsed to the middleware
+     * @param {Command}    command         The command the middleware was triggered for
      */
-    constructor(nextMiddleware, params) {
+    constructor(nextMiddleware, params, command) {
         /**
          * The next middleware that should be called in the stack.
          *
@@ -26,6 +27,13 @@ class Middleware {
          * @type {Array}
          */
         this.params = params;
+
+        /**
+         * The command the middleware was invoked for.
+         *
+         * @type {Command}
+         */
+        this.command = command;
     }
 
     /**
