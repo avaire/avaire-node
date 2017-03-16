@@ -47,6 +47,7 @@ module.exports = {
         // General guild permissions
         'general.administrator': ['General', 'ADMINISTRATOR'],
         'general.manage_roles': ['General', 'MANAGE_ROLES'],
+        'general.manage_server': ['General', 'MANAGE_GUILD'],
         'general.manage_channels': ['General', 'MANAGE_CHANNELS'],
         'general.kick_members': ['General', 'KICK_MEMBERS'],
         'general.ban_members': ['General', 'BAN_MEMBERS'],
