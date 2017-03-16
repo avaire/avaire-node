@@ -1,6 +1,6 @@
 {
     "name": "Dansk",
-    "selected": "Alle kommando beskeder vil ikke bruge de `Danske (DK)` sprogfiler.",
+    "selected": "Alle kommando beskeder vil nu bruge de `Danske (DK)` sprogfiler.",
 
     "errors": {
         "must-be-bot-admin": ":warning: Du skal være en bot administrator for at bruge denne kommando!",

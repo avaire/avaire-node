@@ -2,5 +2,11 @@
     "purge": {
         "all-messages": ":white_check_mark: `:amount` beskeder er blevet slettet!",
         "user-messages": ":white_check_mark: `:amount` beskeder er blevet slettet fra `:users`"
+    },
+
+    "language": {
+        "selected": "Valgt sprog",
+        "available": "Tilgængelige sprog",
+        "note": ":information_source: *Du kan bruge `:command [local]` til at ændre det sprog der bruges på denne server, som standard vil `:default` blive brugt!*"
     }
 }

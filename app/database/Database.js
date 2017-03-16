@@ -150,6 +150,33 @@ class Database {
                 app.logger.error(err);
             });
     }
+
+    /**
+     * Updates an existing record in the database that satisfies the
+     * provided condition, if no condition is given every record
+     * in the database will be updated to the new values.
+     *
+     * @param  {String}  table       The name of the table that holds the database records.
+     * @param  {Object}  fields      The fields that should be updated in the database records.
+     * @param  {Closure} condition   The closure that should limit the query.
+     * @param  {Boolean} timestamps  Determins if the record uses timestatmps, defaults to true.
+     */
+    update(table, fields, condition, timestamps = true) {
+        if (timestamps) {
+            fields.updated_at = new Date;
+        }
+
+        let query = this.getClient().table(table).update(fields);
+        if (typeof condition === 'function') {
+            query = condition(query);
+        }
+
+        query.then(() => {
+            app.bot.statistics.databaseQueries++;
+        }).catch(err => {
+            app.logger.error(err);
+        });
+    }
 }
 
 module.exports = Database;
