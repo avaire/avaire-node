@@ -1,6 +1,6 @@
 {
     "name": "Ava-Ire",
-    "version": "0.4.1",
+    "version": "0.4.2",
     "description": "A Discord Bot",
     "main": "start.js",
     "maintainers": [
@@ -53,6 +53,7 @@
         "node-schedule": "^1.2.0",
         "request": "^2.81.0",
         "require-directory": "^2.1.1",
+        "semver-diff": "^2.1.0",
         "winston": "^2.3.1",
         "winston-daily-rotate-file": "^1.4.6",
         "youtube-api": "^2.0.6",
