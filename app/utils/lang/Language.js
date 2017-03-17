@@ -69,6 +69,7 @@ class Language {
      * @return {String|undefined}
      */
     get(message, string, replacements) {
+        replacements = this.addDefaultPlacehodlers(message, replacements);
         let guildLocal = this.getLocal(message);
         let langEntity = this.findLangEntity(`${guildLocal}.${string.trim().toLowerCase()}`);
 
@@ -156,15 +157,31 @@ class Language {
             response = _.sample(responses);
         }
 
-        if (!_.isPlainObject(replacements)) {
-            return response;
-        }
-
         for (let token in replacements) {
             response = _.replace(response, new RegExp(`:${token}`, 'gm'), replacements[token]);
         }
 
         return response;
+    }
+
+    /**
+     * Add default placeholders to the placeholder object.
+     *
+     * @param {IMessage} message
+     * @param {Object}   placeholders
+     */
+    addDefaultPlacehodlers(message, placeholders) {
+        if (typeof placeholders !== 'object') {
+            placeholders = {};
+        }
+
+        placeholders.userid = message.author.id;
+        placeholders.channelid = message.channel_id;
+        placeholders.username = message.author.username;
+        placeholders.useravatar = message.author.avatar;
+        placeholders.userdiscr = message.author.discriminator;
+
+        return placeholders;
     }
 
     /**

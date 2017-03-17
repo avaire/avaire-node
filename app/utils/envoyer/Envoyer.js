@@ -121,20 +121,18 @@ class Envoyer {
         // will be replaced by the language specific equivalent of the language string.
         if (channel.constructor.name === 'IMessage' && this.isLangString(embed.description)) {
             embed.description = app.lang.get(channel, embed.description, placeholders);
+        } else if (channel.constructor.name === 'IMessage') {
+            placeholders = app.lang.addDefaultPlacehodlers(channel, placeholders);
+
+            for (let token in placeholders) {
+                embed.description = _.replace(embed.description, new RegExp(`:${token}`, 'gm'), placeholders[token]);
+            }
         }
 
         // If the channel parameter is an IMessage Discordie object we'll convert
         // it to a ITextChannel object instead so we can send messages from it.
         if (channel.constructor.name === 'IMessage') {
             channel = channel.channel;
-        }
-
-        // If some placeholders have been provided we'll lopp through them
-        // and replace their placeholder token with the propper value.
-        if (_.isPlainObject(placeholders)) {
-            for (let token in placeholders) {
-                embed.description = _.replace(embed.description, new RegExp(`:${token}`, 'gm'), placeholders[token]);
-            }
         }
 
         return channel.sendMessage('', false, embed);
