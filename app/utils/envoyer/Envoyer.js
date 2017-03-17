@@ -1,3 +1,5 @@
+/** @ignore */
+const _ = require('lodash');
 
 /**
  * Envoyer, creates a simple way of sending embed messages to channels, the methods is highly adaptable, allowing
@@ -125,6 +127,14 @@ class Envoyer {
         // it to a ITextChannel object instead so we can send messages from it.
         if (channel.constructor.name === 'IMessage') {
             channel = channel.channel;
+        }
+
+        // If some placeholders have been provided we'll lopp through them
+        // and replace their placeholder token with the propper value.
+        if (_.isPlainObject(placeholders)) {
+            for (let token in placeholders) {
+                embed.description = _.replace(embed.description, new RegExp(`:${token}`, 'gm'), placeholders[token]);
+            }
         }
 
         return channel.sendMessage('', false, embed);
