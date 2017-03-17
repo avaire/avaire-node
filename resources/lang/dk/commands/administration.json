@@ -5,6 +5,7 @@
     },
 
     "language": {
+        "invalid": "Ugyldig sprog givet, `:local` er ikke et understøttet sprog.",
         "selected": "Valgt sprog",
         "available": "Tilgængelige sprog",
         "note": ":information_source: *Du kan bruge `:command [local]` til at ændre det sprog der bruges på denne server, som standard vil `:default` blive brugt!*"

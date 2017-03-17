@@ -20,7 +20,9 @@ class LanguageCommand extends Command {
 
         let local = args[0].toLowerCase();
         if (!app.lang.getFiles().hasOwnProperty(local)) {
-            return message.channel.sendMessage('Invalid local provided, `' + local + '` is not a supported language.');
+            return app.envoyer.sendWarn(message, 'commands.administration.language.invalid', {
+                local: local
+            });
         }
 
         return app.database.getGuild(message.guild.id).then(transformer => {
@@ -30,7 +32,7 @@ class LanguageCommand extends Command {
                 return query.where('id', message.guild.id);
             });
 
-            message.channel.sendMessage(app.lang.get(message, 'language.selected'));
+            return app.envoyer.sendSuccess(message, 'language.selected');
         });
     }
 

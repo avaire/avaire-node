@@ -5,6 +5,7 @@
     },
 
     "language": {
+        "invalid": "Invalid local provided, `:local` is not a supported language.",
         "selected": "Selected Language",
         "available": "Available Languages",
         "note": ":information_source: *You can use `:command [local]` to change the language that is used on this server, by default the language will be set to `:default`!*"

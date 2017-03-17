@@ -81,14 +81,11 @@ class Require extends Middleware {
      */
     cancelMiddleware(request, permission, permissionState) {
         let author = request.message.author;
-        let message = request.message;
         let token = 'language.errors.';
 
         token += (permissionState === -1) ? 'require-bot-missing' : 'require-user-missing';
 
-        return message.channel.sendMessage(
-            app.lang.get(message, token, {permission: permission})
-        );
+        return app.envoyer.sendWarn(request.message, token, {permission: permission});
     }
 }
 

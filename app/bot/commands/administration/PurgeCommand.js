@@ -58,7 +58,7 @@ class PurgeCommand extends Command {
 
             // Sends the deleted messages confirmation message from the language files
             // and starts and delayed taks to delete the message after 3½ seconds.
-            return message.channel.sendMessage(app.lang.get(message, languageString, placeholders)).then(message => {
+            return app.envoyer.sendSuccess(message, languageString, placeholders).then(message => {
                 return app.scheduler.scheduleDelayedTask(() => {
                     return message.delete();
                 }, 3500);

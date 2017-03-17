@@ -28,12 +28,10 @@ class ThrottleUser extends Middleware {
         let secondsLeft = Math.ceil((expireTime - new Date) / 1000);
         let command = this.getCommandTrigger();
 
-        let message = app.lang.get(request.message.channel, 'language.errors.throttle-limit-hit', {
+        return app.envoyer.sendWarn(request.message, 'language.errors.throttle-limit-hit', {
             command: command,
             seconds: secondsLeft
-        });
-
-        return request.message.reply(message).then(message => {
+        }).then(message => {
             return app.scheduler.scheduleDelayedTask(() => {
                 return message.delete();
             }, 4500);
