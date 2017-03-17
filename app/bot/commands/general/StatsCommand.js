@@ -3,7 +3,7 @@ const Command = require('./../Command');
 
 class StatsCommand extends Command {
     constructor() {
-        super('!', 'stats', [], {
+        super('!', 'stats', ['about'], {
             middleware: [
                 'throttle.channel:1,5'
             ]
@@ -39,8 +39,8 @@ class StatsCommand extends Command {
             title: 'Official Bot Server Invite',
             description: description.trim(),
             author: {
-                icon_url: `https://cdn.discordapp.com/avatars/${author.id}/${author.avatar}.png?size=256`,
-                name: `${author.username}#${author.discriminator}`
+                icon_url: `https://cdn.discordapp.com/avatars/${bot.User.id}/${bot.User.avatar}.png?size=256`,
+                name: `${bot.User.username} v${app.version}`
             },
             fields: [
                 {
@@ -84,7 +84,7 @@ class StatsCommand extends Command {
                 }
             ],
             footer: {
-                text: `Created using NodeJS and the Discordie framework`
+                text: `Created by Senither#8023 using the Discordie framework`
             }
         });
     }
