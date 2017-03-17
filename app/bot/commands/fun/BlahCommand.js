@@ -9,7 +9,7 @@ class BlahCommand extends Command {
     }
 
     onCommand(sender, message, args) {
-        message.channel.sendMessage(`Blah to you too <@${message.author.id}>`);
+        return app.envoyer.sendSuccess(message, 'commands.fun.blah');
     }
 }
 

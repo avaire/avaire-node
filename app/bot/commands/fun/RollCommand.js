@@ -34,7 +34,11 @@ class RollCommand extends Command {
 
         let random = Math.floor(Math.random() * (max - min + 1)) + min;
 
-        message.reply(`You rolled **${random}** out of ${min} - ${max}`);
+        return app.envoyer.sendSuccess(message, 'commands.fun.roll.number', {
+            number: random,
+            min: min,
+            max: max
+        });
     }
 
     rollDice(message, args) {
@@ -48,7 +52,11 @@ class RollCommand extends Command {
             try {
                 let roll = JSON.parse(body);
 
-                message.reply(`Your **${roll.input.toUpperCase()}** resulted in **${roll.result}** ${roll.details}`);
+                return app.envoyer.sendSuccess(message, 'commands.fun.roll.dice', {
+                    dice: roll.input.toUpperCase(),
+                    result: roll.result,
+                    details: roll.details
+                });
             } catch (err) {
                 return message.channel.sendMessage('The API returned an unconventional response.');
             }

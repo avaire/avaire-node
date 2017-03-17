@@ -9,7 +9,7 @@ class ShrugCommand extends Command {
     }
 
     onCommand(sender, message, args) {
-        return message.reply('¯\\_(ツ)_/¯');
+        return app.envoyer.sendSuccess(message, '¯\\_(ツ)_/¯');
     }
 }
 

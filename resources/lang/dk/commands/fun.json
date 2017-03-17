@@ -1,0 +1,8 @@
+{
+    "blah": "Blah til dig også <@:userid>",
+
+    "roll": {
+        "number": "<@:userid> rullet **:number** ud af :min - :max",
+        "dice": "<@:userid> **:dice** resultset i **:result** :details"
+    }
+}

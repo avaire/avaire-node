@@ -1,0 +1,8 @@
+{
+    "blah": "Blah to you too <@:userid>",
+
+    "roll": {
+        "number": "<@:userid> rolled **:number** out of :min - :max",
+        "dice": "<@:userid> **:dice** resulted in **:result** :details"
+    }
+}
