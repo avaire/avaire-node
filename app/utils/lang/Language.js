@@ -69,11 +69,10 @@ class Language {
      * @return {String|undefined}
      */
     get(message, string, replacements) {
-        replacements = this.addDefaultPlacehodlers(message, replacements);
         let guildLocal = this.getLocal(message);
         let langEntity = this.findLangEntity(`${guildLocal}.${string.trim().toLowerCase()}`);
 
-        return this.formatResponse(langEntity, replacements);
+        return this.formatResponse(message, langEntity, replacements);
     }
 
     /**
@@ -147,15 +146,18 @@ class Language {
      * in the response string, placeholders are definded by a
      * semicolon followed by the name of the placeholder.
      *
+     * @param  {IMessage}     message       The Discordie message object the message should be sent in.
      * @param  {String|Array} responses     The string or list of language strings that should be formatted.
      * @param  {Object]}      replacements  The object of items that should be replaced in the response.
      * @return {String}
      */
-    formatResponse(responses, replacements) {
+    formatResponse(message, responses, replacements) {
         let response = responses;
         if (_.isObjectLike(responses)) {
             response = _.sample(responses);
         }
+
+        replacements = this.addDefaultPlacehodlers(message, replacements);
 
         for (let token in replacements) {
             response = _.replace(response, new RegExp(`:${token}`, 'gm'), replacements[token]);

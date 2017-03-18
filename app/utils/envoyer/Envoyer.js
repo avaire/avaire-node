@@ -113,7 +113,7 @@ class Envoyer {
      * @param  {IMessage|ITextChannel} channel       The IMessage or ITextChannel object from Discordies event emitter.
      * @param  {Object}                embed         The embeded object that should be sent.
      * @param  {Object}                placeholders  The placeholders that should replace placeholders in the language string.
-     * @return {Promise}              [description]
+     * @return {Promise}
      */
     sendEmbededMessage(channel, embed, placeholders) {
         // If the channel parameter is an IMessage Discordie object and the description of the
