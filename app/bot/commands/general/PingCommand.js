@@ -13,9 +13,14 @@ class PingCommand extends Command {
     onCommand(sender, message, args) {
         let time = new Date(message.timestamp);
 
-        message.reply('Pong!').then(message => {
-            let diff = Math.floor(new Date(message.timestamp) - time);
-            message.edit(`<@${sender.id}>, Pong! Time taken: ${diff} ms.`);
+        return app.envoyer.sendSuccess(message, '<@:userid>, Pong!').then(sentMessage => {
+            let diff = Math.floor(new Date(sentMessage.timestamp) - time);
+
+            sentMessage.edit('',
+                app.envoyer.transform('success',
+                    app.lang.formatResponse(message, `<@:userid>, Pong! Time taken: ${diff} ms.`)
+                )
+            );
         });
     }
 }
