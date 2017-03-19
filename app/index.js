@@ -1,6 +1,7 @@
 module.exports = {
     bot: require('./bot'),
     constants: require('./constants'),
+    service: require('./services'),
 
     // Utilities
     lang: require('./utils/lang/Language'),

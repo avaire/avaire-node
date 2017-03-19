@@ -1,4 +1,6 @@
 /** @ignore */
+const _ = require('lodash');
+/** @ignore */
 const EventHandler = require('./EventHandler');
 /** @ignore */
 const ProcessCommand = require('./../middleware/ProcessCommand');
@@ -31,6 +33,12 @@ class MessageCreateEvent extends EventHandler {
         // command was found the onCommand method will be called for the handler.
         if (command !== null) {
             return MessageCreateEvent.prototype.processCommand(socket, command);
+        }
+
+        // Checks to see if the bot was taged in the message and if AI messages in enabled,
+        // if AI messages is enabled the message will be passed onto the AI handler.
+        if (app.service.ai.isEnabled && MessageCreateEvent.prototype.isBotTaged(message)) {
+            return app.service.ai.textRequest(socket, message);
         }
     }
 
@@ -91,6 +99,16 @@ class MessageCreateEvent extends EventHandler {
         }
 
         return stack.handle(socket, stack.next.bind(stack), ...param);
+    }
+
+    /**
+     * Checks to see if the bot is taged in the provided message.
+     *
+     * @param  {String}  message  The message that should be checked.
+     * @return {Boolean}
+     */
+    isBotTaged(message) {
+        return _.includes(message, `<@${bot.User.id}>`) || _.includes(message, `<@!${bot.User.id}>`);
     }
 }
 

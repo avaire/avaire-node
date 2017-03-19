@@ -41,5 +41,16 @@ _.each(jobs, function (Job, key) {
     }
 });
 
+app.logger.info(` - Registering ${Object.keys(app.service).length} services`);
+_.each(app.service, function (Service, key) {
+    let ServiceProvider = new Service;
+
+    if (!ServiceProvider.registerService()) {
+        //
+    }
+
+    app.service[key] = ServiceProvider;
+});
+
 app.logger.info('Connecting to the Discord network...');
 bot.connect({token: app.config.bot.token});
