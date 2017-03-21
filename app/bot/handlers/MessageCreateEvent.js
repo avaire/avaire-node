@@ -72,7 +72,7 @@ class MessageCreateEvent extends EventHandler {
      * @return {mixed}
      */
     processCommand(socket, command) {
-        if (!command.handler.getOptions('allowDM', true)) {
+        if (!command.handler.getOptions('allowDM', true) && socket.message.isPrivate) {
             return app.envoyer.sendWarn(socket.message, 'language.errors.cant-run-in-dms');
         }
 
