@@ -18,7 +18,7 @@ class ThrottleGuild extends Middleware {
      * @return {mixed}
      */
     handle(request, next, maxAttempts = 1, decaySeconds = 5) {
-        let key = `throttle-guild.${request.message.guild.id}.${this.command.name}`;
+        let key = this.generateCacheToken(request);
 
         if (app.throttle.can(key, maxAttempts, decaySeconds)) {
             return next(request);
@@ -45,6 +45,22 @@ class ThrottleGuild extends Middleware {
      */
     getCommandTrigger() {
         return this.command.handler.getPrefix() + this.command.handler.getTriggers()[0];
+    }
+
+    /**
+     * Generates the correct cache token for the middleware, if the message that invoked
+     * the middleware is a DM(Direct Message) a globaly used cache token will be used
+     * instead to share the throtteling between different throttle middlewares.
+     *
+     * @param  {GatewaySocket} request  Discordie message create socket
+     * @return {String}
+     */
+    generateCacheToken(request) {
+        if (request.message.isPrivate) {
+            return `throttle-dm.${request.message.author.id}.${this.command.name}`;
+        }
+
+        return `throttle-guild.${request.message.guild.id}.${this.command.name}`;
     }
 }
 
