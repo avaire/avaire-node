@@ -6,6 +6,11 @@ const Command = require('./../Command');
 class LanguageCommand extends Command {
     constructor() {
         super('.', 'language', ['lang', 'local'], {
+            description: 'Allows you to change the language the bot will use on this server.',
+            usage: [
+                ''
+                '[local]',
+            ],
             middleware: [
                 'require:general.manage_server',
                 'throttle.user:1,3'

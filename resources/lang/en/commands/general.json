@@ -1,0 +1,22 @@
+{
+    "help": {
+        "module": "List of Modules",
+        "commands": "List of Commands",
+
+        "category-note": ":information_source: Type `:command -ModuleName` to get a list of commands in that module.\nExample: `:command -:category`",
+        "command-note": "**Type `.help CommandTrigger` to see the help for that specified command.**\nExample: `.help :prefix:trigger`",
+
+        "category-doesnt-exists": [
+            "I'm pretty sure **:category** is not a cateogry.",
+            "I don't have anything on **:category** yet",
+            "There are no category called **:category**"
+        ],
+
+        "command-doesnt-exists": [
+            "I don't know about any command called **:command**.",
+            "I don't have any command call **:command** in my registry",
+            "Error 404, the command you're looking for doesn't exists!",
+            "The command you're looking for isn't in my registry, maybe it's for another bot?"
+        ]
+    }
+}
