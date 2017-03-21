@@ -26,7 +26,7 @@ class Envoyer {
             error: 0xd91616,
             warn: 0xd9d016,
             success: 0x16d940,
-            info: 0x1653d9
+            info: 0x3498db
         };
     }
 
