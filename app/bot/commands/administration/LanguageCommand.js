@@ -8,8 +8,8 @@ class LanguageCommand extends Command {
         super('.', 'language', ['lang', 'local'], {
             description: 'Allows you to change the language the bot will use on this server.',
             usage: [
-                ''
-                '[local]',
+                '',
+                '[local]'
             ],
             middleware: [
                 'require:general.manage_server',

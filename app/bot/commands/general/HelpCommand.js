@@ -14,9 +14,9 @@ class HelpCommand extends Command {
                 'Tells you about what commands the bot has, what they do and how you can use them.'
             ],
             usage: [
-                ''
+                '',
                 '[command]',
-                '[-category]',
+                '[-category]'
             ]
         });
     }
