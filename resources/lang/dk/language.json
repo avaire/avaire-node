@@ -3,6 +3,7 @@
     "selected": "Alle kommando beskeder vil nu bruge de `Danske (DK)` sprogfiler.",
 
     "errors": {
+        "cant-run-in-dms": ":warning: Du kan ikke bruge denne kommandoer i direkte beskeder!",
         "must-be-bot-admin": ":warning: Du skal være en bot administrator for at bruge denne kommando!",
         "throttle-limit-hit": "For mange `:command` forsøg. Prøv igen om **:seconds** sekunder.",
         "require-bot-missing": "Jeg har ikke den krævede tilladelse til at udføre denne kommando: *:permission*",
