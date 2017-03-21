@@ -23,7 +23,7 @@ class AIServiceProvider extends ServiceProvider {
     register() {
         let apiToken = app.config.apiKeys.apiai;
 
-        if (typeof apiToken !== 'string' && apiToken.length === 32) {
+        if ((typeof apiToken !== 'string') || apiToken.length !== 32) {
             return false;
         }
 
