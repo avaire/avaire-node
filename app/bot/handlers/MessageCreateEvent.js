@@ -37,7 +37,7 @@ class MessageCreateEvent extends EventHandler {
 
         // Checks to see if the bot was taged in the message and if AI messages in enabled,
         // if AI messages is enabled the message will be passed onto the AI handler.
-        if (app.service.ai.isEnabled && MessageCreateEvent.prototype.isBotTaged(message)) {
+        if (app.service.ai.isEnabled && message.hasBot()) {
             return app.service.ai.textRequest(socket, message);
         }
     }
@@ -103,16 +103,6 @@ class MessageCreateEvent extends EventHandler {
         }
 
         return stack.handle(socket, stack.next.bind(stack), ...param);
-    }
-
-    /**
-     * Checks to see if the bot is taged in the provided message.
-     *
-     * @param  {String}  message  The message that should be checked.
-     * @return {Boolean}
-     */
-    isBotTaged(message) {
-        return _.includes(message, `<@${bot.User.id}>`) || _.includes(message, `<@!${bot.User.id}>`);
     }
 }
 

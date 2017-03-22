@@ -40,14 +40,9 @@ class AIServiceProvider extends ServiceProvider {
     textRequest(socket, message) {
         app.logger.info(`Executing AI Request <${socket.message.resolveContent()}> from ${socket.message.author.username}`);
 
-        // TODO: Extract this into its own method so it can be used easier, the same logic is also used in the MessageCreateEvent handler.
-        // Possibly make a helper class/object on the app global so it can be called easily with app.helper.isBotTagedIn(message) or something along those lines.
-        message = _.replace(message, `<@${bot.User.id}>`, '');
-        message = _.replace(message, `<@!${bot.User.id}>`, '');
-
         // Creates the API text request and sends it off to API.AI, the users id is used as
         // the session id so the AIs can differentiate between the incomming text requests.
-        let request = this.getService().textRequest(message, {
+        let request = this.getService().textRequest(message.replaceBotWith(), {
             sessionId: socket.message.author.id
         });
 
