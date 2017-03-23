@@ -103,8 +103,8 @@ class Envoyer {
     }
 
     /**
-     * sends an embed message to the provided channel, if an IMessage object is given the
-     * correct channel will be fetchedfrom the message, if the embed message looks like
+     * Sends an embed message to the provided channel, if an IMessage object is given the
+     * correct channel will be fetched from the message, if the embed message looks like
      * a language string and the IMessage object was provided the language message
      * will be fetched from the string for the provided message.
      *
@@ -116,26 +116,66 @@ class Envoyer {
      * @return {Promise}
      */
     sendEmbededMessage(channel, embed, placeholders) {
+        embed.description = this.prepareMessage(channel, embed.description, placeholders);
+
+        return this.prepareChannel(channel).sendMessage('', false, embed);
+    }
+
+    /**
+     * Sends a normal text message to the provided channel, if an IMessage object is given the
+     * correct channel will be fetched from the IMessage instance, if the given message
+     * looks like a language string and the IMessage object was provided the language
+     * message will be feted from the string for the provided message.
+     *
+     * @param  {IMessage|ITextChannel} channel       The IMessage or ITextChannel object from Discordies event emitter.
+     * @param  {String}                message       The message that should be sent in the provided channel.
+     * @param  {Object}                placeholders  The placeholders that should replace placeholders in the language string.
+     * @return {Promise}
+     */
+    sendNormalMessage(channel, message, placeholders) {
+        return this.prepareChannel(channel).sendMessage(
+            this.prepareMessage(channel, message, placeholders)
+        );
+    }
+
+    /**
+     * Prepares the message, if an IMessage object is given and the provided message looks like a
+     * language string, the propper language string will be fetched for the guilds local, if an
+     * IMessage object is given but the string doesn't look like a language string, any
+     * placeholders in the string will be replaced with their propper values instead.
+     *
+     * @param  {IMessage|ITextChannel} channel       The IMessage or ITextChannel object from Discordies event emitter.
+     * @param  {String}                message       The message that should be sent in the provided channel.
+     * @param  {Object}                placeholders  The placeholders that should replace placeholders in the language string.
+     * @return {String}
+     */
+    prepareMessage(channel, message, placeholders) {
         // If the channel parameter is an IMessage Discordie object and the description of the
         // embed object looks like a language string, the description of the embed object
         // will be replaced by the language specific equivalent of the language string.
-        if (channel.constructor.name === 'IMessage' && this.isLangString(embed.description)) {
-            embed.description = app.lang.get(channel, embed.description, placeholders);
+        if (channel.constructor.name === 'IMessage' && this.isLangString(message)) {
+            message = app.lang.get(channel, message, placeholders);
         } else if (channel.constructor.name === 'IMessage') {
             placeholders = app.lang.addDefaultPlacehodlers(channel, placeholders);
 
             for (let token in placeholders) {
-                embed.description = _.replace(embed.description, new RegExp(`:${token}`, 'gm'), placeholders[token]);
+                message = _.replace(message, new RegExp(`:${token}`, 'gm'), placeholders[token]);
             }
         }
 
-        // If the channel parameter is an IMessage Discordie object we'll convert
-        // it to a ITextChannel object instead so we can send messages from it.
-        if (channel.constructor.name === 'IMessage') {
-            channel = channel.channel;
-        }
+        return message;
+    }
 
-        return channel.sendMessage('', false, embed);
+    /**
+     * Checks to see if the provided channel object is really a IMessage
+     * instance, if that's the case the propper channel instance
+     * will be pulled from it and returned instead.
+     *
+     * @param  {IMessage|ITextChannel} channel  The IMessage or ITextChannel object from Discordies event emitter.
+     * @return {ITextChannel}
+     */
+    prepareChannel(channel) {
+        return (channel.constructor.name === 'IMessage') ? channel.channel : channel;
     }
 
     /**

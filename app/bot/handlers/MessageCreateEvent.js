@@ -40,6 +40,10 @@ class MessageCreateEvent extends EventHandler {
         if (app.service.ai.isEnabled && message.hasBot()) {
             return app.service.ai.textRequest(socket, message);
         }
+
+        if (socket.message.isPrivate) {
+            return MessageCreateEvent.prototype.sendInformationMessage(socket);
+        }
     }
 
     /**
@@ -103,6 +107,35 @@ class MessageCreateEvent extends EventHandler {
         }
 
         return stack.handle(socket, stack.next.bind(stack), ...param);
+    }
+
+    /**
+     * Sends the information message about how to invite the bot and some basic
+     * commands to the user, this method should ONLY be invoked in private
+     * messages if the user typed something that wasen't a command,
+     * otherwise there will just be too much spam everywhere.
+     *
+     * @param  {GatewaySocket} socket   The Discordie gateway socket
+     * @return {Promise}
+     */
+    sendInformationMessage(socket) {
+        let message = [
+            'To invite me to your server, use this link:',
+            ':oauth',
+            '',
+            'You can use `.help` to see a list of all the modules.',
+            'You can use `.help -module` to see a list of commands for that module.',
+            'For specific command help, use `.help CommandName` (for example `.help !ping`)'
+        ];
+
+        if (app.service.ai.isEnabled) {
+            message.push(`You can tag me in a message with <@${bot.User.id}> to send me a message that I should process using my AI`);
+        }
+
+        message.push('\nAvaIre Support Server: https://discord.gg/gt2FWER');
+        return app.envoyer.sendNormalMessage(socket.message, message.join('\n'), {
+            oauth: app.config.bot.oauth
+        });
     }
 }
 
