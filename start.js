@@ -3,8 +3,8 @@ process.title = 'AvaIre';
 
 var _ = require('lodash');
 var Discordie = require('discordie');
-var Helpers = require('./app/helpers');
 var directory = require('require-directory');
+var Helpers = require('./app/helpers');
 var Database = require('./app/database/Database');
 
 global.app = require('./app');

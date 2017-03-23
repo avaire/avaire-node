@@ -24,7 +24,7 @@ class VersionCommand extends Command {
             'You can get the latest version of me on github at [Senither/AvaIre](https://github.com/senither/AvaIre/)'
         ].join('\n');
 
-        let placeholders = undefined;
+        let placeholders;
         let embededElement = {
             title: 'v' + app.version,
             description: versionMessage,

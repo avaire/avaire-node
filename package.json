@@ -1,6 +1,6 @@
 {
     "name": "Ava-Ire",
-    "version": "0.8.6",
+    "version": "0.8.7",
     "description": "A Discord Bot",
     "main": "start.js",
     "maintainers": [
@@ -39,7 +39,16 @@
             "no-prototype-builtins": 0,
             "unicorn/filename-case": 0,
             "import/no-dynamic-require": 0
-        }
+        },
+        "overrides": [
+            {
+                "files": "app/helpers/*.js",
+                "rules": {
+                    "no-use-extend-native/no-use-extend-native": 0,
+                    "no-extend-native": 0
+                }                    
+            }
+        ]
     },
     "license": "MIT",
     "dependencies": {
