@@ -10,6 +10,7 @@ const Music = require('./MusicHandler');
 class RequestCommand extends Command {
     constructor() {
         super('!', 'request', [], {
+            allowDM: false,
             middleware: [
                 'throttle.user:2,5'
             ]
