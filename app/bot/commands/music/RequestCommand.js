@@ -35,6 +35,17 @@ class RequestCommand extends Command {
                     url = song.webpage_url;
                 }
 
+                let formats = song.formats.filter(format => {
+                    return format.ext === 'webm' && format.abr > 0;
+                }).sort((a, b) => a.abr - b.abr);
+
+                let audio = formats.find(format => format.abr > 0 && !format.tbr) ||
+                            formats.find(format => format.abr > 0);
+
+                if (audio !== undefined) {
+                    song.url = audio.url;
+                }
+
                 Music.addToPlaylist(message, song, url);
 
                 if (playlistLength === 0) {
