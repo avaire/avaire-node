@@ -7,5 +7,11 @@
     "require": {
         "added-song": "<@:userid> har tilføjede [:title](:link) til køen.",
         "error": "Jeg kunne ikke tilføje, at til afspilningslisten."
+    },
+
+    "skip": {
+        "missing-role": "Du skal have `DJ` for at springe en sang over.",
+        "missing-connection": "Jeg er i øjeblikket ikke er forbundet til en talekanal.",
+        "empty-playlist": "Afspilningslisten er allerede tom."
     }
 }
