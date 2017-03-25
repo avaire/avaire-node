@@ -48,7 +48,7 @@ class RequestCommand extends Command {
                 options.push('--add-header', 'Authorization:' + app.config.apiKeys.google);
             }
 
-            YouTubeDL.getInfo(url, options, (err, song) => {
+            YouTubeDL.getInfo(url, options, {maxBuffer: 250000000}, (err, song) => {
                 if (err) {
                     return reject(err);
                 }
