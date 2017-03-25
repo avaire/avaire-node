@@ -9,7 +9,8 @@ class SkipCommand extends Command {
             allowDM: false,
             middleware: [
                 'throttle.user:2,5'
-            ]
+            ],
+            description: 'Use this to skip a song if you\'re not enjoing it.'
         });
     }
 

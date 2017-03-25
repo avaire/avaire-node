@@ -13,6 +13,11 @@ class RequestCommand extends Command {
             allowDM: false,
             middleware: [
                 'throttle.user:2,5'
+            ],
+            description: 'Use this to request songs from youtube, soundcloud or twitch streams.',
+            usage: [
+                '<link>',
+                '<name of song>'
             ]
         });
     }
