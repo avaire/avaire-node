@@ -1,0 +1,11 @@
+{
+    "missing-permissions": "Jeg kan ikke oprette forbindelse til kanal du er i, da jeg ikke har `Connect` tilladelser for det.",
+    "end-of-playlist": "Playlisten er slut, forlader kanalen.",
+    "voice-required": "Du er nødt til at være forbundet til en talekanal.",
+    "now-playing": "Spiller nu: [:title](:link)\n:duration - Foreslået af <@:userid>",
+
+    "require": {
+        "added-song": "<@:userid> har tilføjede [:title](:link) til køen.",
+        "error": "Jeg kunne ikke tilføje, at til afspilningslisten."
+    }
+}

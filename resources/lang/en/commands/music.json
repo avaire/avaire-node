@@ -1,0 +1,11 @@
+{
+    "missing-permissions": "I can't connect to the voice channel you're in because I don't have `Connect` permissions for it",
+    "end-of-playlist": "Playlist has ended, leaving voice.",
+    "voice-required": "You have to be connected to a voice channel.",
+    "now-playing": "Now playing: [:title](:link)\n:duration - Requested by <@:userid>",
+
+    "require": {
+        "added-song": "<@:userid> has added [:title](:link) to the queue.",
+        "error": "I couldn't add that to the playlist."
+    }
+}

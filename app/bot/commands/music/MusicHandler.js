@@ -37,14 +37,14 @@ class MusicHandler {
             });
 
             if (user.getVoiceChannel() === null) {
-                return this.gracefullReject(reject, 'You have to be connected to a voice channel.');
+                return this.gracefullReject(reject, 'commands.music.voice-required');
             }
 
             this.playlist[message.guild.id] = [];
 
             user.getVoiceChannel().join().then(() => resolve()).catch(err => {
                 if (err.message === 'Missing permission') {
-                    return this.gracefullReject(reject, 'I can\'t connect to the voice channel you\'re in because I don\'t have `Connect` permissions for it');
+                    return this.gracefullReject(reject, 'commands.music.missing-permissions');
                 }
             });
         });
@@ -57,7 +57,7 @@ class MusicHandler {
             if (this.playlist[message.guild.id].length === 0) {
                 delete this.playlist[message.guild.id];
 
-                app.envoyer.sendInfo(message, 'Playlist has ended, leaving voice.').then(m => {
+                app.envoyer.sendInfo(message, 'commands.music.end-of-playlist').then(m => {
                     return app.scheduler.scheduleDelayedTask(() => m.delete(), 7500);
                 });
 
@@ -80,7 +80,7 @@ class MusicHandler {
 
             encoder.play();
 
-            app.envoyer.sendInfo(message, 'Now playing: [:title](:link)\n:duration - Requested by <@:userid>', {
+            app.envoyer.sendInfo(message, 'commands.music.now-playing', {
                 title: song.title,
                 duration: this.formatDuration(song.duration),
                 link: song.link

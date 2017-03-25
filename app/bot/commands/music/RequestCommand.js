@@ -36,14 +36,14 @@ class RequestCommand extends Command {
                     return message.delete();
                 }
 
-                app.envoyer.sendInfo(message, '<@:userid> has added [:title](:link) to the queue.', {
+                app.envoyer.sendInfo(message, 'commands.music.require.added-song', {
                     title: song.title,
                     link: url
                 }).then(() => message.delete());
             }).catch(err => {
                 app.logger.error('Failed to add a song to the music playlist: ', err);
 
-                return app.envoyer.sendError(message, 'I couldn\'t add that to the playlist.');
+                return app.envoyer.sendError(message, 'commands.music.require.error');
             });
         }).catch(err => app.envoyer.sendWarn(message, err.message, err.placeholders));
     }
