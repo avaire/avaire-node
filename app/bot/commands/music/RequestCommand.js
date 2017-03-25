@@ -1,4 +1,6 @@
 /** @ignore */
+const URL = require('url');
+/** @ignore */
 const YouTubeDL = require('youtube-dl');
 /** @ignore */
 const Command = require('./../Command');
@@ -22,6 +24,11 @@ class RequestCommand extends Command {
 
             this.fetchSong(message, url).then(song => {
                 let playlistLength = Music.getPlaylist(message).length;
+
+                if (song.hasOwnProperty('webpage_url')) {
+                    url = song.webpage_url;
+                }
+
                 Music.addToPlaylist(message, song, url);
 
                 if (playlistLength === 0) {
@@ -43,9 +50,15 @@ class RequestCommand extends Command {
 
     fetchSong(message, url) {
         return new Promise((resolve, reject) => {
+            let parsedUrl = URL.parse(url);
             let options = ['--skip-download', '-f bestaudio/worstvideo'];
-            if (url.indexOf('youtu') > -1) {
+
+            if (url.indexOf('youtu') > -1 || parsedUrl.host === null) {
                 options.push('--add-header', 'Authorization:' + app.config.apiKeys.google);
+            }
+
+            if (parsedUrl.host === null) {
+                url = 'ytsearch:' + url;
             }
 
             YouTubeDL.getInfo(url, options, {maxBuffer: 250000000}, (err, song) => {
