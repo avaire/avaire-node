@@ -13,5 +13,15 @@
         "missing-role": "Du skal have `DJ` for at springe en sang over.",
         "missing-connection": "Jeg er i øjeblikket ikke er forbundet til en talekanal.",
         "empty-playlist": "Afspilningslisten er allerede tom."
+    },
+
+    "playlist": {
+        "empty": "Afspilningslisten er tom",
+        "currently-playing": "Spiller i øjeblikket",
+        "playing": "[:title](:link)\n`:time` tilbage af sangen - Anmodet af :requester",
+        "in-queue": "Sange i køen",
+        "empty-playlist": "*Der er ingen andre sange i køen lige nu*",
+        "extra-singular": "_Og **1** mere sang!_",
+        "extra-plural": "_Og **:number** andre sange..._"
     }
 }

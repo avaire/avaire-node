@@ -13,5 +13,15 @@
         "missing-role": "You must have the `DJ` role to force skip a song.",
         "missing-connection": "I'm currently not connected to a voice channel.",
         "empty-playlist": "The playlist is already empty."
+    },
+
+    "playlist": {
+        "empty": "The playlist is currently empty",
+        "currently-playing": "Currently Playing",
+        "playing": "[:title](:link)\n`:time` left of the song - Requested by :requester",
+        "in-queue": "Songs in queue",
+        "empty-playlist": "*There are no other songs in the queue right now*",
+        "extra-singular": "_And **1** more song!_",
+        "extra-plural": "_And **:number** other songs..._"
     }
 }

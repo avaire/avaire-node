@@ -98,7 +98,14 @@ class MusicHandler {
                 source: song.url
             });
 
-            encoder.play();
+            let encoderStream = encoder.play();
+            let playlist = this.getPlaylist(message);
+
+            encoderStream.resetTimestamp();
+            encoderStream.removeAllListeners('timestamp');
+            encoderStream.on('timestamp', time => {
+                playlist[0].playTime = Math.floor(time);
+            });
 
             app.envoyer.sendInfo(message, 'commands.music.now-playing', {
                 title: song.title,
