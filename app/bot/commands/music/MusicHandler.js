@@ -4,6 +4,19 @@ const _ = require('lodash');
 class MusicHandler {
     constructor() {
         this.playlist = {};
+        this.unnecessaryProperties = [
+            'asr',
+            'abr',
+            'tbr',
+            'fps',
+            'formats',
+            'alt_title',
+            'subtitles',
+            'thumbnails',
+            'description',
+            'manifest_url',
+            'automatic_captions'
+        ];
     }
 
     addToPlaylist(message, song, link) {
@@ -12,8 +25,15 @@ class MusicHandler {
         }
 
         song.link = link;
+        song.playTime = 0;
         song.requester = message.author;
         song.duration = this.formatDuration(song.duration);
+
+        this.unnecessaryProperties.forEach(property => {
+            if (song.hasOwnProperty(property)) {
+                delete song[property];
+            }
+        });
 
         this.playlist[message.guild.id].push(song);
     }
