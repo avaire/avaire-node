@@ -31,11 +31,7 @@ class EvalCommand extends Command {
         message = util.inspect(message, {depth: 1});
         message = this.hideElemenets(message);
 
-        if (message.length > 1900) {
-            return message.substr(0, 1897) + '...';
-        }
-
-        return message;
+        return message.limit(1900);
     }
 
     hideElemenets(message) {
