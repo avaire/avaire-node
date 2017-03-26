@@ -3,7 +3,7 @@
     "selected": "All command messages will now use the `English (EN)` language files.",
 
     "errors": {
-        "cant-run-in-dms": ":warning: You can not use this commands direct messages!",
+        "cant-run-in-dms": ":warning: You can not use this command in direct messages!",
         "must-be-bot-admin": ":warning: You must be a bot administrator to use this command!",
         "throttle-limit-hit": "Too many `:command` attempts. Please try again in **:seconds** seconds.",
         "require-bot-missing": "I don't have the required permission node to execute this command: *:permission*",
