@@ -19,8 +19,8 @@ class GuildTransformer extends Transformer {
      * @return {Object}
      */
     prepare(data, _) {
-        if (data.hasOwnProperty('settings') && !_.isObjectLike(data.settings)) {
-            data.settings = JSON.parse(data.settings);
+        if (data.hasOwnProperty('channels') && !_.isObjectLike(data.channels)) {
+            data.channels = JSON.parse(data.channels);
         }
         return data;
     }
@@ -36,7 +36,7 @@ class GuildTransformer extends Transformer {
         return {
             name: this.data.name,
             local: this.data.local,
-            settings: JSON.stringify(this.data.settings),
+            channels: JSON.stringify(this.data.channels),
             updated_at: new Date
         };
     }
@@ -54,7 +54,7 @@ class GuildTransformer extends Transformer {
             owner: undefined,
             name: undefined,
             local: undefined,
-            settings: {}
+            channels: {}
         };
     }
 }

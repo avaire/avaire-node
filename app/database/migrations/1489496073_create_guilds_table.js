@@ -11,7 +11,7 @@ exports.up = function (knex, Promise) {
         table.string('owner');
         table.string('name');
         table.string('local').nullable();
-        table.json('settings');
+        table.json('channels');
         table.timestamps();
     });
 };
