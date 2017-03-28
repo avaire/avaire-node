@@ -3,6 +3,8 @@ const _ = require('lodash');
 /** @ignore */
 const EventHandler = require('./EventHandler');
 /** @ignore */
+const CommandHandler = require('./../commands/CommandHandler');
+/** @ignore */
 const ProcessCommand = require('./../middleware/ProcessCommand');
 
 /**
@@ -27,7 +29,7 @@ class MessageCreateEvent extends EventHandler {
         }
 
         let message = socket.message.content;
-        let command = MessageCreateEvent.prototype.getCommand(message);
+        let command = CommandHandler.getCommand(message);
 
         // Checks to see if a valid command was found from the message context, if a
         // command was found the onCommand method will be called for the handler.
@@ -44,28 +46,6 @@ class MessageCreateEvent extends EventHandler {
         if (socket.message.isPrivate) {
             return MessageCreateEvent.prototype.sendInformationMessage(socket);
         }
-    }
-
-    /**
-     * Gets the command with matching triggers to what the user sent.
-     *
-     * @param  {String} message  The message that was sent by the user.
-     * @return {Command|null}
-     */
-    getCommand(message) {
-        let trigger = message.split(' ')[0].toLowerCase();
-
-        for (let commandName in app.bot.commands) {
-            let command = app.bot.commands[commandName];
-
-            for (let triggerIndex in command.triggers) {
-                if (trigger === command.prefix + command.triggers[triggerIndex]) {
-                    return command;
-                }
-            }
-        }
-
-        return null;
     }
 
     /**

@@ -2,6 +2,8 @@
 const _ = require('lodash');
 /** @ignore */
 const Command = require('./../Command');
+/** @ignore */
+const CommandHandler = require('./../CommandHandler');
 
 /** @ignore */
 var categories = _.orderBy(require('./../Categories'));
@@ -85,7 +87,7 @@ class HelpCommand extends Command {
     }
 
     showCommand(sender, message, args) {
-        let command = this.getCommand(args);
+        let command = CommandHandler.getCommand(args.join(' '));
         if (command === undefined) {
             return app.envoyer.sendWarn(message, 'commands.general.help.command-doesnt-exists', {
                 command: args[0]
@@ -123,18 +125,6 @@ class HelpCommand extends Command {
             title: title.charAt(0).toUpperCase() + title.slice(1),
             description: description,
             fields: fields
-        });
-    }
-
-    getCommand(args) {
-        let commandString = _.toLower(args[0]);
-        return _.find(app.bot.commands, function (item) {
-            for (let trigger in item.triggers) {
-                if (item.prefix + item.triggers[trigger] === commandString) {
-                    return true;
-                }
-            }
-            return false;
         });
     }
 }
