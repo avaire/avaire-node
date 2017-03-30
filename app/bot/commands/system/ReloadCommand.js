@@ -33,7 +33,9 @@ class ReloadCommand extends Command {
 
     onCommand(sender, message, args) {
         if (args.length === 0) {
-            return message.channel.sendMessage(':warning: Missing arguments, use `.help !reload` to learn more about the command');
+            return app.envoyer.sendWarn(message, 'language.errors.missing-arguments', {
+                command: this.getPrefix() + this.getTriggers()[0]
+            });
         }
 
         if (args[0].toLowerCase() === 'all') {

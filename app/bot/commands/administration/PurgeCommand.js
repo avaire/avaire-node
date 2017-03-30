@@ -21,7 +21,9 @@ class PurgeCommand extends Command {
 
     onCommand(sender, message, args) {
         if (args.length === 0) {
-            return message.channel.sendMessage(':warning: Missing arguments, use `.help .purge` to learn more about the command');
+            return app.envoyer.sendWarn(message, 'language.errors.missing-arguments', {
+                command: this.getPrefix() + this.getTriggers()[0]
+            });
         }
 
         let amount = Math.min(Math.max(parseInt(args[0], 10), 1) + 1, 1000);
