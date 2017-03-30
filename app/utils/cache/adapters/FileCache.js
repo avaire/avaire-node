@@ -51,7 +51,7 @@ class FileCache extends CacheAdapter {
     put(token, value, seconds) {
         token = this.formatToken(token);
 
-        fs.ensureDirSync(token.path.storage, function (err) {
+        fs.ensureDirSync(token.path.storage, err => {
             if (err) {
                 app.logger.error(err);
             }
@@ -191,7 +191,7 @@ class FileCache extends CacheAdapter {
      * @return {Boolean}
      */
     flush() {
-        let item = fs.emptyDirSync(this.storagePath, function (err) {
+        let item = fs.emptyDirSync(this.storagePath, err => {
             if (err) {
                 app.logger.error(err);
             }
@@ -214,7 +214,7 @@ class FileCache extends CacheAdapter {
         );
 
         return {
-            name: name,
+            name,
             path: {
                 storage: cachePath,
                 full: path.resolve(cachePath, name)

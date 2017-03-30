@@ -30,7 +30,7 @@ class StatsCommand extends Command {
 
         message.channel.sendMessage('', false, {
             timestamp: new Date,
-            color: 0x3498db,
+            color: 0x3498DB,
             url: 'https://discordapp.com/invite/gt2FWER',
             title: 'Official Bot Server Invite',
             description: description.trim(),
@@ -94,7 +94,7 @@ class StatsCommand extends Command {
 
             return {
                 totalChannels: channels.length,
-                textChannels: textChannels,
+                textChannels,
                 voiceChannels: channels.length - textChannels
             };
         });

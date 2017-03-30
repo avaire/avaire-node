@@ -5,16 +5,16 @@ const _ = require('lodash');
 /** @ignore */
 const Command = require('./Command');
 
-var triggers = [];
-var commands = {};
+let triggers = [];
+let commands = {};
 
-_.each(require('./Categories'), function (category) {
-    _.each(directory(module, `./${_.toLower(category)}`), function (CommandInstance, key) {
+_.each(require('./Categories'), category => {
+    _.each(directory(module, `./${_.toLower(category)}`), (CommandInstance, key) => {
         if (CommandInstance.prototype instanceof Command) {
             let instance = new CommandInstance;
             let commandTriggers = [];
 
-            _.each(instance.getTriggers(), function (trigger) {
+            _.each(instance.getTriggers(), trigger => {
                 if (triggers.indexOf(instance.getPrefix() + trigger) !== -1) {
                     throw new Error([
                         'Command triggers cannot be shared between commands!',
@@ -24,7 +24,7 @@ _.each(require('./Categories'), function (category) {
                 commandTriggers.push(_.toLower(trigger));
             });
 
-            _.each(commandTriggers, function (trigger) {
+            _.each(commandTriggers, trigger => {
                 triggers.push(instance.getPrefix() + trigger);
             });
 

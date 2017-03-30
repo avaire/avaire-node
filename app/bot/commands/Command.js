@@ -4,11 +4,11 @@ const _ = require('lodash');
 class Command {
     constructor(prefix, command, aliases, options) {
         if (typeof prefix === 'undefined') {
-            throw new Error('The prefix parameter can not be undefined!');
+            throw new TypeError('The prefix parameter can not be undefined!');
         }
 
         if (typeof command === 'undefined') {
-            throw new Error('The command parameter can not be undefined!');
+            throw new TypeError('The command parameter can not be undefined!');
         }
 
         if (typeof options === 'undefined') {
@@ -21,7 +21,7 @@ class Command {
         let triggers = [command];
 
         if (typeof aliases !== 'undefined') {
-            _.each(aliases, function (trigger) {
+            _.each(aliases, trigger => {
                 triggers.push(trigger);
             });
         }

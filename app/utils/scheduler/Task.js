@@ -63,7 +63,7 @@ class Task {
         // If we have a repeatingDelay property that's less than zero(0)
         // we'll just call the closure on the delay and then stop the task.
         if (this.repeatingDelay < 0) {
-            this.runnable = setTimeout(function (task) {
+            this.runnable = setTimeout(task => {
                 task.closure();
                 task.running = false;
             }, this.delay, this);
@@ -72,10 +72,10 @@ class Task {
             return this;
         }
 
-        this.runnable = setTimeout(function (task) {
+        this.runnable = setTimeout(task => {
             task.closure();
 
-            task.runnable = setInterval(function (task) {
+            task.runnable = setInterval(task => {
                 task.closure();
             }, task.repeatingDelay, task);
         }, this.delay, this);

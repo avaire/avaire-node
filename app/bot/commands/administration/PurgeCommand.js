@@ -44,7 +44,7 @@ class PurgeCommand extends Command {
             users.push(`${mentions[i].username}#${mentions[i].discriminator}`);
         }
 
-        return this.processDeletedMessages(this.deleteMessages(message.channel, amount, function (messages) {
+        return this.processDeletedMessages(this.deleteMessages(message.channel, amount, messages => {
             return _.filter(messages, message => {
                 let authorId = message.author.id;
 
@@ -56,7 +56,7 @@ class PurgeCommand extends Command {
 
                 return false;
             });
-        }), message, 'commands.administration.purge.user-messages', {users: users});
+        }), message, 'commands.administration.purge.user-messages', {users});
     }
 
     processDeletedMessages(promise, message, languageString, placeholders = {}) {

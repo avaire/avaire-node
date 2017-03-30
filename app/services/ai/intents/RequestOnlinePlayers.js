@@ -19,7 +19,7 @@ class RequestOnlinePlayers extends IntentHandler {
         let maxPlayers = this.getMessage().guild.member_count;
         let onlinePlayers = 0;
 
-        _.each(this.getMessage().guild.members, function (member) {
+        _.each(this.getMessage().guild.members, member => {
             if (member.status !== 'offline') {
                 onlinePlayers++;
             }

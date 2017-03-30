@@ -1,11 +1,11 @@
 'use strict';
 process.title = 'AvaIre';
 
-var _ = require('lodash');
-var Discordie = require('discordie');
-var directory = require('require-directory');
-var Helpers = require('./app/helpers');
-var Database = require('./app/database/Database');
+let _ = require('lodash');
+let Discordie = require('discordie');
+let directory = require('require-directory');
+let Helpers = require('./app/helpers');
+let Database = require('./app/database/Database');
 
 global.app = require('./app');
 
@@ -26,8 +26,8 @@ global.bot = new Discordie({
 });
 
 app.logger.info(` - Registering ${Object.keys(app.bot.handlers).length + 1} event handlers`);
-_.each(app.bot.handlers, function (Handler, key) {
-    _.each(Discordie.Events, function (event) {
+_.each(app.bot.handlers, (Handler, key) => {
+    _.each(Discordie.Events, event => {
         if (key === event) {
             bot.Dispatcher.on(event, new Handler);
         }
@@ -36,14 +36,14 @@ _.each(app.bot.handlers, function (Handler, key) {
 
 let jobs = directory(module, './app/bot/jobs');
 app.logger.info(` - Registering ${Object.keys(jobs).length - 1} jobs`);
-_.each(jobs, function (Job, key) {
+_.each(jobs, (Job, key) => {
     if (key !== 'Job') {
         app.scheduler.registerJob(new Job);
     }
 });
 
 app.logger.info(` - Registering ${Object.keys(app.service).length} services`);
-_.each(app.service, function (Service, key) {
+_.each(app.service, (Service, key) => {
     let ServiceProvider = new Service;
 
     if (!ServiceProvider.registerService()) {

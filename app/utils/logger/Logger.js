@@ -4,7 +4,7 @@ const path = require('path');
 const Winston = require('winston');
 
 /** @ignore */
-var storage = path.resolve('storage', 'logs');
+let storage = path.resolve('storage', 'logs');
 
 Winston.emitErrs = true;
 

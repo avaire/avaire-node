@@ -36,15 +36,15 @@ class RollCommand extends Command {
 
         return app.envoyer.sendSuccess(message, 'commands.fun.roll.number', {
             number: random,
-            min: min,
-            max: max
+            min,
+            max
         });
     }
 
     rollDice(message, args) {
         let dice = args[0];
 
-        request('https://rolz.org/api/?' + dice + '.json', function (error, response, body) {
+        request('https://rolz.org/api/?' + dice + '.json', (error, response, body) => {
             if (error || response.statusCode !== 200) {
                 return message.channel.sendMessage('The API returned an unconventional response.');
             }

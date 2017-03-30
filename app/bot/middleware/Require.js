@@ -85,7 +85,7 @@ class Require extends Middleware {
 
         token += (permissionState === -1) ? 'require-bot-missing' : 'require-user-missing';
 
-        return app.envoyer.sendWarn(request.message, token, {permission: permission});
+        return app.envoyer.sendWarn(request.message, token, {permission});
     }
 }
 

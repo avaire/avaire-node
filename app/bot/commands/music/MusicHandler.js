@@ -92,7 +92,7 @@ class MusicHandler {
                 return this.next(message);
             }
 
-            var encoder = connection.voiceConnection.createExternalEncoder({
+            let encoder = connection.voiceConnection.createExternalEncoder({
                 type: 'ffmpeg',
                 format: 'pcm',
                 source: song.url
@@ -146,8 +146,8 @@ class MusicHandler {
 
     gracefullReject(reject, message, placeholders = {}) {
         return reject({
-            message: message,
-            placeholders: placeholders
+            message,
+            placeholders
         });
     }
 }

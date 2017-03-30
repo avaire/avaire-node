@@ -6,7 +6,7 @@ const Command = require('./../Command');
 const CommandHandler = require('./../CommandHandler');
 
 /** @ignore */
-var categories = _.orderBy(require('./../Categories'));
+let categories = _.orderBy(require('./../Categories'));
 
 class HelpCommand extends Command {
     constructor() {
@@ -37,7 +37,7 @@ class HelpCommand extends Command {
 
     showCategories(sender, message) {
         return app.envoyer.sendEmbededMessage(message, {
-            color: 0x3498db,
+            color: 0x3498DB,
             title: `:scroll: ${app.lang.get(message, 'commands.general.help.module')}`,
             description: '• ' + categories.join('\n• ') + '\n\n' + app.lang.get(message, 'commands.general.help.category-note')
         }, {
@@ -48,13 +48,13 @@ class HelpCommand extends Command {
 
     showCategoryCommands(sender, message, args) {
         let category = args[0].substr(1).toLowerCase();
-        let commands = _.filter(app.bot.commands, function (item) {
+        let commands = _.filter(app.bot.commands, item => {
             return item.category === category && !item.handler.getOptions('ignoreHelpMenu', false);
         });
 
         if (commands.length === 0) {
             return app.envoyer.sendWarn(message, 'commands.general.help.category-doesnt-exists', {
-                category: category
+                category
             });
         }
 
@@ -123,8 +123,8 @@ class HelpCommand extends Command {
         return app.envoyer.sendEmbededMessage(message, {
             color: app.envoyer.colors.info,
             title: title.charAt(0).toUpperCase() + title.slice(1),
-            description: description,
-            fields: fields
+            description,
+            fields
         });
     }
 }

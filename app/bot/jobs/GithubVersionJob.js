@@ -47,7 +47,7 @@ class GithubVersionJob extends Job {
             headers: {'User-Agent': 'AvaIre-Discord-Bot'},
             url: 'https://raw.githubusercontent.com/Senither/AvaIre/master/package.json',
             method: 'GET'
-        }, function (error, response, body) {
+        }, (error, response, body) => {
             if (!error && response.statusCode === 200) {
                 try {
                     let parsed = JSON.parse(body);

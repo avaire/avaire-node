@@ -1,6 +1,6 @@
 {
     "name": "Ava-Ire",
-    "version": "0.12.4",
+    "version": "0.12.5",
     "description": "A Discord Bot",
     "main": "start.js",
     "maintainers": [
@@ -34,6 +34,7 @@
             "camelcase": 0,
             "new-parens": 0,
             "guard-for-in": 0,
+            "prefer-const": 0,
             "no-eval": 0,
             "no-unused-vars": 0,
             "no-prototype-builtins": 0,
@@ -46,7 +47,7 @@
                 "rules": {
                     "no-use-extend-native/no-use-extend-native": 0,
                     "no-extend-native": 0
-                }                    
+                }
             }
         ]
     },

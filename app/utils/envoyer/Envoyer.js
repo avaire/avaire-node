@@ -23,10 +23,10 @@ class Envoyer {
          * @type {Object}
          */
         this.colors = {
-            error: 0xd91616,
-            warn: 0xd9d016,
-            success: 0x16d940,
-            info: 0x3498db
+            error: 0xD91616,
+            warn: 0xD9D016,
+            success: 0x16D940,
+            info: 0x3498DB
         };
     }
 
@@ -116,7 +116,9 @@ class Envoyer {
      * @return {Promise}
      */
     sendEmbededMessage(channel, embed, placeholders) {
-        embed.description = this.prepareMessage(channel, embed.description, placeholders);
+        if (embed.hasOwnProperty('description')) {
+            embed.description = this.prepareMessage(channel, embed.description, placeholders);
+        }
 
         return this.prepareChannel(channel).sendMessage('', false, embed);
     }
@@ -192,7 +194,7 @@ class Envoyer {
         }
 
         return {
-            color: color,
+            color,
             description: message
         };
     }

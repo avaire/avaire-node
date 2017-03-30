@@ -13,9 +13,9 @@ class RollCommand extends Command {
             return message.channel.sendMessage(args.join(' '));
         }
 
-        message.delete().then(function () {
+        message.delete().then(() => {
             message.channel.sendMessage(args.join(' '));
-        }).catch(function (err) {
+        }).catch(err => {
             app.logger.error(err);
         });
     }

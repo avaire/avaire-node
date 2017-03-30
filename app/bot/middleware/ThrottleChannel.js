@@ -29,7 +29,7 @@ class ThrottleChannel extends Middleware {
         let command = this.getCommandTrigger();
 
         return app.envoyer.sendWarn(request.message, 'language.errors.throttle-limit-hit', {
-            command: command,
+            command,
             seconds: secondsLeft
         }).then(message => {
             return app.scheduler.scheduleDelayedTask(() => {

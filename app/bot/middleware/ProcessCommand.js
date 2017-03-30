@@ -4,7 +4,7 @@ const _ = require('lodash');
 const Middleware = require('./Middleware');
 
 /**
- * processes the command, executing the command logic, this
+ * Processes the command, executing the command logic, this
  * middleware needs to be added to the compiled resolved
  * list of middlewares for every command, and it has to
  * be the last index of the array.

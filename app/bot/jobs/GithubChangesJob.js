@@ -47,7 +47,7 @@ class GithubChangeJob extends Job {
             headers: {'User-Agent': 'AvaIre-Discord-Bot'},
             url: 'https://api.github.com/repos/senither/AvaIre/commits',
             method: 'GET'
-        }, function (error, response, body) {
+        }, (error, response, body) => {
             if (!error && response.statusCode === 200) {
                 try {
                     let parsed = JSON.parse(body);

@@ -27,14 +27,14 @@ class LanguageCommand extends Command {
         let local = args[0].toLowerCase();
         if (!app.lang.getFiles().hasOwnProperty(local)) {
             return app.envoyer.sendWarn(message, 'commands.administration.language.invalid', {
-                local: local
+                local
             });
         }
 
         return app.database.getGuild(message.guild.id).then(transformer => {
             transformer.data.local = local;
 
-            app.database.update(app.constants.GUILD_TABLE_NAME, transformer.toDatabaseBindings(), function (query) {
+            app.database.update(app.constants.GUILD_TABLE_NAME, transformer.toDatabaseBindings(), query => {
                 return query.where('id', message.guild.id);
             });
 
@@ -57,7 +57,7 @@ class LanguageCommand extends Command {
             });
 
             return message.channel.sendMessage('', false, {
-                color: 0x3498db,
+                color: 0x3498DB,
                 url: app.config.bot.oauth,
                 fields: [
                     {

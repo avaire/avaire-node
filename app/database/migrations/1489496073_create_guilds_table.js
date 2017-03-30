@@ -6,7 +6,7 @@
  * @return {Promise}
  */
 exports.up = function (knex, Promise) {
-    return knex.schema.createTable(app.constants.GUILD_TABLE_NAME, function (table) {
+    return knex.schema.createTable(app.constants.GUILD_TABLE_NAME, table => {
         table.string('id').unique();
         table.string('owner');
         table.string('name');

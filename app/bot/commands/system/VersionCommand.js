@@ -1,5 +1,5 @@
 /** @ignore */
-var semverDiff = require('semver-diff');
+let semverDiff = require('semver-diff');
 /** @ignore */
 const Command = require('./../Command');
 

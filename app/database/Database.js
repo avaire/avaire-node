@@ -1,7 +1,7 @@
 /** @ignore */
 const Knex = require('knex');
 /** @ignore */
-var Cache = null;
+let Cache = null;
 /** @ignore */
 const GuildTransformer = require('./transformers/GuildTransformer');
 
@@ -77,7 +77,7 @@ class Database {
         // If we shouldn't skip the cache and the cache already has a version of the guild
         // stored, we'll just fetch that and return it without hitting the database.
         if (!skipCache && Cache.has(token)) {
-            return new Promise(function (resolve) {
+            return new Promise(resolve => {
                 resolve(Cache.get(token));
             });
         }
@@ -99,7 +99,7 @@ class Database {
                         });
 
                         if (guild.length <= 0) {
-                            return reject(`Faild to find a guild the bot is connected to with an ID of ${guildId}`);
+                            return reject(new Error(`Faild to find a guild the bot is connected to with an ID of ${guildId}`));
                         }
 
                         // Sets up our default guild transformer and stores it in the cache for 5 minutes.
@@ -121,7 +121,7 @@ class Database {
 
                     // Resolves the guild transformer from the cache.
                     resolve(Cache.get(token));
-                }).catch(function (err) {
+                }).catch(err => {
                     return reject(err);
                 }
             );

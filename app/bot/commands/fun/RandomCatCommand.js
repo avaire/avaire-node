@@ -14,7 +14,7 @@ class RandomCatCommand extends Command {
     }
 
     onCommand(sender, message, args) {
-        request('http://random.cat/meow', function (error, response, body) {
+        request('http://random.cat/meow', (error, response, body) => {
             if (!error && response.statusCode === 200) {
                 try {
                     let parsed = JSON.parse(body);
