@@ -1,6 +1,6 @@
 {
     "name": "Ava-Ire",
-    "version": "0.11.3",
+    "version": "0.12.0",
     "description": "A Discord Bot",
     "main": "start.js",
     "maintainers": [
