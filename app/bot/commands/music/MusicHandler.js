@@ -74,7 +74,7 @@ class MusicHandler {
         let connection = this.getVoiceConnection(message);
 
         if (connection !== undefined) {
-            if (this.playlist[message.guild.id].length === 0) {
+            if (this.getPlaylist(message).length === 0) {
                 delete this.playlist[message.guild.id];
 
                 app.envoyer.sendInfo(message, 'commands.music.end-of-playlist').then(m => {
@@ -104,7 +104,9 @@ class MusicHandler {
             encoderStream.resetTimestamp();
             encoderStream.removeAllListeners('timestamp');
             encoderStream.on('timestamp', time => {
-                playlist[0].playTime = Math.floor(time);
+                if (typeof playlist[0] !== 'undefined') {
+                    playlist[0].playTime = Math.floor(time);
+                }
             });
 
             app.envoyer.sendInfo(message, 'commands.music.now-playing', {
