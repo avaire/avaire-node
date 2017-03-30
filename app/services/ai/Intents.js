@@ -6,5 +6,9 @@ module.exports = {
     'request.online-players': {
         intent: 'How many are online?',
         handler: require('./intents/RequestOnlinePlayers')
+    },
+    'request.cat': {
+        intent: 'Random cat',
+        handler: require('./intents/RequestCat')
     }
 };
