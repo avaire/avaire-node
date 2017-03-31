@@ -15,7 +15,7 @@ class SkipCommand extends Command {
     }
 
     onCommand(sender, message, args) {
-        if (!this.hasDJRole(message.member)) {
+        if (!Music.userHasDJRole(message.member)) {
             return app.envoyer.sendWarn(message, 'commands.music.skip.missing-role');
         }
 
@@ -29,12 +29,6 @@ class SkipCommand extends Command {
 
         Music.getPlaylist(message).shift();
         return Music.next(message);
-    }
-
-    hasDJRole(member) {
-        return member.roles.find(role => {
-            return role.name.toUpperCase() === 'DJ';
-        }) !== undefined;
     }
 }
 

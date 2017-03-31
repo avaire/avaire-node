@@ -132,6 +132,12 @@ class MusicHandler {
         });
     }
 
+    userHasDJRole(member) {
+        return member.roles.find(role => {
+            return role.name.toUpperCase() === 'DJ';
+        }) !== undefined;
+    }
+
     formatDuration(duration) {
         let split = duration.split(':');
 
