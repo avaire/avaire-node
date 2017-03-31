@@ -4,6 +4,7 @@ const _ = require('lodash');
 class MusicHandler {
     constructor() {
         this.playlist = {};
+        this.volume = {};
         this.unnecessaryProperties = [
             'asr',
             'abr',
@@ -28,6 +29,10 @@ class MusicHandler {
         song.playTime = 0;
         song.requester = message.author;
         song.duration = this.formatDuration(song.duration);
+
+        if (!this.volume.hasOwnProperty(message.guild.id)) {
+            this.volume[message.guild.id] = 50;
+        }
 
         this.unnecessaryProperties.forEach(property => {
             if (song.hasOwnProperty(property)) {
@@ -109,6 +114,9 @@ class MusicHandler {
                 }
             });
 
+            let volume = this.volume[message.guild.id];
+            connection.voiceConnection.getEncoder().setVolume(volume === undefined ? 50 : volume);
+
             app.envoyer.sendInfo(message, 'commands.music.now-playing', {
                 title: song.title,
                 duration: this.formatDuration(song.duration),
@@ -120,6 +128,20 @@ class MusicHandler {
                 return this.next(message);
             });
         }
+    }
+
+    setVolume(message, volume) {
+        this.volume[message.guild.id] = volume;
+
+        return this.getVoiceConnection(message)
+                   .voiceConnection.getEncoder().setVolume(volume);
+    }
+
+    getVolume(message) {
+        if (!this.volume.hasOwnProperty(message.guild.id)) {
+            return 50;
+        }
+        return this.volume[message.guild.id];
     }
 
     isConnectedToVoice(message) {

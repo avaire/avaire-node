@@ -16,15 +16,15 @@ class SkipCommand extends Command {
 
     onCommand(sender, message, args) {
         if (!Music.userHasDJRole(message.member)) {
-            return app.envoyer.sendWarn(message, 'commands.music.skip.missing-role');
+            return app.envoyer.sendWarn(message, 'commands.music.missing-role');
         }
 
         if (!Music.isConnectedToVoice(message)) {
-            return app.envoyer.sendWarn(message, 'commands.music.skip.missing-connection');
+            return app.envoyer.sendWarn(message, 'commands.music.missing-connection');
         }
 
         if (Music.getPlaylist(message).length === 0) {
-            return app.envoyer.sendWarn(message, 'commands.music.skip.empty-playlist');
+            return app.envoyer.sendWarn(message, 'commands.music.empty-playlist');
         }
 
         Music.getPlaylist(message).shift();

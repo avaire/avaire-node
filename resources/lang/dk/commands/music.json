@@ -3,22 +3,18 @@
     "end-of-playlist": "Playlisten er slut, forlader kanalen.",
     "voice-required": "Du er nødt til at være forbundet til en talekanal.",
     "now-playing": "Spiller nu: [:title](:link)\n:duration - Foreslået af <@:userid>",
+    "missing-role": "Du skal have `DJ` for at gøre det.",
+    "missing-connection": "Jeg er i øjeblikket ikke er forbundet til en talekanal.",
+    "empty-playlist": "Afspilningslisten er allerede tom.",
 
     "require": {
         "added-song": "<@:userid> har tilføjede [:title](:link) til køen.",
         "error": "Jeg kunne ikke tilføje, at til afspilningslisten."
     },
 
-    "skip": {
-        "missing-role": "Du skal have `DJ` for at springe en sang over.",
-        "missing-connection": "Jeg er i øjeblikket ikke er forbundet til en talekanal.",
-        "empty-playlist": "Afspilningslisten er allerede tom."
-    },
-
     "playlist": {
-        "empty": "Afspilningslisten er tom",
         "currently-playing": "Spiller i øjeblikket",
-        "playing": "[:title](:link)\n`:time` tilbage af sangen - Anmodet af :requester",
+        "playing": "[:title](:link)\nSpiller med `:volume%` lydstyrke med `:time` tilbage af sangen - Anmodet af :requester",
         "in-queue": "Sange i køen",
         "empty-playlist": "*Der er ingen andre sange i køen lige nu*",
         "extra-singular": "_Og **1** mere sang!_",

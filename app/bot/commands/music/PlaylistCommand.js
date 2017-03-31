@@ -60,6 +60,7 @@ class PlaylistCommand extends Command {
         return app.envoyer.sendEmbededMessage(message, embed, {
             link: song.link,
             title: song.title,
+            volume: Music.getVolume(message),
             time: this.getTimeLeft(song.playTime, song.duration),
             requester: `<@${song.requester.id}>`
         }).then(m => {
@@ -68,7 +69,7 @@ class PlaylistCommand extends Command {
     }
 
     sendPlaylistIsEmpty(message) {
-        return app.envoyer.sendWarn(message, 'commands.music.playlist.empty').then(m => {
+        return app.envoyer.sendWarn(message, 'commands.music.empty-playlist').then(m => {
             return app.scheduler.scheduleDelayedTask(() => m.delete(), 6000);
         });
     }

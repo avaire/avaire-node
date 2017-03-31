@@ -3,22 +3,18 @@
     "end-of-playlist": "Playlist has ended, leaving voice.",
     "voice-required": "You have to be connected to a voice channel.",
     "now-playing": "Now playing: [:title](:link)\n:duration - Requested by <@:userid>",
+    "missing-role": "You must have the `DJ` role to do that.",
+    "missing-connection": "I'm currently not connected to a voice channel.",
+    "empty-playlist": "The playlist is already empty.",
 
     "require": {
         "added-song": "<@:userid> has added [:title](:link) to the queue.",
         "error": "I couldn't add that to the playlist."
     },
 
-    "skip": {
-        "missing-role": "You must have the `DJ` role to force skip a song.",
-        "missing-connection": "I'm currently not connected to a voice channel.",
-        "empty-playlist": "The playlist is already empty."
-    },
-
     "playlist": {
-        "empty": "The playlist is currently empty",
         "currently-playing": "Currently Playing",
-        "playing": "[:title](:link)\n`:time` left of the song - Requested by :requester",
+        "playing": "[:title](:link)\nPlaying at `:volume%` volume with `:time` left of the song - Requested by :requester",
         "in-queue": "Songs in queue",
         "empty-playlist": "*There are no other songs in the queue right now*",
         "extra-singular": "_And **1** more song!_",
