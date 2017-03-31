@@ -34,11 +34,12 @@ _.each(app.bot.handlers, (Handler, key) => {
     });
 });
 
+app.bot.jobs = {};
 let jobs = directory(module, './app/bot/jobs');
 app.logger.info(` - Registering ${Object.keys(jobs).length - 1} jobs`);
 _.each(jobs, (Job, key) => {
     if (key !== 'Job') {
-        app.scheduler.registerJob(new Job);
+        app.bot.jobs[key] = app.scheduler.registerJob(new Job);
     }
 });
 
