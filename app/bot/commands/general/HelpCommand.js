@@ -88,7 +88,7 @@ class HelpCommand extends Command {
 
     showCommand(sender, message, args) {
         let command = CommandHandler.getCommand(args.join(' '));
-        if (command === undefined) {
+        if (command === null) {
             return app.envoyer.sendWarn(message, 'commands.general.help.command-doesnt-exists', {
                 command: args[0]
             });
