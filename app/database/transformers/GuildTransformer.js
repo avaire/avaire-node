@@ -1,5 +1,7 @@
 /** @ignore */
 const Transformer = require('./Transformer');
+/** @ignore */
+const ChannelTransformer = require('./ChannelTransformer');
 
 /**
  * The guild transformer, allows for an easier way
@@ -50,12 +52,16 @@ class GuildTransformer extends Transformer {
      */
     defaults() {
         return {
-            id: undefined,
-            owner: undefined,
-            name: undefined,
-            local: undefined,
+            id: null,
+            owner: null,
+            name: null,
+            local: null,
             channels: {}
         };
+    }
+
+    getChannel(channelId) {
+        return new ChannelTransformer(this.get('channels.' + channelId));
     }
 }
 

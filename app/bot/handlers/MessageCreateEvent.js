@@ -40,7 +40,15 @@ class MessageCreateEvent extends EventHandler {
         // Checks to see if the bot was taged in the message and if AI messages in enabled,
         // if AI messages is enabled the message will be passed onto the AI handler.
         if (app.service.ai.isEnabled && message.hasBot()) {
-            return app.service.ai.textRequest(socket, message);
+            return app.database.getGuild(socket.message.guild.id).then(transformer => {
+                let channel = transformer.getChannel(socket.message.channel.id);
+
+                if (channel.get('ai.enabled', false)) {
+                    return app.service.ai.textRequest(socket, message);
+                }
+            }).catch(err => app.logger.error(
+                `Attempted to get AI status for channel "${socket.message.channel.id}" in guild "${socket.message.guild.id}" but failed due to an error: ` + err
+            ));
         }
 
         if (socket.message.isPrivate) {

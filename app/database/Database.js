@@ -162,19 +162,19 @@ class Database {
      * @param  {Boolean} timestamps  Determins if the record uses timestatmps, defaults to true.
      */
     update(table, fields, condition, timestamps = true) {
-        if (timestamps) {
-            fields.updated_at = new Date;
-        }
+        return new Promise((resolve, reject) => {
+            if (timestamps) {
+                fields.updated_at = new Date;
+            }
 
-        let query = this.getClient().table(table).update(fields);
-        if (typeof condition === 'function') {
-            query = condition(query);
-        }
+            let query = this.getClient().table(table).update(fields);
+            if (typeof condition === 'function') {
+                query = condition(query);
+            }
 
-        query.then(() => {
-            app.bot.statistics.databaseQueries++;
-        }).catch(err => {
-            app.logger.error(err);
+            return query.then(() => {
+                return resolve(app.bot.statistics.databaseQueries++);
+            }).catch(err => app.logger.error(err));
         });
     }
 }

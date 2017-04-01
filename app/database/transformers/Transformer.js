@@ -16,6 +16,10 @@ class Transformer {
      * @param  {Object} data  The data that should be transformed.
      */
     constructor(data) {
+        if (typeof data !== 'object') {
+            data = {};
+        }
+
         data = this.prepare(data, _);
 
         let defaults = this.defaults();
@@ -46,9 +50,10 @@ class Transformer {
      * Gets a propety from the transformer using dot notation to separate keys.
      *
      * @param  {String} property  The string that should be fetched from the transformer.
+     * @param  {mixed}  fallback  The fallback value if the given property doesn't exists.
      * @return {mixed}
      */
-    get(property) {
+    get(property, fallback = undefined) {
         if (typeof property === 'undefined') {
             return this.data;
         }
@@ -59,7 +64,11 @@ class Transformer {
             let item = items[index];
 
             if (!data.hasOwnProperty(item)) {
-                return undefined;
+                return fallback;
+            }
+
+            if (data[item] === null || data[item] === undefined) {
+                return fallback;
             }
 
             data = data[item];
