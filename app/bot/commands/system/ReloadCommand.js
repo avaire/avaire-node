@@ -74,9 +74,26 @@ class ReloadCommand extends Command {
     }
 
     reloadLanguage(message, args) {
-        app.lang.loadLanguageFiles();
+        for (let index in require.cache) {
+            if (!_.startsWith(index, app.lang.resourcePath)) {
+                continue;
+            }
 
-        return app.envoyer.sendSuccess(message, ':ok_hand: Language files has been reloaded!');
+            delete require.cache[index];
+        }
+
+        let backupLanguageFiles = app.lang.languageFiles;
+
+        try {
+            app.lang.loadLanguageFiles();
+
+            return app.envoyer.sendSuccess(message, ':ok_hand: Language files has been reloaded!');
+        } catch (err) {
+            app.logger.error(err);
+            app.lang.languageFiles = backupLanguageFiles;
+
+            return app.envoyer.sendError(message, '**Error:** Failed to reload language files due to a ' + err.name + '\n\n' + err.message);
+        }
     }
 
     reloadCommand(message, args) {

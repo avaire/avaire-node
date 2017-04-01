@@ -3,8 +3,6 @@ const path = require('path');
 /** @ignore */
 const _ = require('lodash');
 /** @ignore */
-const dot = require('dot-object');
-/** @ignore */
 const directory = require('require-directory');
 
 /** @ignore */
@@ -40,23 +38,11 @@ class Language {
     }
 
     /**
-     * Loads all the language files from disk, if the files already exists in the NPM
-     * cache reference for required files the cache will be deleted before it is
-     * loaded back in, this forces us to have the newest version of the files.
+     * Loads all the language files from disk.
      *
-     * Calling this method during runtime will fetch any changes made to the language files,
-     * including entirely new languages and files, this allows for easier testing of
-     * language strings and makes everything a bit more developer friendly.
+     * @throws {SyntaxError}  Thrown if any of the language files has invalid JSON formatted in them.
      */
     loadLanguageFiles() {
-        for (let index in require.cache) {
-            if (!_.startsWith(index, this.resourcePath)) {
-                continue;
-            }
-
-            delete require.cache[index];
-        }
-
         this.languageFiles = directory(module, this.resourcePath);
     }
 
