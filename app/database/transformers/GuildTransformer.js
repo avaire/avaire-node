@@ -21,14 +21,12 @@ class GuildTransformer extends Transformer {
      * @return {Object}
      */
     prepare(data, _) {
-        data.channels = {};
-
         if (data.hasOwnProperty('channels')) {
             try {
                 data.channels = JSON.parse(data.channels);
             } catch (err) {
-                // We don't really give a shit if the channel JSON didn't parse correctly or not, if it didn't parse
-                // its because the json that was stored was not saved correctly, or it was NULL or undefined.
+                app.logger.error(err);
+                data.channels = {};
             }
         }
 
