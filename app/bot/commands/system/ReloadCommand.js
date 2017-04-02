@@ -32,6 +32,11 @@ class ReloadCommand extends Command {
                 requiredExtraArgs: false,
                 triggers: ['db', 'database'],
                 function: this.reloadDatabase
+            },
+            {
+                requiredExtraArgs: false,
+                triggers: ['ser', 'service', 'services'],
+                function: this.reloadServices
             }
         ];
     }
@@ -159,6 +164,30 @@ class ReloadCommand extends Command {
         app.database = new Database();
 
         return app.envoyer.sendSuccess(message, ':ok_hand: Database files and connection has been reloaded!');
+    }
+
+    reloadServices(message, args) {
+        let servicesPath = `app${path.sep}services`;
+        for (let index in require.cache) {
+            if (index.indexOf(servicesPath) === -1) {
+                continue;
+            }
+
+            delete require.cache[index];
+        }
+
+        app.service = require('./../../../services');
+        _.each(app.service, (Service, key) => {
+            let ServiceProvider = new Service;
+
+            if (!ServiceProvider.registerService()) {
+                //
+            }
+
+            app.service[key] = ServiceProvider;
+        });
+
+        return app.envoyer.sendSuccess(message, ':ok_hand: Application services has been reloaded!');
     }
 }
 
