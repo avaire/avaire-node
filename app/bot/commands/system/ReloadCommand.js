@@ -27,6 +27,11 @@ class ReloadCommand extends Command {
                 requiredExtraArgs: true,
                 triggers: ['cmd', 'command'],
                 function: this.reloadCommand
+            },
+            {
+                requiredExtraArgs: false,
+                triggers: ['db', 'database'],
+                function: this.reloadDatabase
             }
         ];
     }
@@ -138,6 +143,22 @@ class ReloadCommand extends Command {
         return app.envoyer.sendSuccess(message, ':ok_hand: `:command` command has been reloaded!', {
             command: instance.getPrefix() + commandTriggers[0]
         });
+    }
+
+    reloadDatabase(message, args) {
+        let databasePath = `app${path.sep}database`;
+        for (let index in require.cache) {
+            if (index.indexOf(databasePath) === -1) {
+                continue;
+            }
+
+            delete require.cache[index];
+        }
+
+        let Database = require('./../../../database/Database.js');
+        app.database = new Database();
+
+        return app.envoyer.sendSuccess(message, ':ok_hand: Database files and connection has been reloaded!');
     }
 }
 
