@@ -33,6 +33,20 @@ class Language {
          */
         this.resourcePath = path.resolve('resources/lang');
 
+        /**
+         * The default placeholders that should be added to
+         * every message parsed through the language files.
+         *
+         * @type {Object}
+         */
+        this.defaultPlaceholders = {
+            userid: message => message.author.id,
+            channelid: message => message.channel.id,
+            username: message => message.author.username,
+            useravatar: message => message.author.avatar,
+            userdiscr: message => message.author.discriminator
+        };
+
         // Loads all the language strings.
         this.loadLanguageFiles();
     }
@@ -163,13 +177,21 @@ class Language {
             placeholders = {};
         }
 
-        placeholders.userid = message.author.id;
-        placeholders.channelid = message.channel_id;
-        placeholders.username = message.author.username;
-        placeholders.useravatar = message.author.avatar;
-        placeholders.userdiscr = message.author.discriminator;
+        for (let placeholder in this.defaultPlaceholders) {
+            if (!placeholders.hasOwnProperty(placeholder)) {
+                placeholders[placeholder] = this.defaultPlaceholders[placeholder](message);
+            }
+        }
 
-        return placeholders;
+        let sortedPlaceholders = {};
+        let keys = Object.keys(placeholders);
+        keys.sort((a, b) => b.length - a.length);
+
+        for (let i = 0; i < keys.length; i++) {
+            sortedPlaceholders[keys[i]] = placeholders[keys[i]];
+        }
+
+        return sortedPlaceholders;
     }
 
     /**
