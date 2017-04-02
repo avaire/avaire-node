@@ -17,7 +17,7 @@ class VersionCommand extends Command {
         let repositoryVersion = app.cache.get('github.version', app.version);
         let versionType = semverDiff(app.version, repositoryVersion);
         let versionMessage = [
-            'I am are currently `:difference` :type versions behind!',
+            'I am currently `:difference` :type versions behind!',
             '',
             ':message',
             '',
