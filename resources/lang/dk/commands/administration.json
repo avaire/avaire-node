@@ -11,8 +11,8 @@
         "note": ":information_source: *Du kan bruge `:command [local]` til at ændre det sprog der bruges på denne server, som standard vil `:default` blive brugt!*"
     },
 
-    "modlog": {
-        "enabled": "`ModLog` modulet er nu **aktiveret** i <#:channelid> kanalen.",
-        "disabled": "`ModLog` modulet er nu **deaktiveret** i <#:channelid> kanalen."
+    "modules": {
+        "enabled": "`:module` modulet er nu **aktiveret** i <#:channelid> kanalen.",
+        "disabled": "`:module` modulet er nu **deaktiveret** i <#:channelid> kanalen."
     }
 }

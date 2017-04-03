@@ -3,11 +3,11 @@ const Command = require('./../Command');
 /** @ignore */
 const Module = require('./Module');
 
-class ModlogCommand extends Command {
+class WelcomeCommand extends Command {
     constructor() {
-        super('.', 'modlog', ['mlog'], {
+        super('.', 'welcome', ['wel'], {
             allowDM: false,
-            description: 'Toggles the ModLog module on or off for the current channel.',
+            description: 'Toggles the welcome module on or off for the current channel.',
             middleware: [
                 'require:general.manage_server',
                 'throttle.guild:1,5'
@@ -16,8 +16,8 @@ class ModlogCommand extends Command {
     }
 
     onCommand(sender, message, args) {
-        return Module.toggle(message, 'modlog', 'ModLog');
+        return Module.toggle(message, 'welcome', 'Welcome');
     }
 }
 
-module.exports = ModlogCommand;
+module.exports = WelcomeCommand;

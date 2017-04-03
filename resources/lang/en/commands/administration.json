@@ -11,8 +11,8 @@
         "note": ":information_source: *You can use `:command [local]` to change the language that is used on this server, by default the language will be set to `:default`!*"
     },
 
-    "modlog": {
-        "enabled": "The `ModLog` module has been **enabled** for the <#:channelid> channel.",
-        "disabled": "The `ModLog` module has been **disabled** for the <#:channelid> channel."
+    "modules": {
+        "enabled": "The `:module` module has been **enabled** for the <#:channelid> channel.",
+        "disabled": "The `:module` module has been **disabled** for the <#:channelid> channel."
     }
 }
