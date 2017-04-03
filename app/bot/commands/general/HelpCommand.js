@@ -49,7 +49,11 @@ class HelpCommand extends Command {
     showCategoryCommands(sender, message, args) {
         let category = args[0].substr(1).toLowerCase();
         let commands = _.filter(app.bot.commands, item => {
-            return item.category === category && !item.handler.getOptions('ignoreHelpMenu', false);
+            if (item.handler.getOptions('ignoreHelpMenu', false)) {
+                return false;
+            }
+
+            return item.category === category || _.startsWith(item.category, category);
         });
 
         if (commands.length === 0) {
