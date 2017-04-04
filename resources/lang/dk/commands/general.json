@@ -16,5 +16,9 @@
             "Jeg kender ikke nogle kommandoer der hedder **:command**.",
             "Jeg har ikke nogle kommandoer der hedder **:command** i mit register"
         ]
+    },
+
+    "invite": {
+        "message": "Du kan invitere mig til din server ved at [klikke her](:oauth) eller brug linket nedenfor:\n\n:oauth"
     }
 }

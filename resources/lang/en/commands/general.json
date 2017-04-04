@@ -18,5 +18,9 @@
             "Error 404, the command you're looking for doesn't exists!",
             "The command you're looking for isn't in my registry, maybe it's for another bot?"
         ]
+    },
+
+    "invite": {
+        "message": "You can invite me to your server by [clicking here](:oauth) or use the link below:\n\n:oauth"
     }
 }
