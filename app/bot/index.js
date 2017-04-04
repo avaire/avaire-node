@@ -4,5 +4,7 @@ module.exports = {
     handlers: require('./HandlerRegistry'),
     statistics: require('./RuntimeStatistics'),
     middleware: require('./MiddlewareRegistry'),
-    permissions: require('./PermissionRegistry')
+    permissions: require('./PermissionRegistry'),
+
+    maintenance: false
 };

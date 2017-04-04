@@ -23,6 +23,10 @@ class RequestCommand extends Command {
     }
 
     onCommand(sender, message, args) {
+        if (app.bot.maintenance) {
+            return app.envoyer.sendWarn(message, 'Going down for maintenance, you can\'t request songs right now!');
+        }
+
         if (args.length === 0) {
             return app.envoyer.sendError(message, 'commands.music.require.error');
         }

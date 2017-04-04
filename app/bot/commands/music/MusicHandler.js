@@ -75,16 +75,18 @@ class MusicHandler {
         });
     }
 
-    next(message) {
+    next(message, sendMessages = true) {
         let connection = this.getVoiceConnection(message);
 
         if (connection !== undefined) {
             if (this.getPlaylist(message).length === 0) {
                 delete this.playlist[message.guild.id];
 
-                app.envoyer.sendInfo(message, 'commands.music.end-of-playlist').then(m => {
-                    return app.scheduler.scheduleDelayedTask(() => m.delete(), 7500);
-                });
+                if (sendMessages) {
+                    app.envoyer.sendInfo(message, 'commands.music.end-of-playlist').then(m => {
+                        return app.scheduler.scheduleDelayedTask(() => m.delete(), 7500);
+                    });
+                }
 
                 return connection.voiceConnection.disconnect();
             }
@@ -94,7 +96,7 @@ class MusicHandler {
             if (song.url === 'INVALID') {
                 this.playlist[message.guild.id].shift();
 
-                return this.next(message);
+                return this.next(message, sendMessages);
             }
 
             let encoder = connection.voiceConnection.createExternalEncoder({
@@ -117,15 +119,17 @@ class MusicHandler {
             let volume = this.volume[message.guild.id];
             connection.voiceConnection.getEncoder().setVolume(volume === undefined ? 50 : volume);
 
-            app.envoyer.sendInfo(message, 'commands.music.now-playing', {
-                title: song.title,
-                duration: this.formatDuration(song.duration),
-                link: song.link
-            });
+            if (sendMessages) {
+                app.envoyer.sendInfo(message, 'commands.music.now-playing', {
+                    title: song.title,
+                    duration: this.formatDuration(song.duration),
+                    link: song.link
+                });
+            }
 
             encoder.once('end', () => {
                 this.playlist[message.guild.id].shift();
-                return this.next(message);
+                return this.next(message, sendMessages);
             });
         }
     }
