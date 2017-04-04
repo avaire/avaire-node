@@ -85,7 +85,7 @@ class UserInfoCommand extends Command {
         let servers = 0;
 
         bot.Guilds.forEach(guild => {
-            if (guild.members.find(member => member.id === userId) !== null) {
+            if (guild.members.find(member => member.id === userId) !== undefined) {
                 servers++;
             }
         });
