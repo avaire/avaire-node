@@ -9,7 +9,7 @@ const Music = require('./MusicHandler');
 
 class RequestCommand extends Command {
     constructor() {
-        super('!', 'request', [], {
+        super('!', 'request', ['play'], {
             allowDM: false,
             middleware: [
                 'throttle.user:2,5'
@@ -23,6 +23,10 @@ class RequestCommand extends Command {
     }
 
     onCommand(sender, message, args) {
+        if (args.length === 0) {
+            return app.envoyer.sendError(message, 'commands.music.require.error');
+        }
+
         return Music.prepareVoice(message).then(() => {
             message.channel.sendTyping();
 
