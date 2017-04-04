@@ -7,7 +7,7 @@ const Command = require('./../Command');
 
 class UserInfoCommand extends Command {
     constructor() {
-        super('!', 'userinfo', ['uinfo'], {
+        super('.', 'userinfo', ['uinfo'], {
             allowDM: false,
             description: 'Tells you information about the taged user, or yourself.',
             middleware: [

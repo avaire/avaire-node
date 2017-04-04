@@ -9,7 +9,7 @@ const CommandHandler = require('./../CommandHandler');
 
 class ReloadCommand extends Command {
     constructor() {
-        super('!', 'reload', ['rload'], {
+        super(';', 'reload', ['rload'], {
             description: 'Reloads the given property',
             usage: '[property]',
             middleware: [

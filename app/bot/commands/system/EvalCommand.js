@@ -5,7 +5,7 @@ const Command = require('./../Command');
 
 class EvalCommand extends Command {
     constructor() {
-        super('!', 'eval', [], {
+        super(';', 'eval', [], {
             middleware: [
                 'isBotAdmin'
             ]
