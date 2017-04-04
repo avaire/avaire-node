@@ -59,9 +59,13 @@ class RebootCommand extends Command {
         // Waits 5 seconds, and then checks every half second if there are still
         // any active voice connections, if the voice connections array is
         // empty the process will exit and restart the application.
+        let shouldSendmessage = true;
         app.scheduler.scheduleRepeatingTask(() => {
             if (bot.VoiceConnections.length === 0) {
-                app.envoyer.sendInfo(message, 'All voice connections has ended, rebooting processes, cya in a few seconds!');
+                if (shouldSendmessage) {
+                    shouldSendmessage = false;
+                    app.envoyer.sendInfo(message, 'All voice connections has ended, rebooting processes, cya in a few seconds!');
+                }
 
                 return this.shutdown();
             }
