@@ -81,6 +81,7 @@ class MusicHandler {
         if (connection !== undefined) {
             if (this.getPlaylist(message).length === 0) {
                 delete this.playlist[message.guild.id];
+                delete this.volume[message.guild.id];
 
                 if (sendMessages) {
                     app.envoyer.sendInfo(message, 'commands.music.end-of-playlist').then(m => {
