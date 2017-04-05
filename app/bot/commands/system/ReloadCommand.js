@@ -37,6 +37,11 @@ class ReloadCommand extends Command {
                 requiredExtraArgs: false,
                 triggers: ['ser', 'service', 'services'],
                 function: this.reloadServices
+            },
+            {
+                requiredExtraArgs: true,
+                triggers: ['event', 'evt', 'e'],
+                function: this.reloadEventHandler
             }
         ];
     }
@@ -188,6 +193,38 @@ class ReloadCommand extends Command {
         });
 
         return app.envoyer.sendSuccess(message, ':ok_hand: Application services has been reloaded!');
+    }
+
+    reloadEventHandler(message, args) {
+        if (args.length === 0) {
+            return app.envoyer.sendWarn(message, ':warning: Missing argument `event handler`, a valid handler is required.');
+        }
+
+        let event = args[0].toUpperCase();
+
+        if (!app.bot.handlers.hasOwnProperty(event)) {
+            return app.envoyer.sendWarn(message, ':warning: Invalid event handler argument given!');
+        }
+
+        let Handler = app.bot.handlers[event];
+        let handlerName = Handler.prototype.constructor.name;
+
+        let eventPath = `app${path.sep}bot${path.sep}handlers${path.sep}${handlerName}`;
+
+        for (let index in require.cache) {
+            if (index.indexOf(eventPath) === -1) {
+                continue;
+            }
+
+            delete require.cache[index];
+        }
+
+        let EventHandler = require(`./../../handlers/${handlerName}`);
+
+        bot.Dispatcher.removeAllListeners([event]);
+        bot.Dispatcher.on(event, new EventHandler);
+
+        return app.envoyer.sendSuccess(message, `:ok_hand: The \`${handlerName}\` event handler has been reloaded!`);
     }
 }
 
