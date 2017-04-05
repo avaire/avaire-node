@@ -53,3 +53,12 @@ String.prototype.hasBot = function () {
 String.prototype.replaceBotWith = function (replacement = '') {
     return _.replace(_.replace(this.valueOf(), `<@!${bot.User.id}>`, replacement), `<@${bot.User.id}>`, replacement);
 };
+
+/**
+ * Makes the first letter in the string uppercase.
+ *
+ * @return {String}
+ */
+String.prototype.firstToUpper = function () {
+    return this.charAt(0).toUpperCase() + this.slice(1);
+};
