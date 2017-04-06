@@ -13,6 +13,11 @@
 
     "modules": {
         "enabled": "`:module` modulet er nu **aktiveret** i <#:channelid> kanalen.",
-        "disabled": "`:module` modulet er nu **deaktiveret** i <#:channelid> kanalen."
+        "disabled": "`:module` modulet er nu **deaktiveret** i <#:channelid> kanalen.",
+        "not-enabled": "`:module` modulet er ikke aktiveret, du kan aktivere det med `:command`",
+        "messages": {
+            "set-message": "`:module` module beskeden er blevet sat til:\n\n`:message`",
+            "set-default": "`:module` module beskeden er blevet sat tilbage til standard."
+        }
     }
 }

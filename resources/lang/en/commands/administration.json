@@ -13,6 +13,11 @@
 
     "modules": {
         "enabled": "The `:module` module has been **enabled** for the <#:channelid> channel.",
-        "disabled": "The `:module` module has been **disabled** for the <#:channelid> channel."
+        "disabled": "The `:module` module has been **disabled** for the <#:channelid> channel.",
+        "not-enabled": "The `:module` module is not enabled, enable it first with `:command`",
+        "messages": {
+            "set-message": "The `:module` module message has been set to:\n\n`:message`",
+            "set-default": "The `:module` modules message has been set back to the default message."
+        }
     }
 }

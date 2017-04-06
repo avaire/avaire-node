@@ -23,7 +23,7 @@ class ChannelCommand extends Command {
                         return 'Disabled';
                     }
 
-                    return `Enabled\n${setting.messagesPerLimit} messages every ${setting.messageLimit} seconds.`;
+                    return `__Enabled__\n${setting.messagesPerLimit} messages every ${setting.messageLimit} seconds.`;
                 }
             },
             welcome: {
@@ -33,7 +33,7 @@ class ChannelCommand extends Command {
                         return 'Disabled';
                     }
 
-                    return 'Enabled\n' + (setting.message === null ?
+                    return '__Enabled__\n' + (setting.message === null ?
                         '*Default welcome message*\nUse `.welcomemsg <message>` to set your own welcome message' :
                         setting.message);
                 }
@@ -45,8 +45,8 @@ class ChannelCommand extends Command {
                         return 'Disabled';
                     }
 
-                    return 'Enabled\n' + (setting.message === null ?
-                        '*Default goodbye message*\nUse `.goodbyemsg <message>` to set your own welcome message' :
+                    return '__Enabled__\n' + (setting.message === null ?
+                        '*Default goodbye message*\nUse `.goodbyemsg <message>` to set your own goodbye message' :
                         setting.message);
                 }
             }
