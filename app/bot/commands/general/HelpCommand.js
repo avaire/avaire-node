@@ -64,7 +64,8 @@ class HelpCommand extends Command {
 
         let fields = [];
 
-        for (let commandIndex in _.sortBy(commands)) {
+        commands = _.sortBy(commands, [command => command.triggers[0]]);
+        for (let commandIndex in commands) {
             let command = commands[commandIndex];
             let field = command.prefix + command.triggers[0];
 
