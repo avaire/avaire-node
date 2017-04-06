@@ -150,7 +150,7 @@ class MessageCreateEvent extends EventHandler {
             return true;
         }
 
-        return MessageCreateEvent.prototype.isBotAdmin(socket.message.author);
+        return MessageCreateEvent.prototype.isBotOrServerAdmin(socket);
     }
 
     /**
@@ -171,19 +171,25 @@ class MessageCreateEvent extends EventHandler {
     }
 
     /**
-     * Checks if the users id is in the "botAccess" property in the config.json file.
+     * Checks if the users id is in the "botAccess" property in the config.json file
+     * or if the user has the MANAGE_SERVER permission node for the given guild.
      *
-     * @param  {IUser}    author  Discordie user object
-     * @return {Boolean}          Returns ture if the user is a bot admin
+     * @param  {GatewaySocket} socket   The Discordie gateway socket
+     * @return {Boolean}             Returns ture if the user is a bot admin or server admin
      */
-    isBotAdmin(author) {
+    isBotOrServerAdmin(socket) {
         for (let index in app.config.botAccess) {
-            if (author.id === app.config.botAccess[index]) {
+            if (socket.message.author.id === app.config.botAccess[index]) {
                 return true;
             }
         }
 
-        return false;
+        let permmission = app.bot.permissions['general.manage_server'];
+
+        let guildPermissions = socket.message.author.permissionsFor(socket.message.guild);
+        let channelPermissions = socket.message.author.permissionsFor(socket.message.channel);
+
+        return guildPermissions[permmission[0]][permmission[1]] || channelPermissions[permmission[0]][permmission[1]];
     }
 }
 
