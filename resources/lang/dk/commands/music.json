@@ -6,6 +6,7 @@
     "missing-role": "Du skal have `DJ` for at gøre det.",
     "missing-connection": "Jeg er i øjeblikket ikke er forbundet til en talekanal.",
     "empty-playlist": "Afspilningslisten er allerede tom.",
+    "volume-while-not-in-channel": "Du skal være tilsluttet kanalen jeg spiller musik i for at ændre lydstyrken.",
 
     "require": {
         "added-song": "<@:userid> har tilføjede [:title](:link) til køen.",

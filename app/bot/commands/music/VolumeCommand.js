@@ -37,6 +37,14 @@ class VolumeCommand extends Command {
             return app.envoyer.sendWarn(message, 'commands.music.empty-playlist');
         }
 
+        if (!this.isInSameVoiceChannelAsBot(message, sender)) {
+            return app.envoyer.sendWarn(message, 'commands.music.volume-while-not-in-channel').then(message => {
+                return app.scheduler.scheduleDelayedTask(() => {
+                    return message.delete().catch(err => app.logger.error(err));
+                }, 10000);
+            });
+        }
+
         let volume = Math.max(Math.min(parseInt(args[0], 10), 100), 0);
         Music.setVolume(message, volume);
 
@@ -50,6 +58,38 @@ class VolumeCommand extends Command {
                 return message.delete().catch(err => app.logger.error(err));
             }, 6500);
         });
+    }
+
+    isInSameVoiceChannelAsBot(message, sender) {
+        let voiceChannel = this.getBotVoiceChannel(message);
+
+        if (voiceChannel === null) {
+            // Something went really wrong here, we should be connected but the bot wasen't
+            // found in any of the voice channels for the guild? What the fuck....
+            return false;
+        }
+
+        for (let i in voiceChannel.members) {
+            if (voiceChannel.members[i].id === sender.id) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    getBotVoiceChannel(message) {
+        for (let i in message.guild.voiceChannels) {
+            let voiceChannel = message.guild.voiceChannels[i];
+
+            for (let x in voiceChannel.members) {
+                if (voiceChannel.members[x].id === bot.User.id) {
+                    return voiceChannel;
+                }
+            }
+        }
+
+        return null;
     }
 }
 

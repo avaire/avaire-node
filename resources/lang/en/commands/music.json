@@ -6,6 +6,7 @@
     "missing-role": "You must have the `DJ` role to do that.",
     "missing-connection": "I'm currently not connected to a voice channel.",
     "empty-playlist": "The playlist is already empty.",
+    "volume-while-not-in-channel": "You must be connected the voice channel I'm playing music in to change the volume.",
 
     "require": {
         "added-song": "<@:userid> has added [:title](:link) to the queue.",
