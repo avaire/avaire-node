@@ -5,6 +5,7 @@ class MusicHandler {
     constructor() {
         this.playlist = {};
         this.volume = {};
+        this.paused = {};
         this.unnecessaryProperties = [
             'asr',
             'abr',
@@ -32,6 +33,10 @@ class MusicHandler {
 
         if (!this.volume.hasOwnProperty(message.guild.id)) {
             this.volume[message.guild.id] = 50;
+        }
+
+        if (!this.paused.hasOwnProperty(message.guild.id)) {
+            this.paused[message.guild.id] = false;
         }
 
         this.unnecessaryProperties.forEach(property => {
@@ -82,6 +87,7 @@ class MusicHandler {
             if (this.getPlaylist(message).length === 0) {
                 delete this.playlist[message.guild.id];
                 delete this.volume[message.guild.id];
+                delete this.paused[message.guild.id];
 
                 if (sendMessages) {
                     app.envoyer.sendInfo(message, 'commands.music.end-of-playlist').then(m => {
@@ -151,6 +157,35 @@ class MusicHandler {
 
     isConnectedToVoice(message) {
         return this.getVoiceConnection(message) !== undefined;
+    }
+
+    setPausedState(message, state) {
+        this.paused[message.guild.id] = state;
+    }
+
+    isPaused(message) {
+        if (this.paused.hasOwnProperty(message.guild.id)) {
+            return this.paused[message.guild.id];
+        }
+        return false;
+    }
+
+    pauseStream(message) {
+        this.setPausedState(message, true);
+
+        return this.getVoiceConnection(message)
+                   .voiceConnection
+                   .getEncoderStream()
+                   .cork();
+    }
+
+    unpauseStream(message) {
+        this.setPausedState(message, false);
+
+        return this.getVoiceConnection(message)
+                   .voiceConnection
+                   .getEncoderStream()
+                   .uncork();
     }
 
     getVoiceConnection(message) {

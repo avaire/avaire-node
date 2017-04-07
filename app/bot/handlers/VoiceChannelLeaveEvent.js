@@ -23,10 +23,7 @@ class VoiceChannelLeaveEvent extends EventHandler {
             return;
         }
 
-        Music.getVoiceConnection(mockMessage)
-             .voiceConnection
-             .getEncoderStream()
-             .cork();
+        Music.pauseStream(mockMessage);
     }
 }
 

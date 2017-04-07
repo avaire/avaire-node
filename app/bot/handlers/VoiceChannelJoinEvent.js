@@ -23,10 +23,7 @@ class VoiceChannelJoinEvent extends EventHandler {
             return;
         }
 
-        Music.getVoiceConnection(mockMessage)
-             .voiceConnection
-             .getEncoderStream()
-             .uncork();
+        Music.unpauseStream(mockMessage);
     }
 
     isBotConnected(users) {

@@ -14,10 +14,19 @@
 
     "playlist": {
         "currently-playing": "Currently Playing",
+        "currently-paused": "Currently Paused",
         "playing": "[:title](:link)\nPlaying at `:volume%` volume with `:time` left of the song - Requested by :requester",
         "in-queue": "Songs in queue",
         "empty-playlist": "*There are no other songs in the queue right now*",
         "extra-singular": "_And **1** more song!_",
         "extra-plural": "_And **:number** other songs..._"
+    },
+
+    "pauseresume": {
+        "pause-on-empty": "The playlist is empty, there is nothing to pause.",
+        "resume-on-empty": "The playlist is empty, there is nothing to resume.",
+        "resume-while-alone": "There must be atleast one other person in the voice channel to resume the music.",
+        "paused": "The music has been `paused`",
+        "resumed": "The music has been `resumed`"
     }
 }

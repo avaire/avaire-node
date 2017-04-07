@@ -27,7 +27,7 @@ class PlaylistCommand extends Command {
         let song = playlist[0];
         let embed = {
             color: app.envoyer.colors.info,
-            title: app.lang.get(message, 'commands.music.playlist.currently-playing'),
+            title: app.lang.get(message, 'commands.music.playlist.currently-' + (Music.isPaused(message) ? 'paused' : 'playing')),
             description: app.lang.get(message, 'commands.music.playlist.playing'),
             fields: [
                 {
