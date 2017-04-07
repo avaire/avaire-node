@@ -5,7 +5,7 @@ const CommandHandler = require('./../CommandHandler');
 
 class SourceCommand extends Command {
     constructor() {
-        super('!', 'source', ['sourcecode'], {
+        super('!', 'source', [], {
             description: 'Gives you the source code for the Bot, or the code for a given command.',
             usage: [
                 '',

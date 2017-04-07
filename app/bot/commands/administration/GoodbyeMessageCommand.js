@@ -5,7 +5,7 @@ const Module = require('./Module');
 
 class GoodbyeMessageCommand extends Command {
     constructor() {
-        super('.', 'goodbyemessage', ['goodbyemsg', 'byemsg'], {
+        super('.', 'goodbyemessage', ['byemsg'], {
             allowDM: false,
             description: 'Sets the goodbye message.',
             usage: [

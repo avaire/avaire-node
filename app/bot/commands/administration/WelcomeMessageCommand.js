@@ -5,7 +5,7 @@ const Module = require('./Module');
 
 class WelcomeMessageCommand extends Command {
     constructor() {
-        super('.', 'welcomemessage', ['welcomemsg', 'welmsg'], {
+        super('.', 'welcomemessage', ['welmsg'], {
             allowDM: false,
             description: 'Sets the welcome message.',
             usage: [

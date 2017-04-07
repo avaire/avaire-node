@@ -3,7 +3,7 @@ const Command = require('./../Command');
 
 class CoinCommand extends Command {
     constructor() {
-        super('>', 'coin', ['coinflip', 'flipcoin'], {
+        super('>', 'coin', [], {
             description: 'Flips a coin for heads or tails for you'
         });
 
