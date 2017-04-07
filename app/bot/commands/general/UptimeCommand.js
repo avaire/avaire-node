@@ -16,7 +16,7 @@ class UptimeCommand extends Command {
     }
 
     getProcessUptime() {
-        let seconds = process.uptime() + 50;
+        let seconds = process.uptime();
 
         let d = Math.floor(seconds / 86400);
         let h = Math.floor((seconds % 86400) / 3600);
