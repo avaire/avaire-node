@@ -123,6 +123,10 @@ class HelpCommand extends Command {
             description = description.join('\n');
         }
 
+        if (command.handler.getOptions('middleware', []).indexOf('isBotAdmin') > -1) {
+            description += '\n**Bot Administrators Only**';
+        }
+
         let title = command.triggers[0].toLowerCase();
 
         return app.envoyer.sendEmbededMessage(message, {
