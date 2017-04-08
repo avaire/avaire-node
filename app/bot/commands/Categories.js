@@ -1,7 +1,7 @@
 module.exports = [
     'Administration',
     'Fun',
-    'General',
     'Music',
-    'System'
+    'System',
+    'Utility'
 ];
