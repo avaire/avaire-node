@@ -1,4 +1,10 @@
+
+/**
+ * Command handler, allows for easy access
+ * to any command in the registry.
+ */
 class CommandHandler {
+
     /**
      * Gets the command with matching triggers to what the user sent.
      *

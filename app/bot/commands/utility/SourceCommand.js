@@ -17,6 +17,14 @@ class SourceCommand extends Command {
         this.commandUrl = 'https://github.com/Senither/AvaIre/blob/master/app/bot/commands/:category/:commandfile.js';
     }
 
+    /**
+     * Executes the given command.
+     *
+     * @param  {IUser}     sender   The Discordie user object that ran the command.
+     * @param  {IMessage}  message  The Discordie message object that triggered the command.
+     * @param  {Array}     args     The arguments that was parsed to the command.
+     * @return {mixed}
+     */
     onCommand(sender, message, args) {
         if (args.length === 0) {
             return app.envoyer.sendInfo(message, 'AvaIre source code:\n\n' + this.rootUrl);

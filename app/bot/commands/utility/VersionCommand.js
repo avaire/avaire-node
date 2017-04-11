@@ -13,6 +13,14 @@ class VersionCommand extends Command {
         });
     }
 
+    /**
+     * Executes the given command.
+     *
+     * @param  {IUser}     sender   The Discordie user object that ran the command.
+     * @param  {IMessage}  message  The Discordie message object that triggered the command.
+     * @param  {Array}     args     The arguments that was parsed to the command.
+     * @return {mixed}
+     */
     onCommand(sender, message, args) {
         let repositoryVersion = app.cache.get('github.version', app.version);
         let versionType = semverDiff(app.version, repositoryVersion);

@@ -66,6 +66,13 @@ class GuildTransformer extends Transformer {
         };
     }
 
+    /**
+     * Gets the channel with the given id from the guild, if the channel doesn't
+     * exists a empty ChannelTransformer will be returned instead.
+     *
+     * @param  {String}  channelId  The id of the channel.
+     * @return {ChannelTransformer}
+     */
     getChannel(channelId) {
         return new ChannelTransformer(this.get('channels.' + channelId));
     }

@@ -4,8 +4,14 @@ const directory = require('require-directory');
 const _ = require('lodash');
 /** @ignore */
 const Command = require('./Command');
-
+/** @ignore */
 let triggers = [];
+
+/**
+ * The full list of commands.
+ *
+ * @type {Object}
+ */
 let commands = {};
 
 _.each(require('./Categories'), category => {

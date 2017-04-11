@@ -16,6 +16,14 @@ class RebootCommand extends Command {
         this.rebootMessage = 'https://media.senither.com/avaire-maintenance-message.mp3';
     }
 
+    /**
+     * Executes the given command.
+     *
+     * @param  {IUser}     sender   The Discordie user object that ran the command.
+     * @param  {IMessage}  message  The Discordie message object that triggered the command.
+     * @param  {Array}     args     The arguments that was parsed to the command.
+     * @return {mixed}
+     */
     onCommand(sender, message, args) {
         app.bot.maintenance = true;
 
