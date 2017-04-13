@@ -70,6 +70,11 @@ class RuntimeStatisticsCommand extends Command {
                     name: 'Commands run',
                     value: app.bot.statistics.commands,
                     inline: true
+                },
+                {
+                    name: 'Voice Connections',
+                    value: bot.VoiceConnections.length,
+                    inline: true
                 }
             ],
             footer: {
