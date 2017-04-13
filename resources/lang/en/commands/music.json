@@ -7,6 +7,7 @@
     "missing-connection": "I'm currently not connected to a voice channel.",
     "empty-playlist": "The playlist is already empty.",
     "volume-while-not-in-channel": "You must be connected the voice channel I'm playing music in to change the volume.",
+    "disconnect-due-to-inactivity": "The playlist has ended due to inactivity.",
 
     "require": {
         "added-song": "<@:userid> has added [:title](:link) to the queue.",

@@ -33,6 +33,13 @@ class MusicHandler {
         this.paused = {};
 
         /**
+         * The channel id the music was requested in for the guilds.
+         *
+         * @type {Object}
+         */
+        this.channel = {};
+
+        /**
          * A list of unnecessary properties that should be
          * removed if they're found in the song objects.
          *
@@ -76,6 +83,10 @@ class MusicHandler {
 
         if (!this.paused.hasOwnProperty(message.guild.id)) {
             this.paused[message.guild.id] = false;
+        }
+
+        if (!this.channel.hasOwnProperty(message.guild.id)) {
+            this.channel[message.guild.id] = message.channel.id;
         }
 
         this.unnecessaryProperties.forEach(property => {
@@ -147,9 +158,7 @@ class MusicHandler {
 
         if (connection !== undefined) {
             if (this.getPlaylist(message).length === 0) {
-                delete this.playlist[message.guild.id];
-                delete this.volume[message.guild.id];
-                delete this.paused[message.guild.id];
+                this.forcefullyDeletePlaylist(message.guild.id);
 
                 if (sendMessages) {
                     app.envoyer.sendInfo(message, 'commands.music.end-of-playlist').then(m => {
@@ -228,6 +237,16 @@ class MusicHandler {
             return 50;
         }
         return this.volume[message.guild.id];
+    }
+
+    /**
+     * Gets the id of the channel the music was requested in.
+     *
+     * @param  {IMessage}  message  The Discordie message object.
+     * @return {String|undefined}
+     */
+    getChannelId(message) {
+        return this.channel[message.guild.id];
     }
 
     /**
@@ -349,6 +368,19 @@ class MusicHandler {
             message,
             placeholders
         });
+    }
+
+    /**
+     * Forcefully deletes the playlist, volume, and
+     * paused state of the parsed guilds data.
+     *
+     * @param {String}  guildId  The id of the guild that should be deleted.
+     */
+    forcefullyDeletePlaylist(guildId) {
+        delete this.playlist[guildId];
+        delete this.channel[guildId];
+        delete this.volume[guildId];
+        delete this.paused[guildId];
     }
 }
 

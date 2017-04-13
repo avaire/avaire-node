@@ -79,11 +79,16 @@ class Language {
      * Gets the guilds local, if the provided message is a
      * private message the default local will be returned.
      *
-     * @param  {IMessage} message  The discordie message object
+     * @param  {IMessage|String} guildId  The discordie message object or guild id.
+     * @param
      * @return {String}
      */
-    getLocal(message) {
-        if (message.isPrivate) {
+    getLocal(guildId, isPrivate) {
+        if (typeof isPrivate !== 'boolean') {
+            return this.getLocal(guildId.guild.id, guildId.isPrivate);
+        }
+
+        if (isPrivate) {
             return this.defaultLocal;
         }
 
@@ -91,11 +96,11 @@ class Language {
         // it from the cache, get the local from it and store
         // it in the guildLocalCache array for later use.
         let cache = app.cache.resolveAdapter('memory');
-        if (cache.has(`database.${message.guild.id}`)) {
-            let transformer = cache.get(`database.${message.guild.id}`);
+        if (cache.has(`database.${guildId}`)) {
+            let transformer = cache.get(`database.${guildId}`);
             let guildLocal = typeof transformer.get('local') === 'string' ? transformer.get('local') : this.defaultLocal;
 
-            guildLocalCache[message.guild.id] = guildLocal;
+            guildLocalCache[guildId] = guildLocal;
 
             return guildLocal;
         }
@@ -103,14 +108,14 @@ class Language {
         // Calls the database asynchronously to get a newer version of
         // the guild transformer in the memory cache, the call will
         // handle storing the transformer into the cache for us.
-        app.database.getGuild(message.guild.id);
+        app.database.getGuild(guildId);
 
         // If we have a version of the guilds local stored from before the
         // cache expired we'll use that instead of the default value.
-        if (guildLocalCache[message.guild.id] === undefined) {
+        if (guildLocalCache[guildId] === undefined) {
             return this.defaultLocal;
         }
-        return guildLocalCache[message.guild.id];
+        return guildLocalCache[guildId];
     }
 
     /**
