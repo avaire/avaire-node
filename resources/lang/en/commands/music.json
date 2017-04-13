@@ -2,11 +2,11 @@
     "missing-permissions": "I can't connect to the voice channel you're in because I don't have `Connect` permissions for it",
     "end-of-playlist": "Playlist has ended, leaving voice.",
     "voice-required": "You have to be connected to a voice channel.",
-    "now-playing": "Now playing: [:title](:link)\n:duration - Requested by <@:userid>",
+    "now-playing": "Now playing: [:title](:link)\n`:duration` - Requested by <@:userid>",
     "missing-role": "You must have the `DJ` role to do that.",
     "missing-connection": "I'm currently not connected to a voice channel.",
     "empty-playlist": "The playlist is already empty.",
-    "volume-while-not-in-channel": "You must be connected the voice channel I'm playing music in to change the volume.",
+    "volume-while-not-in-channel": "You must be connected to the voice channel I'm playing music in to change the volume.",
     "disconnect-due-to-inactivity": "The playlist has ended due to inactivity.",
 
     "require": {
