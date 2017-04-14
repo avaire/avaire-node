@@ -79,8 +79,8 @@ class Language {
      * Gets the guilds local, if the provided message is a
      * private message the default local will be returned.
      *
-     * @param  {IMessage|String} guildId  The discordie message object or guild id.
-     * @param
+     * @param  {IMessage|String} guildId    The discordie message object or guild id.
+     * @param  {Boolean}         isPrivate  Determines if the message was private.
      * @return {String}
      */
     getLocal(guildId, isPrivate) {

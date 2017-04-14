@@ -65,7 +65,7 @@ class MusicHandler {
      *
      * @param {IMessage}  message  The Discordie message object.
      * @param {Object}    song     The requested song object.
-     * @param {[type}     link     The link to the song.
+     * @param {String}    link     The link to the song.
      */
     addToPlaylist(message, song, link) {
         if (!_.isObjectLike(this.playlist[message.guild.id])) {
@@ -286,7 +286,7 @@ class MusicHandler {
      * Pauses the current stream.
      *
      * @param  {IMessage}  message  The Discordie message object.
-     * @return {[type]}
+     * @return {undefinded}
      */
     pauseStream(message) {
         this.setPausedState(message, true);
@@ -301,7 +301,7 @@ class MusicHandler {
      * Unpauses the current stream.
      *
      * @param  {IMessage}  message  The Discordie message object.
-     * @return {[type]}
+     * @return {undefinded}
      */
     unpauseStream(message) {
         this.setPausedState(message, false);
