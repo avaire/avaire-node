@@ -3,11 +3,23 @@ const _ = require('lodash');
 /** @ignore */
 const Command = require('./../Command');
 
+/**
+ * Kick Command, allows people with the right
+ * permissions to kick people in guilds.
+ *
+ * @extends {Command}
+ */
 class KickCommand extends Command {
+
+    /**
+     * Sets up the command by providing the prefix, command trigger, any
+     * aliases the command might have and additional options that
+     * might be usfull for the abstract command class.
+     */
     constructor() {
         super('.', 'kick', [], {
             allowDM: false,
-            description: 'Kicks the mentioned user off the server with the provided reason, this action will be reported to any channel that has modlogggin enabled on the server.',
+            description: 'Kicks the mentioned user off the server with the provided reason, this action will be reported to any channel that has modloging enabled on the server.',
             usage: [
                 '<user> [reason]'
             ],
@@ -48,6 +60,13 @@ class KickCommand extends Command {
         });
     }
 
+    /**
+     * Gets the IGuildMember user instance.
+     *
+     * @param  {IMessage}  message  The Discordie message object that triggered the command.
+     * @param  {String}    user     The id of the user.
+     * @return {IGuildMember|undefined}
+     */
     getUser(message, user) {
         if (message.mentions.length > 0) {
             user = message.mentions[0].id;

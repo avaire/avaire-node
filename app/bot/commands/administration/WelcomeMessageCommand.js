@@ -1,9 +1,21 @@
 /** @ignore */
 const Command = require('./../Command');
 /** @ignore */
-const Module = require('./Module');
+const Module = require('./utils/ChannelModule');
 
+/**
+ * Welcome Merssage Command, allows server managers to set the welcome
+ * message that should be used when someone joins the guild.
+ *
+ * @extends {Command}
+ */
 class WelcomeMessageCommand extends Command {
+
+    /**
+     * Sets up the command by providing the prefix, command trigger, any
+     * aliases the command might have and additional options that
+     * might be usfull for the abstract command class.
+     */
     constructor() {
         super('.', 'welcomemessage', ['welmsg'], {
             allowDM: false,

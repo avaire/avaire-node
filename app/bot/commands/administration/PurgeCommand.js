@@ -3,7 +3,19 @@ const _ = require('lodash');
 /** @ignore */
 const Command = require('./../Command');
 
+/**
+ * Purge Command, allows users with the right permissions to
+ * delete messages that was sent within the last two weeks.
+ *
+ * @extends {Command}
+ */
 class PurgeCommand extends Command {
+
+    /**
+     * Sets up the command by providing the prefix, command trigger, any
+     * aliases the command might have and additional options that
+     * might be usfull for the abstract command class.
+     */
     constructor() {
         super('.', 'purge', ['clear'], {
             allowDM: false,

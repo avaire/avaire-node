@@ -3,7 +3,19 @@ const _ = require('lodash');
 /** @ignore */
 const Command = require('./../Command');
 
+/**
+ * Channel Command, displays module statues
+ * and their settings for the given channel.
+ *
+ * @extends {Command}
+ */
 class ChannelCommand extends Command {
+
+    /**
+     * Sets up the command by providing the prefix, command trigger, any
+     * aliases the command might have and additional options that
+     * might be usfull for the abstract command class.
+     */
     constructor() {
         super('.', 'channel', ['chl'], {
             allowDM: false,
@@ -13,6 +25,11 @@ class ChannelCommand extends Command {
             ]
         });
 
+        /**
+         * The object channel settings.
+         *
+         * @type {Object}
+         */
         this.channelSettings = {
             modlog: {name: 'Mod Log'},
             ai: {name: 'AI Messages'},

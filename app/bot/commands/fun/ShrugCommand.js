@@ -2,6 +2,12 @@
 const Command = require('./../Command');
 
 class ShrugCommand extends Command {
+
+    /**
+     * Sets up the command by providing the prefix, command trigger, any
+     * aliases the command might have and additional options that
+     * might be usfull for the abstract command class.
+     */
     constructor() {
         super('>', 'shrug', [], {
             description: '¯\\_(ツ)_/¯'

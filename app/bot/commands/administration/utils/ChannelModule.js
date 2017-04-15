@@ -1,4 +1,13 @@
-class Module {
+class ChannelModule {
+
+    /**
+     * Toggles the given module for the provided channel.
+     *
+     * @param  {IMessage}  message     The Discordie message object that triggered the module.
+     * @param  {String}    module      The name of the module that should be toggeled.
+     * @param  {String}    moduleName  The display name of the module that shouold be toggeled.
+     * @return {Promise}
+     */
     toggle(message, module, moduleName) {
         return this.getChannel(message).then(({guild, channel}) => {
             let state = !channel.get(module + '.enabled', false);
@@ -21,6 +30,15 @@ class Module {
         }).catch(err => app.logger.error(err));
     }
 
+    /**
+     * Sets a property for a channel module.
+     *
+     * @param  {IMessage}  message     The Discordie message object that triggered the module.
+     * @param  {String}    module      The name of the module that should be used.
+     * @param  {Array}     properties  The array of properties that should be changed.
+     * @param  {Array}     values      The array of values that should replace the properties keys.
+     * @return {Promise}
+     */
     setProperty(message, module, properties, values) {
         if (properties.length !== values.length) {
             return Promise.reject(new Error('The properties and values arrays must have an equal number of items!'));
@@ -47,6 +65,12 @@ class Module {
         });
     }
 
+    /**
+     * Get the channel transformer from the provided message.
+     *
+     * @param  {IMessage}  message  The Discordie message object that triggered the module.
+     * @return {Promise}
+     */
     getChannel(message) {
         return new Promise((resolve, reject) => {
             return app.database.getGuild(message.guild.id).then(transformer => {
@@ -59,6 +83,13 @@ class Module {
         });
     }
 
+    /**
+     * Updates the guild channel by running a SQL UPDATE query.
+     *
+     * @param  {IMessage}  message       The Discordie message object that triggered the module.
+     * @param  {GuildTransformer} guild  The guild transformer that should be updated.
+     * @return {Promise}
+     */
     updateChannel(message, guild) {
         return app.database.update(app.constants.GUILD_TABLE_NAME, {
             channels: JSON.stringify(guild.data.channels)
@@ -66,4 +97,4 @@ class Module {
     }
 }
 
-module.exports = new Module;
+module.exports = new ChannelModule;

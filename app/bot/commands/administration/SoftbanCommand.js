@@ -5,7 +5,20 @@ const Command = require('./../Command');
 /** @ignore */
 const Module = require('./utils/BanModule');
 
+/**
+ * SoftBan Command, allows users with the right permissions to ban other users
+ * with a lower role then themselves, soft banning people doesn't delete
+ * messages, it just bans the user off the server.
+ *
+ * @extends {Command}
+ */
 class SoftbanCommand extends Command {
+
+    /**
+     * Sets up the command by providing the prefix, command trigger, any
+     * aliases the command might have and additional options that
+     * might be usfull for the abstract command class.
+     */
     constructor() {
         super('.', 'softban', ['sban'], {
             allowDM: false,

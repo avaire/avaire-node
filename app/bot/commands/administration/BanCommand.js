@@ -5,7 +5,19 @@ const Command = require('./../Command');
 /** @ignore */
 const Module = require('./utils/BanModule');
 
+/**
+ * Ban Command, allows people with the right
+ * permissions to ban people in guilds.
+ *
+ * @extends {Command}
+ */
 class BanCommand extends Command {
+
+    /**
+     * Sets up the command by providing the prefix, command trigger, any
+     * aliases the command might have and additional options that
+     * might be usfull for the abstract command class.
+     */
     constructor() {
         super('.', 'ban', [], {
             allowDM: false,

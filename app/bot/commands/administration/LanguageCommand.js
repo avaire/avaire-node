@@ -3,7 +3,19 @@ const dot = require('dot-object');
 /** @ignore */
 const Command = require('./../Command');
 
+/**
+ * Language Command, allows server managers to set the
+ * language the bot uses in the current guild.
+ *
+ * @extends {Command}
+ */
 class LanguageCommand extends Command {
+
+    /**
+     * Sets up the command by providing the prefix, command trigger, any
+     * aliases the command might have and additional options that
+     * might be usfull for the abstract command class.
+     */
     constructor() {
         super('.', 'language', ['lang'], {
             allowDM: false,
@@ -50,6 +62,12 @@ class LanguageCommand extends Command {
         });
     }
 
+    /**
+     * Displays the currently selected language message.
+     *
+     * @param  {IMessage}  message  The Discordie message object that triggered the command.
+     * @return {Promise}
+     */
     showLanguageMessage(message) {
         let command = this.getPrefix() + this.getTriggers()[0];
 

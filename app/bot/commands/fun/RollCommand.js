@@ -4,6 +4,12 @@ const request = require('request');
 const Command = require('./../Command');
 
 class RollCommand extends Command {
+
+    /**
+     * Sets up the command by providing the prefix, command trigger, any
+     * aliases the command might have and additional options that
+     * might be usfull for the abstract command class.
+     */
     constructor() {
         super('>', 'roll', [], {
             description: 'Rolls a random number or a set of D&D dice.'

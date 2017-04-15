@@ -1,9 +1,21 @@
 /** @ignore */
 const Command = require('./../Command');
 /** @ignore */
-const Module = require('./Module');
+const Module = require('./utils/ChannelModule');
 
+/**
+ * Welcome Command, allows server managers to toggle the
+ * welcome module on or off for any given channel.
+ *
+ * @extends {Command}
+ */
 class WelcomeCommand extends Command {
+
+    /**
+     * Sets up the command by providing the prefix, command trigger, any
+     * aliases the command might have and additional options that
+     * might be usfull for the abstract command class.
+     */
     constructor() {
         super('.', 'welcome', ['wel'], {
             allowDM: false,

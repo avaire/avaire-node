@@ -4,6 +4,12 @@ const Command = require('./../Command');
 const Music = require('./MusicHandler');
 
 class PauseCommand extends Command {
+
+    /**
+     * Sets up the command by providing the prefix, command trigger, any
+     * aliases the command might have and additional options that
+     * might be usfull for the abstract command class.
+     */
     constructor() {
         super('!', 'pause', [], {
             allowDM: false,

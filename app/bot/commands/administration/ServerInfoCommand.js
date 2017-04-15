@@ -5,7 +5,18 @@ const moment = require('moment');
 /** @ignore */
 const Command = require('./../Command');
 
+/**
+ * Server Info Command, shows information about the server.
+ *
+ * @extends {Command}
+ */
 class ServerInfoCommand extends Command {
+
+    /**
+     * Sets up the command by providing the prefix, command trigger, any
+     * aliases the command might have and additional options that
+     * might be usfull for the abstract command class.
+     */
     constructor() {
         super('.', 'serverinfo', ['sinfo'], {
             allowDM: false,
@@ -100,6 +111,12 @@ class ServerInfoCommand extends Command {
         });
     }
 
+    /**
+     * Gets the color code for the higest role.
+     *
+     * @param  {Array} roles  The roles that should be used to get the color.
+     * @return {Integer}
+     */
     getEmbededColor(roles) {
         for (let index in roles) {
             let role = roles[index];
@@ -112,6 +129,12 @@ class ServerInfoCommand extends Command {
         return 0x686A6E;
     }
 
+    /**
+     * Gets and formats the guilds region.
+     *
+     * @param  {IGuild} guild  The guild that should be used to get the region.
+     * @return {String}
+     */
     getGuildRegion(guild) {
         let region = guild.region.split('-');
 

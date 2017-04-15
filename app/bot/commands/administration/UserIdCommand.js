@@ -3,7 +3,19 @@ const dot = require('dot-object');
 /** @ignore */
 const Command = require('./../Command');
 
-class ServerIdCommand extends Command {
+/**
+ * User ID Command, gets the user id of the
+ * current user, or the taged user.
+ *
+ * @extends {Command}
+ */
+class UserIdCommand extends Command {
+
+    /**
+     * Sets up the command by providing the prefix, command trigger, any
+     * aliases the command might have and additional options that
+     * might be usfull for the abstract command class.
+     */
     constructor() {
         super('.', 'userid', ['uid'], {
             allowDM: false,
@@ -30,4 +42,4 @@ class ServerIdCommand extends Command {
     }
 }
 
-module.exports = ServerIdCommand;
+module.exports = UserIdCommand;

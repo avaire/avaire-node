@@ -2,6 +2,12 @@
 const Command = require('./../Command');
 
 class CoinCommand extends Command {
+
+    /**
+     * Sets up the command by providing the prefix, command trigger, any
+     * aliases the command might have and additional options that
+     * might be usfull for the abstract command class.
+     */
     constructor() {
         super('>', 'coin', [], {
             description: 'Flips a coin for heads or tails for you'

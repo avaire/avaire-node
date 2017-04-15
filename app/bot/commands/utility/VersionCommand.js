@@ -4,6 +4,12 @@ let semverDiff = require('semver-diff');
 const Command = require('./../Command');
 
 class VersionCommand extends Command {
+
+    /**
+     * Sets up the command by providing the prefix, command trigger, any
+     * aliases the command might have and additional options that
+     * might be usfull for the abstract command class.
+     */
     constructor() {
         super('!', 'version', [], {
             description: 'Displays the current version of the bot and how many versions behind it is (if any)',

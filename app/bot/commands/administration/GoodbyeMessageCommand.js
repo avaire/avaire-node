@@ -1,9 +1,21 @@
 /** @ignore */
 const Command = require('./../Command');
 /** @ignore */
-const Module = require('./Module');
+const Module = require('./utils/ChannelModule');
 
+/**
+ * Goodbye Merssage Command, allows server managers to set the goodbye
+ * message that should be used when someone leaves the guild.
+ *
+ * @extends {Command}
+ */
 class GoodbyeMessageCommand extends Command {
+
+    /**
+     * Sets up the command by providing the prefix, command trigger, any
+     * aliases the command might have and additional options that
+     * might be usfull for the abstract command class.
+     */
     constructor() {
         super('.', 'goodbyemessage', ['byemsg'], {
             allowDM: false,

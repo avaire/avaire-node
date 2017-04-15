@@ -1,9 +1,21 @@
 /** @ignore */
 const Command = require('./../Command');
 /** @ignore */
-const Module = require('./Module');
+const Module = require('./utils/ChannelModule');
 
+/**
+ * Goodbye Command, allows server managers to toggle the
+ * goodbye module on or off for any given channel.
+ *
+ * @extends {Command}
+ */
 class GoodbyeCommand extends Command {
+
+    /**
+     * Sets up the command by providing the prefix, command trigger, any
+     * aliases the command might have and additional options that
+     * might be usfull for the abstract command class.
+     */
     constructor() {
         super('.', 'goodbye', ['bye'], {
             allowDM: false,

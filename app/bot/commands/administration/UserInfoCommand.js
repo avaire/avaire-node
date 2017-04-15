@@ -5,7 +5,19 @@ const moment = require('moment');
 /** @ignore */
 const Command = require('./../Command');
 
+/**
+ * User Info Command, displays information about
+ * the current user, or the taged user.
+ *
+ * @extends {Command}
+ */
 class UserInfoCommand extends Command {
+
+    /**
+     * Sets up the command by providing the prefix, command trigger, any
+     * aliases the command might have and additional options that
+     * might be usfull for the abstract command class.
+     */
     constructor() {
         super('.', 'userinfo', ['uinfo'], {
             allowDM: false,
@@ -70,13 +82,19 @@ class UserInfoCommand extends Command {
                 },
                 {
                     name: 'Servers',
-                    value: this.getUsersInGuild(user.id, message.guild.id),
+                    value: this.getUsersInGuild(user.id),
                     inline: true
                 }
             ]
         });
     }
 
+    /**
+     * Gets the color code for the higest role.
+     *
+     * @param  {Array} roles  The roles that should be used to get the color.
+     * @return {Integer}
+     */
     getEmbededColor(roles) {
         for (let index in roles) {
             let role = roles[index];
@@ -89,7 +107,14 @@ class UserInfoCommand extends Command {
         return 0x686A6E;
     }
 
-    getUsersInGuild(userId, guildId) {
+    /**
+     * Loops through all the guilds to try and see how
+     * many guilds the bot can find the user in.
+     *
+     * @param  {String} userId  The id of the user that should be found.
+     * @return {String}
+     */
+    getUsersInGuild(userId) {
         let servers = 0;
 
         bot.Guilds.forEach(guild => {
