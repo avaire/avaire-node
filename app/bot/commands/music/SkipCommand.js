@@ -41,6 +41,14 @@ class SkipCommand extends Command {
             return app.envoyer.sendWarn(message, 'commands.music.empty-playlist');
         }
 
+        if (!Music.isInSameVoiceChannelAsBot(message, sender)) {
+            return app.envoyer.sendWarn(message, 'commands.music.skip-while-not-in-channel').then(message => {
+                return app.scheduler.scheduleDelayedTask(() => {
+                    return message.delete().catch(err => app.logger.error(err));
+                }, 10000);
+            });
+        }
+
         Music.getPlaylist(message).shift();
         return Music.next(message);
     }

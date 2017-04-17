@@ -7,6 +7,7 @@
     "missing-connection": "Jeg er i øjeblikket ikke er forbundet til en talekanal.",
     "empty-playlist": "Afspilningslisten er allerede tom.",
     "volume-while-not-in-channel": "Du skal være tilsluttet kanalen jeg spiller musik i for at ændre lydstyrken.",
+    "skip-while-not-in-channel": "Du skal være tilsluttet kanalen jeg spiller musik i for at springe sangen over.",
     "disconnect-due-to-inactivity": "Afspilningslisten er afsluttet på grund af inaktivitet.",
 
     "require": {
