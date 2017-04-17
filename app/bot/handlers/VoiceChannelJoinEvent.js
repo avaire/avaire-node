@@ -17,6 +17,10 @@ class VoiceChannelJoinEvent extends EventHandler {
      * @return {mixed}
      */
     handle(socket) {
+        if (socket.user.bot && socket.user.id !== bot.User.id) {
+            return;
+        }
+
         let mockMessage = {
             guild: {id: socket.channel.guild_id}
         };
@@ -26,12 +30,7 @@ class VoiceChannelJoinEvent extends EventHandler {
             return;
         }
 
-        let connectedUsers = socket.channel.members;
-        if (connectedUsers.length === 1) {
-            return;
-        }
-
-        if (!VoiceChannelJoinEvent.prototype.isBotConnected(connectedUsers)) {
+        if (!VoiceChannelJoinEvent.prototype.isBotConnected(socket.channel.members)) {
             return;
         }
 
