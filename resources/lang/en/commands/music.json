@@ -30,5 +30,9 @@
         "resume-while-alone": "There must be atleast one other person in the voice channel to resume the music.",
         "paused": "The music has been `paused`",
         "resumed": "The music has been `resumed`"
+    },
+
+    "shuffle": {
+        "on-shuffle": "The playlist queue has now been shuffled."
     }
 }

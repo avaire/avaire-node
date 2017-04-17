@@ -30,5 +30,9 @@
         "resume-while-alone": "Der skal være mindst én anden person i kanalen for at genoptage musikken.",
         "paused": "Musikken er blivet `pauset`",
         "resumed": "Musikken er blivet `genoptage`"
+    },
+
+    "shuffle": {
+        "on-shuffle": "Afspilningslisten er nu blevet blandet."
     }
 }
