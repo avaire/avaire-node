@@ -23,7 +23,7 @@ class ShrugCommand extends Command {
      * @return {mixed}
      */
     onCommand(sender, message, args) {
-        return app.envoyer.sendSuccess(message, '¯\\_(ツ)_/¯');
+        return message.channel.sendMessage('¯\\_(ツ)_/¯');
     }
 }
 
