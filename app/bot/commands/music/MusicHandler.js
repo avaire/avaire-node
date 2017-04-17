@@ -260,6 +260,53 @@ class MusicHandler {
     }
 
     /**
+     * Checks to make sure the user is connected to the
+     * same voice channel the bot is connected to.
+     *
+     * @param  {IMessage}  message  The Discordie message object.
+     * @param  {IUser}     sender   The user who should used to check if they're in
+     *                              the same voice channel as the bot.
+     * @return {Boolean}
+     */
+    isInSameVoiceChannelAsBot(message, sender) {
+        let voiceChannel = this.getBotVoiceChannel(message);
+
+        if (voiceChannel === null) {
+            // Something went really wrong here, we should be connected but the bot wasen't
+            // found in any of the voice channels for the guild? What the fuck....
+            return false;
+        }
+
+        for (let i in voiceChannel.members) {
+            if (voiceChannel.members[i].id === sender.id) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Gets the voice channel the bot is connected to.
+     *
+     * @param  {IMessage}  message  The Discordie message object.
+     * @return {IVoiceChannel|null}
+     */
+    getBotVoiceChannel(message) {
+        for (let i in message.guild.voiceChannels) {
+            let voiceChannel = message.guild.voiceChannels[i];
+
+            for (let x in voiceChannel.members) {
+                if (voiceChannel.members[x].id === bot.User.id) {
+                    return voiceChannel;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * Sets the current paused state.
      *
      * @param  {IMessage}  message  The Discordie message object.

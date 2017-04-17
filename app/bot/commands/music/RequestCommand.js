@@ -45,6 +45,8 @@ class RequestCommand extends Command {
             return app.envoyer.sendError(message, 'commands.music.require.error');
         }
 
+        // Forces the bot into the same voice channel the user is connected to if the
+        // bot isn't already connected to a voice channel for the given guild.
         return Music.prepareVoice(message).then(() => {
             message.channel.sendTyping();
 
@@ -57,10 +59,14 @@ class RequestCommand extends Command {
                     url = song.webpage_url;
                 }
 
+                // Filters through all of the song formants to make sure all the song
+                // candidates is in a webm format and has an average audio bitrate
+                // that's suitable for streaming via Discord.
                 let formats = song.formats.filter(format => {
                     return format.ext === 'webm' && format.abr > 0;
                 }).sort((a, b) => a.abr - b.abr);
 
+                // Attempts to find the best bitrate audio version of the song.
                 let audio = formats.find(format => format.abr > 0 && !format.tbr) ||
                             formats.find(format => format.abr > 0);
 
@@ -70,6 +76,8 @@ class RequestCommand extends Command {
 
                 Music.addToPlaylist(message, song, url);
 
+                // If the playlist was empty before we'll force the bot to start
+                // playing the song that was just requested immediately.
                 if (playlistLength === 0) {
                     Music.next(message);
                     return message.delete();
@@ -87,6 +95,13 @@ class RequestCommand extends Command {
         }).catch(err => app.envoyer.sendWarn(message, err.message, err.placeholders));
     }
 
+    /**
+     * Attempts to fetch the song using the YouTubeDL library.
+     *
+     * @param  {IMessage}  message  The Discordie message object that triggered the command.
+     * @param  {String}    url      The URl of the song that should be fetched.
+     * @return {Promise}
+     */
     fetchSong(message, url) {
         return new Promise((resolve, reject) => {
             let parsedUrl = URL.parse(url);
@@ -96,6 +111,8 @@ class RequestCommand extends Command {
                 options.push('--add-header', 'Authorization:' + app.config.apiKeys.google);
             }
 
+            // If the host of the given URL is invalid, the "url" will be formated to use
+            // the YouTubeDl YouTube search format instead... What a sentence O.o
             if (parsedUrl.host === null) {
                 url = 'ytsearch:' + url;
             }

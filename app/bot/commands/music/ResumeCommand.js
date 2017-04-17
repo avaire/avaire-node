@@ -49,6 +49,12 @@ class ResumeCommand extends Command {
         return app.envoyer.sendSuccess(message, 'commands.music.pauseresume.resumed');
     }
 
+    /**
+     * Checks to see if the bot is alone in the voice channel.
+     *
+     * @param  {IMessage}  message  The Discordie message object that triggered the command.
+     * @return {Boolean}
+     */
     isAloneInVoiceChannel(message) {
         for (let i in message.guild.voiceChannels) {
             let voiceChannel = message.guild.voiceChannels[i];

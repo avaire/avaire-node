@@ -38,6 +38,7 @@ class PlaylistCommand extends Command {
             return this.sendPlaylistIsEmpty(message);
         }
 
+        // Begins building the embeded element that should be sent to the user.
         let song = playlist[0];
         let embed = {
             color: app.envoyer.colors.info,
@@ -51,6 +52,9 @@ class PlaylistCommand extends Command {
             ]
         };
 
+        // If the playlist has more than one song the additional songs will added to the
+        // embeded element showing the first six songs, and if there is more than six,
+        // a message about how many more songs in the queue there are.
         if (playlist.length > 1) {
             let queue = '';
 
@@ -82,12 +86,27 @@ class PlaylistCommand extends Command {
         });
     }
 
+    /**
+     * Send the music playlist is empty message, the
+     * message will delete itself after 6 seconds.
+     *
+     * @param  {IMessage}  message  The Discordie message object that triggered the command.
+     * @return {Promise}
+     */
     sendPlaylistIsEmpty(message) {
         return app.envoyer.sendWarn(message, 'commands.music.empty-playlist').then(m => {
             return app.scheduler.scheduleDelayedTask(() => m.delete(), 6000);
         });
     }
 
+    /**
+     * Gets the amount of time left of the current song.
+     *
+     * @param  {Number} played      The amount of time that has already been played.
+     * @param  {String} time        The formating duration of the song.
+     * @param  {Number} multiplier  The multiplier that should be used, defaults to 1.
+     * @return {String}
+     */
     getTimeLeft(played, time, multiplier = 1) {
         let split = time.split(':');
         let seconds = 0;

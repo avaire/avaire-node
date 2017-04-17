@@ -41,7 +41,7 @@ class ShuffleCommand extends Command {
             return app.envoyer.sendWarn(message, 'commands.music.empty-playlist');
         }
 
-        if (!this.isInSameVoiceChannelAsBot(message, sender)) {
+        if (!Music.isInSameVoiceChannelAsBot(message, sender)) {
             return app.envoyer.sendWarn(message, 'commands.music.volume-while-not-in-channel').then(message => {
                 return app.scheduler.scheduleDelayedTask(() => {
                     return message.delete().catch(err => app.logger.error(err));
@@ -52,6 +52,8 @@ class ShuffleCommand extends Command {
         let playlist = Music.getPlaylist(message);
         let index = playlist.length;
 
+        // Shuffles all but the first index in the playlist
+        // array, using the Fisher–Yates shuffle algorithm.
         while (index !== 0) {
             let random = Math.floor(Math.random() * index);
             index -= 1;
@@ -65,39 +67,8 @@ class ShuffleCommand extends Command {
         }
 
         Music.playlist[message.guild.id] = playlist;
+
         return app.envoyer.sendSuccess(message, 'commands.music.shuffle.on-shuffle');
-    }
-
-    isInSameVoiceChannelAsBot(message, sender) {
-        let voiceChannel = this.getBotVoiceChannel(message);
-
-        if (voiceChannel === null) {
-            // Something went really wrong here, we should be connected but the bot wasen't
-            // found in any of the voice channels for the guild? What the fuck....
-            return false;
-        }
-
-        for (let i in voiceChannel.members) {
-            if (voiceChannel.members[i].id === sender.id) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    getBotVoiceChannel(message) {
-        for (let i in message.guild.voiceChannels) {
-            let voiceChannel = message.guild.voiceChannels[i];
-
-            for (let x in voiceChannel.members) {
-                if (voiceChannel.members[x].id === bot.User.id) {
-                    return voiceChannel;
-                }
-            }
-        }
-
-        return null;
     }
 }
 
