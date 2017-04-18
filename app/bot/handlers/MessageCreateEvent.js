@@ -86,7 +86,7 @@ class MessageCreateEvent extends EventHandler {
                 stack = new GlobalMiddleware[index](stack, param, command);
             }
 
-            return stack.handle(socket, null, command);
+            return stack.handle(socket, stack.next.bind(stack), ...param);
         }
 
         for (let index in middlewareGroup) {
@@ -109,6 +109,7 @@ class MessageCreateEvent extends EventHandler {
 
         for (let index in GlobalMiddleware) {
             stack = new GlobalMiddleware[index](stack, param, command);
+            param = [];
         }
 
         return stack.handle(socket, stack.next.bind(stack), ...param);

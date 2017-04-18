@@ -16,7 +16,6 @@ class MaintenanceMiddleware extends Middleware {
      * @override
      * @param  {GatewaySocket} request  Discordie message create socket
      * @param  {Closure}       next     The next request in the stack
-     * @param  {Command}       command  The command that is about to be executed
      * @return {mixed}
      */
     handle(request, next) {
