@@ -40,6 +40,13 @@ class MusicHandler {
         this.channel = {};
 
         /**
+         * The people who have voted to skip the current song.
+         *
+         * @type {Object}
+         */
+        this.voteskips = {};
+
+        /**
          * A list of unnecessary properties that should be
          * removed if they're found in the song objects.
          *
@@ -77,23 +84,7 @@ class MusicHandler {
         song.requester = message.author;
         song.duration = this.formatDuration(song.duration);
 
-        if (!this.volume.hasOwnProperty(message.guild.id)) {
-            this.volume[message.guild.id] = 50;
-        }
-
-        if (!this.paused.hasOwnProperty(message.guild.id)) {
-            this.paused[message.guild.id] = false;
-        }
-
-        if (!this.channel.hasOwnProperty(message.guild.id)) {
-            this.channel[message.guild.id] = message.channel.id;
-        }
-
-        this.unnecessaryProperties.forEach(property => {
-            if (song.hasOwnProperty(property)) {
-                delete song[property];
-            }
-        });
+        song = this.prepareProperties(message, song);
 
         this.playlist[message.guild.id].push(song);
     }
@@ -146,6 +137,41 @@ class MusicHandler {
     }
 
     /**
+     * Populates the global music properties and remove unnecessary song items.
+     *
+     * @param  {IMessage}  message  The Discordie message object.
+     * @param  {Object}    song     The song object.
+     * @return {Object}
+     */
+    prepareProperties(message, song) {
+        let guildId = message.guild.id;
+
+        if (!this.volume.hasOwnProperty(guildId)) {
+            this.volume[guildId] = 50;
+        }
+
+        if (!this.paused.hasOwnProperty(guildId)) {
+            this.paused[guildId] = false;
+        }
+
+        if (!this.channel.hasOwnProperty(guildId)) {
+            this.channel[guildId] = message.channel.id;
+        }
+
+        if (!this.voteskips.hasOwnProperty(guildId)) {
+            this.voteskips[guildId] = [];
+        }
+
+        this.unnecessaryProperties.forEach(property => {
+            if (song.hasOwnProperty(property)) {
+                delete song[property];
+            }
+        });
+
+        return song;
+    }
+
+    /**
      * Loads the next song in the playlist, if the playlist is empty the
      * voice channel stream will be droped and the bot will disconnect.
      *
@@ -176,6 +202,8 @@ class MusicHandler {
 
                 return this.next(message, sendMessages);
             }
+
+            this.voteskips[message.guild.id] = [];
 
             let encoder = connection.voiceConnection.createExternalEncoder({
                 type: 'ffmpeg',
@@ -237,6 +265,30 @@ class MusicHandler {
             return 50;
         }
         return this.volume[message.guild.id];
+    }
+
+    /**
+     * Sets the voteskip list of users who have voted to skip
+     * the song currently playing for the given guild id.
+     *
+     * @param  {IMessage}  message    The Discordie message object.
+     * @param  {Array}     voteskips  The array of user ids that voted.
+     */
+    setVoteSkips(message, voteskips) {
+        this.voteskips[message.guild.id] = voteskips;
+    }
+
+    /**
+     * Gets the voteskip array of users for the given guild id.
+     *
+     * @param  {IMessage}  message  The Discordie message object.
+     * @return {Array}
+     */
+    getVoteSkips(message) {
+        if (!this.voteskips.hasOwnProperty(message.guild.id)) {
+            return [];
+        }
+        return this.voteskips[message.guild.id];
     }
 
     /**
@@ -424,6 +476,7 @@ class MusicHandler {
      * @param {String}  guildId  The id of the guild that should be deleted.
      */
     forcefullyDeletePlaylist(guildId) {
+        delete this.voteskips[guildId];
         delete this.playlist[guildId];
         delete this.channel[guildId];
         delete this.volume[guildId];

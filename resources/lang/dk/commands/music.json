@@ -35,5 +35,10 @@
 
     "shuffle": {
         "on-shuffle": "Afspilningslisten er nu blevet blandet."
+    },
+
+    "voteskip": {
+        "has-voted": "Du kan kun stemme en gang per sang! `:total` flere stemmer er nødvendige for at springe sangen over.",
+        "just-voted": "Din stemme er registreret! `:total` flere stemmer er nødvendige for at springe sangen over."
     }
 }

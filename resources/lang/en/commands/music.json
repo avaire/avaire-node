@@ -35,5 +35,10 @@
 
     "shuffle": {
         "on-shuffle": "The playlist queue has now been shuffled."
+    },
+
+    "voteskip": {
+        "has-voted": "You can only vote skip once per song! `:total` more votes needed to skip the song.",
+        "just-voted": "Your vote has been registered! `:total` more votes needed to skip the song."
     }
 }
