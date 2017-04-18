@@ -1,3 +1,4 @@
 module.exports = {
-    maintenance: require('./MaintenanceMiddleware')
+    maintenance: require('./MaintenanceMiddleware'),
+    module: require('./ModuleStatusMiddleware')
 };
