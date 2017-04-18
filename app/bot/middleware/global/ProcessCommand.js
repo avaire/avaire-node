@@ -1,7 +1,7 @@
 /** @ignore */
 const _ = require('lodash');
 /** @ignore */
-const Middleware = require('./Middleware');
+const Middleware = require('./../Middleware');
 
 /**
  * Processes the command, executing the command logic, this

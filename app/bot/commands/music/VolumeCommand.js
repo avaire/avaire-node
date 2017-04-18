@@ -29,10 +29,6 @@ class VolumeCommand extends Command {
      * @return {mixed}
      */
     onCommand(sender, message, args) {
-        if (app.bot.maintenance) {
-            return app.envoyer.sendWarn(message, 'Going down for maintenance, you can\'t change the volume right now!');
-        }
-
         if (args.length === 0) {
             return app.envoyer.sendWarn(message, 'language.errors.missing-arguments', {
                 command: this.getPrefix() + this.getTriggers()[0]

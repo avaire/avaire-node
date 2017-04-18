@@ -3,9 +3,11 @@ const _ = require('lodash');
 /** @ignore */
 const EventHandler = require('./EventHandler');
 /** @ignore */
+const GlobalMiddleware = require('./../middleware/global');
+/** @ignore */
 const CommandHandler = require('./../commands/CommandHandler');
 /** @ignore */
-const ProcessCommand = require('./../middleware/ProcessCommand');
+const ProcessCommand = require('./../middleware/global/ProcessCommand');
 
 /**
  * Emitted when a user sends a text message in any valid text channel in a guild.
@@ -80,6 +82,10 @@ class MessageCreateEvent extends EventHandler {
         let param = [];
 
         if (middlewareGroup.length === 0) {
+            for (let index in GlobalMiddleware) {
+                stack = new GlobalMiddleware[index](stack, param, command);
+            }
+
             return stack.handle(socket, null, command);
         }
 
@@ -99,6 +105,10 @@ class MessageCreateEvent extends EventHandler {
 
             stack = new app.bot.middleware[middleware](stack, param, command);
             param = args;
+        }
+
+        for (let index in GlobalMiddleware) {
+            stack = new GlobalMiddleware[index](stack, param, command);
         }
 
         return stack.handle(socket, stack.next.bind(stack), ...param);
