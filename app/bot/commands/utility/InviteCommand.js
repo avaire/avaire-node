@@ -25,7 +25,7 @@ class InviteCommand extends Command {
      * @return {mixed}
      */
     onCommand(sender, message, args) {
-        return app.envoyer.sendInfo(message, 'commands.general.invite.message', {
+        return app.envoyer.sendInfo(message, 'commands.utility.invite.message', {
             oauth: app.config.bot.oauth
         });
     }

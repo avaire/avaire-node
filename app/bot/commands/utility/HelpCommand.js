@@ -52,8 +52,8 @@ class HelpCommand extends Command {
     showCategories(sender, message) {
         return app.envoyer.sendEmbededMessage(message, {
             color: 0x3498DB,
-            title: `:scroll: ${app.lang.get(message, 'commands.general.help.module')}`,
-            description: '• ' + categories.join('\n• ') + '\n\n' + app.lang.get(message, 'commands.general.help.category-note')
+            title: `:scroll: ${app.lang.get(message, 'commands.utility.help.module')}`,
+            description: '• ' + categories.join('\n• ') + '\n\n' + app.lang.get(message, 'commands.utility.help.category-note')
         }, {
             command: this.getPrefix() + this.getTriggers()[0],
             category: _.toLower(categories[0])
@@ -71,7 +71,7 @@ class HelpCommand extends Command {
         });
 
         if (commands.length === 0) {
-            return app.envoyer.sendWarn(message, 'commands.general.help.category-doesnt-exists', {
+            return app.envoyer.sendWarn(message, 'commands.utility.help.category-doesnt-exists', {
                 category
             });
         }
@@ -96,10 +96,10 @@ class HelpCommand extends Command {
             fields.push(field);
         }
 
-        let listOfCommands = app.lang.get(message, 'commands.general.help.commands');
+        let listOfCommands = app.lang.get(message, 'commands.utility.help.commands');
         let randomCommandIndex = _.random(0, commands.length - 1);
         message.channel.sendMessage(':page_with_curl: **' + listOfCommands + ':** ```apache\n' + fields.join('\n') + '```');
-        return app.envoyer.sendInfo(message, 'commands.general.help.command-note', {
+        return app.envoyer.sendInfo(message, 'commands.utility.help.command-note', {
             prefix: commands[randomCommandIndex].prefix,
             trigger: commands[randomCommandIndex].triggers[0]
         });
@@ -108,7 +108,7 @@ class HelpCommand extends Command {
     showCommand(sender, message, args) {
         let command = CommandHandler.getCommand(args.join(' '));
         if (command === null) {
-            return app.envoyer.sendWarn(message, 'commands.general.help.command-doesnt-exists', {
+            return app.envoyer.sendWarn(message, 'commands.utility.help.command-doesnt-exists', {
                 command: args[0]
             });
         }
