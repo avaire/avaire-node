@@ -84,6 +84,18 @@ class Database {
 
         // Sets up the promise and fetches the database guild record from the database.
         return new Promise((resolve, reject) => {
+            let guild = bot.Guilds.find(item => item.id === guildId);
+            if (typeof guild === 'undefined') {
+                return reject(new Error(`Faild to find a guild the bot is connected to with an ID of ${guildId}`));
+            }
+
+            // If we don't have the guilds data stored in the cache we'll create a temporary fake guild
+            // cache so any requests for the guild that might come in right after won't attempt to
+            // create multiple rows if the guild doesn't already have a row in the database.
+            if (!Cache.has(token)) {
+                this.fakeGuildData(token, guild.id, guild.owner_id, guild.name);
+            }
+
             this.getClient().select().from(app.constants.GUILD_TABLE_NAME)
                 .where('id', guildId)
                 .then(response => {
@@ -94,21 +106,12 @@ class Database {
                     // transformer, as well as inserting a new record into the database
                     // so we can find the guild on the next call to the database.
                     if (response.length <= 0) {
-                        let guild = bot.Guilds.filter(item => {
-                            return item.id === guildId;
-                        });
-
-                        if (guild.length <= 0) {
-                            return reject(new Error(`Faild to find a guild the bot is connected to with an ID of ${guildId}`));
-                        }
-
                         // Sets up our default guild transformer and stores it in the cache for 5 minutes.
-                        guild = guild[0];
                         Cache.put(token, new GuildTransformer({
                             id: guild.id,
                             owner: guild.owner_id,
                             name: guild.name
-                        }), 300);
+                        }), 500);
 
                         this.insert(app.constants.GUILD_TABLE_NAME, {
                             id: guild.id,
@@ -116,7 +119,7 @@ class Database {
                             name: guild.name
                         });
                     } else {
-                        Cache.put(token, new GuildTransformer(response[0]), 300);
+                        Cache.put(token, new GuildTransformer(response[0]), 500);
                     }
 
                     // Resolves the guild transformer from the cache.
@@ -176,6 +179,21 @@ class Database {
                 return resolve(app.bot.statistics.databaseQueries++);
             }).catch(err => app.logger.error(err));
         });
+    }
+
+    /**
+     * Creates a temporary fake guild data cache, lasting for 5 seconds.
+     *
+     * @param  {String}  token  The token that the cache should be stored under.
+     * @param  {String}  id     The ID of the guild.
+     * @param  {String}  owner  The ID of the owner of the guild.
+     * @param  {String}  name   The name of the guild.
+     * @return {Boolean}
+     */
+    fakeGuildData(token, id, owner, name) {
+        return Cache.put(token, new GuildTransformer({
+            id, owner, name
+        }), 5);
     }
 }
 

@@ -13,6 +13,8 @@ exports.up = function (knex, Promise) {
         table.string('local').nullable();
         table.json('channels');
         table.timestamps();
+
+        table.collate('utf8_unicode_ci');
     });
 };
 
