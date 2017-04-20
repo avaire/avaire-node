@@ -17,7 +17,7 @@ class ReloadCommand extends Command {
     constructor() {
         super(';', 'reload', ['rload'], {
             description: 'Reloads the given property',
-            usage: '[property]',
+            usage: '<property>',
             middleware: [
                 'isBotAdmin'
             ]

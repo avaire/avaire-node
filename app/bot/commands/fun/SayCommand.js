@@ -10,7 +10,11 @@ class RollCommand extends Command {
      */
     constructor() {
         super('>', 'say', ['echo'], {
-            description: 'I will say anything you want'
+            description: 'I will say anything you want',
+            usage: '[message]',
+            middleware: [
+                'throttle.user:2,4'
+            ]
         });
     }
 

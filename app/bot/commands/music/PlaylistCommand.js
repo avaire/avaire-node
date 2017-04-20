@@ -13,10 +13,10 @@ class PlaylistCommand extends Command {
     constructor() {
         super('!', 'playlist', ['list'], {
             allowDM: false,
+            description: 'Lists all the song currently in the playlist.',
             middleware: [
                 'throttle.user:2,5'
-            ],
-            description: 'Lists all the song currently in the playlist.'
+            ]
         });
     }
 

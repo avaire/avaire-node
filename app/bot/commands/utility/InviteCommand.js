@@ -11,7 +11,7 @@ class InviteCommand extends Command {
     constructor() {
         super('!', 'invite', ['join'], {
             description: [
-                'Tells you about what commands the bot has, what they do and how you can use them.'
+                'Gives you the OAuth2 invite link you can use to invite the bot with.'
             ]
         });
     }

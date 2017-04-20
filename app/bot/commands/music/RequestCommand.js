@@ -17,13 +17,13 @@ class RequestCommand extends Command {
     constructor() {
         super('!', 'request', ['play'], {
             allowDM: false,
-            middleware: [
-                'throttle.user:2,5'
-            ],
             description: 'Use this to request songs from youtube, soundcloud or twitch streams.',
             usage: [
                 '<link>',
                 '<name of song>'
+            ],
+            middleware: [
+                'throttle.user:2,5'
             ]
         });
     }

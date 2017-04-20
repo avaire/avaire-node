@@ -13,10 +13,10 @@ class ShuffleCommand extends Command {
     constructor() {
         super('!', 'shuffle', [], {
             allowDM: false,
+            description: 'Use this to shuffle the songs waiting in the playlist queue.',
             middleware: [
                 'throttle.channel:2,4'
-            ],
-            description: 'Use this to shuffle the songs waiting in the playlist queue.'
+            ]
         });
     }
 

@@ -16,6 +16,8 @@ class ModuleEnableCommand extends Command {
      */
     constructor() {
         super(';', 'me', [], {
+            description: 'Enables a given module.',
+            usage: '<module>',
             middleware: [
                 'isBotAdmin'
             ]

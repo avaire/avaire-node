@@ -13,10 +13,10 @@ class PauseCommand extends Command {
     constructor() {
         super('!', 'pause', [], {
             allowDM: false,
+            description: 'Pauses the song that is currently playing.',
             middleware: [
                 'throttle.channel:2,5'
-            ],
-            description: 'Pauses the song that is currently playing.'
+            ]
         });
     }
 

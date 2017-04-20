@@ -14,6 +14,9 @@ class RebootCommand extends Command {
      */
     constructor() {
         super(';', 'reboot', ['restart'], {
+            description: [
+                'Reboots the bot and all of its processes.'
+            ],
             middleware: [
                 'isBotAdmin'
             ]

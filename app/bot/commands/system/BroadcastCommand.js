@@ -22,9 +22,7 @@ class BroadcastCommand extends Command {
     constructor() {
         super(';', 'broadcast', ['bc'], {
             description: 'Prepares a broadcast message and returns hash ID of the message, as well as how it\'s going to look like, to send the message use `;broadcastsend <hash>`',
-            usage: [
-                '[message]'
-            ],
+            usage: '<message>',
             middleware: [
                 'isBotAdmin'
             ]

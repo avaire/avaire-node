@@ -10,6 +10,8 @@ class BotListRemoveCommand extends Command {
      */
     constructor() {
         super(';', 'bar', [], {
+            description: 'Removes a bot admin from the bot-admin list.',
+            usage: '<user>',
             middleware: [
                 'isBotAdmin'
             ]

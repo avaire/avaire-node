@@ -20,9 +20,7 @@ class KickCommand extends Command {
         super('.', 'kick', [], {
             allowDM: false,
             description: 'Kicks the mentioned user off the server with the provided reason, this action will be reported to any channel that has modloging enabled on the server.',
-            usage: [
-                '<user> [reason]'
-            ],
+            usage: '<user> [reason]',
             middleware: [
                 'throttle.user:2,5',
                 'require:general.kick_members'

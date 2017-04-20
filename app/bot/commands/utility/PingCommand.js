@@ -10,6 +10,7 @@ class PingCommand extends Command {
      */
     constructor() {
         super('!', 'ping', ['pingme'], {
+            description: 'Ping, Pong',
             middleware: [
                 'throttle.user:2,5'
             ]

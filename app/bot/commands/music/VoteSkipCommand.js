@@ -13,10 +13,10 @@ class SkipCommand extends Command {
     constructor() {
         super('!', 'voteskip', ['vskip'], {
             allowDM: false,
+            description: 'Use this to vote to skip a song if you\'re not enjoing it.',
             middleware: [
                 'throttle.user:2,5'
-            ],
-            description: 'Use this to vote to skip a song if you\'re not enjoing it.'
+            ]
         });
     }
 

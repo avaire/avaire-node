@@ -12,7 +12,15 @@ class RollCommand extends Command {
      */
     constructor() {
         super('>', 'roll', [], {
-            description: 'Rolls a random number or a set of D&D dice.'
+            description: 'Rolls a random number or a set of D&D dice.',
+            usage: [
+                '',
+                '[min] [max]',
+                '[D&D eg 4D8]'
+            ],
+            middleware: [
+                'throttle.user:2,4'
+            ]
         });
     }
 

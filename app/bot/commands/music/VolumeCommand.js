@@ -13,10 +13,10 @@ class VolumeCommand extends Command {
     constructor() {
         super('!', 'volume', ['vol'], {
             allowDM: false,
+            description: 'Use this to change the volume of the music that\'s playing.',
             middleware: [
                 'throttle.channel:2,4'
-            ],
-            description: 'Use this to change the volume of the music that\'s playing.'
+            ]
         });
     }
 

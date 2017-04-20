@@ -23,9 +23,7 @@ class SoftbanCommand extends Command {
         super('.', 'softban', ['sban'], {
             allowDM: false,
             description: 'Bans the mentioned user off the server with the provided reason, this action will be reported to any channel that has modloging enabled on the server.',
-            usage: [
-                '<user> [reason]'
-            ],
+            usage: '<user> [reason]',
             middleware: [
                 'throttle.user:2,5',
                 'require:general.ban_members'
