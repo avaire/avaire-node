@@ -156,13 +156,13 @@ class Envoyer {
         // embed object looks like a language string, the description of the embed object
         // will be replaced by the language specific equivalent of the language string.
         if (channel.constructor.name === 'IMessage' && this.isLangString(message)) {
-            message = app.lang.get(channel, message, placeholders);
+            return app.lang.get(channel, message, placeholders);
         } else if (channel.constructor.name === 'IMessage') {
             placeholders = app.lang.addDefaultPlacehodlers(channel, placeholders);
+        }
 
-            for (let token in placeholders) {
-                message = _.replace(message, new RegExp(`:${token}`, 'gm'), placeholders[token]);
-            }
+        for (let token in placeholders) {
+            message = _.replace(message, new RegExp(`:${token}`, 'gm'), placeholders[token]);
         }
 
         return message;
