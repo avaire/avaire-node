@@ -34,6 +34,13 @@ _.each(app.bot.handlers, (Handler, key) => {
     });
 });
 
+process.on('unhandledRejection', (reason, p) => {
+    if (app.config.environment === 'production') {
+        return app.logger.debug(`Unhandled promise: ${require('util').inspect(p, {depth: 3})}: ${reason}`);
+    }
+    return app.logger.info(`Unhandled promise: ${require('util').inspect(p, {depth: 3})}: ${reason}`);
+});
+
 app.bot.jobs = {};
 let jobs = directory(module, './app/bot/jobs');
 app.logger.info(` - Registering ${Object.keys(jobs).length - 1} jobs`);
