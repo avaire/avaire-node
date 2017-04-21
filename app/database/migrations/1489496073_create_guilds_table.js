@@ -9,7 +9,7 @@ exports.up = function (knex, Promise) {
     return knex.schema.createTable(app.constants.GUILD_TABLE_NAME, table => {
         table.string('id').unique();
         table.string('owner');
-        table.string('name');
+        table.string('name').collate('utf8mb4_unicode_ci');
         table.string('local').nullable();
         table.json('channels');
         table.timestamps();
