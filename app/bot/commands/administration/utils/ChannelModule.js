@@ -76,6 +76,10 @@ class ChannelModule {
             return app.database.getGuild(message.guild.id).then(transformer => {
                 let channel = transformer.getChannel(message.channel.id);
 
+                if (transformer.data.channels === null) {
+                    transformer.data.channels = {};
+                }
+
                 transformer.data.channels[message.channel.id] = channel.all();
 
                 return resolve({guild: transformer, channel});
