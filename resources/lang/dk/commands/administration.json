@@ -18,6 +18,8 @@
         "messages": {
             "set-message": "`:module` module beskeden er blevet sat til:\n\n`:message`",
             "set-default": "`:module` module beskeden er blevet sat tilbage til standard."
-        }
+        },
+        "slowmode-enabled": "Meddelelser er nu begrænset til :limit besked(er) hver :decay sekunder.",
+        "slowmode-require-ints": "Ugyldigt heltal givet, `:field` skal være et positivt heltal!"
     }
 }

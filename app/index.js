@@ -10,6 +10,7 @@ module.exports = {
     cache: require('./utils/cache/CacheManager'),
     throttle: require('./utils/throttle/Throttle'),
     scheduler: require('./utils/scheduler/Scheduler'),
+    permission: require('./utils/permission/Permission'),
     configLoader: require('./utils/config/ConfigLoader'),
 
     // Bot Version

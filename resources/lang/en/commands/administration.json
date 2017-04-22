@@ -18,6 +18,8 @@
         "messages": {
             "set-message": "The `:module` module message has been set to:\n\n`:message`",
             "set-default": "The `:module` modules message has been set back to the default message."
-        }
+        },
+        "slowmode-enabled": "Messages are now limited to :limit message(s) every :decay seconds.",
+        "slowmode-require-ints": "Invalid integer given, the `:field` must be a positive integer!"
     }
 }

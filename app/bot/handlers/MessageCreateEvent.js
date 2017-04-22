@@ -8,6 +8,8 @@ const GlobalMiddleware = require('./../middleware/global');
 const CommandHandler = require('./../commands/CommandHandler');
 /** @ignore */
 const ProcessCommand = require('./../middleware/global/ProcessCommand');
+/** @ignore */
+const ChannelModule = require('./../commands/administration/utils/ChannelModule');
 
 /**
  * Emitted when a user sends a text message in any valid text channel in a guild.
@@ -37,32 +39,42 @@ class MessageCreateEvent extends EventHandler {
             return;
         }
 
-        let message = socket.message.content;
-        let command = CommandHandler.getCommand(message);
+        // Loads the guild and channel from the database so they can be used later.
+        return ChannelModule.getChannel(socket.message).then(({guild, channel}) => {
+            // Checks if slowmode is enabled for the given channel in the current guild, if it
+            // is enabled and the user has exceeded the message limit the users message will
+            // be deleted without triggering any of the command or service logic.
+            if (channel.get('slowmode.enabled', false) && !app.permission.requestHas(socket, 'text.manage_messages')) {
+                let fingerprint = `slowmode.${socket.message.guild.id}.${socket.message.channel.id}.${socket.message.author.id}`;
+                let limit = channel.get('slowmode.messagesPerLimit', 1);
+                let decay = channel.get('slowmode.messageLimit', 5);
 
-        // Checks to see if a valid command was found from the message context, if a
-        // command was found the onCommand method will be called for the handler.
-        if (command !== null) {
-            return MessageCreateEvent.prototype.processCommand(socket, command);
-        }
+                if (!app.throttle.can(fingerprint, limit, decay)) {
+                    return socket.message.delete();
+                }
+            }
 
-        // Checks to see if the bot was taged in the message and if AI messages in enabled,
-        // if AI messages is enabled the message will be passed onto the AI handler.
-        if (app.service.ai.isEnabled && message.hasBot()) {
-            return app.database.getGuild(socket.message.guild.id).then(transformer => {
-                let channel = transformer.getChannel(socket.message.channel.id);
+            let message = socket.message.content;
+            let command = CommandHandler.getCommand(message);
 
+            // Checks to see if a valid command was found from the message context, if a
+            // command was found the onCommand method will be called for the handler.
+            if (command !== null) {
+                return MessageCreateEvent.prototype.processCommand(socket, command);
+            }
+
+            // Checks to see if the bot was taged in the message and if AI messages in enabled,
+            // if AI messages is enabled the message will be passed onto the AI handler.
+            if (app.service.ai.isEnabled && message.hasBot()) {
                 if (channel.get('ai.enabled', false)) {
                     return app.service.ai.textRequest(socket, message);
                 }
-            }).catch(err => app.logger.error(
-                `Attempted to get AI status for channel "${socket.message.channel.id}" in guild "${socket.message.guild.id}" but failed due to an error: ` + err
-            ));
-        }
+            }
 
-        if (socket.message.isPrivate) {
-            return MessageCreateEvent.prototype.sendInformationMessage(socket);
-        }
+            if (socket.message.isPrivate) {
+                return MessageCreateEvent.prototype.sendInformationMessage(socket);
+            }
+        });
     }
 
     /**
