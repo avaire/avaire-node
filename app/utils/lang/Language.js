@@ -69,7 +69,7 @@ class Language {
      * @return {String|undefined}
      */
     get(message, string, replacements) {
-        let guildLocal = this.getLocal(message);
+        let guildLocal = this.getLocal(message, message.isPrivate);
         let langEntity = this.findLangEntity(`${guildLocal}.${string.trim().toLowerCase()}`);
 
         return this.formatResponse(message, langEntity, replacements);

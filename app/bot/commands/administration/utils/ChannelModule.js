@@ -1,3 +1,6 @@
+/** @ignore */
+const ChannelTransformer = require('./../../../../database/transformers/ChannelTransformer');
+
 class ChannelModule {
 
     /**
@@ -72,6 +75,17 @@ class ChannelModule {
      * @return {Promise}
      */
     getChannel(message) {
+        if (message.isPrivate) {
+            return new Promise((resolve, reject) => {
+                return resolve({
+                    guild: null,
+                    channel: new ChannelTransformer({
+                        name: 'Private Channel'
+                    })
+                });
+            });
+        }
+
         return new Promise((resolve, reject) => {
             return app.database.getGuild(message.guild.id).then(transformer => {
                 let channel = transformer.getChannel(message.channel.id);

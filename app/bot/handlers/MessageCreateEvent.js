@@ -44,7 +44,7 @@ class MessageCreateEvent extends EventHandler {
             // Checks if slowmode is enabled for the given channel in the current guild, if it
             // is enabled and the user has exceeded the message limit the users message will
             // be deleted without triggering any of the command or service logic.
-            if (channel.get('slowmode.enabled', false) && !app.permission.requestHas(socket, 'text.manage_messages')) {
+            if (!socket.message.isPrivate && channel.get('slowmode.enabled', false) && !app.permission.requestHas(socket, 'text.manage_messages')) {
                 let fingerprint = `slowmode.${socket.message.guild.id}.${socket.message.channel.id}.${socket.message.author.id}`;
                 let limit = channel.get('slowmode.messagesPerLimit', 1);
                 let decay = channel.get('slowmode.messageLimit', 5);
@@ -149,6 +149,8 @@ class MessageCreateEvent extends EventHandler {
         if (app.service.ai.isEnabled) {
             message.push(`You can tag me in a message with <@${bot.User.id}> to send me a message that I should process using my AI`);
         }
+
+        message.push(`\n**Full list of commands**\nhttp://avaire.senither.com/docs/commands`);
 
         message.push('\nAvaIre Support Server: https://discord.gg/gt2FWER');
         return app.envoyer.sendNormalMessage(socket.message, message.join('\n'), {
