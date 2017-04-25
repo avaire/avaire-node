@@ -79,13 +79,18 @@ class RuntimeStatisticsCommand extends Command {
                     inline: true
                 },
                 {
-                    name: 'Voice Connections',
+                    name: 'Active Voice',
                     value: bot.VoiceConnections.length,
                     inline: true
                 },
                 {
                     name: 'Messages Received',
                     value: app.bot.statistics.messages,
+                    inline: true
+                },
+                {
+                    name: 'Uptime',
+                    value: this.getProcessUptime(),
                     inline: true
                 }
             ],
@@ -143,6 +148,30 @@ class RuntimeStatisticsCommand extends Command {
 
         return parseFloat((memoryInBytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
     }
+
+    getProcessUptime() {
+        let seconds = process.uptime();
+
+        let d = Math.floor(seconds / 86400);
+        let h = Math.floor((seconds % 86400) / 3600);
+        let m = Math.floor(((seconds % 86400) % 3600) / 60);
+        let s = Math.floor(((seconds % 86400) % 3600) % 60);
+
+        if (d > 0) {
+            return `${d}d ${h}h ${m}m ${s}s`;
+        }
+
+        if (h > 0) {
+            return `${h}h ${m}m ${s}s`;
+        }
+
+        if (m > 0) {
+            return `${m}m ${s}s`;
+        }
+
+        return `${s}s`;
+    }
+
 }
 
 module.exports = RuntimeStatisticsCommand;
