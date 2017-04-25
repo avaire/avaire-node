@@ -31,11 +31,15 @@ class RollCommand extends Command {
             return message.channel.sendMessage(args.join(' '));
         }
 
+        if (!app.permission.botHas(message, 'text.manage_messages')) {
+            return app.envoyer.sendWarn(message, 'language.errors.require-bot-missing', {
+                permission: 'text.manage_messages'
+            });
+        }
+
         message.delete().then(() => {
-            message.channel.sendMessage(args.join(' '));
-        }).catch(err => {
-            app.logger.error(err);
-        });
+            return app.envoyer.sendNormalMessage(message, args.join(' '));
+        }).catch(err => app.logger.error(err));
     }
 }
 
