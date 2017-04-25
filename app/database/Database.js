@@ -85,7 +85,8 @@ class Database {
         // Sets up the promise and fetches the database guild record from the database.
         return new Promise((resolve, reject) => {
             let guild = bot.Guilds.find(item => item.id === guildId);
-            if (typeof guild === 'undefined') {
+
+            if (typeof guild === 'undefined' || guild === null) {
                 return reject(new Error(`Faild to find a guild the bot is connected to with an ID of ${guildId}`));
             }
 

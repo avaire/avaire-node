@@ -92,6 +92,10 @@ class Language {
             return this.defaultLocal;
         }
 
+        if (guildId.constructor.name === 'IMessage') {
+            guildId = guildId.guild.id;
+        }
+
         // If the memory cach has the guild transformer we'll fetch
         // it from the cache, get the local from it and store
         // it in the guildLocalCache array for later use.
