@@ -120,7 +120,17 @@ class Envoyer {
             embed.description = this.prepareMessage(channel, embed.description, placeholders);
         }
 
-        return this.prepareChannel(channel).sendMessage('', false, embed);
+        return new Promise((resolve, reject) => {
+            return this.prepareChannel(channel).sendMessage('', false, embed)
+                .then(sentMessage => resolve(sentMessage))
+                .catch(err => {
+                    if (this.handleError(channel, err, {resolve, reject}, ['', false, embed])) {
+                        return;
+                    }
+
+                    return reject(err);
+                });
+        });
     }
 
     /**
@@ -135,9 +145,19 @@ class Envoyer {
      * @return {Promise}
      */
     sendNormalMessage(channel, message, placeholders) {
-        return this.prepareChannel(channel).sendMessage(
-            this.prepareMessage(channel, message, placeholders)
-        );
+        return new Promise((resolve, reject) => {
+            return this.prepareChannel(channel).sendMessage(
+                this.prepareMessage(channel, message, placeholders)
+            )
+            .then(sentMessage => resolve(sentMessage))
+            .catch(err => {
+                if (this.handleError(message, err, {resolve, reject}, [message])) {
+                    return;
+                }
+
+                return reject(err);
+            });
+        });
     }
 
     /**
@@ -177,7 +197,7 @@ class Envoyer {
      * @return {ITextChannel}
      */
     prepareChannel(channel) {
-        return (channel.constructor.name === 'IMessage') ? channel.channel : channel;
+        return (this.isMessageObject(channel)) ? channel.channel : channel;
     }
 
     /**
@@ -200,6 +220,32 @@ class Envoyer {
     }
 
     /**
+     * [handleError description]
+     * @param  {IMessage|ITextChannel}  message     The IMessage or ITextChannel object from Discordies event emitter.
+     * @param  {Error}                  err         The error that should be handled.
+     * @param  {Object}                 promise     The promise functions.
+     * @param  {Array}                  messageArr  The arguments that was parsed to the sendMessage that caused the error.
+     * @return {Boolean}
+     */
+    handleError(message, err, promise, messageArr) {
+        if (this.isMissingPermissions(err)) {
+            if (this.isMessageObject(message) && !message.isPrivate) {
+                messageArr[0] = 'I can\'t send messages in the channel you ran the command in, heres the result instead.\n' + messageArr[0];
+
+                return message.author.openDM().then(directMessage => {
+                    return directMessage.sendMessage(...messageArr)
+                        .then(sentMessage => promise.resolve(sentMessage))
+                        .catch(err => promise.catch(err));
+                }).catch(error => promise.reject(error));
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * Checks if the provided string looks like a language string by making
      * sure it doesn't contain any spaces or new lines, and contains
      * atleast one dot but doesn't start or ends with a dot.
@@ -213,6 +259,32 @@ class Envoyer {
                string.indexOf('.') !== -1 &&
                string.substr(0, 1) !== '.' &&
                string.substr(-1) !== '.';
+    }
+
+    /**
+     * Checks if the given object is a IMessage object.
+     *
+     * @param  {Object}  object  The object should be checked.
+     * @return {Boolean}
+     */
+    isMessageObject(object) {
+        if (object === undefined || object === null) {
+            // Something went really wrong if we got to this
+            // point but atleast we have a check for it.
+            return false;
+        }
+
+        return object.constructor.name === 'IMessage';
+    }
+
+    /**
+     * Checks if the given error is caused because of missing permissions.
+     *
+     * @param  {Error}  error  The error that should be checked.
+     * @return {Boolean}
+     */
+    isMissingPermissions(error) {
+        return error.status === 403 && error.message.indexOf('Missing Permissions') > -1;
     }
 }
 
