@@ -146,17 +146,17 @@ class Envoyer {
      */
     sendNormalMessage(channel, message, placeholders) {
         return new Promise((resolve, reject) => {
-            return this.prepareChannel(channel).sendMessage(
-                this.prepareMessage(channel, message, placeholders)
-            )
-            .then(sentMessage => resolve(sentMessage))
-            .catch(err => {
-                if (this.handleError(message, err, {resolve, reject}, [message])) {
-                    return;
-                }
+            message = this.prepareMessage(channel, message, placeholders);
 
-                return reject(err);
-            });
+            return this.prepareChannel(channel).sendMessage(message)
+                .then(sentMessage => resolve(sentMessage))
+                .catch(err => {
+                    if (this.handleError(channel, err, {resolve, reject}, [message])) {
+                        return;
+                    }
+
+                    return reject(err);
+                });
         });
     }
 
