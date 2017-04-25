@@ -35,7 +35,7 @@ _.each(app.bot.handlers, (Handler, key) => {
 });
 
 process.on('unhandledRejection', (reason, p) => {
-    if (app.config.environment === 'production') {
+    if (isEnvironmentInProduction()) {
         return app.logger.debug(`Unhandled promise: ${require('util').inspect(p, {depth: 3})}: ${reason}`);
     }
     return app.logger.info(`Unhandled promise: ${require('util').inspect(p, {depth: 3})}: ${reason}`);
