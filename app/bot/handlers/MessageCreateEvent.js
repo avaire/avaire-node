@@ -32,13 +32,6 @@ class MessageCreateEvent extends EventHandler {
             return;
         }
 
-        // If the message was sent from one of the official discord servers(Discord API, Discord Developers etc...)
-        // and the user who sent the message isn't a bot administrator we'll kill the event to prevent spamming
-        // chat when other users might use a command that matches a command from another bot.
-        if (!MessageCreateEvent.prototype.shouldContinue(socket)) {
-            return;
-        }
-
         // Loads the guild and channel from the database so they can be used later.
         return ChannelModule.getChannel(socket.message).then(({guild, channel}) => {
             // Checks if slowmode is enabled for the given channel in the current guild, if it
@@ -156,65 +149,6 @@ class MessageCreateEvent extends EventHandler {
         return app.envoyer.sendNormalMessage(socket.message, message.join('\n'), {
             oauth: app.config.bot.oauth
         });
-    }
-
-    /**
-     * Checks to see if the event process should continue, if the message was sent in one
-     * of the official Discord servers and the user who sent the message isn't a bot
-     * administrator we'll kill the event be returning false.
-     *
-     * @param  {GatewaySocket} socket   The Discordie gateway socket
-     * @return {Boolean}
-     */
-    shouldContinue(socket) {
-        if (socket.message.isPrivate) {
-            return true;
-        }
-
-        if (!MessageCreateEvent.prototype.isOfficialDiscordServer(socket)) {
-            return true;
-        }
-
-        return MessageCreateEvent.prototype.isBotOrServerAdmin(socket);
-    }
-
-    /**
-     * Checks the guild to see it matches any of the official Discord guild IDs.
-     *
-     * @param  {GatewaySocket} socket   The Discordie gateway socket
-     * @return {Boolean}
-     */
-    isOfficialDiscordServer(socket) {
-        switch (socket.message.guild.id) {
-            case '81384788765712384':  // Discord API
-            case '110373943822540800': // Discord Bots
-                return true;
-
-            default:
-                return false;
-        }
-    }
-
-    /**
-     * Checks if the users id is in the "botAccess" property in the config.json file
-     * or if the user has the MANAGE_SERVER permission node for the given guild.
-     *
-     * @param  {GatewaySocket} socket   The Discordie gateway socket
-     * @return {Boolean}             Returns ture if the user is a bot admin or server admin
-     */
-    isBotOrServerAdmin(socket) {
-        for (let index in app.config.botAccess) {
-            if (socket.message.author.id === app.config.botAccess[index]) {
-                return true;
-            }
-        }
-
-        let permmission = app.bot.permissions['general.manage_server'];
-
-        let guildPermissions = socket.message.author.permissionsFor(socket.message.guild);
-        let channelPermissions = socket.message.author.permissionsFor(socket.message.channel);
-
-        return guildPermissions[permmission[0]][permmission[1]] || channelPermissions[permmission[0]][permmission[1]];
     }
 }
 
