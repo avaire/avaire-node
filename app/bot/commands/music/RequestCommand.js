@@ -23,6 +23,7 @@ class RequestCommand extends Command {
                 '<name of song>'
             ],
             middleware: [
+                'require:text.send_messages',
                 'throttle.user:2,5'
             ]
         });
@@ -76,13 +77,13 @@ class RequestCommand extends Command {
                 // playing the song that was just requested immediately.
                 if (playlistLength === 0) {
                     Music.next(message);
-                    return message.delete();
+                    return this.deleteMessage(message);
                 }
 
                 app.envoyer.sendInfo(message, 'commands.music.require.added-song', {
                     title: song.title,
                     link: url
-                }).then(() => message.delete());
+                }).then(() => this.deleteMessage(message));
             }).catch(err => {
                 app.logger.error('Failed to add a song to the music playlist: ', err);
 
@@ -121,6 +122,19 @@ class RequestCommand extends Command {
                 return resolve(song);
             });
         });
+    }
+
+    /**
+     * Deletes the given message if the bot has permissions to delete messages.
+     *
+     * @param  {IMessage}  message  The Discordie message object that triggered the command.
+     * @return {Promise}
+     */
+    deleteMessage(message) {
+        if (app.permission.botHas(message, 'text.manage_messages')) {
+            return message.delete();
+        }
+        return Promise.resolve();
     }
 }
 

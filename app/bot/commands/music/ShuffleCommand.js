@@ -15,6 +15,7 @@ class ShuffleCommand extends Command {
             allowDM: false,
             description: 'Use this to shuffle the songs waiting in the playlist queue.',
             middleware: [
+                'require:text.send_messages',
                 'throttle.channel:2,4'
             ]
         });

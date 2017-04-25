@@ -15,6 +15,7 @@ class ResumeCommand extends Command {
             allowDM: false,
             description: 'Pauses the song that is currently playing.',
             middleware: [
+                'require:text.send_messages',
                 'throttle.channel:2,5'
             ]
         });

@@ -15,6 +15,7 @@ class VolumeCommand extends Command {
             allowDM: false,
             description: 'Use this to change the volume of the music that\'s playing.',
             middleware: [
+                'require:text.send_messages',
                 'throttle.channel:2,4'
             ]
         });

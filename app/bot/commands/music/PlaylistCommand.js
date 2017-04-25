@@ -15,6 +15,7 @@ class PlaylistCommand extends Command {
             allowDM: false,
             description: 'Lists all the song currently in the playlist.',
             middleware: [
+                'require:text.send_messages',
                 'throttle.user:2,5'
             ]
         });
