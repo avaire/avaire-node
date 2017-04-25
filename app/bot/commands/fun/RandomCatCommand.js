@@ -33,10 +33,10 @@ class RandomCatCommand extends Command {
                 try {
                     let parsed = JSON.parse(body);
 
-                    message.channel.sendMessage(parsed.file);
+                    return app.envoyer.sendNormalMessage(message, `<@:userid> ${parsed.file}`);
                 } catch (err) {
-                    message.channel.sendMessage('The API returned an unconventional response.');
                     app.logger.error(err);
+                    return app.envoyer.sendNormalMessage(message, 'The API returned an unconventional response.');
                 }
             }
         });

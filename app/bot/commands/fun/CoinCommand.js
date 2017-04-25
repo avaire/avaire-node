@@ -28,7 +28,7 @@ class CoinCommand extends Command {
      * @return {mixed}
      */
     onCommand(sender, message, args) {
-        return message.reply(this.images[Math.random() * 100 >= 50 ? 1 : 2]);
+        return app.envoyer.sendNormalMessage(message, '<@:userid> ' + this.images[Math.random() * 100 >= 50 ? 1 : 2]);
     }
 }
 

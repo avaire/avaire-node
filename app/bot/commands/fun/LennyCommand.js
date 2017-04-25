@@ -23,7 +23,7 @@ class LennyCommand extends Command {
      * @return {mixed}
      */
     onCommand(sender, message, args) {
-        return message.channel.sendMessage('( ͡° ͜ʖ ͡°)');
+        return app.envoyer.sendNormalMessage(message, '( ͡° ͜ʖ ͡°)');
     }
 }
 

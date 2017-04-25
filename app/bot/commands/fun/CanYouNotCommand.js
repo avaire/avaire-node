@@ -23,7 +23,7 @@ class CanYouNotCommand extends Command {
      * @return {mixed}
      */
     onCommand(sender, message, args) {
-        return message.channel.sendMessage('Can YOU not?');
+        return app.envoyer.sendNormalMessage(message, 'Can YOU not?');
     }
 }
 

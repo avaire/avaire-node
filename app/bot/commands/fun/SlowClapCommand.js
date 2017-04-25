@@ -23,7 +23,7 @@ class SlowClapCommand extends Command {
      * @return {mixed}
      */
     onCommand(sender, message, args) {
-        return message.channel.sendMessage('slow clap');
+        return app.envoyer.sendNormalMessage(message, '*slow clap*');
     }
 }
 

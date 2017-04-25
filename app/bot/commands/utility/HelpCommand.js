@@ -98,7 +98,8 @@ class HelpCommand extends Command {
 
         let listOfCommands = app.lang.get(message, 'commands.utility.help.commands');
         let randomCommandIndex = _.random(0, commands.length - 1);
-        message.channel.sendMessage(':page_with_curl: **' + listOfCommands + ':** ```apache\n' + fields.join('\n') + '```');
+
+        app.envoyer.sendNormalMessage(message, ':page_with_curl: **' + listOfCommands + ':** ```apache\n' + fields.join('\n') + '```');
         return app.envoyer.sendInfo(message, 'commands.utility.help.command-note', {
             prefix: commands[randomCommandIndex].prefix,
             trigger: commands[randomCommandIndex].triggers[0]

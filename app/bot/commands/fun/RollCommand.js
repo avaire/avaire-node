@@ -68,7 +68,7 @@ class RollCommand extends Command {
 
         request('https://rolz.org/api/?' + dice + '.json', (error, response, body) => {
             if (error || response.statusCode !== 200) {
-                return message.channel.sendMessage('The API returned an unconventional response.');
+                return app.envoyer.sendNormalMessage(message, 'The API returned an unconventional response.');
             }
 
             try {
@@ -80,7 +80,7 @@ class RollCommand extends Command {
                     details: roll.details
                 });
             } catch (err) {
-                return message.channel.sendMessage('The API returned an unconventional response.');
+                return app.envoyer.sendNormalMessage(message, 'The API returned an unconventional response.');
             }
         });
     }
