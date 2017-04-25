@@ -82,6 +82,11 @@ class RuntimeStatisticsCommand extends Command {
                     name: 'Voice Connections',
                     value: bot.VoiceConnections.length,
                     inline: true
+                },
+                {
+                    name: 'Messages Received',
+                    value: app.bot.statistics.messages,
+                    inline: true
                 }
             ],
             footer: {

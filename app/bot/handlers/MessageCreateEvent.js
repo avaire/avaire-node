@@ -32,6 +32,11 @@ class MessageCreateEvent extends EventHandler {
             return;
         }
 
+        // This will increment by one every time we get a message, this is used to
+        // give a better idea of how many valid MessageCreate events are being
+        // broadcasted to the bot during a session.
+        app.bot.statistics.messages++;
+
         // Loads the guild and channel from the database so they can be used later.
         return ChannelModule.getChannel(socket.message).then(({guild, channel}) => {
             // Checks if slowmode is enabled for the given channel in the current guild, if it
