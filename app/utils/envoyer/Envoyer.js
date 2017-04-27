@@ -220,7 +220,8 @@ class Envoyer {
     }
 
     /**
-     * [handleError description]
+     * Error handler.
+     *
      * @param  {IMessage|ITextChannel}  message     The IMessage or ITextChannel object from Discordies event emitter.
      * @param  {Error}                  err         The error that should be handled.
      * @param  {Object}                 promise     The promise functions.
