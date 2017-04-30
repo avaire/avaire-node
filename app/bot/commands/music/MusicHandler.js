@@ -481,6 +481,8 @@ class MusicHandler {
         delete this.channel[guildId];
         delete this.volume[guildId];
         delete this.paused[guildId];
+
+        return true;
     }
 }
 

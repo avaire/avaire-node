@@ -27,6 +27,8 @@ class InactiveVoiceStreamJob extends Job {
             let guildId = connection.voiceSocket.guildId;
 
             if (!app.cache.has(`is-alone-in-voice.${guildId}`, 'memory')) {
+                this.processVoiceConnection(connection, guildId);
+
                 continue;
             }
 
@@ -37,22 +39,76 @@ class InactiveVoiceStreamJob extends Job {
                 continue;
             }
 
-            let channelId = Music.getChannelId({guild: {id: guildId}});
-            let channel = connection.voiceConnection
-                                    .guild
-                                    .textChannels
-                                    .find(textChannel => textChannel.id === channelId);
-
-            if (typeof channel !== 'undefined') {
-                let local = app.lang.getLocal(guildId, false);
-                let entity = app.lang.findLangEntity(`${local}.commands.music.disconnect-due-to-inactivity`);
-
-                app.envoyer.sendInfo(channel, entity);
-            }
-
-            connection.voiceConnection.channel.leave();
-            Music.forcefullyDeletePlaylist(guildId);
+            this.disconnectFromVoice(connection, guildId);
         }
+    }
+
+    /**
+     * Processes the voice connection, checking if there is anyone in the bots
+     * voice channel, and if there isn't any the bot should disconnect.
+     *
+     * @param  {VoiceConnectionInfo}  connection  The voice connection info object for the given voice channel.
+     * @param  {String}               guildId     The id of the guild the channel belongs to.
+     * @return {Boolean}
+     */
+    processVoiceConnection(connection, guildId) {
+        if (this.isThereAnyNoneBotsInVoiceChannel(connection)) {
+            return true;
+        }
+
+        let token = `inactive-voice-stream-job.${guildId}`;
+
+        if (!app.cache.has(token, 'memory')) {
+            app.cache.put(token, new Date, 180, 'memory');
+
+            return false;
+        }
+
+        return this.disconnectFromVoice(connection, guildId);
+    }
+
+    /**
+     * Disconnects the bot from the given voice channel, if the ITextChannel that is associate with the music
+     * playlist is valid, the `disconnect-due-to-inactivity` message will be sent in the ITextChannel.
+     *
+     * @param  {VoiceConnectionInfo}  connection  The voice connection info object for the given voice channel.
+     * @param  {String}               guildId     The id of the guild the channel belongs to.
+     * @return {Boolean}
+     */
+    disconnectFromVoice(connection, guildId) {
+        let channelId = Music.getChannelId({guild: {id: guildId}});
+
+        let channel = connection.voiceConnection
+                                .guild
+                                .textChannels
+                                .find(textChannel => textChannel.id === channelId);
+
+        if (typeof channel !== 'undefined') {
+            let local = app.lang.getLocal(guildId, false);
+            let entity = app.lang.findLangEntity(`${local}.commands.music.disconnect-due-to-inactivity`);
+
+            app.envoyer.sendInfo(channel, entity);
+        }
+
+        connection.voiceConnection.channel.leave();
+        return Music.forcefullyDeletePlaylist(guildId);
+    }
+
+    /**
+     * Checks to see if there is any users in the members array that aren't a bot.
+     *
+     * @param  {VoiceConnectionInfo}  connection  The voice connection info object.
+     * @return {Boolean}
+     */
+    isThereAnyNoneBotsInVoiceChannel(connection) {
+        let members = connection.voiceConnection.channel.members;
+
+        for (let i in members) {
+            if (!members[i].bot) {
+                return true;
+            }
+        }
+        return false;
     }
 }
 
