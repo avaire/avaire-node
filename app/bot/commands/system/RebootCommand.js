@@ -58,7 +58,7 @@ class RebootCommand extends Command {
                 title: 'AvaIre Maintenance Message',
                 duration: '5',
                 url: this.rebootMessage,
-                link: 'https://github.com/senither/AvaIre/',
+                link: 'https://github.com/AvaIre/AvaIre',
                 requester: sender
             });
             Music.volume[guildId] = 65;

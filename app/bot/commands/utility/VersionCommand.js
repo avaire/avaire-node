@@ -35,7 +35,7 @@ class VersionCommand extends Command {
             '',
             ':message',
             '',
-            'You can get the latest version of me on github at [Senither/AvaIre](https://github.com/senither/AvaIre/)'
+            'You can get the latest version of me on github at [AvaIre/AvaIre](https://github.com/AvaIre/AvaIre)'
         ].join('\n');
 
         let placeholders;

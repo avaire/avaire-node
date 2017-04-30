@@ -19,8 +19,8 @@ class SourceCommand extends Command {
             ]
         });
 
-        this.rootUrl = 'https://github.com/Senither/AvaIre';
-        this.commandUrl = 'https://github.com/Senither/AvaIre/blob/master/app/bot/commands/:category/:commandfile.js';
+        this.rootUrl = 'https://github.com/AvaIre/AvaIre';
+        this.commandUrl = 'https://github.com/AvaIre/AvaIre/blob/master/app/bot/commands/:category/:commandfile.js';
     }
 
     /**
