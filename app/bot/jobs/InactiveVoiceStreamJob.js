@@ -56,13 +56,15 @@ class InactiveVoiceStreamJob extends Job {
             return true;
         }
 
-        let token = `inactive-voice-stream-job.${guildId}`;
+        let token = `inactive-voice-stream.${guildId}`;
 
         if (!app.cache.has(token, 'memory')) {
             app.cache.put(token, new Date, 180, 'memory');
 
             return false;
         }
+
+        app.cache.forget(token, 'memory');
 
         return this.disconnectFromVoice(connection, guildId);
     }
