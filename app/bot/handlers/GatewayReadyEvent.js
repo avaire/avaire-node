@@ -23,11 +23,12 @@ class GatewayReadyEvent extends EventHandler {
      * @return {mixed}
      */
     handle(socket) {
-        bot.Users.fetchMembers();
-        app.logger.info(
-            `Logged in as ${bot.User.username}#${bot.User.discriminator} (ID: ${bot.User.id})` +
-          ` and serving ${bot.Users.length} users in ${bot.Guilds.length} servers.`
-        );
+        bot.Users.fetchMembers().then(() => {
+            app.logger.info(
+                `Logged in as ${bot.User.username}#${bot.User.discriminator} (ID: ${bot.User.id})` +
+              ` and serving ${bot.Users.length} users in ${bot.Guilds.length} servers.`
+            );
+        });
     }
 }
 
