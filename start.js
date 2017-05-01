@@ -1,65 +1,22 @@
 'use strict';
 process.title = 'AvaIre';
 
-let _ = require('lodash');
-let Discordie = require('discordie');
-let directory = require('require-directory');
-let Helpers = require('./app/helpers');
-let Database = require('./app/database/Database');
+/**
+ * AvaIre - A multipurpose Discord bot made for fun
+ *
+ * @author  Alexis Tan <alexis@sen-dev.com>
+ */
 
-global.app = require('./app');
+// Loads the bootstraping application and prepares it for
+// use so the rest of the application can be bootstraped.
+const app = require('./application');
 
-app.logger.info(`Bootstraping AvaIre v${app.version}`);
+// Loads in all of the dependencies that are required
+// to run Ava and prepares them for use.
+app.bootstrap();
 
-app.logger.info(' - Loading configuration');
-app.config = app.configLoader.loadConfiguration('config.json');
+// Registers and prepares the events, jobs and services that Ava uses.
+app.register();
 
-app.logger.info(' - Setting up database and tables');
-app.database = new Database();
-app.database.runMigrations().catch(err => {
-    app.logger.error(err);
-});
-
-app.logger.info(' - Creating bot instance');
-global.bot = new Discordie({
-    autoReconnect: true
-});
-
-app.logger.info(` - Registering ${Object.keys(app.bot.handlers).length + 1} event handlers`);
-_.each(app.bot.handlers, (Handler, key) => {
-    _.each(Discordie.Events, event => {
-        if (key === event) {
-            bot.Dispatcher.on(event, new Handler);
-        }
-    });
-});
-
-process.on('unhandledRejection', (reason, p) => {
-    if (isEnvironmentInProduction()) {
-        return app.logger.debug(`Unhandled promise: ${require('util').inspect(p, {depth: 3})}: ${reason}`);
-    }
-    return app.logger.info(`Unhandled promise: ${require('util').inspect(p, {depth: 3})}: ${reason}`);
-});
-
-app.bot.jobs = {};
-let jobs = directory(module, './app/bot/jobs');
-app.logger.info(` - Registering ${Object.keys(jobs).length - 1} jobs`);
-_.each(jobs, (Job, key) => {
-    if (key !== 'Job') {
-        app.bot.jobs[key] = app.scheduler.registerJob(new Job);
-    }
-});
-
-app.logger.info(` - Registering ${Object.keys(app.service).length} services`);
-_.each(app.service, (Service, key) => {
-    let ServiceProvider = new Service;
-
-    if (!ServiceProvider.registerService()) {
-        //
-    }
-
-    app.service[key] = ServiceProvider;
-});
-
-app.logger.info('Connecting to the Discord network...');
-bot.connect({token: app.config.bot.token});
+// Connects to Discord and make Ava available to everyone.
+app.connect();

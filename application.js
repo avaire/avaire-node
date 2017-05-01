@@ -1,0 +1,134 @@
+/** @ignore */
+const utils = require('util');
+/** @ignore */
+const _ = require('lodash');
+/** @ignore */
+const directory = require('require-directory');
+/** @ignore */
+const Discordie = require('discordie');
+/** @ignore */
+const Helpers = require('./app/helpers');
+
+class Application {
+
+    /**
+     * Bootstraps the application and prepares it for use.
+     */
+    bootstrap() {
+        global.app = require('./app');
+
+        app.logger.info(`Bootstraping AvaIre v${app.version}`);
+
+        this.prepareConfig();
+        this.prepareDatabase();
+        this.prepareDiscordie();
+    }
+
+    /**
+     * Registers and prepares the events, jobs and services that Ava uses.
+     */
+    register() {
+        app.logger.info('Registering events, jobs & services');
+
+        this.registerEvents();
+        this.registerJobs();
+        this.registerServices();
+    }
+
+    /**
+     * Connects the bot to the Discord network.
+     */
+    connect() {
+        app.logger.info('Connecting to the Discord network...');
+        bot.connect({token: app.config.bot.token});
+    }
+
+    /**
+     * Loads the config from file and stores it in the global app variable.
+     */
+    prepareConfig() {
+        app.logger.info(' - Loading configuration');
+        app.config = app.configLoader.loadConfiguration('config.json');
+    }
+
+    /**
+     * Loads and prepares the database by storing it in the global app variable,
+     * connecting to the database, and running any migrations needs to be run.
+     */
+    prepareDatabase() {
+        app.logger.info(' - Setting up database and tables');
+
+        const Database = require('./app/database/Database');
+
+        app.database = new Database();
+        app.database.runMigrations().catch(err => {
+            app.logger.error(err);
+        });
+    }
+
+    /**
+     * Prepares the bot instance and stores it in the global bot variable.
+     */
+    prepareDiscordie() {
+        app.logger.info(' - Creating bot instance');
+
+        global.bot = new Discordie({
+            autoReconnect: true
+        });
+    }
+
+    /**
+     * Registers the Discordie and process events.
+     */
+    registerEvents() {
+        app.logger.info(` - Registering ${Object.keys(app.bot.handlers).length + 1} event handlers`);
+        _.each(app.bot.handlers, (Handler, key) => {
+            _.each(Discordie.Events, event => {
+                if (key === event) {
+                    bot.Dispatcher.on(event, new Handler);
+                }
+            });
+        });
+
+        process.on('unhandledRejection', (reason, p) => {
+            if (isEnvironmentInProduction()) {
+                return app.logger.debug(`Unhandled promise: ${utils.inspect(p, {depth: 3})}: ${reason}`);
+            }
+            return app.logger.info(`Unhandled promise: ${utils.inspect(p, {depth: 3})}: ${reason}`);
+        });
+    }
+
+    /**
+     * Registers the jobs.
+     */
+    registerJobs() {
+        app.bot.jobs = {};
+
+        let jobs = directory(module, './app/bot/jobs');
+
+        app.logger.info(` - Registering ${Object.keys(jobs).length - 1} jobs`);
+        _.each(jobs, (Job, key) => {
+            if (key !== 'Job') {
+                app.bot.jobs[key] = app.scheduler.registerJob(new Job);
+            }
+        });
+    }
+
+    /**
+     * Registers the application services.
+     */
+    registerServices() {
+        app.logger.info(` - Registering ${Object.keys(app.service).length} services`);
+        _.each(app.service, (Service, key) => {
+            let ServiceProvider = new Service;
+
+            if (!ServiceProvider.registerService()) {
+                //
+            }
+
+            app.service[key] = ServiceProvider;
+        });
+    }
+}
+
+module.exports = new Application;
