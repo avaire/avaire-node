@@ -1,7 +1,6 @@
 <p align="center">
-<!-- <img src="https://img.shields.io/badge/stable-0.1.0-179BE6.svg" alt="Latest Stable Version"> -->
 <img src="https://img.shields.io/badge/license-MIT-4A8F80.svg" alt="License">
-<img src="https://avaire.senither.com/badge.svg" alt="Documented code">
+<img src="https://avaire.senither.com/assets/img/documentation.svg" alt="Documented code">
 </p>
 
 ## About AvaIre
