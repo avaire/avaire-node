@@ -72,9 +72,10 @@ class Application {
     prepareDiscordie() {
         app.logger.info(' - Creating bot instance');
 
-        global.bot = new Discordie({
-            autoReconnect: true
-        });
+        let options = this.buildDiscordOptions();
+
+        options.autoReconnect = true;
+        global.bot = new Discordie(options);
     }
 
     /**
@@ -128,6 +129,59 @@ class Application {
 
             app.service[key] = ServiceProvider;
         });
+    }
+
+    /**
+     * Builds the Discordie options object based off the
+     * provided arguments parsed to the start.js file.
+     */
+    buildDiscordOptions() {
+        let options = {};
+        let parsers = [
+            {
+                trigger: ['--shard-id', '--shardid', '-sid'],
+                value: 'shardId'
+            },
+            {
+                trigger: ['--shard-count', '--shardcount', '-scount', '-sc'],
+                value: 'shardCount'
+            },
+            {
+                trigger: ['--message-cache-limit', '--message-limit', '-mcl'],
+                value: 'messageCacheLimit'
+            }
+        ];
+
+        for (let i in process.argv) {
+            let opt = process.argv[i].toLowerCase();
+
+            if (opt.indexOf('=') < 0) {
+                continue;
+            }
+
+            let parserValue = null;
+            let parts = opt.split('=');
+            for (let x in parsers) {
+                if (parserValue !== null) {
+                    continue;
+                }
+
+                let parser = parsers[x];
+                if (parser.trigger.indexOf(parts[0]) < 0) {
+                    continue;
+                }
+
+                parserValue = parser.value;
+            }
+
+            if (parserValue === null) {
+                continue;
+            }
+
+            options[parserValue] = parseInt(parts[1], 10);
+        }
+
+        return options;
     }
 }
 
