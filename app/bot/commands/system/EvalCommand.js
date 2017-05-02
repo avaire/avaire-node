@@ -1,6 +1,8 @@
 /** @ignore */
 const util = require('util');
 /** @ignore */
+const _ = require('lodash');
+/** @ignore */
 const Command = require('./../Command');
 
 class EvalCommand extends Command {
@@ -29,8 +31,18 @@ class EvalCommand extends Command {
      * @return {mixed}
      */
     onCommand(sender, message, args) {
+        let evalString = args.join(' ').trim();
+        let evalArray = evalString.split('\n');
+
+        if (_.startsWith(evalArray[0], '```') && _.startsWith(evalArray[evalArray.length - 1], '```')) {
+            delete evalArray[0];
+            delete evalArray[evalArray.length - 1];
+        }
+
+        evalString = evalArray.join('\n');
+
         try {
-            let evalObject = eval(args.join(' '));
+            let evalObject = eval(evalString);
 
             message.channel.sendMessage('```xl\n' + this.inspect(evalObject) + '\n```').then(message => {
                 if (evalObject !== undefined && evalObject !== null && typeof evalObject.then === 'function') {
