@@ -81,7 +81,7 @@ class PlaylistCommand extends Command {
             title: song.title,
             volume: Music.getVolume(message),
             time: this.getTimeLeft(song.playTime, song.duration),
-            requester: `<@${song.requester.id}>`
+            requester: `<@${song.requester}>`
         }).then(m => {
             return app.scheduler.scheduleDelayedTask(() => m.delete(), 29500);
         });

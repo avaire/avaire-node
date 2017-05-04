@@ -81,7 +81,7 @@ class MusicHandler {
 
         song.link = link;
         song.playTime = 0;
-        song.requester = message.author;
+        song.requester = message.author.id;
         song.duration = this.formatDuration(song.duration);
 
         song = this.prepareProperties(message, song);
@@ -229,7 +229,8 @@ class MusicHandler {
                 app.envoyer.sendInfo(message, 'commands.music.now-playing', {
                     title: song.title,
                     duration: this.formatDuration(song.duration),
-                    link: song.link
+                    link: song.link,
+                    requester: song.requester
                 });
             }
 

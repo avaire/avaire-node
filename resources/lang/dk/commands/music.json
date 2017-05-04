@@ -2,7 +2,7 @@
     "missing-permissions": "Jeg kan ikke oprette forbindelse til kanal du er i, da jeg ikke har `Connect` tilladelser for det.",
     "end-of-playlist": "Playlisten er slut, forlader kanalen.",
     "voice-required": "Du er nødt til at være forbundet til en talekanal.",
-    "now-playing": "Spiller nu: [:title](:link)\n`:duration` - Foreslået af <@:userid>",
+    "now-playing": "Spiller nu: [:title](:link)\n`:duration` - Foreslået af <@:requester>",
     "missing-role": "Du skal have `DJ` for at gøre det.",
     "missing-connection": "Jeg er i øjeblikket ikke er forbundet til en talekanal.",
     "empty-playlist": "Afspilningslisten er allerede tom.",
