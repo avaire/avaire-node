@@ -17,20 +17,31 @@ class ProcessCommand extends Middleware {
      * Handles the incomming command request
      *
      * @override
-     * @param  {GatewaySocket} socket   Discordie message create socket
-     * @param  {Closure}       next     The next request in the stack
-     * @param  {Command}       command  The command that is about to be executed
+     * @param  {GatewaySocket}  socket   Discordie message create socket
+     * @param  {Closure}        next     The next request in the stack
+     * @param  {Command}        command  The command that is about to be executed
      * @return {mixed}
      */
     handle(socket, next) {
         let user = socket.message.author;
 
-        app.logger.info(`Executing Command <${socket.message.resolveContent()}> from ${user.username}#${user.discriminator}`);
+        app.logger.info(`Executing Command <${this.prettifyContent(socket)}> from ${user.username}#${user.discriminator}`);
         app.bot.statistics.commands++;
 
         return this.command.handler.onCommand(
             user, socket.message, _.drop(socket.message.content.trim().split(' ')), socket
         );
+    }
+
+    /**
+     * Prettify the contents of the socket.
+     *
+     * @param  {GatewaySocket}  socket  Discordie message create socket
+     * @return {String}
+     */
+    prettifyContent(socket) {
+        return socket.message.resolveContent()
+                     .replace(/\n/g, '\\n');
     }
 }
 
