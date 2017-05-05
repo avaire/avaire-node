@@ -33,6 +33,7 @@ class Application {
         this.registerEvents();
         this.registerJobs();
         this.registerServices();
+        this.registerPrefixes();
     }
 
     /**
@@ -129,6 +130,21 @@ class Application {
 
             app.service[key] = ServiceProvider;
         });
+    }
+
+    /**
+     * Registeres all of the different command prefixes that are used throughout the application.
+     */
+    registerPrefixes() {
+        let prefixes = [];
+
+        _.each(app.bot.commands, command => {
+            if (prefixes.indexOf(command.prefix) === -1) {
+                prefixes.push(command.prefix);
+            }
+        });
+
+        app.bot.commandPrefixes = prefixes;
     }
 
     /**

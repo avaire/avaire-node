@@ -42,7 +42,7 @@ class HelpCommand extends Command {
             return this.showCategories(sender, message);
         }
 
-        if (_.startsWith(args[0], '-')) {
+        if (!this.looksLikeCommand(args[0])) {
             return this.showCategoryCommands(sender, message, args);
         }
 
@@ -61,7 +61,12 @@ class HelpCommand extends Command {
     }
 
     showCategoryCommands(sender, message, args) {
-        let category = args[0].substr(1).toLowerCase();
+        let category = args[0].toLowerCase();
+
+        if (category.charAt(0).match(/[a-z]/g) === null) {
+            category = category.substr(1);
+        }
+
         let commands = _.filter(app.bot.commands, item => {
             if (item.handler.getOptions('ignoreHelpMenu', false)) {
                 return false;
@@ -150,6 +155,16 @@ class HelpCommand extends Command {
             description,
             fields
         });
+    }
+
+    looksLikeCommand(string) {
+        for (let i in app.bot.commandPrefixes) {
+            if (_.startsWith(string, app.bot.commandPrefixes[i])) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
 

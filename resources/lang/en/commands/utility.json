@@ -3,8 +3,8 @@
         "module": "List of Modules",
         "commands": "List of Commands",
 
-        "category-note": ":information_source: Type `:command -ModuleName` to get a list of commands in that module.\nExample: `:command -:category`",
-        "command-note": "**Type `.help CommandTrigger` to see the help for that specified command.**\nExample: `.help :prefix:trigger`",
+        "category-note": ":information_source: Type `:command <ModuleName>` to get a list of commands in that module.\nExample: `:command :category`",
+        "command-note": "**Type `.help <CommandTrigger>` to see the help for that specified command.**\nExample: `.help :prefix:trigger`",
 
         "category-doesnt-exists": [
             "I'm pretty sure **:category** is not a cateogry.",
