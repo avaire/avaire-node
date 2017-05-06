@@ -19,7 +19,7 @@ class GuildMemberRemoveEvent extends EventHandler {
      * @return {mixed}
      */
     handle(socket) {
-        return LeaveMessageHandler.send(socket, socket.user, 'goodbye', '%user% has left **%guild%**! :(')
+        return LeaveMessageHandler.send(socket, socket.user, 'goodbye', '%user% has left **%server%**! :(')
                                   .catch(err => app.logger.error(err));
     }
 }

@@ -19,7 +19,7 @@ class GuildMemberAddEvent extends EventHandler {
      * @return {mixed}
      */
     handle(socket) {
-        return JoinMessageHandler.send(socket, socket.member, 'welcome', 'Welcome %user% to **%guild%!**')
+        return JoinMessageHandler.send(socket, socket.member, 'welcome', 'Welcome %user% to **%server%!**')
                                  .catch(err => app.logger.error(err));
     }
 }
