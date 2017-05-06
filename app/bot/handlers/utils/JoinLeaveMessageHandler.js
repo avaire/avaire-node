@@ -1,5 +1,15 @@
 
 class JoinLeaveMessageHandler {
+
+    /**
+     * Sends a welcome or goodbye message, depending on the given module.
+     *
+     * @param  {GatewaySocket} socket          The Discordie gateway socket.
+     * @param  {IGuildMember}  member          The guild member object.
+     * @param  {String}        module          The module that should be used.
+     * @param  {String}        defaultMessage  The default message.
+     * @return {Promise}
+     */
     send(socket, member, module, defaultMessage) {
         let guild = socket.guild;
 
@@ -28,13 +38,29 @@ class JoinLeaveMessageHandler {
         });
     }
 
+    /**
+     * Prepares the message by replacing any placeholders in the
+     * message with the actually value of the placeholder.
+     *
+     * @param  {String}        message  The message that should be formatted.
+     * @param  {IGuildMember}  member   The guild member that joined/left the guild.
+     * @param  {IChannel}      channel  The channel the message is about to be sent in.
+     * @param  {IGuild}        guild    The guild the message is about to be sent in.
+     * @return {String}
+     */
     prepareMessage(message, member, channel, guild) {
-        message = message.replace('%user%', `<@${member.id}>`);
-        message = message.replace('%userid%', member.id);
-        message = message.replace('%username%', member.username);
+        message = message.replace(/%user%/gi, `<@${member.id}>`);
+        message = message.replace(/%userid%/gi, member.id);
+        message = message.replace(/%username%/gi, member.username);
+        message = message.replace(/%userdisc%/gi, member.discriminator);
 
-        message = message.replace('%channel%', channel.name);
-        message = message.replace('%guild%', guild.name);
+        message = message.replace(/%channel%/gi, `<#${channel.id}>`);
+        message = message.replace(/%channelid%/gi, channel.id);
+        message = message.replace(/%channelname%/gi, channel.name);
+
+        message = message.replace(/%server%/gi, guild.name);
+        message = message.replace(/%servername%/gi, guild.name);
+        message = message.replace(/%serverid%/gi, guild.id);
 
         return message;
     }
