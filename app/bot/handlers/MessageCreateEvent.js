@@ -137,10 +137,10 @@ class MessageCreateEvent extends EventHandler {
     sendInformationMessage(socket) {
         let message = [
             'To invite me to your server, use this link:',
-            ':oauth',
+            '*:oauth*',
             '',
             'You can use `.help` to see a list of all the modules.',
-            'You can use `.help -module` to see a list of commands for that module.',
+            'You can use `.help module` to see a list of commands for that module.',
             'For specific command help, use `.help CommandName` (for example `.help !ping`)'
         ];
 
@@ -148,9 +148,9 @@ class MessageCreateEvent extends EventHandler {
             message.push(`You can tag me in a message with <@${bot.User.id}> to send me a message that I should process using my AI`);
         }
 
-        message.push(`\n**Full list of commands**\nhttp://avaire.senither.com/docs/commands`);
+        message.push(`\n**Full list of commands**\n*https://avairebot.com/docs/commands*`);
 
-        message.push('\nAvaIre Support Server: https://discord.gg/gt2FWER');
+        message.push('\nAvaIre Support Server:\n*https://avairebot.com/support*');
         return app.envoyer.sendNormalMessage(socket.message, message.join('\n'), {
             oauth: app.config.bot.oauth
         });
