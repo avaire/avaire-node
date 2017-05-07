@@ -50,7 +50,7 @@ class RequestCommand extends Command {
             let url = args.join(' ');
 
             this.fetchSong(message, url).then(song => {
-                let playlistLength = Music.getPlaylist(message).length;
+                let queueSize = Music.getQueue(message).length;
 
                 if (song.hasOwnProperty('webpage_url')) {
                     url = song.webpage_url;
@@ -71,11 +71,11 @@ class RequestCommand extends Command {
                     song.url = audio.url;
                 }
 
-                Music.addToPlaylist(message, song, url);
+                Music.addToQueue(message, song, url);
 
-                // If the playlist was empty before we'll force the bot to start
+                // If the queue was empty before we'll force the bot to start
                 // playing the song that was just requested immediately.
-                if (playlistLength === 0) {
+                if (queueSize === 0) {
                     Music.next(message);
                     return this.deleteMessage(message);
                 }
@@ -85,7 +85,7 @@ class RequestCommand extends Command {
                     link: url
                 }).then(() => this.deleteMessage(message));
             }).catch(err => {
-                app.logger.error('Failed to add a song to the music playlist: ', err);
+                app.logger.error('Failed to add a song to the queue: ', err);
 
                 return app.envoyer.sendError(message, 'commands.music.require.error');
             });

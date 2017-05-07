@@ -1,11 +1,11 @@
 {
     "missing-permissions": "Jeg kan ikke oprette forbindelse til kanal du er i, da jeg ikke har `Connect` tilladelser for det.",
-    "end-of-playlist": "Playlisten er slut, forlader kanalen.",
+    "end-of-queue": "Afspilningslisten er slut, forlader kanalen.",
     "voice-required": "Du er nødt til at være forbundet til en talekanal.",
     "now-playing": "Spiller nu: [:title](:link)\n`:duration` - Foreslået af <@:requester>",
     "missing-role": "Du skal have `DJ` for at gøre det.",
     "missing-connection": "Jeg er i øjeblikket ikke er forbundet til en talekanal.",
-    "empty-playlist": "Afspilningslisten er allerede tom.",
+    "empty-queue": "Afspilningslisten er allerede tom.",
     "volume-while-not-in-channel": "Du skal være tilsluttet kanalen jeg spiller musik i for at ændre lydstyrken.",
     "skip-while-not-in-channel": "Du skal være tilsluttet kanalen jeg spiller musik i for at springe sangen over.",
     "disconnect-due-to-inactivity": "Afspilningslisten er afsluttet på grund af inaktivitet.",
@@ -15,12 +15,12 @@
         "error": "Jeg kunne ikke tilføje, at til afspilningslisten."
     },
 
-    "playlist": {
+    "queue": {
         "currently-playing": "Spiller i øjeblikket",
         "currently-paused": "Spiller i øjeblikket (Sat på pause)",
         "playing": "[:title](:link)\nSpiller med `:volume%` lydstyrke med `:time` tilbage af sangen - Anmodet af :requester",
         "in-queue": "Sange i køen",
-        "empty-playlist": "*Der er ingen andre sange i køen lige nu*",
+        "empty-queue": "*Der er ingen andre sange i køen lige nu*",
         "extra-singular": "_Og **1** mere sang!_",
         "extra-plural": "_Og **:number** andre sange..._"
     },

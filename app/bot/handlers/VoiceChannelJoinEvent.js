@@ -25,8 +25,7 @@ class VoiceChannelJoinEvent extends EventHandler {
             guild: {id: socket.channel.guild_id}
         };
 
-        let playlist = Music.getPlaylist(mockMessage);
-        if (playlist.length === 0) {
+        if (Music.getQueue(mockMessage).length === 0) {
             return;
         }
 

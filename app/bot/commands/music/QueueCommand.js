@@ -3,7 +3,7 @@ const Command = require('./../Command');
 /** @ignore */
 const Music = require('./MusicHandler');
 
-class PlaylistCommand extends Command {
+class QueueCommand extends Command {
 
     /**
      * Sets up the command by providing the prefix, command trigger, any
@@ -11,9 +11,9 @@ class PlaylistCommand extends Command {
      * might be usfull for the abstract command class.
      */
     constructor() {
-        super('!', 'playlist', ['list'], {
+        super('!', 'queue', ['songs', 'song'], {
             allowDM: false,
-            description: 'Lists all the song currently in the playlist.',
+            description: 'Lists all the song currently in the queue.',
             middleware: [
                 'require:text.send_messages',
                 'throttle.user:2,5'
@@ -31,44 +31,44 @@ class PlaylistCommand extends Command {
      */
     onCommand(sender, message, args) {
         if (!Music.isConnectedToVoice(message)) {
-            return this.sendPlaylistIsEmpty(message);
+            return this.sendQueueIsEmpty(message);
         }
 
-        let playlist = Music.getPlaylist(message);
-        if (playlist.length === 0) {
-            return this.sendPlaylistIsEmpty(message);
+        let queue = Music.getQueue(message);
+        if (queue.length === 0) {
+            return this.sendQueueIsEmpty(message);
         }
 
         // Begins building the embeded element that should be sent to the user.
-        let song = playlist[0];
+        let song = queue[0];
         let embed = {
             color: app.envoyer.colors.info,
-            title: app.lang.get(message, 'commands.music.playlist.currently-' + (Music.isPaused(message) ? 'paused' : 'playing')),
-            description: app.lang.get(message, 'commands.music.playlist.playing'),
+            title: app.lang.get(message, 'commands.music.queue.currently-' + (Music.isPaused(message) ? 'paused' : 'playing')),
+            description: app.lang.get(message, 'commands.music.queue.playing'),
             fields: [
                 {
-                    name: app.lang.get(message, 'commands.music.playlist.in-queue'),
-                    value: app.lang.get(message, 'commands.music.playlist.empty-playlist')
+                    name: app.lang.get(message, 'commands.music.queue.in-queue'),
+                    value: app.lang.get(message, 'commands.music.queue.empty-queue')
                 }
             ]
         };
 
-        // If the playlist has more than one song the additional songs will added to the
-        // embeded element showing the first six songs, and if there is more than six,
-        // a message about how many more songs in the queue there are.
-        if (playlist.length > 1) {
+        // If the queue has more than one song the additional songs will added to the embeded
+        // element showing the first six songs, and if there is more than six, a message
+        // about how many more songs in the queue there are will be used instead.
+        if (queue.length > 1) {
             let queue = '';
 
-            for (let i = 1; i < Math.min(playlist.length, 6); i++) {
-                queue += `**${i}:** [${playlist[i].title.limit(64)}](${playlist[i].link}) [${playlist[i].duration}]\n`;
+            for (let i = 1; i < Math.min(queue.length, 6); i++) {
+                queue += `**${i}:** [${queue[i].title.limit(64)}](${queue[i].link}) [${queue[i].duration}]\n`;
             }
 
-            if (playlist.length > 6) {
-                let length = playlist.length - 6;
+            if (queue.length > 6) {
+                let length = queue.length - 6;
 
                 let langType = (length === 1) ? 'singular' : 'plural';
 
-                queue += '\n' + app.lang.get(message, 'commands.music.playlist.extra-' + langType, {
+                queue += '\n' + app.lang.get(message, 'commands.music.queue.extra-' + langType, {
                     number: length
                 });
             }
@@ -88,14 +88,14 @@ class PlaylistCommand extends Command {
     }
 
     /**
-     * Send the music playlist is empty message, the
+     * Send the music queue is empty message, the
      * message will delete itself after 6 seconds.
      *
      * @param  {IMessage}  message  The Discordie message object that triggered the command.
      * @return {Promise}
      */
-    sendPlaylistIsEmpty(message) {
-        return app.envoyer.sendWarn(message, 'commands.music.empty-playlist').then(m => {
+    sendQueueIsEmpty(message) {
+        return app.envoyer.sendWarn(message, 'commands.music.empty-queue').then(m => {
             return app.scheduler.scheduleDelayedTask(() => m.delete(), 6000);
         });
     }
@@ -132,4 +132,4 @@ class PlaylistCommand extends Command {
     }
 }
 
-module.exports = PlaylistCommand;
+module.exports = QueueCommand;

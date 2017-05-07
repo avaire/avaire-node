@@ -1,40 +1,40 @@
 {
     "missing-permissions": "I can't connect to the voice channel you're in because I don't have `Connect` permissions for it",
-    "end-of-playlist": "Playlist has ended, leaving voice.",
+    "end-of-queue": "Queue has ended, leaving voice.",
     "voice-required": "You have to be connected to a voice channel.",
     "now-playing": "Now playing: [:title](:link)\n`:duration` - Requested by <@:requester>",
     "missing-role": "You must have the `DJ` role to do that.",
     "missing-connection": "I'm currently not connected to a voice channel.",
-    "empty-playlist": "The playlist is already empty.",
+    "empty-queue": "The queue is already empty.",
     "volume-while-not-in-channel": "You must be connected to the voice channel I'm playing music in to change the volume.",
     "skip-while-not-in-channel": "You must be connected to the voice channel I'm playing music in to skip the song.",
-    "disconnect-due-to-inactivity": "The playlist has ended due to inactivity.",
+    "disconnect-due-to-inactivity": "The music has ended due to inactivity.",
 
     "require": {
         "added-song": "<@:userid> has added [:title](:link) to the queue.",
-        "error": "I couldn't add that to the playlist."
+        "error": "I couldn't add that to the queue."
     },
 
-    "playlist": {
+    "queue": {
         "currently-playing": "Currently Playing",
         "currently-paused": "Currently Paused",
         "playing": "[:title](:link)\nPlaying at `:volume%` volume with `:time` left of the song - Requested by :requester",
         "in-queue": "Songs in queue",
-        "empty-playlist": "*There are no other songs in the queue right now*",
+        "empty-queue": "*There are no other songs in the queue right now*",
         "extra-singular": "_And **1** more song!_",
         "extra-plural": "_And **:number** other songs..._"
     },
 
     "pauseresume": {
-        "pause-on-empty": "The playlist is empty, there is nothing to pause.",
-        "resume-on-empty": "The playlist is empty, there is nothing to resume.",
+        "pause-on-empty": "The queue is empty, there is nothing to pause.",
+        "resume-on-empty": "The queue is empty, there is nothing to resume.",
         "resume-while-alone": "There must be atleast one other person in the voice channel to resume the music.",
         "paused": "The music has been `paused`",
         "resumed": "The music has been `resumed`"
     },
 
     "shuffle": {
-        "on-shuffle": "The playlist queue has now been shuffled."
+        "on-shuffle": "The queue has now been shuffled."
     },
 
     "voteskip": {

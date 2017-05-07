@@ -34,8 +34,8 @@ class SkipCommand extends Command {
             return app.envoyer.sendWarn(message, 'commands.music.missing-connection');
         }
 
-        if (Music.getPlaylist(message).length === 0) {
-            return app.envoyer.sendWarn(message, 'commands.music.empty-playlist');
+        if (Music.getQueue(message).length === 0) {
+            return app.envoyer.sendWarn(message, 'commands.music.empty-queue');
         }
 
         if (!Music.isInSameVoiceChannelAsBot(message, sender)) {
@@ -58,7 +58,7 @@ class SkipCommand extends Command {
         let votePercentage = this.getVotePercentage(usersInVoiceLength, voteSkips);
 
         if (votePercentage >= 50) {
-            Music.getPlaylist(message).shift();
+            Music.getQueue(message).shift();
             return Music.next(message);
         }
 

@@ -71,7 +71,7 @@ class InactiveVoiceStreamJob extends Job {
 
     /**
      * Disconnects the bot from the given voice channel, if the ITextChannel that is associate with the music
-     * playlist is valid, the `disconnect-due-to-inactivity` message will be sent in the ITextChannel.
+     * queue is valid, the `disconnect-due-to-inactivity` message will be sent in the ITextChannel.
      *
      * @param  {VoiceConnectionInfo}  connection  The voice connection info object for the given voice channel.
      * @param  {String}               guildId     The id of the guild the channel belongs to.
@@ -93,7 +93,7 @@ class InactiveVoiceStreamJob extends Job {
         }
 
         connection.voiceConnection.channel.leave();
-        return Music.forcefullyDeletePlaylist(guildId);
+        return Music.forcefullyDeleteQueue(guildId);
     }
 
     /**

@@ -13,7 +13,7 @@ class ShuffleCommand extends Command {
     constructor() {
         super('!', 'shuffle', [], {
             allowDM: false,
-            description: 'Use this to shuffle the songs waiting in the playlist queue.',
+            description: 'Use this to shuffle the songs waiting in the music queue.',
             middleware: [
                 'require:text.send_messages',
                 'throttle.channel:2,4'
@@ -38,8 +38,8 @@ class ShuffleCommand extends Command {
             return app.envoyer.sendWarn(message, 'commands.music.missing-connection');
         }
 
-        if (Music.getPlaylist(message).length === 0) {
-            return app.envoyer.sendWarn(message, 'commands.music.empty-playlist');
+        if (Music.getQueue(message).length === 0) {
+            return app.envoyer.sendWarn(message, 'commands.music.empty-queue');
         }
 
         if (!Music.isInSameVoiceChannelAsBot(message, sender)) {
@@ -50,24 +50,24 @@ class ShuffleCommand extends Command {
             });
         }
 
-        let playlist = Music.getPlaylist(message);
-        let index = playlist.length;
+        let queue = Music.getQueue(message);
+        let index = queue.length;
 
-        // Shuffles all but the first index in the playlist
+        // Shuffles all but the first index in the music queue
         // array, using the Fisher–Yates shuffle algorithm.
         while (index !== 0) {
             let random = Math.floor(Math.random() * index);
             index -= 1;
 
             if (index !== 0 && random !== 0) {
-                let temporaryValue = playlist[index];
+                let temporaryValue = queue[index];
 
-                playlist[index] = playlist[random];
-                playlist[random] = temporaryValue;
+                queue[index] = queue[random];
+                queue[random] = temporaryValue;
             }
         }
 
-        Music.playlist[message.guild.id] = playlist;
+        Music.queues[message.guild.id] = queue;
 
         return app.envoyer.sendSuccess(message, 'commands.music.shuffle.on-shuffle');
     }

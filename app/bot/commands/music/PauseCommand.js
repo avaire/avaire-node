@@ -38,7 +38,7 @@ class PauseCommand extends Command {
             return app.envoyer.sendWarn(message, 'commands.music.missing-connection');
         }
 
-        if (Music.getPlaylist(message).length === 0) {
+        if (Music.getQueue(message).length === 0) {
             return app.envoyer.sendWarn(message, 'commands.music.pauseresume.pause-on-empty');
         }
 

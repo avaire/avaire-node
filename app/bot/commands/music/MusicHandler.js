@@ -12,11 +12,11 @@ class MusicHandler {
      */
     constructor() {
         /**
-         * The music playlist and song queue.
+         * The music queue.
          *
          * @type {Object}
          */
-        this.playlist = {};
+        this.queues = {};
 
         /**
          * The music volume for guilds.
@@ -68,15 +68,15 @@ class MusicHandler {
     }
 
     /**
-     * Adds a song to the playlist.
+     * Adds a song to the queue.
      *
      * @param {IMessage}  message  The Discordie message object.
      * @param {Object}    song     The requested song object.
      * @param {String}    link     The link to the song.
      */
-    addToPlaylist(message, song, link) {
-        if (!_.isObjectLike(this.playlist[message.guild.id])) {
-            this.playlist[message.guild.id] = [];
+    addToQueue(message, song, link) {
+        if (!_.isObjectLike(this.queues[message.guild.id])) {
+            this.queues[message.guild.id] = [];
         }
 
         song.link = link;
@@ -86,21 +86,21 @@ class MusicHandler {
 
         song = this.prepareProperties(message, song);
 
-        this.playlist[message.guild.id].push(song);
+        this.queues[message.guild.id].push(song);
     }
 
     /**
-     * Gets the current playlist.
+     * Gets the current music queue.
      *
      * @param  {IMessage} message  The Discordie message object.
      * @return {Object}
      */
-    getPlaylist(message) {
-        if (!_.isObjectLike(this.playlist[message.guild.id])) {
-            this.playlist[message.guild.id] = [];
+    getQueue(message) {
+        if (!_.isObjectLike(this.queues[message.guild.id])) {
+            this.queues[message.guild.id] = [];
         }
 
-        return this.playlist[message.guild.id];
+        return this.queues[message.guild.id];
     }
 
     /**
@@ -126,7 +126,7 @@ class MusicHandler {
                 return this.gracefullReject(reject, 'commands.music.voice-required');
             }
 
-            this.playlist[message.guild.id] = [];
+            this.queues[message.guild.id] = [];
 
             user.getVoiceChannel().join().then(() => resolve()).catch(err => {
                 if (err.message === 'Missing permission') {
@@ -172,8 +172,8 @@ class MusicHandler {
     }
 
     /**
-     * Loads the next song in the playlist, if the playlist is empty the
-     * voice channel stream will be droped and the bot will disconnect.
+     * Loads the next song in the queue, if the queue is empty the voice
+     * channel stream will be droped and the bot will disconnect.
      *
      * @param  {IMessage}  message       The Discordie message object.
      * @param  {Boolean}   sendMessages  Determines if the messages should be sent.
@@ -183,11 +183,11 @@ class MusicHandler {
         let connection = this.getVoiceConnection(message);
 
         if (connection !== undefined) {
-            if (this.getPlaylist(message).length === 0) {
-                this.forcefullyDeletePlaylist(message.guild.id);
+            if (this.getQueue(message).length === 0) {
+                this.forcefullyDeleteQueue(message.guild.id);
 
                 if (sendMessages) {
-                    app.envoyer.sendInfo(message, 'commands.music.end-of-playlist').then(m => {
+                    app.envoyer.sendInfo(message, 'commands.music.end-of-queue').then(m => {
                         return app.scheduler.scheduleDelayedTask(() => m.delete(), 7500);
                     });
                 }
@@ -195,10 +195,10 @@ class MusicHandler {
                 return connection.voiceConnection.disconnect();
             }
 
-            let song = this.playlist[message.guild.id][0];
+            let song = this.queues[message.guild.id][0];
 
             if (song.url === 'INVALID') {
-                this.playlist[message.guild.id].shift();
+                this.queues[message.guild.id].shift();
 
                 return this.next(message, sendMessages);
             }
@@ -212,13 +212,13 @@ class MusicHandler {
             });
 
             let encoderStream = encoder.play();
-            let playlist = this.getPlaylist(message);
+            let queue = this.getQueue(message);
 
             encoderStream.resetTimestamp();
             encoderStream.removeAllListeners('timestamp');
             encoderStream.on('timestamp', time => {
-                if (typeof playlist[0] !== 'undefined') {
-                    playlist[0].playTime = Math.floor(time);
+                if (typeof queue[0] !== 'undefined') {
+                    queue[0].playTime = Math.floor(time);
                 }
             });
 
@@ -235,7 +235,7 @@ class MusicHandler {
             }
 
             encoder.once('end', () => {
-                this.playlist[message.guild.id].shift();
+                this.queues[message.guild.id].shift();
                 return this.next(message, sendMessages);
             });
         }
@@ -471,15 +471,15 @@ class MusicHandler {
     }
 
     /**
-     * Forcefully deletes the playlist, volume, and
+     * Forcefully deletes the queue, volume, and
      * paused state of the parsed guilds data.
      *
      * @param {String}  guildId  The id of the guild that should be deleted.
      */
-    forcefullyDeletePlaylist(guildId) {
+    forcefullyDeleteQueue(guildId) {
         delete this.voteskips[guildId];
-        delete this.playlist[guildId];
         delete this.channel[guildId];
+        delete this.queues[guildId];
         delete this.volume[guildId];
         delete this.paused[guildId];
 

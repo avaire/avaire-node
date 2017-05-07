@@ -51,10 +51,10 @@ class RebootCommand extends Command {
             let connection = bot.VoiceConnections[id];
             let guildId = connection.voiceSocket.guildId;
 
-            // Flushes the playlist of any extra songs that might be in the
+            // Flushes the queue of any extra songs that might be in the
             // queue and add our reboot message to the queue instead.
-            Music.playlist[guildId] = Music.playlist[guildId].slice(0, 1);
-            Music.playlist[guildId].push({
+            Music.queues[guildId] = Music.queues[guildId].slice(0, 1);
+            Music.queues[guildId].push({
                 title: 'AvaIre Maintenance Message',
                 duration: '5',
                 url: this.rebootMessage,
@@ -63,9 +63,9 @@ class RebootCommand extends Command {
             });
             Music.volume[guildId] = 65;
 
-            // Shifts the playlist so the new reboot message is first and call
+            // Shifts the queue so the new reboot message is first and call
             // the music Next method to start playing the announcement.
-            Music.playlist[guildId].shift();
+            Music.queues[guildId].shift();
             Music.next({
                 guild: {
                     id: guildId

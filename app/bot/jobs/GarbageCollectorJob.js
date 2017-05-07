@@ -28,10 +28,10 @@ class GarbageCollectorJob extends Job {
             }
         }
 
-        for (let token in Music.playlist) {
-            let cacheToken = `garbage-collector.music-playlist.${token}`;
+        for (let token in Music.queues) {
+            let cacheToken = `garbage-collector.music-queue.${token}`;
 
-            if (Music.playlist[token].length > 0) {
+            if (Music.queues[token].length > 0) {
                 continue;
             }
 
@@ -42,7 +42,7 @@ class GarbageCollectorJob extends Job {
 
             cacheAdapter.forget(cacheToken);
 
-            Music.forcefullyDeletePlaylist(token);
+            Music.forcefullyDeleteQueue(token);
         }
     }
 }
