@@ -132,6 +132,16 @@ class Database {
         });
     }
 
+    getBlacklist() {
+        return new Promise((resolve, reject) => {
+            app.bot.statistics.databaseQueries++;
+
+            return this.getClient().select().from(app.constants.BLACKLIST_TABLE_NAME)
+                        .then(resposne => resolve(resposne))
+                        .catch(err => reject(err));
+        });
+    }
+
     /**
      * Inserts a new record into the provided table with the provided fields,
      * if timestamps is set to true a created_at and updated_at field will

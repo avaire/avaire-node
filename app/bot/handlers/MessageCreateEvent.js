@@ -37,6 +37,13 @@ class MessageCreateEvent extends EventHandler {
         // broadcasted to the bot during a session.
         app.bot.statistics.messages++;
 
+        // Checks if the user who triggered the message event is on the bots blacklist,
+        // if they are we're just going to ignore anything they're doing, preventing
+        // them from using any features inside the bot.
+        if (app.bot.features.blacklist.isBlacklisted(socket.message.author.id)) {
+            return;
+        }
+
         // Loads the guild and channel from the database so they can be used later.
         return ChannelModule.getChannel(socket.message).then(({guild, channel}) => {
             // Checks if slowmode is enabled for the given channel in the current guild, if it
