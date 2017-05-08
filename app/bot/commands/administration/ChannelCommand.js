@@ -21,6 +21,7 @@ class ChannelCommand extends Command {
             allowDM: false,
             description: 'Shows what modules are enabled and disabled for the current channel, as-well as what settings they have.',
             middleware: [
+                'require.user:general.manage_server',
                 'throttle.user:2,5'
             ]
         });

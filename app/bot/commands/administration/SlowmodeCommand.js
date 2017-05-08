@@ -25,7 +25,7 @@ class SlowmodeCommand extends Command {
                 '<limit> <decay in seconds>'
             ],
             middleware: [
-                'require:general.manage_server',
+                'require.user:general.manage_server',
                 'throttle.guild:1,5'
             ]
         });

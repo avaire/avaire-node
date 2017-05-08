@@ -41,6 +41,26 @@ class Permission {
     }
 
     /**
+     * Check if the user has the given permission.
+     *
+     * @param  {IMessage}  message     The Discordie message object that triggered the command.
+     * @param  {String}    permission  The permission node that should be checked.
+     * @return {Boolean }
+     */
+    userHas(message, permission) {
+        if (!this.isValidPermission(permission)) {
+            return false;
+        }
+
+        let p = this.preparePermission(permission);
+
+        let guild = message.member.permissionsFor(message.guild);
+        let channel = message.member.permissionsFor(message.channel);
+
+        return guild[p.group][p.perms] || channel[p.group][p.perms];
+    }
+
+    /**
      * Checks if the given permission is a valid permission.
      *
      * @param  {String}  permission  The permission node that should be checked.

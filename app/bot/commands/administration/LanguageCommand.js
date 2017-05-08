@@ -25,7 +25,7 @@ class LanguageCommand extends Command {
                 '[local]'
             ],
             middleware: [
-                'require:general.manage_server',
+                'require.user:general.manage_server',
                 'throttle.user:1,3'
             ]
         });

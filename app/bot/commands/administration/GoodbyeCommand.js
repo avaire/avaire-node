@@ -21,7 +21,7 @@ class GoodbyeCommand extends Command {
             allowDM: false,
             description: 'Toggles the goodbye module on or off for the current channel.',
             middleware: [
-                'require:general.manage_server',
+                'require.user:general.manage_server',
                 'throttle.guild:1,5'
             ]
         });

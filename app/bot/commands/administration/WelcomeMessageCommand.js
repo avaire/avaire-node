@@ -25,7 +25,7 @@ class WelcomeMessageCommand extends Command {
                 '[message]'
             ],
             middleware: [
-                'require:general.manage_server',
+                'require.user:general.manage_server',
                 'throttle.guild:1,5'
             ]
         });
