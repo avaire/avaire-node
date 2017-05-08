@@ -140,19 +140,25 @@ class Database {
      * @param  {String}  table       The name of the table the record should be inserted into.
      * @param  {Object}  fields      The fields that should populate the row.
      * @param  {Boolean} timestamps  Determines if the record uses timestamps, defaults to true.
+     * @return {Promise}
      */
     insert(table, fields, timestamps = true) {
-        if (timestamps) {
-            fields.created_at = new Date;
-            fields.updated_at = new Date;
-        }
+        return new Promise((resolve, reject) => {
+            if (timestamps) {
+                fields.created_at = new Date;
+                fields.updated_at = new Date;
+            }
 
-        this.getClient().insert(fields).into(table)
-            .then(() => {
+            return this.getClient().insert(fields).into(table).then(() => {
                 app.bot.statistics.databaseQueries++;
+
+                return resolve();
             }).catch(err => {
                 app.logger.error(err);
+
+                return reject(err);
             });
+        });
     }
 
     /**
@@ -164,6 +170,7 @@ class Database {
      * @param  {Object}  fields      The fields that should be updated in the database records.
      * @param  {Closure} condition   The closure that should limit the query.
      * @param  {Boolean} timestamps  Determins if the record uses timestatmps, defaults to true.
+     * @return {Promise}
      */
     update(table, fields, condition, timestamps = true) {
         return new Promise((resolve, reject) => {
