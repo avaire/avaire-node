@@ -9,7 +9,7 @@ class RollCommand extends Command {
      * might be usfull for the abstract command class.
      */
     constructor() {
-        super('>', 'say', ['echo'], {
+        super('say', ['echo'], {
             description: 'I will say anything you want',
             usage: '[message]',
             middleware: [

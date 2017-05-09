@@ -17,7 +17,7 @@ class ChannelCommand extends Command {
      * might be usfull for the abstract command class.
      */
     constructor() {
-        super('.', 'channel', ['chl'], {
+        super('channel', ['chl'], {
             allowDM: false,
             description: 'Shows what modules are enabled and disabled for the current channel, as-well as what settings they have.',
             middleware: [

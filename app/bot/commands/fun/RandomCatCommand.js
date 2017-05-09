@@ -11,7 +11,7 @@ class RandomCatCommand extends Command {
      * might be usfull for the abstract command class.
      */
     constructor() {
-        super('>', 'randomcat', ['cat'], {
+        super('randomcat', ['cat'], {
             description: 'I will get a random cat for you',
             middleware: [
                 'throttle.channel:1,1'

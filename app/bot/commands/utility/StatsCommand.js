@@ -9,7 +9,7 @@ class StatsCommand extends Command {
      * might be usfull for the abstract command class.
      */
     constructor() {
-        super('!', 'stats', ['about'], {
+        super('stats', ['about'], {
             description: 'Tells you information about the bot itself.',
             middleware: [
                 'throttle.channel:1,5'

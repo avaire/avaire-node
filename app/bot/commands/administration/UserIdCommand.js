@@ -17,7 +17,7 @@ class UserIdCommand extends Command {
      * might be usfull for the abstract command class.
      */
     constructor() {
-        super('.', 'userid', ['uid'], {
+        super('userid', ['uid'], {
             allowDM: false,
             description: 'Shows user ID.'
         });

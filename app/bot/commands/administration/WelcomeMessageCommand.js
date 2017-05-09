@@ -17,7 +17,7 @@ class WelcomeMessageCommand extends Command {
      * might be usfull for the abstract command class.
      */
     constructor() {
-        super('.', 'welcomemessage', ['welmsg'], {
+        super('welcomemessage', ['welmsg'], {
             allowDM: false,
             description: 'Sets the welcome message.',
             usage: [

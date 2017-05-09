@@ -11,7 +11,7 @@ class RemindCommand extends Command {
      * might be usfull for the abstract command class.
      */
     constructor() {
-        super('!', 'remind', ['rem'], {
+        super('remind', ['rem'], {
             description: 'Set a message you would like to be reminded of later.',
             middleware: [
                 'throttle.user:2,5'

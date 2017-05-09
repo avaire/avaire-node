@@ -19,7 +19,7 @@ class BanCommand extends Command {
      * might be usfull for the abstract command class.
      */
     constructor() {
-        super('.', 'ban', [], {
+        super('ban', [], {
             allowDM: false,
             description: 'Bans the mentioned user off the server with the provided reason, all messages the user has sent in the last 7 days will also be deleted in the process, this action will be reported to any channel that has modloging enabled on the server.',
             usage: '<user> [reason]',

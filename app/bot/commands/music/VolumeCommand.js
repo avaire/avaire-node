@@ -11,7 +11,7 @@ class VolumeCommand extends Command {
      * might be usfull for the abstract command class.
      */
     constructor() {
-        super('!', 'volume', ['vol'], {
+        super('volume', ['vol'], {
             allowDM: false,
             description: 'Use this to change the volume of the music that\'s playing.',
             middleware: [

@@ -20,7 +20,7 @@ class SoftbanCommand extends Command {
      * might be usfull for the abstract command class.
      */
     constructor() {
-        super('.', 'softban', ['sban'], {
+        super('softban', ['sban'], {
             allowDM: false,
             description: 'Bans the mentioned user off the server with the provided reason, this action will be reported to any channel that has modloging enabled on the server.',
             usage: '<user> [reason]',

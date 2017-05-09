@@ -11,7 +11,7 @@ class SkipCommand extends Command {
      * might be usfull for the abstract command class.
      */
     constructor() {
-        super('!', 'voteskip', ['vskip'], {
+        super('voteskip', ['vskip'], {
             allowDM: false,
             description: 'Use this to vote to skip a song if you\'re not enjoying it.',
             middleware: [

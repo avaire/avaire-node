@@ -17,7 +17,7 @@ class ModlogCommand extends Command {
      * might be usfull for the abstract command class.
      */
     constructor() {
-        super('.', 'modlog', ['mlog'], {
+        super('modlog', ['mlog'], {
             allowDM: false,
             description: 'Toggles the ModLog module on or off for the current channel.',
             middleware: [

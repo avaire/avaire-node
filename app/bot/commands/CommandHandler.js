@@ -1,3 +1,5 @@
+/** @ignore */
+let categories = require('./Categories');
 
 /**
  * Command handler, allows for easy access
@@ -24,6 +26,23 @@ class CommandHandler {
             }
         }
 
+        return null;
+    }
+
+    /**
+     * Gets the global command prefix for the given module name.
+     *
+     * @param {String}  module  The name of the module.
+     * @return {String|null}
+     */
+    getGlobalPrefix(module) {
+        for (let i in categories) {
+            let category = categories[i];
+
+            if (category.name.toLowerCase() === module.toLowerCase()) {
+                return category.prefix;
+            }
+        }
         return null;
     }
 }

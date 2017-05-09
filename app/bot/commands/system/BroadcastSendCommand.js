@@ -20,7 +20,7 @@ class BroadcastSendCommand extends Command {
      * might be usfull for the abstract command class.
      */
     constructor() {
-        super(';', 'broadcastsend', ['bcsend'], {
+        super('broadcastsend', ['bcsend'], {
             description: 'Broadcasts the message linked to the given hash ID.',
             usage: '<hash>',
             middleware: [

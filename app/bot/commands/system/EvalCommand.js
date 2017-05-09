@@ -13,7 +13,7 @@ class EvalCommand extends Command {
      * might be usfull for the abstract command class.
      */
     constructor() {
-        super(';', 'eval', [], {
+        super('eval', [], {
             description: 'Evaluates and executes raw JS code.',
             usage: '[code]',
             middleware: [

@@ -15,7 +15,7 @@ class ModuleEnableCommand extends Command {
      * might be usfull for the abstract command class.
      */
     constructor() {
-        super(';', 'me', [], {
+        super('me', [], {
             description: 'Enables a given module.',
             usage: '<module>',
             middleware: [

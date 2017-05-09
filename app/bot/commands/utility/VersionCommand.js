@@ -11,7 +11,7 @@ class VersionCommand extends Command {
      * might be usfull for the abstract command class.
      */
     constructor() {
-        super('!', 'version', [], {
+        super('version', [], {
             description: 'Displays the current version of the bot and how many versions behind it is (if any)',
             middleware: [
                 'throttle.channel:1,5'

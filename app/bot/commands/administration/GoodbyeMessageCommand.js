@@ -17,7 +17,7 @@ class GoodbyeMessageCommand extends Command {
      * might be usfull for the abstract command class.
      */
     constructor() {
-        super('.', 'goodbyemessage', ['byemsg'], {
+        super('goodbyemessage', ['byemsg'], {
             allowDM: false,
             description: 'Sets the goodbye message.',
             usage: [

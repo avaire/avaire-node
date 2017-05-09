@@ -9,7 +9,7 @@ class SlowClapCommand extends Command {
      * might be usfull for the abstract command class.
      */
     constructor() {
-        super('>', 'slowclap', ['sc'], {
+        super('slowclap', ['sc'], {
             description: 'Clap... Clap... Clap...'
         });
     }

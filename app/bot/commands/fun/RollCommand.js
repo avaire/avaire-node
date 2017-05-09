@@ -11,7 +11,7 @@ class RollCommand extends Command {
      * might be usfull for the abstract command class.
      */
     constructor() {
-        super('>', 'roll', [], {
+        super('roll', [], {
             description: 'Rolls a random number or a set of D&D dice.',
             usage: [
                 '',

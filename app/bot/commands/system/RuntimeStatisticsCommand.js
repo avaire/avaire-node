@@ -9,7 +9,7 @@ class RuntimeStatisticsCommand extends Command {
      * might be usfull for the abstract command class.
      */
     constructor() {
-        super(';', 'rstats', ['stats'], {
+        super('rstats', ['stats'], {
             description: 'Tells you information about the bot itself.',
             middleware: [
                 'isBotAdmin'

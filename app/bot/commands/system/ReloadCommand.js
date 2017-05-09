@@ -15,7 +15,7 @@ class ReloadCommand extends Command {
      * might be usfull for the abstract command class.
      */
     constructor() {
-        super(';', 'reload', ['rl'], {
+        super('reload', ['rl'], {
             description: 'Reloads the given property.',
             usage: '<property>',
             middleware: [
@@ -153,13 +153,15 @@ class ReloadCommand extends Command {
         let CommandInstance = require(commandFile);
         let instance = new CommandInstance;
         let commandTriggers = [];
+        let commandPrefix = CommandHandler.getGlobalPrefix(command.category);
 
         _.each(instance.getTriggers(), trigger => commandTriggers.push(_.toLower(trigger)));
 
+        instance.options.prefix = commandPrefix;
         app.bot.commands[command.name] = {
             name: command.name,
             category: command.category,
-            prefix: instance.getPrefix(),
+            prefix: commandPrefix,
             triggers: commandTriggers,
             handler: instance
         };

@@ -11,7 +11,7 @@ class BotAdminAddCommand extends Command {
      * might be usfull for the abstract command class.
      */
     constructor() {
-        super(';', 'baa', [], {
+        super('baa', [], {
             description: 'Add a bot admin to the bot-admin list.',
             usage: '<user>',
             middleware: [

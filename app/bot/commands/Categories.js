@@ -1,8 +1,26 @@
 module.exports = [
-    'Administration',
-    'Fun',
-    'Help',
-    'Music',
-    'System',
-    'Utility'
+    {
+        name: 'Administration',
+        prefix: '.'
+    },
+    {
+        name: 'Fun',
+        prefix: '>'
+    },
+    {
+        name: 'Help',
+        prefix: '.'
+    },
+    {
+        name: 'Music',
+        prefix: '!'
+    },
+    {
+        name: 'System',
+        prefix: ';'
+    },
+    {
+        name: 'Utility',
+        prefix: '!'
+    }
 ];

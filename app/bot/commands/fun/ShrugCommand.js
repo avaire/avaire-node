@@ -9,7 +9,7 @@ class ShrugCommand extends Command {
      * might be usfull for the abstract command class.
      */
     constructor() {
-        super('>', 'shrug', [], {
+        super('shrug', [], {
             description: '¯\\_(ツ)_/¯'
         });
     }

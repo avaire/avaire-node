@@ -15,7 +15,7 @@ class ModuleDisableCommand extends Command {
      * might be usfull for the abstract command class.
      */
     constructor() {
-        super(';', 'md', [], {
+        super('md', [], {
             description: 'Disable a given module',
             usage: '<module>',
             middleware: [

@@ -5,6 +5,8 @@ const _ = require('lodash');
 /** @ignore */
 const Command = require('./Command');
 /** @ignore */
+const categories = require('./Categories');
+/** @ignore */
 let triggers = [];
 
 /**
@@ -14,11 +16,13 @@ let triggers = [];
  */
 let commands = {};
 
-_.each(require('./Categories'), category => {
-    _.each(directory(module, `./${_.toLower(category)}`), (CommandInstance, key) => {
+_.each(categories, category => {
+    _.each(directory(module, `./${_.toLower(category.name)}`), (CommandInstance, key) => {
         if (CommandInstance.prototype instanceof Command) {
             let instance = new CommandInstance;
             let commandTriggers = [];
+
+            instance.options.prefix = category.prefix;
 
             _.each(instance.getTriggers(), trigger => {
                 if (triggers.indexOf(instance.getPrefix() + trigger) !== -1) {
@@ -36,7 +40,7 @@ _.each(require('./Categories'), category => {
 
             commands[key] = {
                 name: key,
-                category: _.toLower(category),
+                category: _.toLower(category.name),
                 prefix: instance.getPrefix(),
                 triggers: commandTriggers,
                 handler: instance

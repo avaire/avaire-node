@@ -18,7 +18,7 @@ class ServerInfoCommand extends Command {
      * might be usfull for the abstract command class.
      */
     constructor() {
-        super('.', 'serverinfo', ['sinfo'], {
+        super('serverinfo', ['sinfo'], {
             allowDM: false,
             description: 'Tells you information about the server.',
             middleware: [

@@ -17,7 +17,7 @@ class AiCommand extends Command {
      * might be usfull for the abstract command class.
      */
     constructor() {
-        super('.', 'ai', [], {
+        super('ai', [], {
             allowDM: false,
             description: 'Toggles the AI module on or off for the current channel.',
             middleware: [

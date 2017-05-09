@@ -16,7 +16,7 @@ class HelpCommand extends Command {
      * might be usfull for the abstract command class.
      */
     constructor() {
-        super('.', 'help', ['module', 'modules'], {
+        super('help', ['module', 'modules'], {
             ignoreHelpMenu: true,
             description: [
                 'Tells you about what commands the bot has, what they do and how you can use them.'
@@ -24,7 +24,7 @@ class HelpCommand extends Command {
             usage: [
                 '',
                 '[command]',
-                '[-category]'
+                '[category]'
             ]
         });
     }
@@ -50,17 +50,17 @@ class HelpCommand extends Command {
     }
 
     showCategories(sender, message) {
-        let filteredCategories = categories.filter(category => {
+        let filteredCategories = _.map(categories.filter(category => {
             for (let commandName in app.bot.commands) {
                 let command = app.bot.commands[commandName];
 
-                if (command.category === category.toLowerCase() &&
+                if (command.category === category.name.toLowerCase() &&
                        !command.handler.getOptions('ignoreHelpMenu', false)) {
                     return true;
                 }
             }
             return false;
-        });
+        }), 'name');
 
         return app.envoyer.sendEmbededMessage(message, {
             color: 0x3498DB,

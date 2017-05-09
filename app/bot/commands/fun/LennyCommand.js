@@ -9,7 +9,7 @@ class LennyCommand extends Command {
      * might be usfull for the abstract command class.
      */
     constructor() {
-        super('>', 'lenny', [], {
+        super('lenny', [], {
             description: '( ͡° ͜ʖ ͡°)'
         });
     }

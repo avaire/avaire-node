@@ -11,7 +11,7 @@ class SourceCommand extends Command {
      * might be usfull for the abstract command class.
      */
     constructor() {
-        super('!', 'source', [], {
+        super('source', [], {
             description: 'Gives you the source code for the Bot, or the code for a given command.',
             usage: [
                 '',

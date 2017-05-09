@@ -17,7 +17,7 @@ class GoodbyeCommand extends Command {
      * might be usfull for the abstract command class.
      */
     constructor() {
-        super('.', 'goodbye', ['bye'], {
+        super('goodbye', ['bye'], {
             allowDM: false,
             description: 'Toggles the goodbye module on or off for the current channel.',
             middleware: [

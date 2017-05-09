@@ -19,7 +19,7 @@ class UserInfoCommand extends Command {
      * might be usfull for the abstract command class.
      */
     constructor() {
-        super('.', 'userinfo', ['uinfo'], {
+        super('userinfo', ['uinfo'], {
             allowDM: false,
             description: 'Tells you information about the taged user, or yourself.',
             usage: [

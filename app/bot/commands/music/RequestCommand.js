@@ -15,7 +15,7 @@ class RequestCommand extends Command {
      * might be usfull for the abstract command class.
      */
     constructor() {
-        super('!', 'request', ['play'], {
+        super('request', ['play'], {
             allowDM: false,
             description: 'Use this to request songs from youtube, soundcloud or twitch streams.',
             usage: [

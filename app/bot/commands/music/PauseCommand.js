@@ -11,7 +11,7 @@ class PauseCommand extends Command {
      * might be usfull for the abstract command class.
      */
     constructor() {
-        super('!', 'pause', [], {
+        super('pause', [], {
             allowDM: false,
             description: 'Pauses the song that is currently playing.',
             middleware: [

@@ -9,7 +9,7 @@ class CanYouNotCommand extends Command {
      * might be usfull for the abstract command class.
      */
     constructor() {
-        super('>', 'canyounot', [], {
+        super('canyounot', [], {
             description: 'Why?'
         });
     }

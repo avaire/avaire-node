@@ -16,16 +16,11 @@ class Command {
      * aliases the command might have and additional options that
      * might be usfull for the command.
      *
-     * @param  {String}  prefix   The command prefix that should be used to trigger the command.
      * @param  {String}  command  The main command trigger.
      * @param  {Array}   aliases  Any additional command triggers.
      * @param  {Object}  options  The command options.
      */
-    constructor(prefix, command, aliases, options) {
-        if (typeof prefix === 'undefined') {
-            throw new TypeError('The prefix parameter can not be undefined!');
-        }
-
+    constructor(command, aliases, options) {
         if (typeof command === 'undefined') {
             throw new TypeError('The command parameter can not be undefined!');
         }
@@ -41,7 +36,6 @@ class Command {
          * @type {Object}
          */
         this.options = options;
-        this.options.prefix = prefix;
         this.options.command = command;
         let triggers = [command];
 

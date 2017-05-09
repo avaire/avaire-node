@@ -11,7 +11,7 @@ class BlacklistAddCommand extends Command {
      * might be usfull for the abstract command class.
      */
     constructor() {
-        super(';', 'bla', [], {
+        super('bla', [], {
             description: 'Add a given user ID to the bot blacklist.',
             usage: '<user> [reason]',
             middleware: [

@@ -17,7 +17,7 @@ class WelcomeCommand extends Command {
      * might be usfull for the abstract command class.
      */
     constructor() {
-        super('.', 'welcome', ['wel'], {
+        super('welcome', ['wel'], {
             allowDM: false,
             description: 'Toggles the welcome module on or off for the current channel.',
             middleware: [

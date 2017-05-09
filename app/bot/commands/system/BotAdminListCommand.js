@@ -9,7 +9,7 @@ class BotAdminListCommand extends Command {
      * might be usfull for the abstract command class.
      */
     constructor() {
-        super(';', 'bal', [], {
+        super('bal', [], {
             description: 'Lists all the current bot admins.',
             middleware: [
                 'isBotAdmin'

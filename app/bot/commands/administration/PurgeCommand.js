@@ -17,7 +17,7 @@ class PurgeCommand extends Command {
      * might be usfull for the abstract command class.
      */
     constructor() {
-        super('.', 'purge', ['clear'], {
+        super('purge', ['clear'], {
             allowDM: false,
             description: 'Deletes up to 1,000 chat messages in any channel, you can mention a user if you only want to delete messages by the mentioned user.',
             usage: [

@@ -17,7 +17,7 @@ class KickCommand extends Command {
      * might be usfull for the abstract command class.
      */
     constructor() {
-        super('.', 'kick', [], {
+        super('kick', [], {
             allowDM: false,
             description: 'Kicks the mentioned user off the server with the provided reason, this action will be reported to any channel that has modloging enabled on the server.',
             usage: '<user> [reason]',

@@ -11,7 +11,7 @@ class ShuffleCommand extends Command {
      * might be usfull for the abstract command class.
      */
     constructor() {
-        super('!', 'shuffle', [], {
+        super('shuffle', [], {
             allowDM: false,
             description: 'Use this to shuffle the songs waiting in the music queue.',
             middleware: [

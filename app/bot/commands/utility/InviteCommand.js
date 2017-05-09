@@ -9,7 +9,7 @@ class InviteCommand extends Command {
      * might be usfull for the abstract command class.
      */
     constructor() {
-        super('!', 'invite', ['join'], {
+        super('invite', ['join'], {
             description: [
                 'Gives you the OAuth2 invite link you can use to invite the bot with.'
             ]

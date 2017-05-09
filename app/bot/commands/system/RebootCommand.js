@@ -13,7 +13,7 @@ class RebootCommand extends Command {
      * might be usfull for the abstract command class.
      */
     constructor() {
-        super(';', 'reboot', ['restart'], {
+        super('reboot', ['restart'], {
             description: [
                 'Reboots the bot and all of its processes.'
             ],

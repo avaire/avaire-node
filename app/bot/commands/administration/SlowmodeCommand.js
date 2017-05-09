@@ -17,7 +17,7 @@ class SlowmodeCommand extends Command {
      * might be usfull for the abstract command class.
      */
     constructor() {
-        super('.', 'slowmode', [], {
+        super('slowmode', [], {
             allowDM: false,
             description: 'Disables the slowmode module or enables it with the given settings, users with the **text.manage_messages** permission are exempt from slowmode limits.',
             usage: [

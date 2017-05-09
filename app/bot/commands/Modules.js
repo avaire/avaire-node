@@ -21,7 +21,7 @@ class Modules {
         this.modules = {};
 
         categories.forEach(category => {
-            this.modules[category.toLowerCase()] = true;
+            this.modules[category.name.toLowerCase()] = true;
         });
     }
 

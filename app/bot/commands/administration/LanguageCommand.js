@@ -17,7 +17,7 @@ class LanguageCommand extends Command {
      * might be usfull for the abstract command class.
      */
     constructor() {
-        super('.', 'language', ['lang'], {
+        super('language', ['lang'], {
             allowDM: false,
             description: 'Allows you to change the language the bot will use on this server.',
             usage: [

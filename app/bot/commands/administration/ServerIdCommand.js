@@ -16,7 +16,7 @@ class ServerIdCommand extends Command {
      * might be usfull for the abstract command class.
      */
     constructor() {
-        super('.', 'serverid', ['sid'], {
+        super('serverid', ['sid'], {
             allowDM: false,
             description: 'Shows current server ID.'
         });

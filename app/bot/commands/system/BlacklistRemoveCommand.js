@@ -11,7 +11,7 @@ class BlacklistRemoveCommand extends Command {
      * might be usfull for the abstract command class.
      */
     constructor() {
-        super(';', 'blr', [], {
+        super('blr', [], {
             description: 'Removes a given user ID from the bot blacklist.',
             usage: '<user>',
             middleware: [

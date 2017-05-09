@@ -11,7 +11,7 @@ class QueueCommand extends Command {
      * might be usfull for the abstract command class.
      */
     constructor() {
-        super('!', 'queue', ['songs', 'song'], {
+        super('queue', ['songs', 'song'], {
             allowDM: false,
             description: 'Lists all the song currently in the queue.',
             middleware: [

@@ -9,7 +9,7 @@ class CoinCommand extends Command {
      * might be usfull for the abstract command class.
      */
     constructor() {
-        super('>', 'coin', [], {
+        super('coin', [], {
             description: 'Flips a coin for heads or tails for you'
         });
 

@@ -9,7 +9,7 @@ class BlahCommand extends Command {
      * might be usfull for the abstract command class.
      */
     constructor() {
-        super('>', 'blah', [], {
+        super('blah', [], {
             description: 'Blah?'
         });
     }
