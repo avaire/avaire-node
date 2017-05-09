@@ -50,13 +50,25 @@ class HelpCommand extends Command {
     }
 
     showCategories(sender, message) {
+        let filteredCategories = categories.filter(category => {
+            for (let commandName in app.bot.commands) {
+                let command = app.bot.commands[commandName];
+
+                if (command.category === category.toLowerCase() &&
+                       !command.handler.getOptions('ignoreHelpMenu', false)) {
+                    return true;
+                }
+            }
+            return false;
+        });
+
         return app.envoyer.sendEmbededMessage(message, {
             color: 0x3498DB,
             title: `:scroll: ${app.lang.get(message, 'commands.utility.help.module')}`,
-            description: '• ' + categories.join('\n• ') + '\n\n' + app.lang.get(message, 'commands.utility.help.category-note')
+            description: '• ' + filteredCategories.join('\n• ') + '\n\n' + app.lang.get(message, 'commands.utility.help.category-note')
         }, {
             command: this.getPrefix() + this.getTriggers()[0],
-            category: _.toLower(categories[0])
+            category: _.toLower(filteredCategories[0])
         });
     }
 
