@@ -62,7 +62,8 @@ class GuildTransformer extends Transformer {
             owner: null,
             name: null,
             local: null,
-            channels: {}
+            channels: {},
+            prefixes: null
         };
     }
 
@@ -75,6 +76,16 @@ class GuildTransformer extends Transformer {
      */
     getChannel(channelId) {
         return new ChannelTransformer(this.get('channels.' + channelId));
+    }
+
+    /**
+     * Gets the prefix for the given module.
+     *
+     * @param  {String}  moduleName  The name of the module that the prefix should be fetched for.
+     * @return {String|null}
+     */
+    getPrefix(moduleName) {
+        return this.get('prefixes.' + moduleName, null);
     }
 }
 
