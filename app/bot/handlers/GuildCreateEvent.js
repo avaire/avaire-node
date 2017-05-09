@@ -7,7 +7,7 @@ class GuildCreateEvent extends EventHandler {
 
         let avaireCentral = bot.Guilds.find(guild => guild.id === '284083636368834561');
 
-        if (typeof avaireCentral === 'undefined') { // Wat
+        if (typeof avaireCentral === 'undefined' || avaireCentral === null) {
             return;
         }
 
