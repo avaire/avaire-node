@@ -71,7 +71,7 @@ class DiscordBotStatsUpdateJob extends Job {
                 continue;
             }
 
-            promise.then(() => this.sendRequest());
+            promise.then(() => this.sendRequest(service, authToken));
         }
     }
 
