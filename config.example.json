@@ -19,7 +19,6 @@
     ],
     "apiKeys": {
         "google": "",
-        "apiai": "",
-        "discordstats": ""
+        "apiai": ""
     }
 }
