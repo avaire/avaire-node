@@ -30,6 +30,15 @@ class GuildTransformer extends Transformer {
             }
         }
 
+        if (data.hasOwnProperty('prefixes')) {
+            try {
+                data.prefixes = JSON.parse(data.prefixes);
+            } catch (err) {
+                app.logger.error(err);
+                data.prefixes = {};
+            }
+        }
+
         return data;
     }
 
