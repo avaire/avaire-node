@@ -20,7 +20,8 @@ class Blacklist extends Feature {
     /**
      * Adds the given user to the blacklist.
      *
-     * @param  {IUser}  user  The Discordie user instance.
+     * @param  {IUser}   user    The Discordie user instance.
+     * @param  {String}  reason  The reason the user was added to the blacklist.
      * @return {Promise}
      */
     addUser(user, reason = null) {
