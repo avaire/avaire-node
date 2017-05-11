@@ -53,17 +53,15 @@ class MusicHandler {
          * @type {Array}
          */
         this.unnecessaryProperties = [
-            'asr',
-            'abr',
-            'tbr',
-            'fps',
-            'formats',
-            'alt_title',
-            'subtitles',
-            'thumbnails',
-            'description',
-            'manifest_url',
-            'automatic_captions'
+            'upload_date', 'description', 'manifest_url', 'dislike_count', 'season_number',
+            'automatic_captions', 'average_rating', 'age_limit', 'annotations', 'filesize',
+            'protocol', 'alt_title', 'subtitles', 'fulltitle', 'like_count', 'thumbnails',
+            'display_id', 'requested_subtitles', 'start_time', 'playlist_id', 'format_id',
+            'episode_number', 'categories', 'playlist_title', 'http_headers', 'thumbnail',
+            'id', 'asr', 'abr', 'tbr', 'fps', 'series', 'formats', 'creator', 'playlist',
+            '_filename', 'uploader', 'format_note', 'extractor', 'format', 'player_url',
+            'tags', 'license', 'extractor_key', 'end_time', 'is_live', 'n_entries',
+            'view_count', 'uploader_id', 'webpage_url_basename', 'playlist_index'
         ];
     }
 
