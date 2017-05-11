@@ -36,7 +36,7 @@ class SourceCommand extends Command {
             return app.envoyer.sendInfo(message, 'AvaIre source code:\n\n' + this.rootUrl);
         }
 
-        let command = CommandHandler.getCommand(args[0]);
+        let command = CommandHandler.getCommand(message, args[0]);
 
         if (command === null) {
             return app.envoyer.sendInfo(message, 'Invalid command given, here is the full source instead.\n\n' + this.rootUrl);

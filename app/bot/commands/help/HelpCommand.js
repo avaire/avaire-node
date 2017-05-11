@@ -42,7 +42,7 @@ class HelpCommand extends Command {
             return this.showCategories(sender, message);
         }
 
-        if (!this.looksLikeCommand(args[0])) {
+        if (!this.looksLikeCommand(message, args[0])) {
             return this.showCategoryCommands(sender, message, args);
         }
 
@@ -62,12 +62,16 @@ class HelpCommand extends Command {
             return false;
         }), 'name');
 
+        let prefix = CommandHandler.getPrefix(message.guild.id,
+            app.bot.commands[this.constructor.name].category
+        );
+
         return app.envoyer.sendEmbededMessage(message, {
             color: 0x3498DB,
             title: `:scroll: ${app.lang.get(message, 'commands.utility.help.module')}`,
             description: '• ' + filteredCategories.join('\n• ') + '\n\n' + app.lang.get(message, 'commands.utility.help.category-note')
         }, {
-            command: this.getPrefix() + this.getTriggers()[0],
+            command: prefix + this.getTriggers()[0],
             category: _.toLower(filteredCategories[0])
         });
     }
@@ -95,10 +99,12 @@ class HelpCommand extends Command {
 
         let fields = [];
 
+        let prefix = CommandHandler.getPrefix(message.guild.id, commands[0].category);
+
         commands = _.sortBy(commands, [command => command.triggers[0]]);
         for (let commandIndex in commands) {
             let command = commands[commandIndex];
-            let field = command.prefix + command.triggers[0];
+            let field = prefix + command.triggers[0];
 
             for (let i = field.length; i < 28; i++) {
                 field += ' ';
@@ -106,7 +112,7 @@ class HelpCommand extends Command {
 
             let triggers = [];
             for (let i = 1; i < command.triggers.length; i++) {
-                triggers.push(command.prefix + command.triggers[i]);
+                triggers.push(prefix + command.triggers[i]);
             }
             field += '[' + triggers + ']';
 
@@ -118,13 +124,12 @@ class HelpCommand extends Command {
 
         app.envoyer.sendNormalMessage(message, ':page_with_curl: **' + listOfCommands + ':** ```apache\n' + fields.join('\n') + '```');
         return app.envoyer.sendInfo(message, 'commands.utility.help.command-note', {
-            prefix: commands[randomCommandIndex].prefix,
-            trigger: commands[randomCommandIndex].triggers[0]
+            trigger: commands[randomCommandIndex].triggers[0], prefix
         });
     }
 
     showCommand(sender, message, args) {
-        let command = CommandHandler.getCommand(args.join(' '));
+        let command = CommandHandler.getCommand(message, args.join(' '));
         if (command === null) {
             return app.envoyer.sendWarn(message, 'commands.utility.help.command-doesnt-exists', {
                 command: args[0]
@@ -133,12 +138,14 @@ class HelpCommand extends Command {
 
         let fields = [];
 
+        let prefix = CommandHandler.getPrefix(message.guild.id, command.category);
+
         // Add usage to the fields array
-        let usage = '`' + command.prefix + command.triggers[0] + ' ' + command.handler.getUsage() + '`';
+        let usage = '`' + prefix + command.triggers[0] + ' ' + command.handler.getUsage() + '`';
         if (_.isObjectLike(command.handler.getUsage())) {
             usage = '`';
             for (let index in command.handler.getUsage()) {
-                usage += command.prefix + command.triggers[0] + ' ' + command.handler.getUsage()[index] + '\n';
+                usage += prefix + command.triggers[0] + ' ' + command.handler.getUsage()[index] + '\n';
             }
             usage = usage.substr(0, usage.length - 1) + '`';
         }
@@ -147,7 +154,7 @@ class HelpCommand extends Command {
         // Add aliases to the fields array
         if (command.triggers.length > 1) {
             let aliases = command.triggers.slice(1, command.triggers.length);
-            fields.push({name: 'Aliases', value: `\`${command.prefix}` + aliases.join(`\`, \`${command.prefix}`) + '`'});
+            fields.push({name: 'Aliases', value: `\`${prefix}` + aliases.join(`\`, \`${prefix}`) + '`'});
         }
 
         let description = command.handler.getDescription();
@@ -169,9 +176,16 @@ class HelpCommand extends Command {
         });
     }
 
-    looksLikeCommand(string) {
-        for (let i in app.bot.commandPrefixes) {
-            if (_.startsWith(string, app.bot.commandPrefixes[i])) {
+    looksLikeCommand(message, string) {
+        let commandPrefixes = [];
+        for (let i in categories) {
+            let category = categories[i];
+
+            if (category.name === '_global') {
+                continue;
+            }
+
+            if (_.startsWith(string, CommandHandler.getPrefix(message.guild.id, category.name))) {
                 return true;
             }
         }

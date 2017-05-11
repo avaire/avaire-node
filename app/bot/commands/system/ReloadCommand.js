@@ -130,7 +130,7 @@ class ReloadCommand extends Command {
             return app.envoyer.sendWarn(message, ':warning: Missing argument `command`, a valid command is required.');
         }
 
-        let command = CommandHandler.getCommand(args.join(' '));
+        let command = CommandHandler.getCommand(message, args.join(' '));
 
         if (command === null) {
             return app.envoyer.sendWarn(message, ':warning: Invalid command argument given, `:command` is not a valid command', {
@@ -167,7 +167,7 @@ class ReloadCommand extends Command {
         };
 
         return app.envoyer.sendSuccess(message, ':ok_hand: `:command` command has been reloaded!', {
-            command: instance.getPrefix() + commandTriggers[0]
+            command: CommandHandler.getPrefix(message.guild.id, command.category) + commandTriggers[0]
         });
     }
 

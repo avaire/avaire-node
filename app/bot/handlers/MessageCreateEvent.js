@@ -60,7 +60,7 @@ class MessageCreateEvent extends EventHandler {
             }
 
             let message = socket.message.content;
-            let command = CommandHandler.getCommand(message);
+            let command = CommandHandler.getCommand(socket.message, message);
 
             // Checks to see if a valid command was found from the message context, if a
             // command was found the onCommand method will be called for the handler.
