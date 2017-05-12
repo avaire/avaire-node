@@ -28,9 +28,7 @@ class BotListRemoveCommand extends Command {
      */
     onCommand(sender, message, args) {
         if (args.length === 0) {
-            return app.envoyer.sendWarn(message, 'language.errors.missing-arguments', {
-                command: this.getPrefix() + this.getTriggers()[0]
-            });
+            return this.sendMissingArguments(message);
         }
 
         let index = app.config.botAccess.indexOf(args[0]);

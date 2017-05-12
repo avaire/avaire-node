@@ -77,9 +77,7 @@ class SlowmodeCommand extends Command {
      */
     enableSlowmode(message, database, args) {
         if (args.length < 2) {
-            return app.envoyer.sendWarn(message, 'language.errors.missing-arguments', {
-                command: this.getPrefix() + this.getTriggers()[0]
-            });
+            return this.sendMissingArguments(message);
         }
 
         let limit = parseInt(args[0], 10);

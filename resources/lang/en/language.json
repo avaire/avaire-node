@@ -8,7 +8,7 @@
         "throttle-limit-hit": "Too many `:command` attempts. Please try again in **:seconds** seconds.",
         "require-bot-missing": "I don't have the required permission node to execute this command: *:permission*",
         "require-user-missing": "You're missing the required permission node for this command: *:permission*",
-        "missing-arguments": ":warning: Missing arguments, use `.help :command` to learn more about the command",
+        "missing-arguments": ":warning: Missing arguments, use `:help :command` to learn more about the command",
         "module-is-disabled": "<@:userid> The command you attempted to use belongs to the `:category` module which is disabled right now."
     }
 }

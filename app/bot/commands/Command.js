@@ -1,5 +1,7 @@
 /** @ignore */
 const _ = require('lodash');
+/** @ignore */
+const CommandHandler = require('./CommandHandler');
 
 /**
  * The abstract command class, this class works as a simple wrapper for bot
@@ -50,10 +52,18 @@ class Command {
     /**
      * Gets the command prefix.
      *
+     * @param  {IMessage|null}  message  The Discordie message object, or null.
      * @return {String}
      */
-    getPrefix() {
-        return this.getOptions('prefix');
+    getPrefix(message) {
+        if (typeof message === 'undefined') {
+            return this.getOptions('prefix');
+        }
+
+        if (!app.bot.commands.hasOwnProperty(this.constructor.name)) {
+            return this.getOptions('prefix');
+        }
+        return CommandHandler.getPrefix(message, app.bot.commands[this.constructor.name].category);
     }
 
     /**
@@ -109,6 +119,21 @@ class Command {
         }
 
         return option;
+    }
+
+    /**
+     * Sends missing arguments message.
+     *
+     * @param  {IMessage}  message  The Discordie message object.
+     * @return {Promise}
+     */
+    sendMissingArguments(message) {
+        let helpCommand = app.bot.commands.HelpCommand;
+
+        return app.envoyer.sendWarn(message, 'language.errors.missing-arguments', {
+            command: this.getPrefix(message) + this.getTriggers()[0],
+            help: CommandHandler.getPrefix(message, helpCommand.category) + helpCommand.triggers[0]
+        });
     }
 
     /**

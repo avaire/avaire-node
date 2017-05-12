@@ -26,11 +26,10 @@ class ThrottleChannel extends Middleware {
 
         let expireTime = app.throttle.getThrottleItem(key).expire;
         let secondsLeft = Math.ceil((expireTime - new Date) / 1000);
-        let command = this.getCommandTrigger();
+        let command = this.getCommandTrigger(request.message);
 
         return app.envoyer.sendWarn(request.message, 'language.errors.throttle-limit-hit', {
-            command,
-            seconds: secondsLeft
+            seconds: secondsLeft, command
         }).then(message => {
             return app.scheduler.scheduleDelayedTask(() => {
                 return message.delete();
@@ -41,10 +40,11 @@ class ThrottleChannel extends Middleware {
     /**
      * Gets the commands main command trigger.
      *
+     * @param  {IMessage}  message  The Discordie message object.
      * @return {String}
      */
-    getCommandTrigger() {
-        return this.command.handler.getPrefix() + this.command.handler.getTriggers()[0];
+    getCommandTrigger(message) {
+        return this.command.handler.getPrefix(message) + this.command.handler.getTriggers()[0];
     }
 
     /**
