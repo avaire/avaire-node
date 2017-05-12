@@ -10,5 +10,9 @@ module.exports = {
     'request.cat': {
         intent: 'Random cat',
         handler: require('./intents/RequestCat')
+    },
+    'command.prefix': {
+        intent: 'Command Prefix',
+        handler: require('./intents/CommandPrefix')
     }
 };
