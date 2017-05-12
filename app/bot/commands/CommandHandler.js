@@ -30,21 +30,31 @@ class CommandHandler {
      */
     getCommand(message, commandString) {
         let trigger = commandString.split(' ')[0].toLowerCase();
-        let command = this.getGlobalCommand(this.prepareCommandTrigger(message.guild.id, trigger));
 
-        if (command === null) {
-            return null;
+        if (message.isPrivate) {
+            return this.getGlobalCommand(trigger);
         }
 
-        // If the guild has a custom prefix for the command category/module and the command was
-        // executed with the normal prefix we'll return null as well, preventing the command
-        // from being run using normal prefixes while custom prefixes are enabled.
-        let normalPrefix = this.getPrefix(message.guild.id, command.category);
-        if (normalPrefix !== null && !_.startsWith(trigger, normalPrefix)) {
-            return null;
+        let commands = this.prepareCommandTrigger(message.guild.id, trigger);
+        for (let i in commands) {
+            let command = this.getGlobalCommand(commands[i]);
+
+            if (command === null) {
+                continue;
+            }
+
+            // If the guild has a custom prefix for the command category/module and the command was
+            // executed with the normal prefix we'll return null as well, preventing the command
+            // from being run using normal prefixes while custom prefixes are enabled.
+            let normalPrefix = this.getPrefix(message, command.category);
+            if (normalPrefix !== null && !_.startsWith(trigger, normalPrefix)) {
+                return null;
+            }
+
+            return command;
         }
 
-        return command;
+        return null;
     }
 
     /**
@@ -70,18 +80,22 @@ class CommandHandler {
     /**
      * Gets the prefix for the given module name and guild id.
      *
-     * @param  {String}  guildId     The ID of the guild.
-     * @param  {String}  moduleName  The name of the module.
+     * @param  {IMessage}  message     The Discordie message object that triggered the command.
+     * @param  {String}    moduleName  The name of the module.
      * @return {String|null}
      */
-    getPrefix(guildId, moduleName) {
-        if (!this.prefixes.hasOwnProperty(guildId)) {
+    getPrefix(message, moduleName) {
+        if (message.isPrivate) {
+            return this.getGlobalPrefix(moduleName);
+        }
+
+        if (!this.prefixes.hasOwnProperty(message.guild.id)) {
             return null;
         }
 
-        for (let module in this.prefixes[guildId]) {
+        for (let module in this.prefixes[message.guild.id]) {
             if (module.toLowerCase() === moduleName.toLowerCase()) {
-                return this.prefixes[guildId][module];
+                return this.prefixes[message.guild.id][module];
             }
         }
 
@@ -112,7 +126,7 @@ class CommandHandler {
      *
      * @param  {String}  guildId  The ID of the guild.
      * @param  {String}  command  The command trigger.
-     * @return {Command}
+     * @return {Array}
      */
     prepareCommandTrigger(guildId, command) {
         let memoryGuildCache = app.cache.get(`database.${guildId}`, null, 'memory');
@@ -130,6 +144,7 @@ class CommandHandler {
         }
         sortable.sort((a, b) => b[1].length - a[1].length);
 
+        let sharedCommands = [];
         for (let i in sortable) {
             let module = sortable[i];
 
@@ -137,10 +152,14 @@ class CommandHandler {
                 continue;
             }
 
-            return this.getGlobalPrefix(module[0]) + command.substr(module[1].length);
+            sharedCommands.push(this.getGlobalPrefix(module[0]) + command.substr(module[1].length));
         }
 
-        return command;
+        if (sharedCommands.length === 0) {
+            sharedCommands.push(command);
+        }
+
+        return sharedCommands;
     }
 }
 

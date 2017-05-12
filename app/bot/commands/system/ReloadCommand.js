@@ -167,7 +167,7 @@ class ReloadCommand extends Command {
         };
 
         return app.envoyer.sendSuccess(message, ':ok_hand: `:command` command has been reloaded!', {
-            command: CommandHandler.getPrefix(message.guild.id, command.category) + commandTriggers[0]
+            command: CommandHandler.getPrefix(message, command.category) + commandTriggers[0]
         });
     }
 

@@ -62,7 +62,7 @@ class HelpCommand extends Command {
             return false;
         }), 'name');
 
-        let prefix = CommandHandler.getPrefix(message.guild.id,
+        let prefix = CommandHandler.getPrefix(message,
             app.bot.commands[this.constructor.name].category
         );
 
@@ -99,7 +99,7 @@ class HelpCommand extends Command {
 
         let fields = [];
 
-        let prefix = CommandHandler.getPrefix(message.guild.id, commands[0].category);
+        let prefix = CommandHandler.getPrefix(message, commands[0].category);
 
         commands = _.sortBy(commands, [command => command.triggers[0]]);
         for (let commandIndex in commands) {
@@ -138,7 +138,7 @@ class HelpCommand extends Command {
 
         let fields = [];
 
-        let prefix = CommandHandler.getPrefix(message.guild.id, command.category);
+        let prefix = CommandHandler.getPrefix(message, command.category);
 
         // Add usage to the fields array
         let usage = '`' + prefix + command.triggers[0] + ' ' + command.handler.getUsage() + '`';
@@ -177,20 +177,22 @@ class HelpCommand extends Command {
     }
 
     looksLikeCommand(message, string) {
-        let commandPrefixes = [];
         for (let i in categories) {
             let category = categories[i];
 
-            if (category.name === '_global') {
-                continue;
-            }
-
-            if (_.startsWith(string, CommandHandler.getPrefix(message.guild.id, category.name))) {
+            if (_.startsWith(string, this.getPrefixFromModule(message, category.name))) {
                 return true;
             }
         }
 
         return false;
+    }
+
+    getPrefixFromModule(message, module) {
+        if (message.isPrivate) {
+            return CommandHandler.getGlobalPrefix(module);
+        }
+        return CommandHandler.getPrefix(message, module);
     }
 }
 
