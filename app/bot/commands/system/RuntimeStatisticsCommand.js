@@ -26,116 +26,134 @@ class RuntimeStatisticsCommand extends Command {
      * @return {mixed}
      */
     onCommand(sender, message, args) {
-        let members = this.getMemberStats();
-        let channels = this.getChannelStats();
+        let fields = [];
+        return this.getMemberStats().then(members => {
+            fields.push({
+                name: 'Members',
+                value: [
+                    members.totalMembers + ' Total',
+                    members.totalOnline + ' Online',
+                    members.uniqueMembers + ' Unique',
+                    members.uniqueOnline + ' Unique online'
+                ].join('\n'),
+                inline: true
+            });
 
-        return message.channel.sendMessage('', false, {
-            timestamp: new Date,
-            color: 0x3498DB,
-            title: 'Runtime Bot Statistics',
-            url: 'https://discordapp.com/invite/gt2FWER',
-            author: {
-                icon_url: `https://cdn.discordapp.com/avatars/${bot.User.id}/${bot.User.avatar}.png?size=256`,
-                name: `${bot.User.username} v${app.version}`
-            },
-            fields: [
-                {
-                    name: 'Members',
-                    value: [
-                        members.totalMembers + ' Total',
-                        members.totalOnline + ' Online',
-                        members.uniqueMembers + ' Unique',
-                        members.uniqueOnline + ' Unique online'
-                    ].join('\n'),
-                    inline: true
+            return this.getChannelStats();
+        }).then(channels => {
+            fields.push({
+                name: 'Channels',
+                value: [
+                    channels.totalChannels + ' Total',
+                    channels.textChannels + ' Text',
+                    channels.voiceChannels + ' Voice'
+                ].join('\n'),
+                inline: true
+            });
+
+            return Promise.resolve();
+        }).then(() => {
+            fields.push({
+                name: 'Memory Usage',
+                value: this.getSystemMemoryUsage(),
+                inline: true
+            });
+
+            fields.push({
+                name: 'Servers',
+                value: bot.Guilds.length,
+                inline: true
+            });
+
+            fields.push({
+                name: 'DB Queries run',
+                value: app.bot.statistics.databaseQueries,
+                inline: true
+            });
+
+            fields.push({
+                name: 'Commands run',
+                value: app.bot.statistics.commands,
+                inline: true
+            });
+
+            fields.push({
+                name: 'Active Voice',
+                value: bot.VoiceConnections.length,
+                inline: true
+            });
+
+            fields.push({
+                name: 'Messages Received',
+                value: app.bot.statistics.messages,
+                inline: true
+            });
+
+            fields.push({
+                name: 'Uptime',
+                value: this.getProcessUptime(),
+                inline: true
+            });
+
+            return Promise.resolve();
+        }).then(() => {
+            return app.envoyer.sendEmbededMessage(message, {
+                timestamp: new Date,
+                color: 0x3498DB,
+                title: 'Runtime Bot Statistics',
+                url: 'https://discordapp.com/invite/gt2FWER',
+                author: {
+                    icon_url: `https://cdn.discordapp.com/avatars/${bot.User.id}/${bot.User.avatar}.png?size=256`,
+                    name: `${bot.User.username} v${app.version}`
                 },
-                {
-                    name: 'Channels',
-                    value: [
-                        channels.totalChannels + ' Total',
-                        channels.textChannels + ' Text',
-                        channels.voiceChannels + ' Voice'
-                    ].join('\n'),
-                    inline: true
+                footer: {
+                    text: `Created by Senither#8023 using the Discordie framework`
                 },
-                {
-                    name: 'Memory Usage',
-                    value: this.getSystemMemoryUsage(),
-                    inline: true
-                },
-                {
-                    name: 'Servers',
-                    value: bot.Guilds.length,
-                    inline: true
-                },
-                {
-                    name: 'DB Queries run',
-                    value: app.bot.statistics.databaseQueries,
-                    inline: true
-                },
-                {
-                    name: 'Commands run',
-                    value: app.bot.statistics.commands,
-                    inline: true
-                },
-                {
-                    name: 'Active Voice',
-                    value: bot.VoiceConnections.length,
-                    inline: true
-                },
-                {
-                    name: 'Messages Received',
-                    value: app.bot.statistics.messages,
-                    inline: true
-                },
-                {
-                    name: 'Uptime',
-                    value: this.getProcessUptime(),
-                    inline: true
-                }
-            ],
-            footer: {
-                text: `Created by Senither#8023 using the Discordie framework`
-            }
+                fields
+            });
         });
     }
 
     getChannelStats() {
-        return app.cache.remember('bot.stats.channels', 60, () => {
-            let channels = bot.Channels.toArray();
-            let textChannels = channels.reduce((a, channel) => {
-                return (channel.constructor.name === 'ITextChannel') ? a + 1 : a;
-            }, 0);
+        return new Promise((resolve, reject) => {
+            resolve(app.cache.remember('bot.stats.channels', 60, () => {
+                let channels = bot.Channels.toArray();
+                let textChannels = channels.reduce((a, channel) => {
+                    return (channel.constructor.name === 'ITextChannel') ? a + 1 : a;
+                }, 0);
 
-            return {
-                totalChannels: channels.length,
-                textChannels,
-                voiceChannels: channels.length - textChannels
-            };
+                return {
+                    textChannels,
+                    totalChannels: channels.length,
+                    voiceChannels: channels.length - textChannels
+                };
+            }));
         });
     }
 
     getMemberStats() {
-        return app.cache.remember('bot.stats.members', 60, () => {
-            let guildMembers = bot.Guilds.map(guild => {
-                return guild.members;
-            });
+        return new Promise((resolve, reject) => {
+            resolve(app.cache.remember('bot.stats.members', 60, () => {
+                let guildMembers = bot.Guilds.map(guild => {
+                    return guild.members;
+                });
 
-            return {
-                totalMembers: guildMembers.reduce((a, b) => {
-                    return a + b.length;
-                }, 0),
-                totalOnline: guildMembers.reduce((a, b) => {
-                    return a + b.reduce((c, member) => {
-                        return (member.status === 'offline') ? c : c + 1;
-                    }, 0);
-                }, 0),
+                return {
+                    totalMembers: guildMembers.reduce((a, b) => {
+                        return a + b.length;
+                    }, 0),
+                    totalOnline: guildMembers.reduce((a, b) => {
+                        return a + b.reduce((c, member) => {
+                            return (member.status === 'offline') ? c : c + 1;
+                        }, 0);
+                    }, 0),
 
-                uniqueMembers: bot.Users.length,
-                uniqueOnline: bot.Users.toArray().reduce((a, member) => {
-                    return (member.status === 'offline') ? a : a + 1;
-                }, 0)
-            };
+                    uniqueMembers: bot.Users.length,
+                    uniqueOnline: bot.Users.toArray().reduce((a, member) => {
+                        return (member.status === 'offline') ? a : a + 1;
+                    }, 0)
+                };
+            }));
         });
     }
 
