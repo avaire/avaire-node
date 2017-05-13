@@ -21,7 +21,7 @@ class ChangeGameJob extends Job {
     constructor() {
         super();
 
-        this.setRandomGame();
+        this.run();
     }
 
     /**
@@ -31,19 +31,11 @@ class ChangeGameJob extends Job {
      * @override
      */
     run() {
-        if (Math.random() * 100 <= 25) {
-            this.setRandomGame();
-        }
-    }
+        let game = _.sample(app.config.playing);
 
-    /**
-     * Sets a random game from the config.json playing
-     * properpty as the bots playing status.
-     */
-    setRandomGame() {
-        bot.User.setStatus(null, {
-            name: _.sample(app.config.playing)
-        });
+        game = game.replace(/%guilds%/gi, bot.Guilds.length);
+
+        bot.User.setStatus(null, game);
     }
 }
 
