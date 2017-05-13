@@ -119,6 +119,10 @@ class UserInfoCommand extends Command {
      * @return {String}
      */
     getUsersInGuild(userId) {
+        if (userId === bot.User.id) {
+            return 'All of them';
+        }
+
         let servers = 0;
 
         bot.Guilds.forEach(guild => {
