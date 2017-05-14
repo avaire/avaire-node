@@ -38,7 +38,8 @@ class AIServiceProvider extends ServiceProvider {
      * @return {undefined}
      */
     textRequest(socket, message) {
-        app.logger.info(`Executing AI Request <${socket.message.resolveContent()}> from ${socket.message.author.username}`);
+        let author = socket.message.author;
+        app.logger.info(`Executing AI Request <${socket.message.resolveContent()}> from ${author.username}#${author.discriminator}`);
 
         // Creates the API text request and sends it off to API.AI, the users id is used as
         // the session id so the AIs can differentiate between the incomming text requests.
