@@ -13,6 +13,8 @@ class Application {
 
     /**
      * Bootstraps the application and prepares it for use.
+     *
+     * @return {Promise}
      */
     bootstrap() {
         global.app = require('./app');
@@ -20,8 +22,9 @@ class Application {
         app.logger.info(`Bootstraping AvaIre v${app.version}`);
 
         this.prepareConfig();
-        this.prepareDatabase();
         this.prepareDiscordie();
+
+        return this.prepareDatabase();
     }
 
     /**
@@ -55,6 +58,8 @@ class Application {
     /**
      * Loads and prepares the database by storing it in the global app variable,
      * connecting to the database, and running any migrations needs to be run.
+     *
+     * @return {Promise}
      */
     prepareDatabase() {
         app.logger.info(' - Setting up database and tables');
@@ -62,9 +67,7 @@ class Application {
         const Database = require('./app/database/Database');
 
         app.database = new Database();
-        app.database.runMigrations().catch(err => {
-            app.logger.error(err);
-        });
+        return app.database.runMigrations();
     }
 
     /**

@@ -13,10 +13,10 @@ const app = require('./application');
 
 // Loads in all of the dependencies that are required
 // to run Ava and prepares them for use.
-app.bootstrap();
+app.bootstrap().then(() => {
+    // Registers and prepares the events, jobs and services that Ava uses.
+    app.register();
 
-// Registers and prepares the events, jobs and services that Ava uses.
-app.register();
-
-// Connects to Discord and make Ava available to everyone.
-app.connect();
+    // Connects to Discord and make Ava available to everyone.
+    app.connect();
+});
