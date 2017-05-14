@@ -56,7 +56,7 @@ class BanModule {
         user = message.guild.members.find(gUser => gUser.id === user);
 
         if (user === undefined) {
-            message.channel.sendMessage(':warning: Invalid user id provided, please use a valid id of the user you want to ban');
+            app.envoyer.sendWarn(message, ':warning: Invalid user id provided, please use a valid id of the user you want to ban');
             return undefined;
         }
 

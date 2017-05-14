@@ -33,7 +33,7 @@ class JoinLeaveMessageHandler {
                 }
 
                 let message = channel.get(module + '.message', defaultMessage);
-                textChannel.sendMessage(this.prepareMessage(message, member, textChannel, guild));
+                return app.envoyer.sendNormalMessage(channel, this.prepareMessage(message, member, textChannel, guild));
             }
         });
     }

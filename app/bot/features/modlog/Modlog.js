@@ -58,7 +58,7 @@ class Modlog extends Feature {
                     continue;
                 }
 
-                modlogChannel.sendMessage(this.prefix + formattedMessage);
+                app.envoyer.sendNormalMessage(message, this.prefix + formattedMessage);
             }
         });
     }

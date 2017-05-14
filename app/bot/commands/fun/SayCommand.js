@@ -28,7 +28,7 @@ class RollCommand extends Command {
      */
     onCommand(sender, message, args) {
         if (message.isPrivate) {
-            return message.channel.sendMessage(args.join(' '));
+            return app.envoyer.sendNormalMessage(message, args.join(' '));
         }
 
         if (!app.permission.botHas(message, 'text.manage_messages')) {

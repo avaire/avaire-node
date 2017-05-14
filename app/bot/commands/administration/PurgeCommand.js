@@ -90,7 +90,7 @@ class PurgeCommand extends Command {
             });
         }).catch(err => {
             app.logger.error(err);
-            return message.channel.sendMessage(':warning: ' + err.response.res.body.message);
+            return app.envoyer.sendWarn(message, ':warning: ' + err.response.res.body.message);
         });
     }
 

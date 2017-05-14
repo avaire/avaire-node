@@ -44,14 +44,14 @@ class EvalCommand extends Command {
         try {
             let evalObject = eval(evalString);
 
-            message.channel.sendMessage('```xl\n' + this.inspect(evalObject) + '\n```').then(message => {
+            return app.envoyer.sendNormalMessage(message, '```xl\n' + this.inspect(evalObject) + '\n```').then(message => {
                 if (evalObject !== undefined && evalObject !== null && typeof evalObject.then === 'function') {
                     evalObject.then(() => message.edit('```xl\n' + this.inspect(evalObject) + '\n```'))
                               .catch(err => message.edit('```xl\n' + this.inspect(err) + '\n```'));
                 }
             });
         } catch (err) {
-            message.channel.sendMessage('```xl\n' + err + '\n```');
+            app.envoyer.sendNormalMessage(message, '```xl\n' + err + '\n```');
         }
     }
 

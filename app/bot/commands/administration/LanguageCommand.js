@@ -82,7 +82,7 @@ class LanguageCommand extends Command {
                 default: app.lang.defaultLocal.toUpperCase()
             });
 
-            return message.channel.sendMessage('', false, {
+            return app.envoyer.sendEmbededMessage(message, {
                 color: 0x3498DB,
                 url: app.config.bot.oauth,
                 fields: [
