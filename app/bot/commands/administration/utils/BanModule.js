@@ -11,7 +11,7 @@ class BanModule {
      */
     ban(sender, message, args, deleteMessages = false) {
         if (message.mentions.length === 0) {
-            return app.envoyer.sendWarn(message, '');
+            return app.envoyer.sendWarn(message, 'You have to mention the user you want to ban.');
         }
 
         let user = this.getUser(message, args.shift());
