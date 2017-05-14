@@ -26,7 +26,8 @@ class ProcessCommand extends Middleware {
         let user = socket.message.author;
 
         app.logger.info(`Executing Command <${this.prettifyContent(socket)}> from ${user.username}#${user.discriminator}`);
-        app.bot.statistics.commands++;
+
+        this.incrementCommandCounterFor(this.command.handler.constructor.name);
 
         return this.command.handler.onCommand(
             user, socket.message, _.drop(socket.message.content.trim().split(' ')), socket
@@ -42,6 +43,21 @@ class ProcessCommand extends Middleware {
     prettifyContent(socket) {
         return socket.message.resolveContent()
                      .replace(/\n/g, '\\n');
+    }
+
+    /**
+     * Increments the statistics for the given command.
+     *
+     * @param  {String}  command  The command name that should be incremented.
+     * @return {mixed}
+     */
+    incrementCommandCounterFor(command) {
+        app.bot.statistics.commands++;
+
+        if (app.bot.statistics.commandUsage.hasOwnProperty(command)) {
+            return app.bot.statistics.commandUsage[command]++;
+        }
+        app.bot.statistics.commandUsage[command] = 1;
     }
 }
 
