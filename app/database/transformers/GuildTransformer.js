@@ -2,6 +2,8 @@
 const Transformer = require('./Transformer');
 /** @ignore */
 const ChannelTransformer = require('./ChannelTransformer');
+/** @ignore */
+const GuildTypeTransformer = require('./GuildTypeTransformer');
 
 /**
  * The guild transformer, allows for an easier way
@@ -68,6 +70,7 @@ class GuildTransformer extends Transformer {
     defaults() {
         return {
             id: null,
+            type: 0,
             owner: null,
             name: null,
             local: null,
@@ -85,6 +88,22 @@ class GuildTransformer extends Transformer {
      */
     getChannel(channelId) {
         return new ChannelTransformer(this.get('channels.' + channelId));
+    }
+
+    /**
+     * Gets the guild type transformer for the guild type.
+     *
+     * @return {GuildTypeTransformer}
+     */
+    getType() {
+        let id = this.get('type', 0);
+
+        for (let i in app.constants.GUILD_TYPES) {
+            if (app.constants.GUILD_TYPES[i].id === id) {
+                return new GuildTypeTransformer(app.constants.GUILD_TYPES[i]);
+            }
+        }
+        return new GuildTypeTransformer;
     }
 
     /**
