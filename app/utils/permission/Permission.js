@@ -8,16 +8,8 @@ class Permission {
      * @return {Boolean}
      */
     requestHas(request, permission) {
-        if (!this.isValidPermission(permission)) {
-            return false;
-        }
-
-        let p = this.preparePermission(permission);
-
-        let userGuild = request.message.author.permissionsFor(request.message.guild);
-        let userChannel = request.message.author.permissionsFor(request.message.channel);
-
-        return userGuild[p.group][p.perms] || userChannel[p.group][p.perms];
+        return this.has(request.message.author, request.message.guild, permission) ||
+               this.has(request.message.author, request.message.channel, permission);
     }
 
     /**
@@ -28,16 +20,8 @@ class Permission {
      * @return {Boolean }
      */
     botHas(message, permission) {
-        if (!this.isValidPermission(permission)) {
-            return false;
-        }
-
-        let p = this.preparePermission(permission);
-
-        let guild = bot.User.permissionsFor(message.guild);
-        let channel = bot.User.permissionsFor(message.channel);
-
-        return guild[p.group][p.perms] || channel[p.group][p.perms];
+        return this.has(bot.User, message.guild, permission) ||
+               this.has(bot.User, message.channel, permission);
     }
 
     /**
@@ -48,16 +32,8 @@ class Permission {
      * @return {Boolean }
      */
     userHas(message, permission) {
-        if (!this.isValidPermission(permission)) {
-            return false;
-        }
-
-        let p = this.preparePermission(permission);
-
-        let guild = message.member.permissionsFor(message.guild);
-        let channel = message.member.permissionsFor(message.channel);
-
-        return guild[p.group][p.perms] || channel[p.group][p.perms];
+        return this.has(message.member, message.guild, permission) ||
+               this.has(message.member, message.channel, permission);
     }
 
     /**
