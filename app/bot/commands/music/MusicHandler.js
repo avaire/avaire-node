@@ -124,13 +124,20 @@ class MusicHandler {
                 return this.gracefullReject(reject, 'commands.music.voice-required');
             }
 
-            this.queues[message.guild.id] = [];
+            if (!app.permission.has(bot.User, user.getVoiceChannel(), 'voice.connect')) {
+                return this.gracefullReject(reject, 'commands.music.missing-permissions', {
+                    permission: 'Connect'
+                });
+            }
 
-            user.getVoiceChannel().join().then(() => resolve()).catch(err => {
-                if (err.message === 'Missing permission') {
-                    return this.gracefullReject(reject, 'commands.music.missing-permissions');
-                }
-            });
+            if (!app.permission.has(bot.User, user.getVoiceChannel(), 'voice.speak')) {
+                return this.gracefullReject(reject, 'commands.music.missing-permissions', {
+                    permission: 'Speak'
+                });
+            }
+
+            this.queues[message.guild.id] = [];
+            user.getVoiceChannel().join().then(() => resolve());
         });
     }
 

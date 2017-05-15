@@ -61,6 +61,25 @@ class Permission {
     }
 
     /**
+     * Checks if the user has the given permission in the given context.
+     *
+     * @param  {IUser}            user        The Discordie user object.
+     * @param  {IGuild|IChannel}  context     The Discordie context object.
+     * @param  {String}           permission  The permission node that should be checked.
+     * @return {Boolean}
+     */
+    has(user, context, permission) {
+        if (!this.isValidPermission(permission)) {
+            return false;
+        }
+
+        let permissionNode = this.preparePermission(permission);
+        let contextPermissions = user.permissionsFor(context);
+
+        return contextPermissions[permissionNode.group][permissionNode.perms];
+    }
+
+    /**
      * Checks if the given permission is a valid permission.
      *
      * @param  {String}  permission  The permission node that should be checked.

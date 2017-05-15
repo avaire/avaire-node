@@ -1,5 +1,5 @@
 {
-    "missing-permissions": "Jeg kan ikke oprette forbindelse til kanal du er i, da jeg ikke har `Connect` tilladelser for det.",
+    "missing-permissions": "Jeg kan ikke oprette forbindelse til kanal du er i, da jeg ikke har `:permission` tilladelser for det.",
     "end-of-queue": "Afspilningslisten er slut, forlader kanalen.",
     "voice-required": "Du er nødt til at være forbundet til en talekanal.",
     "now-playing": "Spiller nu: [:title](:link)\n`:duration` - Foreslået af <@:requester>",
