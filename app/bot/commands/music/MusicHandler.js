@@ -116,28 +116,24 @@ class MusicHandler {
                 return resolve();
             }
 
-            let user = message.guild.members.find(guildUser => {
-                return guildUser.id === message.author.id;
-            });
-
-            if (user.getVoiceChannel() === null) {
+            if (message.member.getVoiceChannel() === null) {
                 return this.gracefullReject(reject, 'commands.music.voice-required');
             }
 
-            if (!app.permission.has(bot.User, user.getVoiceChannel(), 'voice.connect')) {
+            if (!app.permission.has(bot.User, message.member.getVoiceChannel(), 'voice.connect')) {
                 return this.gracefullReject(reject, 'commands.music.missing-permissions', {
                     permission: 'Connect'
                 });
             }
 
-            if (!app.permission.has(bot.User, user.getVoiceChannel(), 'voice.speak')) {
+            if (!app.permission.has(bot.User, message.member.getVoiceChannel(), 'voice.speak')) {
                 return this.gracefullReject(reject, 'commands.music.missing-permissions', {
                     permission: 'Speak'
                 });
             }
 
             this.queues[message.guild.id] = [];
-            user.getVoiceChannel().join().then(() => resolve());
+            message.member.getVoiceChannel().join().then(() => resolve());
         });
     }
 
