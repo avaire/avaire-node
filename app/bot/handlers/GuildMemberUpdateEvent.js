@@ -2,7 +2,7 @@
 const EventHandler = require('./EventHandler');
 
 class GuildMemberUpdateEvent extends EventHandler {
-    handle() {
+    handle(socket) {
         //
     }
 }
