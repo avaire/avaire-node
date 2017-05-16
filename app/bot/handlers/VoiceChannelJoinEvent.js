@@ -29,12 +29,31 @@ class VoiceChannelJoinEvent extends EventHandler {
             return;
         }
 
+        if (VoiceChannelJoinEvent.prototype.getNumberOfUsersInVoiceChannel(socket.channel) > 1) {
+            return;
+        }
+
         if (!VoiceChannelJoinEvent.prototype.isBotConnected(socket.channel.members)) {
             return;
         }
 
         Music.unpauseStream(mockMessage);
         app.cache.forget(`is-alone-in-voice.${socket.channel.guild_id}`, 'memory');
+    }
+
+    /**
+     * Gets the number of non-bot users in teh same voice channel as the bot
+     *
+     * @param  {IChannel}  channel  The voice channel instance.
+     * @return {Number}
+     */
+    getNumberOfUsersInVoiceChannel(channel) {
+        let users = 0;
+
+        channel.members.forEach(member => {
+            return member.bot ? users : users++;
+        });
+        return users;
     }
 
     /**
