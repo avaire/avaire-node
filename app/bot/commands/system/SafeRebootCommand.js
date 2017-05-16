@@ -17,6 +17,8 @@ class SafeRebootCommand extends Command {
                 'isBotAdmin'
             ]
         });
+
+        this.isRunning = false;
     }
 
     /**
@@ -28,8 +30,15 @@ class SafeRebootCommand extends Command {
      * @return {mixed}
      */
     onCommand(sender, message, args) {
+        if (this.isRunning) {
+            return app.envoyer.sendWarn(message, 'The safe reboot process has already started, there are currently **:connections** active, once they drop the bot will restart', {
+                connections: bot.VoiceConnections.length
+            });
+        }
+
         app.envoyer.sendInfo(message, 'Safebooting process has started!\nThe bot will auto restart as soon as all active voice connections are droped.');
 
+        this.isRunning = true;
         // Runs immediately, and every half second after that if there are still
         // any active voice connections, if the voice connections array is
         // empty the process will exit and execute the reboot command.
