@@ -5,6 +5,7 @@
     "now-playing": "Spiller nu: [:title](:link)\n`:duration` - Foreslået af <@:requester>",
     "missing-role": "Du skal have `DJ` for at gøre det.",
     "missing-connection": "Jeg er i øjeblikket ikke er forbundet til en talekanal.",
+    "sharing-connection": "Jeg er allerede i samme talekanal som dig, så jeg vil bare blive her.",
     "empty-queue": "Afspilningslisten er allerede tom.",
     "volume-while-not-in-channel": "Du skal være tilsluttet kanalen jeg spiller musik i for at ændre lydstyrken.",
     "skip-while-not-in-channel": "Du skal være tilsluttet kanalen jeg spiller musik i for at springe sangen over.",
