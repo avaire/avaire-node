@@ -10,6 +10,7 @@
     "volume-while-not-in-channel": "Du skal være tilsluttet kanalen jeg spiller musik i for at ændre lydstyrken.",
     "skip-while-not-in-channel": "Du skal være tilsluttet kanalen jeg spiller musik i for at springe sangen over.",
     "disconnect-due-to-inactivity": "Afspilningslisten er afsluttet på grund af inaktivitet.",
+    "move-now-streaming": "Jeg streamer nu musik i **:channel**",
 
     "require": {
         "added-song": "<@:userid> har tilføjede [:title](:link) til køen.",

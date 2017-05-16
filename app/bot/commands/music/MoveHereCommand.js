@@ -56,7 +56,7 @@ class MoveHereCommand extends Command {
         }
 
         return voiceChannel.join().then(() => {
-            return app.envoyer.sendInfo(message, 'I am now streaming music in **:channel**', {
+            return app.envoyer.sendInfo(message, 'commands.music.move-now-streaming', {
                 channel: voiceChannel.name
             });
         });
