@@ -31,4 +31,4 @@ class GatewayDisconnectedEvent extends EventHandler {
     }
 }
 
-module.exports = GatewayDisconnectedEvent;
+module.exports = new GatewayDisconnectedEvent;

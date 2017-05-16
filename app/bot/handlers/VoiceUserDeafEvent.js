@@ -7,4 +7,4 @@ class VoiceUserDeafEvent extends EventHandler {
     }
 }
 
-module.exports = VoiceUserDeafEvent;
+module.exports = new VoiceUserDeafEvent;

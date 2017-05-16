@@ -24,4 +24,4 @@ class GuildMemberRemoveEvent extends EventHandler {
     }
 }
 
-module.exports = GuildMemberRemoveEvent;
+module.exports = new GuildMemberRemoveEvent;

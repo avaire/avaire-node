@@ -87,12 +87,10 @@ class Application {
      */
     registerEvents() {
         app.logger.info(` - Registering ${Object.keys(app.bot.handlers).length + 1} event handlers`);
-        _.each(app.bot.handlers, (Handler, key) => {
-            _.each(Discordie.Events, event => {
-                if (key === event) {
-                    bot.Dispatcher.on(event, new Handler);
-                }
-            });
+        bot.Dispatcher.onAny((type, socket) => {
+            if (app.bot.handlers.hasOwnProperty(type)) {
+                return app.bot.handlers[type].handle(socket);
+            }
         });
 
         process.on('unhandledRejection', (reason, p) => {

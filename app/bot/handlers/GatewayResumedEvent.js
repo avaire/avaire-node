@@ -23,4 +23,4 @@ class GatewayResumedEvent extends EventHandler {
     }
 }
 
-module.exports = GatewayResumedEvent;
+module.exports = new GatewayResumedEvent;

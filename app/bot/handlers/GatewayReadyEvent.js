@@ -32,4 +32,4 @@ class GatewayReadyEvent extends EventHandler {
     }
 }
 
-module.exports = GatewayReadyEvent;
+module.exports = new GatewayReadyEvent;

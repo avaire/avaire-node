@@ -37,4 +37,4 @@ class GuildDeleteEvent extends EventHandler {
     }
 }
 
-module.exports = GuildDeleteEvent;
+module.exports = new GuildDeleteEvent;

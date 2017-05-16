@@ -7,4 +7,4 @@ class GuildUpdateEvent extends EventHandler {
     }
 }
 
-module.exports = GuildUpdateEvent;
+module.exports = new GuildUpdateEvent;

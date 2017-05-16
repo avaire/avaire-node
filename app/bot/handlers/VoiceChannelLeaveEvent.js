@@ -30,11 +30,11 @@ class VoiceChannelLeaveEvent extends EventHandler {
         }
 
         let connectedUsers = socket.channel.members;
-        if (VoiceChannelLeaveEvent.prototype.isThereAnyNoneBotsInVoiceChannel(connectedUsers)) {
+        if (this.isThereAnyNoneBotsInVoiceChannel(connectedUsers)) {
             return;
         }
 
-        if (!VoiceChannelLeaveEvent.prototype.isBotConnected(connectedUsers)) {
+        if (!this.isBotConnected(connectedUsers)) {
             return;
         }
 
@@ -74,4 +74,4 @@ class VoiceChannelLeaveEvent extends EventHandler {
     }
 }
 
-module.exports = VoiceChannelLeaveEvent;
+module.exports = new VoiceChannelLeaveEvent;

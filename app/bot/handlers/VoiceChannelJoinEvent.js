@@ -29,11 +29,11 @@ class VoiceChannelJoinEvent extends EventHandler {
             return;
         }
 
-        if (VoiceChannelJoinEvent.prototype.getNumberOfUsersInVoiceChannel(socket.channel) > 1) {
+        if (this.getNumberOfUsersInVoiceChannel(socket.channel) > 1) {
             return;
         }
 
-        if (!VoiceChannelJoinEvent.prototype.isBotConnected(socket.channel.members)) {
+        if (!this.isBotConnected(socket.channel.members)) {
             return;
         }
 
@@ -73,4 +73,4 @@ class VoiceChannelJoinEvent extends EventHandler {
     }
 }
 
-module.exports = VoiceChannelJoinEvent;
+module.exports = new VoiceChannelJoinEvent;

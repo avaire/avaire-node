@@ -7,4 +7,4 @@ class MessageDeleteBulkEvent extends EventHandler {
     }
 }
 
-module.exports = MessageDeleteBulkEvent;
+module.exports = new MessageDeleteBulkEvent;

@@ -7,4 +7,4 @@ class VoiceDisconnectedEvent extends EventHandler {
     }
 }
 
-module.exports = VoiceDisconnectedEvent;
+module.exports = new VoiceDisconnectedEvent;

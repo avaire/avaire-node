@@ -36,4 +36,4 @@ class GuildBanAddEvent extends EventHandler {
     }
 }
 
-module.exports = GuildBanAddEvent;
+module.exports = new GuildBanAddEvent;

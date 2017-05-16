@@ -7,4 +7,4 @@ class GuildRoleUpdateEvent extends EventHandler {
     }
 }
 
-module.exports = GuildRoleUpdateEvent;
+module.exports = new GuildRoleUpdateEvent;

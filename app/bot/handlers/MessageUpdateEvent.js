@@ -7,4 +7,4 @@ class MessageUpdateEvent extends EventHandler {
     }
 }
 
-module.exports = MessageUpdateEvent;
+module.exports = new MessageUpdateEvent;

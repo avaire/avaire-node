@@ -65,7 +65,7 @@ class MessageCreateEvent extends EventHandler {
             // Checks to see if a valid command was found from the message context, if a
             // command was found the onCommand method will be called for the handler.
             if (command !== null) {
-                return MessageCreateEvent.prototype.processCommand(socket, command);
+                return this.processCommand(socket, command);
             }
 
             // Checks to see if the bot was taged in the message and if AI messages in enabled,
@@ -77,7 +77,7 @@ class MessageCreateEvent extends EventHandler {
             }
 
             if (socket.message.isPrivate) {
-                return MessageCreateEvent.prototype.sendInformationMessage(socket);
+                return this.sendInformationMessage(socket);
             }
         });
     }
@@ -164,4 +164,4 @@ class MessageCreateEvent extends EventHandler {
     }
 }
 
-module.exports = MessageCreateEvent;
+module.exports = new MessageCreateEvent;

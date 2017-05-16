@@ -7,4 +7,4 @@ class VoiceUserMuteEvent extends EventHandler {
     }
 }
 
-module.exports = VoiceUserMuteEvent;
+module.exports = new VoiceUserMuteEvent;

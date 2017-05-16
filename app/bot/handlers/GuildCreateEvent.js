@@ -47,4 +47,4 @@ class GuildCreateEvent extends EventHandler {
     }
 }
 
-module.exports = GuildCreateEvent;
+module.exports = new GuildCreateEvent;

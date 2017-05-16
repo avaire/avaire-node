@@ -7,18 +7,6 @@
  * @abstract
  */
 class EventHandler {
-
-    /**
-     * Discordies event dispatcher requires a closure/function to be
-     * parsed into it, so the constructor returns its own handler
-     * method as a way to fulfill this requirement.
-     *
-     * @return {Function}
-     */
-    constructor() {
-        return this.handle;
-    }
-
     /**
      * The event-handler that is executed by Discords event dispatcher.
      *

@@ -7,4 +7,4 @@ class GuildUnavailableEvent extends EventHandler {
     }
 }
 
-module.exports = GuildUnavailableEvent;
+module.exports = new GuildUnavailableEvent;

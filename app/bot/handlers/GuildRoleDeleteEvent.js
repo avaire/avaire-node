@@ -7,4 +7,4 @@ class GuildRoleDeleteEvent extends EventHandler {
     }
 }
 
-module.exports = GuildRoleDeleteEvent;
+module.exports = new GuildRoleDeleteEvent;
