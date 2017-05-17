@@ -5,6 +5,7 @@
  */
 const DATABASE_CONSTANTS = Object.freeze({
     GUILD_TABLE_NAME: 'guilds',
+    PLAYLIST_TABLE_NAME: 'playllists',
     BLACKLIST_TABLE_NAME: 'blacklists'
 });
 
