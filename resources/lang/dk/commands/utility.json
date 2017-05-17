@@ -3,7 +3,7 @@
         "module": "Liste af Moduler",
         "commands": "Liste af Kommandoer",
 
-        "category-note": ":information_source: Skriv `:command <ModulNavn>` for at få en liste over kommandoer i dette modul.\nEksempel: `:command :category`",
+        "category-note": ":information_source: Skriv `:command <ModulNavn>` for at få en liste over kommandoer i dette modul.\nEksempel: `:command :category` eller `:command :shortcategory`",
         "command-note": "**Skriv `.help <CommandTrigger>` for at se hjælpen til den angivne kommando.**\nEksempel: `.help :prefix:trigger`",
 
         "category-doesnt-exists": [

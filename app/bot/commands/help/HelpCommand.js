@@ -66,13 +66,16 @@ class HelpCommand extends Command {
             app.bot.commands[this.constructor.name].category
         );
 
+        let category = _.sample(filteredCategories).toLowerCase();
+
         return app.envoyer.sendEmbededMessage(message, {
             color: 0x3498DB,
             title: `:scroll: ${app.lang.get(message, 'commands.utility.help.module')}`,
             description: '• ' + filteredCategories.join('\n• ') + '\n\n' + app.lang.get(message, 'commands.utility.help.category-note')
         }, {
             command: prefix + this.getTriggers()[0],
-            category: _.toLower(filteredCategories[0])
+            shortcategory: category.substr(0, Math.floor(Math.random() * (Math.ceil(category.length / 2) - 2)) + 1),
+            category
         });
     }
 
