@@ -137,7 +137,7 @@ class Database {
             app.bot.statistics.databaseQueries++;
 
             return this.getClient().select().from(app.constants.BLACKLIST_TABLE_NAME)
-                        .then(resposne => resolve(resposne))
+                        .then(response => resolve(response))
                         .catch(err => reject(err));
         });
     }
