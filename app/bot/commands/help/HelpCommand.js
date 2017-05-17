@@ -127,7 +127,8 @@ class HelpCommand extends Command {
 
         app.envoyer.sendNormalMessage(message, ':page_with_curl: **' + listOfCommands + ':** ```apache\n' + fields.join('\n') + '```');
         return app.envoyer.sendInfo(message, 'commands.utility.help.command-note', {
-            trigger: commands[randomCommandIndex].triggers[0], prefix
+            trigger: commands[randomCommandIndex].triggers[0], prefix,
+            help: CommandHandler.getPrefix(message, 'help') + 'help'
         });
     }
 
