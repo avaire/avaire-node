@@ -162,8 +162,15 @@ class Database {
                     for (let i in databaseResponse) {
                         response.push(new PlaylistTransformer(databaseResponse[i]));
                     }
-                    return resolve(response);
-                }).catch(err => reject(err));
+
+                    // Stores the responses array in the cache for the next 5 minutes.
+                    Cache.put(token, response, 300);
+
+                    // Resolves the playlist from cache.
+                    return resolve(Cache.get(token));
+                }).catch(err => {
+                    return reject(err);
+                });
         });
     }
 
