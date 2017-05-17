@@ -7,7 +7,13 @@ const GUILD_TYPES_CONSTANTS = Object.freeze({
     GUILD_TYPES: [
         {
             id: 1,
-            name: 'VIP'
+            name: 'VIP',
+            limits: {
+                playlist: {
+                    lists: 5,
+                    songs: 25
+                }
+            }
         }
     ]
 });

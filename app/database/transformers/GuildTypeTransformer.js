@@ -18,7 +18,13 @@ class GuildTypeTransformer extends Transformer {
      */
     defaults() {
         return {
-            name: 'Default'
+            name: 'Default',
+            limits: {
+                playlist: {
+                    lists: 3,
+                    songs: 10
+                }
+            }
         };
     }
 }
