@@ -68,6 +68,13 @@ class MessageCreateEvent extends EventHandler {
                 return this.processCommand(socket, command);
             }
 
+            // If the bot was tagged in the message with no additional text/arguments
+            // given we'll send the user some information about the bot, just to
+            // let the user know that the bot is alive and how to use it.
+            if (message.hasBot() && _.startsWith(message, '<@') && _.endsWith(message.trim(), `${bot.User.id}>`)) {
+                return this.sendTagInformationMessage(socket);
+            }
+
             // Checks to see if the bot was taged in the message and if AI messages in enabled,
             // if AI messages is enabled the message will be passed onto the AI handler.
             if (app.service.ai.isEnabled && message.hasBot()) {
@@ -160,6 +167,33 @@ class MessageCreateEvent extends EventHandler {
         message.push('\nAvaIre Support Server:\n*https://avairebot.com/support*');
         return app.envoyer.sendNormalMessage(socket.message, message.join('\n'), {
             oauth: app.config.bot.oauth
+        });
+    }
+    /**
+     * Sends the tag information message, this is only sent if the bot was
+     * tagged in a message with no additional text/arguments given.
+     *
+     * @param  {GatewaySocket}  socket  The Discordie gateway socket
+     * @return {Promise}
+     */
+    sendTagInformationMessage(socket) {
+        let message = [
+            'Hi there! I\'m :name, a multipurpose Discord bot built for fun!',
+            'Here is a bit of(hopefully) helpful information.',
+            '',
+            '**Commands**',
+            'You can use `:help` to to learn more about what commands I have.',
+            '',
+            '**Website**',
+            'https://avairebot.com',
+            '',
+            '**Support Server**',
+            'https://avairebot.com/support'
+        ];
+
+        return app.envoyer.sendInfo(socket.message, message.join('\n'), {
+            name: bot.User.username,
+            help: CommandHandler.getPrefix(socket.message, 'help') + 'help'
         });
     }
 }
