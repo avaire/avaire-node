@@ -4,6 +4,8 @@ const Knex = require('knex');
 let Cache = null;
 /** @ignore */
 const GuildTransformer = require('./transformers/GuildTransformer');
+/** @ignore */
+const PlaylistTransformer = require('./transformers/PlaylistTransformer');
 
 /**
  * Database manager class, this class allows you to interact with
@@ -129,6 +131,46 @@ class Database {
                     return reject(err);
                 }
             );
+        });
+    }
+
+    /**
+     * Gets the playlists for the given guild id.
+     *
+     * @param  {String}   guildId   The id of the guild that should have its playlists fetched.
+     * @param  {Boolean}  skipCache Determines if the cache should be used if it is valid.
+     * @return {Promise}
+     */
+    getPlaylist(guildId, skipCache = false) {
+        let token = `database-playlist.${guildId}`;
+
+        // If we shouldn't skip the cache and the cache already has a version of the guild
+        // stored, we'll just fetch that and return it without hitting the database.
+        if (!skipCache && Cache.has(token)) {
+            return new Promise(resolve => {
+                resolve(Cache.get(token));
+            });
+        }
+
+        return new Promise((resolve, reject) => {
+            app.bot.statistics.databaseQueries++;
+
+            this.getClient().select().from(app.constants.PLAYLIST_TABLE_NAME)
+                .where('guild_id', guildId)
+                .then(databaseResponse => {
+                    let response = [];
+                    for (let i in databaseResponse) {
+                        response.push(new PlaylistTransformer(databaseResponse[i]));
+                    }
+
+                    // Stores the responses array in the cache for the next 5 minutes.
+                    Cache.put(token, response, 300);
+
+                    // Resolves the playlist from cache.
+                    return resolve(Cache.get(token));
+                }).catch(err => {
+                    return reject(err);
+                });
         });
     }
 
