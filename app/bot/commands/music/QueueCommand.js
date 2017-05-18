@@ -57,10 +57,10 @@ class QueueCommand extends Command {
         // element showing the first six songs, and if there is more than six, a message
         // about how many more songs in the queue there are will be used instead.
         if (queue.length > 1) {
-            let queue = '';
+            let queueString = '';
 
             for (let i = 1; i < Math.min(queue.length, 6); i++) {
-                queue += `**${i}:** [${queue[i].title.limit(64)}](${queue[i].link}) [${queue[i].duration}]\n`;
+                queueString += `**${i}:** [${queue[i].title.limit(64)}](${queue[i].link}) [${queue[i].duration}]\n`;
             }
 
             if (queue.length > 6) {
@@ -68,12 +68,12 @@ class QueueCommand extends Command {
 
                 let langType = (length === 1) ? 'singular' : 'plural';
 
-                queue += '\n' + app.lang.get(message, 'commands.music.queue.extra-' + langType, {
+                queueString += '\n' + app.lang.get(message, 'commands.music.queue.extra-' + langType, {
                     number: length
                 });
             }
 
-            embed.fields[0].value = queue.trim();
+            embed.fields[0].value = queueString.trim();
         }
 
         return app.envoyer.sendEmbededMessage(message, embed, {
