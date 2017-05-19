@@ -427,18 +427,6 @@ class MusicHandler {
     }
 
     /**
-     * Checks if the guild member has the DJ role.
-     *
-     * @param  {IGuildMember}  member The Discordie guild member object.
-     * @return {Boolean}
-     */
-    userHasDJRole(member) {
-        return member.roles.find(role => {
-            return role.name.toUpperCase() === 'DJ';
-        }) !== undefined;
-    }
-
-    /**
      * Formats the given duration to look nicer.
      *
      * @param  {String} duration  The duration that should be formatted.

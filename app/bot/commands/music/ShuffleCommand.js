@@ -16,7 +16,8 @@ class ShuffleCommand extends Command {
             description: 'Use this to shuffle the songs waiting in the music queue.',
             middleware: [
                 'require:text.send_messages',
-                'throttle.channel:2,4'
+                'throttle.channel:2,4',
+                'hasRole:DJ'
             ]
         });
     }
@@ -30,10 +31,6 @@ class ShuffleCommand extends Command {
      * @return {mixed}
      */
     onCommand(sender, message, args) {
-        if (!Music.userHasDJRole(message.member)) {
-            return app.envoyer.sendWarn(message, 'commands.music.missing-role');
-        }
-
         if (!Music.isConnectedToVoice(message)) {
             return app.envoyer.sendWarn(message, 'commands.music.missing-connection');
         }

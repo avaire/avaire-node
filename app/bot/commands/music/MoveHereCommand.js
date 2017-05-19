@@ -16,7 +16,8 @@ class MoveHereCommand extends Command {
             description: 'Moves the bot to the same voice channel you\'re in.',
             middleware: [
                 'require:text.send_messages',
-                'throttle.user:2,5'
+                'throttle.user:2,5',
+                'hasRole:DJ'
             ]
         });
     }
@@ -30,10 +31,6 @@ class MoveHereCommand extends Command {
      * @return {mixed}
      */
     onCommand(sender, message, args) {
-        if (!Music.userHasDJRole(message.member)) {
-            return app.envoyer.sendWarn(message, 'commands.music.missing-role');
-        }
-
         if (!Music.isConnectedToVoice(message)) {
             return app.envoyer.sendWarn(message, 'commands.music.missing-connection');
         }

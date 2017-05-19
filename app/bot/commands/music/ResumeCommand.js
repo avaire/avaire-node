@@ -16,7 +16,8 @@ class ResumeCommand extends Command {
             description: 'Pauses the song that is currently playing.',
             middleware: [
                 'require:text.send_messages',
-                'throttle.channel:2,5'
+                'throttle.channel:2,5',
+                'hasRole:DJ'
             ]
         });
     }
@@ -30,10 +31,6 @@ class ResumeCommand extends Command {
      * @return {mixed}
      */
     onCommand(sender, message, args) {
-        if (!Music.userHasDJRole(message.member)) {
-            return app.envoyer.sendWarn(message, 'commands.music.missing-role');
-        }
-
         if (!Music.isConnectedToVoice(message)) {
             return app.envoyer.sendWarn(message, 'commands.music.missing-connection');
         }

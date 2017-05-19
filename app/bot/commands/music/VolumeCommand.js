@@ -16,7 +16,8 @@ class VolumeCommand extends Command {
             description: 'Use this to change the volume of the music that\'s playing.',
             middleware: [
                 'require:text.send_messages',
-                'throttle.channel:2,4'
+                'throttle.channel:2,4',
+                'hasRole:DJ'
             ]
         });
     }
@@ -32,10 +33,6 @@ class VolumeCommand extends Command {
     onCommand(sender, message, args) {
         if (args.length === 0) {
             return this.sendMissingArguments(message);
-        }
-
-        if (!Music.userHasDJRole(message.member)) {
-            return app.envoyer.sendWarn(message, 'commands.music.missing-role');
         }
 
         if (!Music.isConnectedToVoice(message)) {

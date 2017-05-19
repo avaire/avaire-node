@@ -3,7 +3,6 @@
     "end-of-queue": "Afspilningslisten er slut, forlader kanalen.",
     "voice-required": "Du er nødt til at være forbundet til en talekanal.",
     "now-playing": "Spiller nu: [:title](:link)\n`:duration` - Foreslået af <@:requester>",
-    "missing-role": "Du skal have `DJ` for at gøre det.",
     "missing-connection": "Jeg er i øjeblikket ikke er forbundet til en talekanal.",
     "sharing-connection": "Jeg er allerede i samme talekanal som dig, så jeg vil bare blive her.",
     "empty-queue": "Afspilningslisten er allerede tom.",

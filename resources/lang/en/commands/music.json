@@ -3,7 +3,6 @@
     "end-of-queue": "Queue has ended, leaving voice.",
     "voice-required": "You have to be connected to a voice channel.",
     "now-playing": "Now playing: [:title](:link)\n`:duration` - Requested by <@:requester>",
-    "missing-role": "You must have the `DJ` role to do that.",
     "missing-connection": "I'm currently not connected to a voice channel.",
     "sharing-connection": "I'm already in the same voice channel as you, so I'll just stay here.",
     "empty-queue": "The queue is already empty.",
