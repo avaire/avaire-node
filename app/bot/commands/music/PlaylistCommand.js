@@ -35,6 +35,7 @@ class Playlist extends Command {
                 '[name] create',
                 '[name] delete',
                 '[name] load',
+                '[name] renameto [new name]',
                 '[name] [page number]'
             ]
         });
@@ -51,6 +52,10 @@ class Playlist extends Command {
             {
                 triggers: ['load', 'l', 'play'],
                 function: (...args) => this.loadPlaylist(...args)
+            },
+            {
+                triggers: ['renameto', 'rename', 'r'],
+                function: (...args) => this.renamePlaylist(...args)
             }
         ];
 
@@ -244,39 +249,38 @@ class Playlist extends Command {
         });
     }
 
-    fetchSong(message, url) {
-        return new Promise((resolve, reject) => {
-            let options = ['--skip-download', '-f bestaudio/worstvideo'];
+    renamePlaylist(message, args, guild, playlist) {
+        if (args.length === 0) {
+            return app.envoyer.sendWarn(message, 'Invalid format, missing the `new name` property!\n`:command`', {
+                command: this.getPrefix(message) + this.getTriggers()[0] + ` ${playlist.get('name')} renameto <new name>`
+            });
+        }
 
-            if (url.indexOf('youtu') > -1) {
-                options.push('--add-header', 'Authorization:' + app.config.apiKeys.google);
+        let newName = args[0];
+        let oldName = playlist.get('name');
+
+        return app.database.getPlaylist(message.guild.id).then(playlists => {
+            if (this.getPlaylist(playlists, newName) !== null) {
+                return app.envoyer.sendWarn(message, 'Can\'t rename the `:oldplaylist` to `:playlist`, there are already a playlist called `:playlist`', {
+                    oldplaylist: oldName,
+                    playlist: newName
+                });
             }
 
-            YouTubeDL.getInfo(url, options, {maxBuffer: 250000000}, (err, song) => {
-                if (err) {
-                    return reject(err);
-                }
+            playlist.data.name = args[0];
+            return app.database.update(
+                app.constants.PLAYLIST_TABLE_NAME, playlist.toDatabaseBindings(),
+                query => query.where('id', playlist.get('id')).andWhere('guild_id', message.guild.id)
+            ).then(() => {
+                return app.envoyer.sendSuccess(message, 'The `:oldplaylist` playlist has been renamed to `:playlist`!', {
+                    oldplaylist: oldName,
+                    playlist: args[0]
+                });
+            }).catch(err => {
+                app.logger.error(err);
+                playlist.data.name = oldName;
 
-                if (song.hasOwnProperty('webpage_url')) {
-                    url = song.webpage_url;
-                }
-
-                // Filters through all of the song formants to make sure all the song
-                // candidates is in a webm format and has an average audio bitrate
-                // that's suitable for streaming via Discord.
-                let formats = song.formats.filter(format => {
-                    return format.ext === 'webm' && format.abr > 0;
-                }).sort((a, b) => a.abr - b.abr);
-
-                // Attempts to find the best bitrate audio version of the song.
-                let audio = formats.find(format => format.abr > 0 && !format.tbr) ||
-                            formats.find(format => format.abr > 0);
-
-                if (audio !== undefined) {
-                    song.url = audio.url;
-                }
-
-                return resolve(song);
+                return app.envoyer.sendError(message, 'Looks like something went wrong while trying to update the playlist.');
             });
         });
     }
@@ -350,6 +354,43 @@ class Playlist extends Command {
             description: '• ' + playlistSongs.join('\n• ') + '\n\n' + note.join('\n')
         }, {
             command: this.getPrefix(message) + this.getTriggers()[0]
+        });
+    }
+
+    fetchSong(message, url) {
+        return new Promise((resolve, reject) => {
+            let options = ['--skip-download', '-f bestaudio/worstvideo'];
+
+            if (url.indexOf('youtu') > -1) {
+                options.push('--add-header', 'Authorization:' + app.config.apiKeys.google);
+            }
+
+            YouTubeDL.getInfo(url, options, {maxBuffer: 250000000}, (err, song) => {
+                if (err) {
+                    return reject(err);
+                }
+
+                if (song.hasOwnProperty('webpage_url')) {
+                    url = song.webpage_url;
+                }
+
+                // Filters through all of the song formants to make sure all the song
+                // candidates is in a webm format and has an average audio bitrate
+                // that's suitable for streaming via Discord.
+                let formats = song.formats.filter(format => {
+                    return format.ext === 'webm' && format.abr > 0;
+                }).sort((a, b) => a.abr - b.abr);
+
+                // Attempts to find the best bitrate audio version of the song.
+                let audio = formats.find(format => format.abr > 0 && !format.tbr) ||
+                            formats.find(format => format.abr > 0);
+
+                if (audio !== undefined) {
+                    song.url = audio.url;
+                }
+
+                return resolve(song);
+            });
         });
     }
 
