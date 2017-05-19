@@ -1,0 +1,37 @@
+{
+    "general": {
+        "administrator": "General - Administrator",
+        "manage_roles": "General - Manage Roles",
+        "manage_server": "General - Manage Server",
+        "manage_channels": "General - Manage Channels",
+        "kick_members": "General - Kick Members",
+        "ban_members": "General - Ban Members",
+        "create_instant_invite": "General - Create Instant Invites",
+        "change_nickname": "General - Change Nickname",
+        "manage_nicknames": "General - Manage Nickname",
+        "manage_emojis": "General - Manage Emojis",
+        "manage_webhooks": "General - Manage Webhooks"
+    },
+
+    "text": {
+        "read_messages": "Read Messages",
+        "send_messages": "Send Messages",
+        "send_tts_messages": "Send TTS Messages",
+        "manage_messages": "Manage Text Messages",
+        "embed_links": "Embed Links",
+        "attach_files": "Attach Files",
+        "read_message_history": "Read Message History",
+        "mention_everyone": "Mention Everyone",
+        "external_emotes": "External Emotes",
+        "add_reactions": "Add Reactions"
+    },
+
+    "voice": {
+        "connect": "Connect to Voice",
+        "speak": "Speak in Voice",
+        "mute_members": "Mute Users in Voice",
+        "deafen_members": "Deafen Users in Voice",
+        "move_members": "Move Users",
+        "use_vad": "Use VAD"
+    }
+}

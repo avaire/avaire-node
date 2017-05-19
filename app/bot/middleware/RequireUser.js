@@ -30,7 +30,9 @@ class RequireUser extends Middleware {
                 continue;
             }
 
-            return app.envoyer.sendWarn(request.message, 'language.errors.require-user-missing', {permission});
+            return app.envoyer.sendWarn(request.message, 'language.errors.require-user-missing', {
+                permission: app.lang.get(request.message, `permissions.${permission}`)
+            });
         }
 
         return next(request);

@@ -1,0 +1,37 @@
+{
+    "general": {
+        "administrator": "Generelt - Administrator",
+        "manage_roles": "Generelt - Administrer Roller",
+        "manage_server": "Generelt - Administrer Serveren",
+        "manage_channels": "Generelt - Administrer Kanaler",
+        "kick_members": "Generelt - Kick Bruger",
+        "ban_members": "Generelt - Ban Bruger",
+        "create_instant_invite": "Generelt - Opret Øjeblikkelige Invitationer",
+        "change_nickname": "Generelt - Skift Brugernavn",
+        "manage_nicknames": "Generelt - Administrer Brugernavne",
+        "manage_emojis": "Generelt - Administrer Emojis",
+        "manage_webhooks": "Generelt - Administrer Webhooks"
+    },
+
+    "text": {
+        "read_messages": "Læs Meddelelser",
+        "send_messages": "Send Meddelelser",
+        "send_tts_messages": "Send TTS Meddelelser",
+        "manage_messages": "Administrer Tekst Meddelelser",
+        "embed_links": "Embed Links",
+        "attach_files": "Vedhæft Filer",
+        "read_message_history": "Læs Meddelelseshistorik",
+        "mention_everyone": "Nævne Alle",
+        "external_emotes": "Eksterne Emoter",
+        "add_reactions": "Tilføj Reaktioner"
+    },
+
+    "voice": {
+        "connect": "Opret Forbindelse til Voice",
+        "speak": "Tal i Voice",
+        "mute_members": "Mute Brugere i Voice",
+        "deafen_members": "Døvebrugere i Voice",
+        "move_members": "Flyt Brugere",
+        "use_vad": "Brug Stemmeaktivitet"
+    }
+}

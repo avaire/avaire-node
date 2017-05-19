@@ -6,8 +6,8 @@
         "cant-run-in-dms": ":warning: Du kan ikke bruge denne kommandoer i direkte beskeder!",
         "must-be-bot-admin": ":warning: Du skal være en bot administrator for at bruge denne kommando!",
         "throttle-limit-hit": "For mange `:command` forsøg. Prøv igen om **:seconds** sekunder.",
-        "require-bot-missing": "Jeg har ikke den krævede tilladelse til at udføre denne kommando: *:permission*",
-        "require-user-missing": "Du mangler den nødvendige tilladelse for denne kommando: *:permission*",
+        "require-bot-missing": "Jeg har ikke den krævede tilladelse til at udføre denne kommando:\n`:permission`",
+        "require-user-missing": "Du mangler den nødvendige tilladelse for denne kommando:\n`:permission`",
         "missing-arguments": ":warning: Manglende argumenter, brug `:help :command` for at lære mere om kommandoen",
         "module-is-disabled": "<@:userid> Kommandoen du forsøgt at bruge hører til `:category` modulet, som er deaktiveret lige pt."
     }
