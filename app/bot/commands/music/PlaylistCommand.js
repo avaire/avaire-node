@@ -171,7 +171,8 @@ class Playlist extends Command {
                 Music.next(message);
             }
 
-            return app.envoyer.sendInfo(message, '`:amount` songs has been loaded into the music queue!', {
+            return app.envoyer.sendInfo(message, 'The `:playlist` playlist with `:amount` songs has been loaded into the music queue.', {
+                playlist: playlist.get('name'),
                 amount: songs.length
             });
         }).catch(err => app.envoyer.sendWarn(message, err.message, err.placeholders));
@@ -216,11 +217,12 @@ class Playlist extends Command {
                 app.constants.PLAYLIST_TABLE_NAME, playlist.toDatabaseBindings(),
                 query => query.where('id', playlist.get('id')).andWhere('guild_id', message.guild.id)
             ).then(() => {
-                return app.envoyer.sendSuccess(message, 'Successfully add `:songname` to the `:playlist` playlist.\nThe `:playlist` playlist has `:slots` more song slots available.', {
+                return app.envoyer.sendSuccess(message, '<@:userid> has added [:songname](:songurl) to the `:playlist` playlist.\nThe `:playlist` playlist has `:slots` more song slots available.', {
                     songname: song.title,
+                    songurl: songUrl,
                     playlist: playlist.get('name'),
                     slots: guildType.get('limits.playlist.songs') - playlistSongs.length
-                });
+                }).then(() => this.deleteMessage(message));
             }).catch(err => app.logger.error(err));
         }).catch(err => {
             app.logger.error('Failed to add a song to the queue: ', err);
@@ -334,7 +336,7 @@ class Playlist extends Command {
             }
 
             let song = songs[i];
-            playlistSongs.push(`[${song.title}](${song.link})`);
+            playlistSongs.push(`[${song.title}](${song.link}) [${song.duration}]`);
         }
 
         let note = [
@@ -349,6 +351,19 @@ class Playlist extends Command {
         }, {
             command: this.getPrefix(message) + this.getTriggers()[0]
         });
+    }
+
+    /**
+     * Deletes the given message if the bot has permissions to delete messages.
+     *
+     * @param  {IMessage}  message  The Discordie message object that triggered the command.
+     * @return {Promise}
+     */
+    deleteMessage(message) {
+        if (app.permission.botHas(message, 'text.manage_messages')) {
+            return message.delete();
+        }
+        return Promise.resolve();
     }
 
     getPlaylist(playlists, playlistName) {
