@@ -40,6 +40,11 @@ class Playlist extends Command {
             ]
         });
 
+        /**
+         * The playlist sub-commands that can be used to interact with the playlists.
+         *
+         * @type {Array}
+         */
         this.playlistCommands = [
             {
                 triggers: ['add', 'a'],
@@ -59,6 +64,11 @@ class Playlist extends Command {
             }
         ];
 
+        /**
+         * The "playlist create command" command triggers
+         *
+         * @type {Object}
+         */
         this.playlistCreateCommand = {
             triggers: ['create', 'c']
         };
@@ -77,6 +87,8 @@ class Playlist extends Command {
             return app.envoyer.sendWarn(message, 'commands.music.missing-role');
         }
 
+        // Loads the guild and playlists from memory, if either of them are
+        // not found in memory they will be re-retrived from the database.
         return this.getGuildAndPlaylists(message).then(({guild, playlists}) => {
             if (args.length === 0) {
                 return this.sendPlaylists(message, guild, playlists);
@@ -88,6 +100,9 @@ class Playlist extends Command {
                 });
             }
 
+            // If the playlist doesn't exists will see if the user wants to create
+            // a playlist with the given name, if they don't want to create the
+            // playlist we'll just tell them that the playlist doesn't exsits.
             let playlist = this.getPlaylist(playlists, args[0].toLowerCase());
             if (playlist === null) {
                 if (args.length > 1 && _.indexOf(this.playlistCreateCommand.triggers, args[1].toLowerCase()) >= 0) {
@@ -100,10 +115,16 @@ class Playlist extends Command {
                 });
             }
 
+            // If the playlist exists and no additional arguments has been given we'll display
+            // the songs in the playlist, we're omitting the songs list page number property
+            // since by default it will assume we're on the first page.
             if (playlist !== null && args.length === 1) {
                 return this.sendSongsInPlaylist(message, guild, playlist);
             }
 
+            // Loops through all of our playlist sub-commands and tries to find something
+            // that matches any of our sub-commands, if a sub-command is found the
+            // logic function for the command will be invoked.
             let trigger = args[1].toLowerCase();
             for (let i in this.playlistCommands) {
                 let property = this.playlistCommands[i];
@@ -114,10 +135,15 @@ class Playlist extends Command {
                 return property.function(message, _.drop(args, 2), guild, playlist);
             }
 
+            // Checks if the user wants to create a playlist that already exists, if the
+            // user wants to create a playlist with a name that already exists the
+            // createPlaylist method will end the command.
             if (_.indexOf(this.playlistCreateCommand.triggers, trigger) >= 0) {
                 return this.createPlaylist(message, args, guild, playlists);
             }
 
+            // Checks if the trigger is an integer, if the trigger is an integer the songs
+            // in the playlist will be displayed for the page matching the given integer.
             let pageNumber = parseInt(trigger, 10);
             if (!isNaN(pageNumber)) {
                 return this.sendSongsInPlaylist(message, guild, playlist, pageNumber);
@@ -131,6 +157,15 @@ class Playlist extends Command {
         });
     }
 
+    /**
+     * Creates a playlist with the given name.
+     *
+     * @param  {IMessage}          message    The Discordie message object that triggered the command.
+     * @param  {Array}             args       The array of arguments parsed to the onCommand method.
+     * @param  {GuildTransformer}  guild      The database guild transformer for the current guild.
+     * @param  {Array}             playlists  An array of database playlist transformers that belongs to the current guild.
+     * @return {Promise}
+     */
     createPlaylist(message, args, guild, playlists) {
         if (this.getPlaylist(playlists, args[0]) !== null) {
             return app.envoyer.sendWarn(message, 'Playlist already exists');
@@ -159,6 +194,17 @@ class Playlist extends Command {
         });
     }
 
+    /**
+     * Loads the given playlist into the music queue for the current guild, if the music
+     * isn't already playing in the given guild, the command will also make the bot
+     * join the current voice channel the user is in, and start the music.
+     *
+     * @param  {IMessage}             message   The Discordie message object that triggered the command.
+     * @param  {Array}                args      The array of arguments parsed to the onCommand method.
+     * @param  {GuildTransformer}     guild     The database guild transformer for the current guild.
+     * @param  {PlaylistTransformer}  playlist  The database playlist transformer that was loaded in the onCommand method.
+     * @return {Promise}
+     */
     loadPlaylist(message, args, guild, playlist) {
         return Music.prepareVoice(message).then(() => {
             let queueSize = Music.getQueue(message).length;
@@ -183,6 +229,15 @@ class Playlist extends Command {
         }).catch(err => app.envoyer.sendWarn(message, err.message, err.placeholders));
     }
 
+    /**
+     * Adds a song to the given playlist.
+     *
+     * @param  {IMessage}             message   The Discordie message object that triggered the command.
+     * @param  {Array}                args      The array of arguments parsed to the onCommand method.
+     * @param  {GuildTransformer}     guild     The database guild transformer for the current guild.
+     * @param  {PlaylistTransformer}  playlist  The database playlist transformer that was loaded in the onCommand method.
+     * @return {Promise}
+     */
     addSongToPlaylist(message, args, guild, playlist) {
         if (args.length === 0) {
             return app.envoyer.sendWarn(message, 'Invalid format, missing song `url`\n`:command`', {
@@ -197,6 +252,8 @@ class Playlist extends Command {
             });
         }
 
+        // Setup and prepares the song urls, if the given song
+        // url isn't a valid url the command will be stoped.
         let songUrl = args[0];
         let parsedUrl = URL.parse(songUrl);
 
@@ -204,20 +261,32 @@ class Playlist extends Command {
             return app.envoyer.sendWarn(message, 'Invalid URL given, you can only add songs to the playlist by links!');
         }
 
+        // Attempts to fetch and format the song with the given url using the YouTube-DL library.
         message.channel.sendTyping();
         this.fetchSong(message, songUrl).then(song => {
+            // Removes all the unnecessary properties from the song object
+            // so it doesn't take unnecessary space in the database.
             Music.unnecessaryProperties.forEach(property => {
                 if (song.hasOwnProperty(property)) {
                     delete song[property];
                 }
             });
+
+            // Assign the song url to the link property on the song object, this is
+            // normaly done through the music handler, but since the song is added
+            // to the database and we'll need it later when loading the playlist
+            // into the music queue we'll just do it here.
             song.link = songUrl;
 
+            // Setup an array of all the songs in the playlist, if there are no songs in the
+            // playlist it will default to an empty array, then add the new song to the
+            // playlist transformers song list and update the song amount counter.
             let playlistSongs = playlist.get('songs', []);
             playlistSongs.push(song);
             playlist.data.songs = playlistSongs;
             playlist.data.amount = playlist.get('amount', 0) + 1;
 
+            // Update the database to persist the new playlist songs array.
             return app.database.update(
                 app.constants.PLAYLIST_TABLE_NAME, playlist.toDatabaseBindings(),
                 query => query.where('id', playlist.get('id')).andWhere('guild_id', message.guild.id)
@@ -236,6 +305,15 @@ class Playlist extends Command {
         });
     }
 
+    /**
+     * Deletes the given playlist.
+     *
+     * @param  {IMessage}             message   The Discordie message object that triggered the command.
+     * @param  {Array}                args      The array of arguments parsed to the onCommand method.
+     * @param  {GuildTransformer}     guild     The database guild transformer for the current guild.
+     * @param  {PlaylistTransformer}  playlist  The database playlist transformer that was loaded in the onCommand method.
+     * @return {Promise}
+     */
     deletePlaylist(message, args, guild, playlist) {
         return app.database.getClient().table(app.constants.PLAYLIST_TABLE_NAME).where({
             guild_id: playlist.get('guild_id'),
@@ -249,6 +327,15 @@ class Playlist extends Command {
         });
     }
 
+    /**
+     * Renames the given playlist to a given new name.
+     *
+     * @param  {IMessage}             message   The Discordie message object that triggered the command.
+     * @param  {Array}                args      The array of arguments parsed to the onCommand method.
+     * @param  {GuildTransformer}     guild     The database guild transformer for the current guild.
+     * @param  {PlaylistTransformer}  playlist  The database playlist transformer that was loaded in the onCommand method.
+     * @return {Promise}
+     */
     renamePlaylist(message, args, guild, playlist) {
         if (args.length === 0) {
             return app.envoyer.sendWarn(message, 'Invalid format, missing the `new name` property!\n`:command`', {
@@ -259,6 +346,8 @@ class Playlist extends Command {
         let newName = args[0];
         let oldName = playlist.get('name');
 
+        // Loads the playlist from memory, the playlist has already been loaded in the
+        // onCommand method so we're guaranteed that the playlist exists in the cache.
         return app.database.getPlaylist(message.guild.id).then(playlists => {
             if (this.getPlaylist(playlists, newName) !== null) {
                 return app.envoyer.sendWarn(message, 'Can\'t rename the `:oldplaylist` to `:playlist`, there are already a playlist called `:playlist`', {
@@ -267,6 +356,9 @@ class Playlist extends Command {
                 });
             }
 
+            // Sets the new playlist name and attempts to update the database with the new playlist name,
+            // if the playlist fails to updat the cached playlist name will be reset back to the old
+            // playlist name to prevent any confusing since the name didn't actually change.
             playlist.data.name = args[0];
             return app.database.update(
                 app.constants.PLAYLIST_TABLE_NAME, playlist.toDatabaseBindings(),
@@ -285,6 +377,16 @@ class Playlist extends Command {
         });
     }
 
+    /**
+     * Sends a list of all the playlists that belongs
+     * to the current guild to the current channel.
+     *
+     * @param  {IMessage}          message    The Discordie message object that triggered the command.
+     * @param  {Array}             args       The array of arguments parsed to the onCommand method.
+     * @param  {GuildTransformer}  guild      The database guild transformer for the current guild.
+     * @param  {Array}             playlists  An array of database playlist transformers that belongs to the current guild.
+     * @return {Promise}
+     */
     sendPlaylists(message, guild, playlists) {
         let guildType = guild.getType();
         let counter = `   ‍   [ ${playlists.length} out of ${guildType.get('limits.playlist.lists')} ]`;
@@ -307,7 +409,6 @@ class Playlist extends Command {
         });
 
         stringMessage.sort();
-
         return app.envoyer.sendEmbededMessage(message, {
             color: 0x3498DB,
             title: `:musical_note: Music Playlist ${counter}`,
@@ -315,6 +416,16 @@ class Playlist extends Command {
         });
     }
 
+    /**
+     * Sends all the songs in the given playlist, if the playlist is empty a hit
+     * on how to add songs to the playlist will be sent to the user instead.
+     *
+     * @param  {IMessage}             message   The Discordie message object that triggered the command.
+     * @param  {Array}                args      The array of arguments parsed to the onCommand method.
+     * @param  {GuildTransformer}     guild     The database guild transformer for the current guild.
+     * @param  {PlaylistTransformer}  playlist  The database playlist transformer that was loaded in the onCommand method.
+     * @return {Promise}
+     */
     sendSongsInPlaylist(message, guild, playlist, pageNumber = 1) {
         let songs = playlist.get('songs', []);
         if (songs.length === 0) {
@@ -327,6 +438,8 @@ class Playlist extends Command {
             pageNumber = 1;
         }
 
+        // Creates the pages based on how many songs we have in the current
+        // playlist and paginates them with ten songs per page.
         let pages = Math.ceil(songs.length / 10);
         if (pageNumber > pages) {
             pageNumber = pages;
@@ -357,6 +470,15 @@ class Playlist extends Command {
         });
     }
 
+    /**
+     * Attempts to fetch the song using the YouTubeDL library, if the song was fetched the
+     * method will also filter down the formats by audio bitrate, format and quality, in
+     * the end returning the best version of the song for streaming via Discord.
+     *
+     * @param  {IMessage}  message  The Discordie message object that triggered the command.
+     * @param  {String}    url      The URl of the song that should be fetched.
+     * @return {Promise}
+     */
     fetchSong(message, url) {
         return new Promise((resolve, reject) => {
             let options = ['--skip-download', '-f bestaudio/worstvideo'];
@@ -407,6 +529,13 @@ class Playlist extends Command {
         return Promise.resolve();
     }
 
+    /**
+     * Gets the playlist that matches the given name.
+     *
+     * @param  {Array}   playlists     An array of database playlist transformers that belongs to the current guild.
+     * @param  {String}  playlistName  The name of the playlist that sound be matched.
+     * @return {PlaylistTransformer|null}
+     */
     getPlaylist(playlists, playlistName) {
         for (let i in playlists) {
             let playlist = playlists[i];
@@ -419,6 +548,13 @@ class Playlist extends Command {
         return null;
     }
 
+    /**
+     * Gets the current guild transformer and all the
+     * playlists that belongs to the current guild.
+     *
+     * @param  {IMessage}  message  The Discordie message object that triggered the command.
+     * @return {Promise}
+     */
     getGuildAndPlaylists(message) {
         return new Promise((resolve, reject) => {
             return app.database.getGuild(message.guild.id).then(guild => {
