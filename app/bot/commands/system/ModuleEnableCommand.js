@@ -38,16 +38,20 @@ class ModuleEnableCommand extends Command {
         }
 
         let category = categories.find(category => {
-            return _.startsWith(category.toLowerCase(), args[0].toLowerCase());
+            return _.startsWith(category.name.toLowerCase(), args[0].toLowerCase());
         });
 
         if (typeof category === 'undefined') {
-            return app.envoyer.sendWarn(message, 'Invalid module given, `:category` is not a valid module', {category});
+            return app.envoyer.sendWarn(message, 'Invalid module given, `:category` is not a valid module', {
+                category: args[0]
+            });
         }
 
-        Moddules.setStatues(category.toLowerCase(), true);
+        Moddules.setStatues(category.name.toLowerCase(), true);
 
-        return app.envoyer.sendSuccess(message, 'The `:category` module is now `enabled`.', {category});
+        return app.envoyer.sendSuccess(message, 'The `:category` module is now `enabled`.', {
+            category: category.name
+        });
     }
 }
 
