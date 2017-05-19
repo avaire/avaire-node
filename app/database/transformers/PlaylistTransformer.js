@@ -43,6 +43,10 @@ class PlaylistTransformer extends Transformer {
      * @return {Object}
      */
     toDatabaseBindings() {
+        if (this.data.songs === undefined || this.data.songs === null) {
+            this.data.songs = [];
+        }
+
         return {
             name: this.data.name,
             amount: this.data.songs.length,
