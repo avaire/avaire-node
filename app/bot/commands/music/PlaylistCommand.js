@@ -264,6 +264,13 @@ class Playlist extends Command {
         // Attempts to fetch and format the song with the given url using the YouTube-DL library.
         message.channel.sendTyping();
         this.fetchSong(message, songUrl).then(song => {
+            // If the song is returned with an invalid duration we can assume that the
+            // requested "song" is actually a livestream or radio stream, we don't
+            // really want that added to the playlist so we'll end the there.
+            if (song.duration === 'NaN') {
+                return app.envoyer.sendWarn(message, 'You can not add livestreams or radio streams to the playlists!');
+            }
+
             // Removes all the unnecessary properties from the song object
             // so it doesn't take unnecessary space in the database.
             Music.unnecessaryProperties.forEach(property => {
