@@ -13,7 +13,7 @@
     "move-now-streaming": "Jeg streamer nu musik i **:channel**",
 
     "require": {
-        "added-song": "<@:userid> har tilføjede [:title](:link) til køen.",
+        "added-song": "<@:userid> har tilføjede [:title](:link) til køen. Der er `:position` sang(e) foran i køen.",
         "error": "Jeg kunne ikke tilføje, at til afspilningslisten."
     },
 

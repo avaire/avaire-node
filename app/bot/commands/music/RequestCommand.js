@@ -81,6 +81,7 @@ class RequestCommand extends Command {
                 }
 
                 app.envoyer.sendInfo(message, 'commands.music.require.added-song', {
+                    position: Music.getQueue(message).length - 1,
                     title: song.title,
                     link: url
                 }).then(() => this.deleteMessage(message));

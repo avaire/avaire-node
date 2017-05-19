@@ -13,7 +13,7 @@
     "move-now-streaming": "I am now streaming music in **:channel**",
 
     "require": {
-        "added-song": "<@:userid> has added [:title](:link) to the queue.",
+        "added-song": "<@:userid> has added [:title](:link) to the queue. There are `:position` song(s) ahead of it in the queue.",
         "error": "I couldn't add that to the queue."
     },
 
