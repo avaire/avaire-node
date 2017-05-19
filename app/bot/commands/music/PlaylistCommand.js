@@ -21,7 +21,7 @@ class Playlist extends Command {
      * might be usfull for the abstract command class.
      */
     constructor() {
-        super('playlist', ['list'], {
+        super('playlist', ['list', 'pl'], {
             allowDM: false,
             description: [
                 'Music playlist command, alows music DJs to create, delete, and load playlists to the music queue, as well as adding and removing songs from any of the playlists.'
@@ -49,7 +49,7 @@ class Playlist extends Command {
                 function: (...args) => this.deletePlaylist(...args)
             },
             {
-                triggers: ['load', 'l'],
+                triggers: ['load', 'l', 'play'],
                 function: (...args) => this.loadPlaylist(...args)
             }
         ];
