@@ -205,23 +205,37 @@ class Playlist extends Command {
     loadPlaylist(message, args, guild, playlist) {
         return Music.prepareVoice(message).then(() => {
             let queueSize = Music.getQueue(message).length;
-
             let songs = playlist.get('songs');
-            for (let i in songs) {
-                let song = songs[i];
 
-                Music.addToQueue(message, song, song.link);
-            }
-
-            // If the queue was empty before we'll force the bot to start
-            // playing the song that was just requested immediately.
-            if (queueSize === 0) {
-                Music.next(message);
-            }
-
-            return app.envoyer.sendInfo(message, 'The `:playlist` playlist with `:amount` songs has been loaded into the music queue.', {
-                playlist: playlist.get('name'),
+            app.envoyer.sendInfo(message, 'Loading `:amount` songs into the music queue, this might take awhile...', {
                 amount: songs.length
+            }).then(sentMessage => {
+                let chain = [];
+                for (let i in songs) {
+                    let song = songs[i];
+
+                    chain.push(new Promise((resolve, reject) => {
+                        this.fetchSong(message, song.link).then(songObject => {
+                            Music.addToQueue(message, songObject, songObject.link);
+
+                            resolve();
+                        });
+                    }));
+                }
+
+                return Promise.all(chain).then(() => {
+                    // If the queue was empty before we'll force the bot to start
+                    // playing the song that was just requested immediately.
+                    if (queueSize === 0) {
+                        Music.next(message);
+                    }
+
+                    this.deleteMessage(sentMessage);
+                    return app.envoyer.sendSuccess(message, 'The `:playlist` playlist with `:amount` songs has been loaded into the music queue.', {
+                        playlist: playlist.get('name'),
+                        amount: songs.length
+                    });
+                });
             });
         }).catch(err => app.envoyer.sendWarn(message, err.message, err.placeholders));
     }
@@ -267,14 +281,6 @@ class Playlist extends Command {
             if (song.duration === 'NaN') {
                 return app.envoyer.sendWarn(message, 'You can not add livestreams or radio streams to the playlists!');
             }
-
-            // Removes all the unnecessary properties from the song object
-            // so it doesn't take unnecessary space in the database.
-            Music.unnecessaryProperties.forEach(property => {
-                if (song.hasOwnProperty(property)) {
-                    delete song[property];
-                }
-            });
 
             // Assign the song url to the link property on the song object, this is
             // normaly done through the music handler, but since the song is added
@@ -514,6 +520,14 @@ class Playlist extends Command {
                 if (audio !== undefined) {
                     song.url = audio.url;
                 }
+
+                // Removes all the unnecessary properties from the song object
+                // so it doesn't take unnecessary space in the database.
+                Music.unnecessaryProperties.forEach(property => {
+                    if (song.hasOwnProperty(property)) {
+                        delete song[property];
+                    }
+                });
 
                 return resolve(song);
             });
