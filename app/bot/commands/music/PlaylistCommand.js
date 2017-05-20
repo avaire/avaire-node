@@ -216,7 +216,7 @@ class Playlist extends Command {
 
                     chain.push(new Promise((resolve, reject) => {
                         this.fetchSong(message, song.link).then(songObject => {
-                            Music.addToQueue(message, songObject, songObject.link);
+                            Music.addToQueue(message, songObject, song.link);
 
                             resolve();
                         });
