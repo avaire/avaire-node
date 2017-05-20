@@ -367,7 +367,13 @@ class MusicHandler {
      * @param  {Boolean}   state    The pause state that should be set.
      */
     setPausedState(message, state) {
-        this.paused[message.guild.id] = state;
+        if (!state) {
+            this.paused[message.guild.id] = state;
+            return state;
+        }
+
+        this.paused[message.guild.id] = new Date;
+        return true;
     }
 
     /**
@@ -378,7 +384,7 @@ class MusicHandler {
      */
     isPaused(message) {
         if (this.paused.hasOwnProperty(message.guild.id)) {
-            return this.paused[message.guild.id];
+            return this.paused[message.guild.id] !== false;
         }
         return false;
     }
