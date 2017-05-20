@@ -1,6 +1,4 @@
 /** @ignore */
-const request = require('request');
-/** @ignore */
 const Command = require('./../Command');
 
 class RollCommand extends Command {
@@ -12,14 +10,9 @@ class RollCommand extends Command {
      */
     constructor() {
         super('roll', [], {
-            description: 'Rolls a random number or a set of D&D dice.',
+            description: 'Rolls a random number.',
             usage: [
-                '',
-                '[min] [max]',
-                '[D&D eg 4D8]'
-            ],
-            middleware: [
-                'throttle.user:2,4'
+                '[min] [max]'
             ]
         });
     }
@@ -33,14 +26,6 @@ class RollCommand extends Command {
      * @return {mixed}
      */
     onCommand(sender, message, args) {
-        if (args.length > 0 && /[0-9]+d+[0-9]+/ig.test(args[0])) {
-            return this.rollDice(message, args);
-        }
-
-        return this.rollNumber(message, args);
-    }
-
-    rollNumber(message, args) {
         let min = 1;
         let max = 100;
 
@@ -57,31 +42,7 @@ class RollCommand extends Command {
         let random = Math.floor(Math.random() * (max - min + 1)) + min;
 
         return app.envoyer.sendSuccess(message, 'commands.fun.roll.number', {
-            number: random,
-            min,
-            max
-        });
-    }
-
-    rollDice(message, args) {
-        let dice = args[0];
-
-        request('https://rolz.org/api/?' + dice + '.json', (error, response, body) => {
-            if (error || response.statusCode !== 200) {
-                return app.envoyer.sendNormalMessage(message, 'The API returned an unconventional response.');
-            }
-
-            try {
-                let roll = JSON.parse(body);
-
-                return app.envoyer.sendSuccess(message, 'commands.fun.roll.dice', {
-                    dice: roll.input.toUpperCase(),
-                    result: roll.result,
-                    details: roll.details
-                });
-            } catch (err) {
-                return app.envoyer.sendNormalMessage(message, 'The API returned an unconventional response.');
-            }
+            number: random, min, max
         });
     }
 }
