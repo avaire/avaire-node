@@ -1,6 +1,6 @@
 {
     "name": "Ava-Ire",
-    "version": "0.40.1",
+    "version": "0.41.0",
     "description": "A Discord Bot",
     "main": "start.js",
     "maintainers": [
@@ -66,7 +66,9 @@
         "apiai": "4.0.1",
         "discordie": "^0.11.0",
         "dot-object": "^1.5.4",
+        "expand-url": "^0.1.3",
         "fs-extra": "^2.0.0",
+        "goo.gl": "^0.1.4",
         "knex": "^0.12.7",
         "lodash": "^4.17.4",
         "moment": "^2.18.1",
