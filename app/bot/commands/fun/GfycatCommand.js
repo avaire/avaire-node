@@ -12,7 +12,7 @@ class GfycatCommand extends Command {
      */
     constructor() {
         super('gfycat', ['gif'], {
-            description: 'I will get a random dog for you',
+            description: 'I will get a random gif for you from gfycat.com',
             middleware: [
                 'throttle.channel:1,1'
             ]
