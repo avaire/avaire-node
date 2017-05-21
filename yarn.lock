@@ -2328,6 +2328,12 @@ registry-url@^3.0.3:
   dependencies:
     rc "^1.0.1"
 
+relevant-urban@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/relevant-urban/-/relevant-urban-2.0.0.tgz#69bbd4f43a674908db908e27f23096cb0f24b8b9"
+  dependencies:
+    snekfetch "^3.0.1"
+
 remove-trailing-separator@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/remove-trailing-separator/-/remove-trailing-separator-1.0.1.tgz#615ebb96af559552d4bf4057c8436d486ab63cc4"
@@ -2494,6 +2500,10 @@ slice-ansi@0.0.4:
 slide@^1.1.5:
   version "1.1.6"
   resolved "https://registry.yarnpkg.com/slide/-/slide-1.1.6.tgz#56eb027d65b4d2dce6cb2e2d32c4d4afc9e1d707"
+
+snekfetch@^3.0.1:
+  version "3.1.7"
+  resolved "https://registry.yarnpkg.com/snekfetch/-/snekfetch-3.1.7.tgz#5eb980d29c3b455bf0b13359647909b0737315e9"
 
 sntp@0.2.x:
   version "0.2.4"
