@@ -77,6 +77,16 @@ class PurgeCommand extends Command {
         }), message, 'commands.administration.purge.user-messages', {users});
     }
 
+    /**
+     * Process deleted messages, sending the "x messages has been deleted"  message
+     * if successfully, if something went wrong we'll let the user know as well.
+     *
+     * @param  {Promise}   promise         The promise that handeled deleting the messages.
+     * @param  {IMessage}  message         The Discordie message object.
+     * @param  {String}    languageString  The language string that should be sent to the user if it was successfully.
+     * @param  {Object}    placeholders    The placeholders for the message.
+     * @return {Promise}
+     */
     processDeletedMessages(promise, message, languageString, placeholders = {}) {
         return promise.then(amountOfDeletedMessages => {
             placeholders.amount = amountOfDeletedMessages;
@@ -94,6 +104,17 @@ class PurgeCommand extends Command {
         });
     }
 
+    /**
+     * Delete the list of messages given, if more than 100 messages
+     * is given the method will call itself with the next set of
+     * messages until it has deleted all of the messages.
+     *
+     * @param  {ITextChannel}  channel          The channel the messages should be deleted in.
+     * @param  {Number }       left             The number of messages there are left to be deleted
+     * @param  {Function}      filter           The filter that separates messages that should and shouldn't be deleted.
+     * @param  {Number}        deletedMessages  Number of messages that has been deleted.
+     * @return {Promise}
+     */
     deleteMessages(channel, left, filter = null, deletedMessages = 0) {
         return channel.fetchMessages(Math.min(left, 100)).then(result => {
             // If the filter variable is a callback and the list of messages isn't undefined

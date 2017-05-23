@@ -1,3 +1,7 @@
+
+/**
+ * Ban Module, used to handel all ban and soft ban functionality.
+ */
 class BanModule {
 
     /**

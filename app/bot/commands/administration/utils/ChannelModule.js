@@ -1,6 +1,10 @@
 /** @ignore */
 const ChannelTransformer = require('./../../../../database/transformers/ChannelTransformer');
 
+/**
+ * Channel Module Class, used for interacting
+ * with database channel settings.
+ */
 class ChannelModule {
 
     /**

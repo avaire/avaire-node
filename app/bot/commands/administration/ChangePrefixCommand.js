@@ -8,6 +8,12 @@ const CommandHandler = require('./../CommandHandler');
 /** @ignore */
 let categories = _.orderBy(require('./../Categories'));
 
+/**
+ * Change Prefix Command, allows server admins to change or
+ * set any prefix for all the command modules/categories.
+ *
+ * @extends {Command}
+ */
 class ChangePrefixCommand extends Command {
 
     /**
