@@ -54,6 +54,7 @@ class GuildTransformer extends Transformer {
     toDatabaseBindings() {
         return {
             name: this.data.name,
+            icon: this.data.icon,
             local: this.data.local,
             channels: JSON.stringify(this.data.channels),
             updated_at: new Date
@@ -73,6 +74,7 @@ class GuildTransformer extends Transformer {
             type: 0,
             owner: null,
             name: null,
+            icon: null,
             local: null,
             channels: {},
             prefixes: null

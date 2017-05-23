@@ -113,13 +113,15 @@ class Database {
                         Cache.put(token, new GuildTransformer({
                             id: guild.id,
                             owner: guild.owner_id,
-                            name: guild.name
+                            name: guild.name,
+                            icon: guild.icon
                         }), 500);
 
                         this.insert(app.constants.GUILD_TABLE_NAME, {
                             id: guild.id,
                             owner: guild.owner_id,
-                            name: guild.name
+                            name: guild.name,
+                            icon: guild.icon
                         });
                     } else {
                         Cache.put(token, new GuildTransformer(response[0]), 500);
