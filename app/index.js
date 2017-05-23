@@ -6,6 +6,7 @@ module.exports = {
     // Utilities
     lang: require('./utils/lang/Language'),
     logger: require('./utils/logger/Logger'),
+    process: require('./utils/process/Process'),
     envoyer: require('./utils/envoyer/Envoyer'),
     cache: require('./utils/cache/CacheManager'),
     throttle: require('./utils/throttle/Throttle'),
@@ -14,5 +15,6 @@ module.exports = {
     configLoader: require('./utils/config/ConfigLoader'),
 
     // Bot Version
-    version: require('../package').version
+    version: require('../package').version,
+    runTime: new Date().getTime()
 };

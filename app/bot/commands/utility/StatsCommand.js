@@ -66,7 +66,7 @@ class StatsCommand extends Command {
         }).then(() => {
             fields.push({
                 name: 'Uptime',
-                value: this.getProcessUptime(),
+                value: app.process.getUptime(),
                 inline: true
             });
 
@@ -84,7 +84,7 @@ class StatsCommand extends Command {
 
             fields.push({
                 name: 'Memory Usage',
-                value: this.getSystemMemoryUsage(),
+                value: app.process.getSystemMemoryUsage(),
                 inline: true
             });
 
@@ -149,39 +149,6 @@ class StatsCommand extends Command {
                 };
             }));
         });
-    }
-
-    getProcessUptime() {
-        let seconds = process.uptime();
-
-        let d = Math.floor(seconds / 86400);
-        let h = Math.floor((seconds % 86400) / 3600);
-        let m = Math.floor(((seconds % 86400) % 3600) / 60);
-        let s = Math.floor(((seconds % 86400) % 3600) % 60);
-
-        if (d > 0) {
-            return `${d}d ${h}h ${m}m ${s}s`;
-        }
-
-        if (h > 0) {
-            return `${h}h ${m}m ${s}s`;
-        }
-
-        if (m > 0) {
-            return `${m}m ${s}s`;
-        }
-
-        return `${s}s`;
-    }
-
-    getSystemMemoryUsage() {
-        let memoryInBytes = process.memoryUsage().heapTotal - process.memoryUsage().heapUsed;
-        let sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
-
-        let k = 1000;
-        let i = Math.floor(Math.log(memoryInBytes) / Math.log(k));
-
-        return parseFloat((memoryInBytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
     }
 }
 
