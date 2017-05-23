@@ -20,6 +20,15 @@ class GuildCreateEvent extends EventHandler {
     handle(socket) {
         app.logger.info(`Joined guild with an ID of ${socket.guild.id} called: ${socket.guild.name}`);
 
+        app.database.update(app.constants.GUILD_TABLE_NAME, {
+            leftguild_at: null
+        }, query => query.where('id', socket.guild.id))
+            .catch(err => app.logger.error(err));
+
+        if (isEnvironmentInDevelopment()) {
+            return;
+        }
+
         let avaireCentral = bot.Guilds.find(guild => guild.id === '284083636368834561');
 
         if (typeof avaireCentral === 'undefined' || avaireCentral === null) {

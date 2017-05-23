@@ -20,6 +20,15 @@ class GuildDeleteEvent extends EventHandler {
     handle(socket) {
         app.logger.info(`Left guild with an ID of ${socket.data.id} called: ${socket.data.name}`);
 
+        app.database.update(app.constants.GUILD_TABLE_NAME, {
+            leftguild_at: new Date
+        }, query => query.where('id', socket.data.id))
+            .catch(err => app.logger.error(err));
+
+        if (isEnvironmentInDevelopment()) {
+            return;
+        }
+
         let avaireCentral = bot.Guilds.find(guild => guild.id === '284083636368834561');
 
         if (typeof avaireCentral === 'undefined' || avaireCentral === null) {
