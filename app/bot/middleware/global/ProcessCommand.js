@@ -30,19 +30,54 @@ class ProcessCommand extends Middleware {
         this.incrementCommandCounterFor(this.command.handler.constructor.name);
 
         return this.command.handler.onCommand(
-            user, socket.message, _.drop(socket.message.content.trim().split(' ')), socket
+            user, socket.message, this.buildCommandArguments(socket), socket
         );
     }
 
     /**
-     * Prettify the contents of the socket.
+     * Builds the command arguments array.
      *
-     * @param  {GatewaySocket}  socket  Discordie message create socket
-     * @return {String}
+     * @param  {GatewaySocket}  socket  Discordie message create socket.
+     * @return {Array}
      */
-    prettifyContent(socket) {
-        return socket.message.resolveContent()
-                     .replace(/\n/g, '\\n');
+    buildCommandArguments(socket) {
+        let rawArguments = _.drop(
+            socket.message.content.trim().split(' ')
+        ).join(' ').match(/[^\s"]+|"([^"]*)"/gi);
+
+        // If our raw arguments is null we can assume the regex
+        // failed to find any matches and therefor there
+        // where no arguments parsed to the command.
+        if (rawArguments === null) {
+            return [];
+        }
+
+        let args = [];
+        let skipNext = false;
+        for (let i = 0; i < rawArguments.length; i++) {
+            if (skipNext) {
+                continue;
+            }
+
+            // If any of our arguments are wraped in quote marks
+            // we'll strip the quote marks off to make the
+            // output in the other end a bit cleaner.
+            let arg = rawArguments[i];
+            if (_.startsWith(arg, '"') && _.endsWith(arg, '"')) {
+                arg = arg.substr(1, arg.length - 2);
+            }
+
+            // If the following character is a comma we'll append it
+            // to our current string and skip it in the next loop.
+            if (_.startsWith(rawArguments[i + 1], ',')) {
+                arg += rawArguments[i + 1];
+                skipNext = true;
+            }
+
+            args.push(arg);
+        }
+
+        return args;
     }
 
     /**
@@ -58,6 +93,16 @@ class ProcessCommand extends Middleware {
             return app.bot.statistics.commandUsage[command]++;
         }
         app.bot.statistics.commandUsage[command] = 1;
+    }
+
+    /**
+     * Prettify the contents of the socket.
+     *
+     * @param  {GatewaySocket}  socket  Discordie message create socket
+     * @return {String}
+     */
+    prettifyContent(socket) {
+        return socket.message.resolveContent().replace(/\n/g, '\\n');
     }
 }
 
