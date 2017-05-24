@@ -7,7 +7,7 @@
  */
 exports.up = function (knex, Promise) {
     return knex.schema.table(app.constants.GUILD_TABLE_NAME, table => {
-        table.string('prefixes')
+        table.json('prefixes')
              .nullable()
              .after('channels');
     });
