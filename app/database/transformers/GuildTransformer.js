@@ -41,6 +41,15 @@ class GuildTransformer extends Transformer {
             }
         }
 
+        if (data.hasOwnProperty('aliases')) {
+            try {
+                data.aliases = JSON.parse(data.aliases);
+            } catch (err) {
+                app.logger.error(err);
+                data.aliases = {};
+            }
+        }
+
         return data;
     }
 
@@ -77,7 +86,8 @@ class GuildTransformer extends Transformer {
             icon: null,
             local: null,
             channels: {},
-            prefixes: null
+            prefixes: null,
+            aliases: null
         };
     }
 

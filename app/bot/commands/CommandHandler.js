@@ -19,6 +19,13 @@ class CommandHandler {
          * @type {Object}
          */
         this.prefixes = {};
+
+        /**
+         * The guild command aliases backup cache.
+         *
+         * @type {Object}
+         */
+        this.aliases = {};
     }
 
     /**
@@ -26,9 +33,10 @@ class CommandHandler {
      *
      * @param  {IMessage}  message        The Discordie message object that triggered the command.
      * @param  {String}    commandString  The message that was sent by the user.
+     * @param  {Boolean}   useAliases     Determines if aliases should be checked as commands too.
      * @return {Command|null}
      */
-    getCommand(message, commandString) {
+    getCommand(message, commandString, useAliases = true) {
         let trigger = commandString.split(' ')[0].toLowerCase();
 
         if (message.isPrivate) {
@@ -54,7 +62,10 @@ class CommandHandler {
             return command;
         }
 
-        return null;
+        if (!useAliases) {
+            return null;
+        }
+        return this.getCommandByAlias(message, commandString);
     }
 
     /**
@@ -64,6 +75,8 @@ class CommandHandler {
      * @return {String|null}
      */
     getGlobalCommand(trigger) {
+        trigger = trigger.trim().split(' ')[0].toLowerCase();
+
         for (let commandName in app.bot.commands) {
             let command = app.bot.commands[commandName];
 
@@ -74,6 +87,45 @@ class CommandHandler {
             }
         }
 
+        return null;
+    }
+
+    /**
+     * Gets the command with matching aliase triggers to what the user sent.
+     *
+     * @param  {IMessage}  message  The Discordie message object that triggered the command.
+     * @param  {String}    alias    The command alias that should be checked.
+     * @return {String|null}
+     */
+    getCommandByAlias(message, alias) {
+        alias = alias.toLowerCase();
+
+        let guildId = message.guild.id;
+        let memoryGuildCache = app.cache.get(`database.${guildId}`, null, 'memory');
+
+        if (memoryGuildCache !== null) {
+            this.aliases[guildId] = memoryGuildCache.get('aliases', {});
+        }
+
+        if (this.aliases[guildId].length === 0) {
+            return null;
+        }
+
+        let sortable = [];
+        for (let token in this.aliases[guildId]) {
+            sortable.push([token, this.aliases[guildId][token]]);
+        }
+        sortable.sort((a, b) => b[0].length - a[0].length);
+
+        for (let i in sortable) {
+            let token = sortable[i];
+
+            if (!_.startsWith(alias, token[0])) {
+                continue;
+            }
+
+            return this.getGlobalCommand(token[1]);
+        }
         return null;
     }
 
