@@ -27,9 +27,9 @@ class ProcessCommand extends Middleware {
 
         app.logger.info(`Executing Command <${this.prettifyContent(socket)}> from ${user.username}#${user.discriminator}`);
 
-        this.incrementCommandCounterFor(this.command.handler.constructor.name);
+        this.incrementCommandCounterFor(this.command.command.handler.constructor.name);
 
-        return this.command.handler.onCommand(
+        return this.command.command.handler.onCommand(
             user, socket.message, this.buildCommandArguments(socket), socket
         );
     }
@@ -44,6 +44,16 @@ class ProcessCommand extends Middleware {
         let rawArguments = _.drop(
             socket.message.content.trim().split(' ')
         ).join(' ').match(/[^\s"]+|"([^"]*)"/gi);
+
+        if (this.command.useAlias && this.command.args.length > 0) {
+            if (rawArguments === null) {
+                rawArguments = [];
+            }
+
+            for (let i = this.command.args.length - 1; i >= 0; i--) {
+                rawArguments.unshift(this.command.args[i]);
+            }
+        }
 
         // If our raw arguments is null we can assume the regex
         // failed to find any matches and therefor there

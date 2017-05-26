@@ -26,7 +26,7 @@ class ModuleStatusMiddleware extends Middleware {
         }
 
         return app.envoyer.sendWarn(request.message, 'language.errors.module-is-disabled', {
-            category: this.command.category
+            category: this.command.command.category
         }).then(message => app.scheduler.scheduleDelayedTask(() => message.delete(), 17500));
     }
 
@@ -38,7 +38,7 @@ class ModuleStatusMiddleware extends Middleware {
      * @return {Boolean}
      */
     shouldContinue(request) {
-        if (Modules.isEnabled(this.command.category) || this.command.category === 'system') {
+        if (Modules.isEnabled(this.command.command.category) || this.command.command.category === 'system') {
             return true;
         }
 

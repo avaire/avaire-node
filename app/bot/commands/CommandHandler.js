@@ -34,7 +34,7 @@ class CommandHandler {
      * @param  {IMessage}  message        The Discordie message object that triggered the command.
      * @param  {String}    commandString  The message that was sent by the user.
      * @param  {Boolean}   useAliases     Determines if aliases should be checked as commands too.
-     * @return {Command|null}
+     * @return {Object<Command, Boolean>|null}
      */
     getCommand(message, commandString, useAliases = true) {
         let trigger = commandString.split(' ')[0].toLowerCase();
@@ -54,7 +54,7 @@ class CommandHandler {
             // If the guild has a custom prefix for the command category/module and the command was
             // executed with the normal prefix we'll return null as well, preventing the command
             // from being run using normal prefixes while custom prefixes are enabled.
-            let normalPrefix = this.getPrefix(message, command.category);
+            let normalPrefix = this.getPrefix(message, command.command.category);
             if (normalPrefix !== null && !_.startsWith(trigger, normalPrefix)) {
                 return null;
             }
@@ -72,7 +72,7 @@ class CommandHandler {
      * Gets the command using global/normal prefixes.
      *
      * @param  {String}  trigger  The commands trigger that should be found.
-     * @return {String|null}
+     * @return {Object}
      */
     getGlobalCommand(trigger) {
         trigger = trigger.trim().split(' ')[0].toLowerCase();
@@ -82,7 +82,7 @@ class CommandHandler {
 
             for (let triggerIndex in command.triggers) {
                 if (trigger === command.prefix + command.triggers[triggerIndex]) {
-                    return command;
+                    return {command, useAlias: false};
                 }
             }
         }
@@ -95,7 +95,7 @@ class CommandHandler {
      *
      * @param  {IMessage}  message  The Discordie message object that triggered the command.
      * @param  {String}    alias    The command alias that should be checked.
-     * @return {String|null}
+     * @return {Object<Command, Boolean>|null}
      */
     getCommandByAlias(message, alias) {
         alias = alias.toLowerCase();
@@ -124,7 +124,11 @@ class CommandHandler {
                 continue;
             }
 
-            return this.getGlobalCommand(token[1]);
+            let command = this.getGlobalCommand(token[1]);
+            command.useAlias = true;
+            command.args = _.drop(token[1].split(' '));
+
+            return command;
         }
         return null;
     }

@@ -59,12 +59,12 @@ class AliasCommand extends Command {
             let commandString = _.drop(args).join(' ');
             let command = CommandHandler.getCommand(message, commandString, false);
             if (command === null) {
-                return app.envoyer.sendWarn(message, 'Invalid command given, I know of any command called `:command`', {
+                return app.envoyer.sendWarn(message, 'Invalid command given, I don\'t know of any command called `:command`', {
                     command: args[1]
                 });
             }
 
-            aliases[args[0].toLowerCase()] = this.buildAliasCommandString(command, commandString);
+            aliases[args[0].toLowerCase()] = this.buildAliasCommandString(command.command, commandString);
             guild.data.aliases = aliases;
 
             app.database.update(app.constants.GUILD_TABLE_NAME, {

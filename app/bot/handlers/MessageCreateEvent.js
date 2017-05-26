@@ -97,11 +97,11 @@ class MessageCreateEvent extends EventHandler {
      * @return {mixed}
      */
     processCommand(socket, command) {
-        if (!command.handler.getOptions('allowDM', true) && socket.message.isPrivate) {
+        if (!command.command.handler.getOptions('allowDM', true) && socket.message.isPrivate) {
             return app.envoyer.sendWarn(socket.message, 'language.errors.cant-run-in-dms');
         }
 
-        let middlewareGroup = command.handler.getOptions('middleware', []);
+        let middlewareGroup = command.command.handler.getOptions('middleware', []);
         let stack = new ProcessCommand(undefined, [], command);
         let param = [];
 

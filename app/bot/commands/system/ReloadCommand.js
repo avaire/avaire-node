@@ -136,6 +136,7 @@ class ReloadCommand extends Command {
             });
         }
 
+        command = command.command;
         let commandFile = `./../${command.category}/${command.name}`;
         let commandPath = `${command.category}${path.sep}${command.name}.js`;
 

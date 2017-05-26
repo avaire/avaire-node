@@ -43,8 +43,8 @@ class SourceCommand extends Command {
         }
 
         return app.envoyer.sendInfo(message, 'AvaIre source code for the **:command** command:\n\n' + this.commandUrl, {
-            commandfile: command.name,
-            category: command.category,
+            commandfile: command.command.name,
+            category: command.command.category,
             command: args[0].toLowerCase()
         });
     }

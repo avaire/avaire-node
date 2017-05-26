@@ -44,7 +44,7 @@ class ThrottleUser extends Middleware {
      * @return {String}
      */
     getCommandTrigger(message) {
-        return this.command.handler.getPrefix(message) + this.command.handler.getTriggers()[0];
+        return this.command.command.handler.getPrefix(message) + this.command.command.handler.getTriggers()[0];
     }
 
     /**
@@ -57,10 +57,10 @@ class ThrottleUser extends Middleware {
      */
     generateCacheToken(request) {
         if (request.message.isPrivate) {
-            return `throttle-dm.${request.message.author.id}.${this.command.name}`;
+            return `throttle-dm.${request.message.author.id}.${this.command.command.name}`;
         }
 
-        return `throttle-user.${request.message.guild.id}.${request.message.author.id}.${this.command.name}`;
+        return `throttle-user.${request.message.guild.id}.${request.message.author.id}.${this.command.command.name}`;
     }
 }
 

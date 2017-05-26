@@ -140,8 +140,8 @@ class HelpCommand extends Command {
             });
         }
 
+        command = command.command;
         let fields = [];
-
         let prefix = CommandHandler.getPrefix(message, command.category);
 
         // Add usage to the fields array
