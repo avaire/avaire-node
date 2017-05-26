@@ -56,6 +56,11 @@ class AliasCommand extends Command {
                 });
             }
 
+            let guildType = guild.getType();
+            if (aliases.length >= guildType.get('limits.aliases')) {
+                return app.envoyer.sendWarn(message, 'The server doesn\'t have any more aliases slots.');
+            }
+
             let commandString = _.drop(args).join(' ');
             let command = CommandHandler.getCommand(message, commandString, false);
             if (command === null) {
@@ -72,9 +77,10 @@ class AliasCommand extends Command {
             }, query => query.where('id', message.guild.id))
                 .catch(err => app.logger.error(err));
 
-            return app.envoyer.sendSuccess(message, 'The `:alias` allias has been linked to `:command`', {
+            return app.envoyer.sendSuccess(message, 'The `:alias` allias has been linked to `:command`\nThe server has `:slots` more aliases slots available.', {
                 alias: args[0],
-                command: _.drop(args).join(' ')
+                command: _.drop(args).join(' '),
+                slots: guildType.get('limits.aliases') - Object.keys(aliases).length
             });
         });
     }
