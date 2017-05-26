@@ -38,7 +38,63 @@ class StatsCommand extends Command {
 
         let fields = [];
 
-        return this.getMemberStats().then(members => {
+        return Promise.resolve().then(() => {
+            fields.push({
+                name: 'Author',
+                value: 'Senither#8023',
+                inline: true
+            });
+
+            fields.push({
+                name: 'Bot ID',
+                value: bot.User.id,
+                inline: true
+            });
+
+            fields.push({
+                name: 'Library',
+                value: '[Discordie](http://qeled.github.io/discordie/)',
+                inline: true
+            });
+
+            fields.push({
+                name: 'DB Queries run',
+                value: app.bot.statistics.databaseQueries,
+                inline: true
+            });
+
+            fields.push({
+                name: 'Messages Received',
+                value: this.getMessagesReceivedStats(),
+                inline: true
+            });
+
+            fields.push({
+                name: 'Active Voice',
+                value: bot.VoiceConnections.length,
+                inline: true
+            });
+
+            fields.push({
+                name: 'Servers',
+                value: bot.Guilds.length,
+                inline: true
+            });
+
+            fields.push({
+                name: 'Commands Run',
+                value: app.bot.statistics.commands,
+                inline: true
+            });
+
+            fields.push({
+                name: 'Memory Usage',
+                value: app.process.getSystemMemoryUsage(),
+                inline: true
+            });
+
+            return this.getMemberStats();
+        }).then(members => {
             fields.push({
                 name: 'Members',
                 value: [
@@ -64,27 +120,15 @@ class StatsCommand extends Command {
 
             return Promise.resolve();
         }).then(() => {
+            let uptime = app.process.getUptime(false).split(', ');
+            if (uptime.length > 1) {
+                let length = uptime.length - 1;
+                uptime[length] = uptime[length].substr(4, uptime[length].length - 1);
+            }
+
             fields.push({
                 name: 'Uptime',
-                value: app.process.getUptime(),
-                inline: true
-            });
-
-            fields.push({
-                name: 'Servers',
-                value: bot.Guilds.length,
-                inline: true
-            });
-
-            fields.push({
-                name: 'Commands Run',
-                value: app.bot.statistics.commands,
-                inline: true
-            });
-
-            fields.push({
-                name: 'Memory Usage',
-                value: app.process.getSystemMemoryUsage(),
+                value: uptime.join('\n'),
                 inline: true
             });
 
@@ -149,6 +193,12 @@ class StatsCommand extends Command {
                 };
             }));
         });
+    }
+
+    getMessagesReceivedStats() {
+        let perSecond = app.bot.statistics.messages / ((new Date().getTime() - app.runTime) / 1000);
+
+        return app.bot.statistics.messages + ` (${perSecond.toFixed(2)} per sec)`;
     }
 }
 
