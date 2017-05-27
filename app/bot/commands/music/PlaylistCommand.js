@@ -13,7 +13,7 @@ const CommandHandler = require('./../CommandHandler');
 /** @ignore */
 const PlaylistTransformer = require('./../../../database/transformers/PlaylistTransformer');
 
-class Playlist extends Command {
+class PlaylistCommand extends Command {
 
     /**
      * Sets up the command by providing the prefix, command trigger, any
@@ -584,4 +584,4 @@ class Playlist extends Command {
     }
 }
 
-module.exports = Playlist;
+module.exports = PlaylistCommand;

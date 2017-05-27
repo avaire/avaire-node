@@ -3,7 +3,7 @@ const Command = require('./../Command');
 /** @ignore */
 const Music = require('./MusicHandler');
 
-class SkipCommand extends Command {
+class VoteSkipCommand extends Command {
 
     /**
      * Sets up the command by providing the prefix, command trigger, any
@@ -120,4 +120,4 @@ class SkipCommand extends Command {
     }
 }
 
-module.exports = SkipCommand;
+module.exports = VoteSkipCommand;

@@ -1,7 +1,7 @@
 /** @ignore */
 const Command = require('./../Command');
 
-class BotListRemoveCommand extends Command {
+class BotAdminRemoveCommand extends Command {
 
     /**
      * Sets up the command by providing the prefix, command trigger, any
@@ -43,4 +43,4 @@ class BotListRemoveCommand extends Command {
     }
 }
 
-module.exports = BotListRemoveCommand;
+module.exports = BotAdminRemoveCommand;
