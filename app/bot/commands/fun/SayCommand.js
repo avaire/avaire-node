@@ -1,7 +1,7 @@
 /** @ignore */
 const Command = require('./../Command');
 
-class RollCommand extends Command {
+class SayCommand extends Command {
 
     /**
      * Sets up the command by providing the prefix, command trigger, any
@@ -9,7 +9,7 @@ class RollCommand extends Command {
      * might be usfull for the abstract command class.
      */
     constructor() {
-        super('say', ['echo'], {
+        super('say', [], {
             description: 'I will say anything you want',
             usage: '[message]',
             middleware: [
@@ -27,6 +27,10 @@ class RollCommand extends Command {
      * @return {mixed}
      */
     onCommand(sender, message, args) {
+        if (args.length === 0) {
+            return this.sendMissingArguments(message);
+        }
+
         if (message.isPrivate) {
             return app.envoyer.sendNormalMessage(message, args.join(' '));
         }
@@ -43,4 +47,4 @@ class RollCommand extends Command {
     }
 }
 
-module.exports = RollCommand;
+module.exports = SayCommand;
