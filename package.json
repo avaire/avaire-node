@@ -1,6 +1,6 @@
 {
     "name": "Ava-Ire",
-    "version": "0.43.6",
+    "version": "0.43.7",
     "description": "A Discord Bot",
     "main": "start.js",
     "maintainers": [
@@ -45,6 +45,9 @@
             "unicorn/filename-case": 0,
             "import/no-dynamic-require": 0
         },
+        "ignores": [
+            "tests/**"
+        ],
         "overrides": [
             {
                 "files": "app/helpers/*.js",
@@ -78,6 +81,7 @@
         "request": "^2.81.0",
         "require-directory": "^2.1.1",
         "semver-diff": "^2.1.0",
+        "sqlite3": "^3.1.8",
         "winston": "^2.3.1",
         "winston-daily-rotate-file": "^1.4.6",
         "youtube-dl": "^1.11.1"

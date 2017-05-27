@@ -38,7 +38,8 @@ class Database {
             migrations: {
                 tableName: 'migrations',
                 directory: './app/database/migrations'
-            }
+            },
+            useNullAsDefault: true
         });
     }
 

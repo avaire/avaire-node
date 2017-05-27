@@ -7,7 +7,7 @@
  * @return {String}
  */
 global.getEnvironment = function (environment = null) {
-    if (environment === null) {
+    if (environment === null && app.hasOwnProperty('config')) {
         environment = app.config.environment.toLowerCase();
     }
 

@@ -75,7 +75,9 @@ class Logger {
      * @param {Array}  args  The arguments that should be parsed to Winston.
      */
     info(...args) {
-        return this.winston.info(...args);
+        if (!isEnvironmentInTesting()) {
+            return this.winston.info(...args);
+        }
     }
 
     /**
@@ -84,7 +86,9 @@ class Logger {
      * @param {Array}  args  The arguments that should be parsed to Winston.
      */
     warn(...args) {
-        return this.winston.warn(...args);
+        if (!isEnvironmentInTesting()) {
+            return this.winston.warn(...args);
+        }
     }
 
     /**
@@ -97,7 +101,9 @@ class Logger {
             return this.winston.debug(...args);
         }
 
-        return this.winston.error(...args);
+        if (!isEnvironmentInTesting()) {
+            return this.winston.error(...args);
+        }
     }
 
     /**
@@ -106,7 +112,9 @@ class Logger {
      * @param {Array}  args  The arguments that should be parsed to Winston.
      */
     debug(...args) {
-        return this.winston.debug(...args);
+        if (!isEnvironmentInTesting()) {
+            return this.winston.debug(...args);
+        }
     }
 
     /**
@@ -115,7 +123,9 @@ class Logger {
      * @param {Array}  args  The arguments that should be parsed to Winston.
      */
     silly(...args) {
-        return this.winston.silly(...args);
+        if (!isEnvironmentInTesting()) {
+            return this.winston.silly(...args);
+        }
     }
 
     /**
@@ -128,7 +138,9 @@ class Logger {
             args[0] = 'debug';
         }
 
-        return this.winston.log(...args);
+        if (!isEnvironmentInTesting()) {
+            return this.winston.log(...args);
+        }
     }
 
     /**

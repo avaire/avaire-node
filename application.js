@@ -28,6 +28,24 @@ class Application {
     }
 
     /**
+     * Bootstraps the application and prepares it for testing.
+     */
+    bootstrapTests() {
+        global.app = require('./app');
+
+        this.prepareConfig(false);
+        app.config.environment = 'testing';
+        app.config.database = {
+            type: 'sqlite3',
+            filename: ':memory:'
+        };
+
+        this.prepareDiscordie();
+
+        return this.prepareDatabase();
+    }
+
+    /**
      * Registers and prepares the events, jobs and services that Ava uses.
      */
     register() {
@@ -35,6 +53,15 @@ class Application {
 
         this.registerEvents();
         this.registerJobs();
+        this.registerServices();
+        this.registerPrefixes();
+    }
+
+    /**
+     * Registers and prepares the events, and services that Ava uses.
+     */
+    registerEventsServicesAndPrefixes() {
+        this.registerEvents();
         this.registerServices();
         this.registerPrefixes();
     }
@@ -49,9 +76,13 @@ class Application {
 
     /**
      * Loads the config from file and stores it in the global app variable.
+     *
+     * @param {Boolean}  sendMessage  Determines if the log message should be sent.
      */
-    prepareConfig() {
-        app.logger.info(' - Loading configuration');
+    prepareConfig(sendMessage = true) {
+        if (sendMessage) {
+            app.logger.info(' - Loading configuration');
+        }
         app.config = app.configLoader.loadConfiguration('config.json');
     }
 
