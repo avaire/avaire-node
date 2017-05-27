@@ -9,6 +9,9 @@ const directory = require('require-directory');
 // use so the rest of the application can be bootstraped.
 const app = require('../application');
 
+// Setup global app root path
+global.appRoot = path.join(__dirname, '../');
+
 // Prepare a global require application function that can be used
 // to get any class easier from within the ./app directory.
 global.requireApp = function (name) {
