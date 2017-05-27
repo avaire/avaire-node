@@ -13,7 +13,7 @@ const GUILD_TYPES_CONSTANTS = Object.freeze({
                     lists: 5,
                     songs: 25
                 },
-                aliases: 20
+                aliases: 50
             }
         }
     ]

@@ -24,7 +24,7 @@ class GuildTypeTransformer extends Transformer {
                     lists: 3,
                     songs: 10
                 },
-                aliases: 50
+                aliases: 20
             }
         };
     }
