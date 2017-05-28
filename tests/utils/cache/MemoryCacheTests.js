@@ -110,6 +110,13 @@ describe('app/utils/cache/CacheManager::memory', () => {
             cache.put('cache.test.has', 'something', 1);
             assert.equal(true, cache.has('cache.test.has'));
         });
+
+        it('returns false if the token exists but the cache has expired', () => {
+            cache.put('cache.test.has.expired', 'something', 1);
+            assert.equal(true, cache.has('cache.test.has.expired'));
+
+            setTimeout(() => assert.equal(false, cache.has('cache.test.has.expired')), 1500);
+        });
     });
 
     describe('#forget()', () => {
