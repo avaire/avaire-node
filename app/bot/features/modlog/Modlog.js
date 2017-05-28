@@ -40,7 +40,7 @@ class Modlog extends Feature {
             targetID: target.id
         });
 
-        return app.database.getGuild(message.guild.id).then(transformer => {
+        return app.database.getGuild(app.getGuildIdFrom(message)).then(transformer => {
             let channels = transformer.get('channels');
 
             for (let id in channels) {

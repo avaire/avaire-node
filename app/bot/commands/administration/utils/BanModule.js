@@ -33,7 +33,7 @@ class BanModule {
             discriminator: user.discriminator
         };
 
-        app.cache.put(`ban.${message.guild.id}.${user.id}`, new Date, 30, 'memory');
+        app.cache.put(`ban.${app.getGuildIdFrom(message)}.${user.id}`, new Date, 30, 'memory');
 
         user.ban(deleteMessages ? 7 : 0).then(() => {
             let reason = (args.join(' ').trim().length === 0) ? '*No reason given*' : `"${args.join(' ')}"`;

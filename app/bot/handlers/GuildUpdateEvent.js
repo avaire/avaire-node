@@ -21,7 +21,7 @@ class GuildUpdateEvent extends EventHandler {
             name: socket.guild.name,
             icon: socket.guild.icon,
             owner: socket.guild.owner_id
-        }, query => query.where('id', socket.guild.id));
+        }, query => query.where('id', app.getGuildIdFrom(socket)));
     }
 }
 

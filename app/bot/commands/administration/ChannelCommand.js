@@ -80,7 +80,7 @@ class ChannelCommand extends Command {
      * @return {mixed}
      */
     onCommand(sender, message, args) {
-        return app.database.getGuild(message.guild.id).then(transformer => {
+        return app.database.getGuild(app.getGuildIdFrom(message)).then(transformer => {
             let channel = transformer.getChannel(message.channel.id);
             let fields = [];
 

@@ -31,7 +31,7 @@ class ServerIdCommand extends Command {
      * @return {mixed}
      */
     onCommand(sender, message, args) {
-        return app.envoyer.sendSuccess(message, `<@:userid> :id: of this server is \`${message.guild.id}\``);
+        return app.envoyer.sendSuccess(message, `<@:userid> :id: of this server is \`${app.getGuildIdFrom(message)}\``);
     }
 }
 

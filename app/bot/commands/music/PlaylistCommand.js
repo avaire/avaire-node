@@ -174,15 +174,15 @@ class PlaylistCommand extends Command {
         }
 
         let playlist = new PlaylistTransformer({
-            guild_id: message.guild.id,
+            guild_id: app.getGuildIdFrom(message),
             name: args[0]
         });
 
         return app.database.insert(app.constants.PLAYLIST_TABLE_NAME, {
-            guild_id: message.guild.id,
+            guild_id: app.getGuildIdFrom(message),
             name: args[0]
         }).then(() => {
-            app.cache.forget('database-playlist.' + message.guild.id, 'memory');
+            app.cache.forget('database-playlist.' + app.getGuildIdFrom(message), 'memory');
 
             return app.envoyer.sendSuccess(message, 'The `:playlist` playlist has been been created successfully!\nYou can start adding songs to it with `:command :playlist add <song>`', {
                 command: this.getPrefix(message) + this.getTriggers()[0],
@@ -299,7 +299,7 @@ class PlaylistCommand extends Command {
             // Update the database to persist the new playlist songs array.
             return app.database.update(
                 app.constants.PLAYLIST_TABLE_NAME, playlist.toDatabaseBindings(),
-                query => query.where('id', playlist.get('id')).andWhere('guild_id', message.guild.id)
+                query => query.where('id', playlist.get('id')).andWhere('guild_id', app.getGuildIdFrom(message))
             ).then(() => {
                 return app.envoyer.sendSuccess(message, '<@:userid> has added [:songname](:songurl) to the `:playlist` playlist.\nThe `:playlist` playlist has `:slots` more song slots available.', {
                     songname: song.title,
@@ -329,7 +329,7 @@ class PlaylistCommand extends Command {
             guild_id: playlist.get('guild_id'),
             id: playlist.get('id')
         }).del().then(() => {
-            app.cache.forget('database-playlist.' + message.guild.id, 'memory');
+            app.cache.forget('database-playlist.' + app.getGuildIdFrom(message), 'memory');
 
             return app.envoyer.sendInfo(message, 'The `:name` playlist has been deleted successfully!', {
                 name: playlist.get('name')
@@ -358,7 +358,7 @@ class PlaylistCommand extends Command {
 
         // Loads the playlist from memory, the playlist has already been loaded in the
         // onCommand method so we're guaranteed that the playlist exists in the cache.
-        return app.database.getPlaylist(message.guild.id).then(playlists => {
+        return app.database.getPlaylist(app.getGuildIdFrom(message)).then(playlists => {
             if (this.getPlaylist(playlists, newName) !== null) {
                 return app.envoyer.sendWarn(message, 'Can\'t rename the `:oldplaylist` to `:playlist`, there are already a playlist called `:playlist`', {
                     oldplaylist: oldName,
@@ -372,7 +372,7 @@ class PlaylistCommand extends Command {
             playlist.data.name = args[0];
             return app.database.update(
                 app.constants.PLAYLIST_TABLE_NAME, playlist.toDatabaseBindings(),
-                query => query.where('id', playlist.get('id')).andWhere('guild_id', message.guild.id)
+                query => query.where('id', playlist.get('id')).andWhere('guild_id', app.getGuildIdFrom(message))
             ).then(() => {
                 return app.envoyer.sendSuccess(message, 'The `:oldplaylist` playlist has been renamed to `:playlist`!', {
                     oldplaylist: oldName,
@@ -575,8 +575,8 @@ class PlaylistCommand extends Command {
      */
     getGuildAndPlaylists(message) {
         return new Promise((resolve, reject) => {
-            return app.database.getGuild(message.guild.id).then(guild => {
-                return app.database.getPlaylist(message.guild.id).then(playlists => {
+            return app.database.getGuild(app.getGuildIdFrom(message)).then(guild => {
+                return app.database.getPlaylist(app.getGuildIdFrom(message)).then(playlists => {
                     return resolve({guild, playlists});
                 });
             }).catch(err => reject(err));

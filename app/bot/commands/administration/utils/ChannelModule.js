@@ -91,7 +91,7 @@ class ChannelModule {
         }
 
         return new Promise((resolve, reject) => {
-            return app.database.getGuild(message.guild.id).then(transformer => {
+            return app.database.getGuild(app.getGuildIdFrom(message)).then(transformer => {
                 let channel = transformer.getChannel(message.channel.id);
 
                 if (transformer.data.channels === null) {
@@ -115,7 +115,7 @@ class ChannelModule {
     updateChannel(message, guild) {
         return app.database.update(app.constants.GUILD_TABLE_NAME, {
             channels: JSON.stringify(guild.data.channels)
-        }, query => query.where('id', message.guild.id));
+        }, query => query.where('id', app.getGuildIdFrom(message)));
     }
 }
 

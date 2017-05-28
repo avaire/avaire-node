@@ -51,11 +51,11 @@ class LanguageCommand extends Command {
             });
         }
 
-        return app.database.getGuild(message.guild.id).then(transformer => {
+        return app.database.getGuild(app.getGuildIdFrom(message)).then(transformer => {
             transformer.data.local = local;
 
             app.database.update(app.constants.GUILD_TABLE_NAME, transformer.toDatabaseBindings(), query => {
-                return query.where('id', message.guild.id);
+                return query.where('id', app.getGuildIdFrom(message));
             });
 
             return app.envoyer.sendSuccess(message, 'language.selected');
@@ -71,7 +71,7 @@ class LanguageCommand extends Command {
     showLanguageMessage(message) {
         let command = this.getPrefix(message) + this.getTriggers()[0];
 
-        return app.database.getGuild(message.guild.id).then(transformer => {
+        return app.database.getGuild(app.getGuildIdFrom(message)).then(transformer => {
             let local = typeof transformer.get('local') === 'string' ? transformer.get('local').toUpperCase() : 'Default';
             let languages = Object.keys(app.lang.getFiles()).map(lang => {
                 return lang.toUpperCase();

@@ -43,7 +43,7 @@ class AliasCommand extends Command {
             return this.sendMissingArguments(message);
         }
 
-        return app.database.getGuild(message.guild.id).then(guild => {
+        return app.database.getGuild(app.getGuildIdFrom(message)).then(guild => {
             let aliases = guild.get('aliases', {});
 
             if (args.length === 1) {
@@ -74,7 +74,7 @@ class AliasCommand extends Command {
 
             app.database.update(app.constants.GUILD_TABLE_NAME, {
                 aliases: JSON.stringify(guild.data.aliases)
-            }, query => query.where('id', message.guild.id))
+            }, query => query.where('id', app.getGuildIdFrom(message)))
                 .catch(err => app.logger.error(err));
 
             return app.envoyer.sendSuccess(message, 'The `:alias` allias has been linked to `:command`\nThe server has `:slots` more aliases slots available.', {
@@ -108,7 +108,7 @@ class AliasCommand extends Command {
 
         app.database.update(app.constants.GUILD_TABLE_NAME, {
             aliases: JSON.stringify(guild.data.aliases)
-        }, query => query.where('id', message.guild.id));
+        }, query => query.where('id', app.getGuildIdFrom(message)));
 
         return app.envoyer.sendSuccess(message, 'The `:alias` alias has been deleted successfully.', {
             alias

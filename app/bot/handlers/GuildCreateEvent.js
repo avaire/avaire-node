@@ -18,18 +18,18 @@ class GuildCreateEvent extends EventHandler {
      * @return {mixed}
      */
     handle(socket) {
-        app.logger.info(`Joined guild with an ID of ${socket.guild.id} called: ${socket.guild.name}`);
+        app.logger.info(`Joined guild with an ID of ${app.getGuildIdFrom(socket)} called: ${socket.guild.name}`);
 
         app.database.update(app.constants.GUILD_TABLE_NAME, {
             leftguild_at: null
-        }, query => query.where('id', socket.guild.id))
+        }, query => query.where('id', app.getGuildIdFrom(socket)))
             .catch(err => app.logger.error(err));
 
         if (isEnvironmentInDevelopment()) {
             return;
         }
 
-        let avaireCentral = bot.Guilds.find(guild => guild.id === '284083636368834561');
+        let avaireCentral = bot.Guilds.find(guild => app.getGuildIdFrom(guild) === '284083636368834561');
 
         if (typeof avaireCentral === 'undefined' || avaireCentral === null) {
             return;
@@ -52,7 +52,7 @@ class GuildCreateEvent extends EventHandler {
                 },
                 {
                     name: 'ID',
-                    value: socket.guild.id
+                    value: app.getGuildIdFrom(socket)
                 },
                 {
                     name: 'Members',

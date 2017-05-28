@@ -49,7 +49,7 @@ class RebootCommand extends Command {
 
         for (let id in bot.VoiceConnections) {
             let connection = bot.VoiceConnections[id];
-            let guildId = connection.voiceSocket.guildId;
+            let guildId = app.getGuildIdFrom(connection);
 
             // Flushes the queue of any extra songs that might be in the
             // queue and add our reboot message to the queue instead.

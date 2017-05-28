@@ -4,6 +4,7 @@ module.exports = {
     service: require('./services'),
 
     // Utilities
+    guild: require('./utils/guild/Guild'),
     lang: require('./utils/lang/Language'),
     logger: require('./utils/logger/Logger'),
     process: require('./utils/process/Process'),
@@ -16,5 +17,8 @@ module.exports = {
 
     // Bot Version
     version: require('../package').version,
-    runTime: new Date().getTime()
+    runTime: new Date().getTime(),
+
+    // Quick helper function for the guild utility
+    getGuildIdFrom: context => app.guild.getIdFrom(context)
 };

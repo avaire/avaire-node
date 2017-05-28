@@ -73,8 +73,8 @@ class MusicHandler {
      * @param {String}    link     The link to the song.
      */
     addToQueue(message, song, link) {
-        if (!_.isObjectLike(this.queues[message.guild.id])) {
-            this.queues[message.guild.id] = [];
+        if (!_.isObjectLike(this.queues[app.getGuildIdFrom(message)])) {
+            this.queues[app.getGuildIdFrom(message)] = [];
         }
 
         song.link = link;
@@ -84,7 +84,7 @@ class MusicHandler {
 
         song = this.prepareProperties(message, song);
 
-        this.queues[message.guild.id].push(song);
+        this.queues[app.getGuildIdFrom(message)].push(song);
     }
 
     /**
@@ -94,11 +94,11 @@ class MusicHandler {
      * @return {Object}
      */
     getQueue(message) {
-        if (!_.isObjectLike(this.queues[message.guild.id])) {
-            this.queues[message.guild.id] = [];
+        if (!_.isObjectLike(this.queues[app.getGuildIdFrom(message)])) {
+            this.queues[app.getGuildIdFrom(message)] = [];
         }
 
-        return this.queues[message.guild.id];
+        return this.queues[app.getGuildIdFrom(message)];
     }
 
     /**
@@ -132,7 +132,7 @@ class MusicHandler {
                 });
             }
 
-            this.queues[message.guild.id] = [];
+            this.queues[app.getGuildIdFrom(message)] = [];
             message.member.getVoiceChannel().join().then(() => resolve());
         });
     }
@@ -145,7 +145,7 @@ class MusicHandler {
      * @return {Object}
      */
     prepareProperties(message, song) {
-        let guildId = message.guild.id;
+        let guildId = app.getGuildIdFrom(message);
 
         if (!this.volume.hasOwnProperty(guildId)) {
             this.volume[guildId] = 50;
@@ -185,7 +185,7 @@ class MusicHandler {
 
         if (connection !== undefined) {
             if (this.getQueue(message).length === 0) {
-                this.forcefullyDeleteQueue(message.guild.id);
+                this.forcefullyDeleteQueue(app.getGuildIdFrom(message));
 
                 if (sendMessages) {
                     app.envoyer.sendInfo(message, 'commands.music.end-of-queue').then(m => {
@@ -196,15 +196,15 @@ class MusicHandler {
                 return connection.voiceConnection.disconnect();
             }
 
-            let song = this.queues[message.guild.id][0];
+            let song = this.queues[app.getGuildIdFrom(message)][0];
 
             if (song.url === 'INVALID') {
-                this.queues[message.guild.id].shift();
+                this.queues[app.getGuildIdFrom(message)].shift();
 
                 return this.next(message, sendMessages);
             }
 
-            this.voteskips[message.guild.id] = [];
+            this.voteskips[app.getGuildIdFrom(message)] = [];
 
             let encoder = connection.voiceConnection.createExternalEncoder({
                 type: 'ffmpeg',
@@ -223,7 +223,7 @@ class MusicHandler {
                 }
             });
 
-            let volume = this.volume[message.guild.id];
+            let volume = this.volume[app.getGuildIdFrom(message)];
             connection.voiceConnection.getEncoder().setVolume(volume === undefined ? 50 : volume);
 
             if (sendMessages) {
@@ -236,7 +236,7 @@ class MusicHandler {
             }
 
             encoder.once('end', () => {
-                this.queues[message.guild.id].shift();
+                this.queues[app.getGuildIdFrom(message)].shift();
                 return this.next(message, sendMessages);
             });
         }
@@ -249,7 +249,7 @@ class MusicHandler {
      * @param  {Integer}   volume   The volume the stream should be set to.
      */
     setVolume(message, volume) {
-        this.volume[message.guild.id] = volume;
+        this.volume[app.getGuildIdFrom(message)] = volume;
 
         return this.getVoiceConnection(message)
                    .voiceConnection.getEncoder().setVolume(volume);
@@ -263,10 +263,10 @@ class MusicHandler {
      * @return {Integer}
      */
     getVolume(message) {
-        if (!this.volume.hasOwnProperty(message.guild.id)) {
+        if (!this.volume.hasOwnProperty(app.getGuildIdFrom(message))) {
             return 50;
         }
-        return this.volume[message.guild.id];
+        return this.volume[app.getGuildIdFrom(message)];
     }
 
     /**
@@ -277,7 +277,7 @@ class MusicHandler {
      * @param  {Array}     voteskips  The array of user ids that voted.
      */
     setVoteSkips(message, voteskips) {
-        this.voteskips[message.guild.id] = voteskips;
+        this.voteskips[app.getGuildIdFrom(message)] = voteskips;
     }
 
     /**
@@ -287,10 +287,10 @@ class MusicHandler {
      * @return {Array}
      */
     getVoteSkips(message) {
-        if (!this.voteskips.hasOwnProperty(message.guild.id)) {
+        if (!this.voteskips.hasOwnProperty(app.getGuildIdFrom(message))) {
             return [];
         }
-        return this.voteskips[message.guild.id];
+        return this.voteskips[app.getGuildIdFrom(message)];
     }
 
     /**
@@ -300,7 +300,7 @@ class MusicHandler {
      * @return {String|undefined}
      */
     getChannelId(message) {
-        return this.channel[message.guild.id];
+        return this.channel[app.getGuildIdFrom(message)];
     }
 
     /**
@@ -368,11 +368,11 @@ class MusicHandler {
      */
     setPausedState(message, state) {
         if (!state) {
-            this.paused[message.guild.id] = state;
+            this.paused[app.getGuildIdFrom(message)] = state;
             return state;
         }
 
-        this.paused[message.guild.id] = new Date;
+        this.paused[app.getGuildIdFrom(message)] = new Date;
         return true;
     }
 
@@ -383,8 +383,8 @@ class MusicHandler {
      * @return {Boolean}
      */
     isPaused(message) {
-        if (this.paused.hasOwnProperty(message.guild.id)) {
-            return this.paused[message.guild.id] !== false;
+        if (this.paused.hasOwnProperty(app.getGuildIdFrom(message))) {
+            return this.paused[app.getGuildIdFrom(message)] !== false;
         }
         return false;
     }
@@ -428,7 +428,7 @@ class MusicHandler {
      */
     getVoiceConnection(message) {
         return bot.VoiceConnections.find(voice => {
-            return voice.voiceSocket.guildId === message.guild.id;
+            return app.guild.isFromSameGuild(voice, message);
         });
     }
 

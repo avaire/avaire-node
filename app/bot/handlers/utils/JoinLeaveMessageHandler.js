@@ -16,7 +16,7 @@ class JoinLeaveMessageHandler {
         // Attempts to load the guild settings and channels from the database,
         // if the guild data is already cached in memory the cached data
         // will be returned instead to speed up the process.
-        return app.database.getGuild(guild.id).then(transformer => {
+        return app.database.getGuild(app.getGuildIdFrom(socket)).then(transformer => {
             let channels = transformer.get('channels');
 
             for (let id in channels) {
@@ -60,7 +60,7 @@ class JoinLeaveMessageHandler {
 
         message = message.replace(/%server%/gi, guild.name);
         message = message.replace(/%servername%/gi, guild.name);
-        message = message.replace(/%serverid%/gi, guild.id);
+        message = message.replace(/%serverid%/gi, app.getGuildIdFrom(guild));
 
         return message;
     }

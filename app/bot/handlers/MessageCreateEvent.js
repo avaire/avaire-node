@@ -50,7 +50,7 @@ class MessageCreateEvent extends EventHandler {
             // is enabled and the user has exceeded the message limit the users message will
             // be deleted without triggering any of the command or service logic.
             if (!socket.message.isPrivate && channel.get('slowmode.enabled', false) && !app.permission.requestHas(socket, 'text.manage_messages')) {
-                let fingerprint = `slowmode.${socket.message.guild.id}.${socket.message.channel.id}.${socket.message.author.id}`;
+                let fingerprint = `slowmode.${app.getGuildIdFrom(socket)}.${socket.message.channel.id}.${socket.message.author.id}`;
                 let limit = channel.get('slowmode.messagesPerLimit', 1);
                 let decay = channel.get('slowmode.messageLimit', 5);
 

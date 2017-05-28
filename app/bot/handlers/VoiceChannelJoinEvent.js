@@ -22,7 +22,7 @@ class VoiceChannelJoinEvent extends EventHandler {
         }
 
         let mockMessage = {
-            guild: {id: socket.channel.guild_id}
+            guild: {id: app.getGuildIdFrom(socket)}
         };
 
         if (Music.getQueue(mockMessage).length === 0) {
@@ -38,7 +38,7 @@ class VoiceChannelJoinEvent extends EventHandler {
         }
 
         Music.unpauseStream(mockMessage);
-        app.cache.forget(`is-alone-in-voice.${socket.channel.guild_id}`, 'memory');
+        app.cache.forget(`is-alone-in-voice.${app.getGuildIdFrom(socket)}`, 'memory');
     }
 
     /**

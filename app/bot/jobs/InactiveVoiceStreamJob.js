@@ -24,7 +24,7 @@ class InactiveVoiceStreamJob extends Job {
     run() {
         for (let id in bot.VoiceConnections) {
             let connection = bot.VoiceConnections[id];
-            let guildId = connection.voiceSocket.guildId;
+            let guildId = app.getGuildIdFrom(connection);
 
             if (Music.paused.hasOwnProperty(guildId) && Music.paused[guildId] !== false) {
                 // If the bot has been paused in a voice channel for 15 minutes

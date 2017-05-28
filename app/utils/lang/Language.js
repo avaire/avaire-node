@@ -85,16 +85,14 @@ class Language {
      */
     getLocal(guildId, isPrivate) {
         if (typeof isPrivate !== 'boolean') {
-            return this.getLocal(guildId.guild.id, guildId.isPrivate);
+            return this.getLocal(app.getGuildIdFrom(guildId), guildId.isPrivate);
         }
 
         if (isPrivate) {
             return this.defaultLocal;
         }
 
-        if (guildId.constructor.name === 'IMessage') {
-            guildId = guildId.guild.id;
-        }
+        guildId = app.getGuildIdFrom(guildId);
 
         // If the memory cach has the guild transformer we'll fetch
         // it from the cache, get the local from it and store

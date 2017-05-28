@@ -37,7 +37,7 @@ class AliasesCommand extends Command {
      * @return {mixed}
      */
     onCommand(sender, message, args) {
-        return app.database.getGuild(message.guild.id).then(guild => {
+        return app.database.getGuild(app.getGuildIdFrom(message)).then(guild => {
             let aliases = guild.get('aliases', {});
 
             let pageNumber = 1;

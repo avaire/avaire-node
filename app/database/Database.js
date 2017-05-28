@@ -97,7 +97,7 @@ class Database {
             // cache so any requests for the guild that might come in right after won't attempt to
             // create multiple rows if the guild doesn't already have a row in the database.
             if (!Cache.has(token)) {
-                this.fakeGuildData(token, guild.id, guild.owner_id, guild.name);
+                this.fakeGuildData(token, app.getGuildIdFrom(guild), guild.owner_id, guild.name);
             }
 
             this.getClient().select().from(app.constants.GUILD_TABLE_NAME)
@@ -112,14 +112,14 @@ class Database {
                     if (response.length <= 0) {
                         // Sets up our default guild transformer and stores it in the cache for 5 minutes.
                         Cache.put(token, new GuildTransformer({
-                            id: guild.id,
+                            id: app.getGuildIdFrom(guild),
                             owner: guild.owner_id,
                             name: guild.name,
                             icon: guild.icon
                         }), 500);
 
                         this.insert(app.constants.GUILD_TABLE_NAME, {
-                            id: guild.id,
+                            id: app.getGuildIdFrom(guild),
                             owner: guild.owner_id,
                             name: guild.name,
                             icon: guild.icon

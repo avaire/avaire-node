@@ -46,7 +46,7 @@ class ServerInfoCommand extends Command {
         let fields = [
             {
                 name: 'ID',
-                value: guild.id,
+                value: app.getGuildIdFrom(guild),
                 inline: true
             },
             {
@@ -105,7 +105,7 @@ class ServerInfoCommand extends Command {
             color: this.getEmbededColor(botRoles),
             title: guild.name,
             thumbnail: {
-                url: `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png?size=128`
+                url: `https://cdn.discordapp.com/icons/${app.getGuildIdFrom(guild)}/${guild.icon}.png?size=128`
             },
             fields
         });

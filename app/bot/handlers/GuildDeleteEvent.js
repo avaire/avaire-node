@@ -29,7 +29,7 @@ class GuildDeleteEvent extends EventHandler {
             return;
         }
 
-        let avaireCentral = bot.Guilds.find(guild => guild.id === '284083636368834561');
+        let avaireCentral = bot.Guilds.find(guild => app.getGuildIdFrom(guild) === '284083636368834561');
 
         if (typeof avaireCentral === 'undefined' || avaireCentral === null) {
             return;

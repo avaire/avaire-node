@@ -43,7 +43,7 @@ class CommandHandler {
             return this.getGlobalCommand(trigger);
         }
 
-        let commands = this.prepareCommandTrigger(message.guild.id, trigger);
+        let commands = this.prepareCommandTrigger(app.getGuildIdFrom(message), trigger);
         for (let i in commands) {
             let command = this.getGlobalCommand(commands[i]);
 
@@ -100,7 +100,7 @@ class CommandHandler {
     getCommandByAlias(message, alias) {
         alias = alias.toLowerCase();
 
-        let guildId = message.guild.id;
+        let guildId = app.getGuildIdFrom(message);
         let memoryGuildCache = app.cache.get(`database.${guildId}`, null, 'memory');
 
         if (memoryGuildCache !== null) {
@@ -145,13 +145,13 @@ class CommandHandler {
             return this.getGlobalPrefix(moduleName);
         }
 
-        if (!this.prefixes.hasOwnProperty(message.guild.id)) {
+        if (!this.prefixes.hasOwnProperty(app.getGuildIdFrom(message))) {
             return null;
         }
 
-        for (let module in this.prefixes[message.guild.id]) {
+        for (let module in this.prefixes[app.getGuildIdFrom(message)]) {
             if (module.toLowerCase() === moduleName.toLowerCase()) {
-                return this.prefixes[message.guild.id][module];
+                return this.prefixes[app.getGuildIdFrom(message)][module];
             }
         }
 

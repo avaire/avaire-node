@@ -62,7 +62,7 @@ class ChangePrefixCommand extends Command {
         }
 
         let prefix = args[1];
-        return app.database.getGuild(message.guild.id).then(guild => {
+        return app.database.getGuild(app.getGuildIdFrom(message)).then(guild => {
             let prefixes = guild.get('prefixes', {});
 
             prefixes[module] = prefix;
@@ -70,7 +70,7 @@ class ChangePrefixCommand extends Command {
 
             app.database.update(app.constants.GUILD_TABLE_NAME, {
                 prefixes: JSON.stringify(guild.data.prefixes)
-            }, query => query.where('id', message.guild.id));
+            }, query => query.where('id', app.getGuildIdFrom(message)));
 
             return app.envoyer.sendSuccess(message, 'All commands in the `:module` module now uses the `:prefix` prefix.', {
                 prefix, module
@@ -86,7 +86,7 @@ class ChangePrefixCommand extends Command {
      * @return {Promise}
      */
     removeCustomPrefix(message, module) {
-        return app.database.getGuild(message.guild.id).then(guild => {
+        return app.database.getGuild(app.getGuildIdFrom(message)).then(guild => {
             let prefixes = guild.get('prefixes', {});
             let prefix = CommandHandler.getGlobalPrefix(module);
 
@@ -101,7 +101,7 @@ class ChangePrefixCommand extends Command {
 
             app.database.update(app.constants.GUILD_TABLE_NAME, {
                 prefixes: JSON.stringify(guild.data.prefixes)
-            }, query => query.where('id', message.guild.id));
+            }, query => query.where('id', app.getGuildIdFrom(message)));
 
             return app.envoyer.sendSuccess(message, 'All commands in the `:module` module has been reset to use the `:prefix` prefix.', {
                 prefix, module

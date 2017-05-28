@@ -60,7 +60,7 @@ class ThrottleUser extends Middleware {
             return `throttle-dm.${request.message.author.id}.${this.command.command.name}`;
         }
 
-        return `throttle-user.${request.message.guild.id}.${request.message.author.id}.${this.command.command.name}`;
+        return `throttle-user.${app.getGuildIdFrom(request)}.${request.message.author.id}.${this.command.command.name}`;
     }
 }
 

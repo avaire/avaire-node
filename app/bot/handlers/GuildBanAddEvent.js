@@ -17,7 +17,7 @@ class GuildBanAddEvent extends EventHandler {
      * @return {mixed}
      */
     handle(socket) {
-        if (app.cache.has(`ban.${socket.guild.id}.${socket.user.id}`, 'memory')) {
+        if (app.cache.has(`ban.${app.getGuildIdFrom(socket)}.${socket.user.id}`, 'memory')) {
             return;
         }
 
