@@ -27,6 +27,10 @@ class HasRole extends Middleware {
             return next(request);
         }
 
+        if (app.permission.has(request.message.author, request.message.guild, 'general.administrator')) {
+            return next(request);
+        }
+
         for (let i in roles) {
             let role = roles[i];
 
