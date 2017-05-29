@@ -23,7 +23,7 @@ class AliasesCommand extends Command {
             description: 'Lists all the existing command aliases.',
             middleware: [
                 'throttle.user:2,5',
-                'require:general.manage_server'
+                'require.user:general.manage_server'
             ]
         });
     }
@@ -39,6 +39,16 @@ class AliasesCommand extends Command {
     onCommand(sender, message, args) {
         return app.database.getGuild(app.getGuildIdFrom(message)).then(guild => {
             let aliases = guild.get('aliases', {});
+
+            if (Object.keys(aliases).length === 0) {
+                return app.envoyer.sendEmbededMessage(message, {
+                    title: 'List of Aliases',
+                    color: app.envoyer.colors.warn,
+                    description: 'The server doesn\'t have any aliases right now, you can create one using\nthe `:command` command'
+                }, {
+                    command: this.getPrefix(message) + app.bot.commands.AliasCommand.triggers[0]
+                });
+            }
 
             let pageNumber = 1;
             if (args.length > 0) {

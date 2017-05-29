@@ -25,7 +25,7 @@ class AliasCommand extends Command {
             usage: '<command alias> [command]',
             middleware: [
                 'throttle.user:2,5',
-                'require:general.manage_server'
+                'require.user:general.manage_server'
             ]
         });
     }
