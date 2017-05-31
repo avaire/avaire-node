@@ -19,4 +19,4 @@ app.bootstrap().then(() => {
 
     // Connects to Discord and make Ava available to everyone.
     app.connect();
-});
+}).catch(err => app.logger.error(err));

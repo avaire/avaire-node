@@ -53,6 +53,7 @@ class Database {
             this.getClient().migrate.latest().then(() => {
                 resolve();
             }).catch(err => {
+                app.logger.error(err);
                 reject(err);
             });
         });
