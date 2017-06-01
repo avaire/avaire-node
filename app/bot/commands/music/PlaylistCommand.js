@@ -274,7 +274,7 @@ class PlaylistCommand extends Command {
         let parsedUrl = URL.parse(songUrl);
 
         if (parsedUrl.host === null) {
-            return app.envoyer.sendWarn(message, 'Invalid URL given, you can only add songs to the playlist by links!');
+            songUrl = 'ytsearch:' + songUrl;
         }
 
         // Attempts to fetch and format the song with the given url using the YouTube-DL library.
@@ -292,6 +292,9 @@ class PlaylistCommand extends Command {
             // to the database and we'll need it later when loading the playlist
             // into the music queue we'll just do it here.
             song.link = songUrl;
+            if (parsedUrl.host === null) {
+                song.link = song.webpage_url;
+            }
 
             // Setup an array of all the songs in the playlist, if there are no songs in the
             // playlist it will default to an empty array, then add the new song to the
@@ -308,7 +311,7 @@ class PlaylistCommand extends Command {
             ).then(() => {
                 return app.envoyer.sendSuccess(message, '<@:userid> has added [:songname](:songurl) to the `:playlist` playlist.\nThe `:playlist` playlist has `:slots` more song slots available.', {
                     songname: song.title,
-                    songurl: songUrl,
+                    songurl: song.link,
                     playlist: playlist.get('name'),
                     slots: guildType.get('limits.playlist.songs') - playlistSongs.length
                 }).then(() => this.deleteMessage(message));
