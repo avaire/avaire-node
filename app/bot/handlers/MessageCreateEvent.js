@@ -68,16 +68,33 @@ class MessageCreateEvent extends EventHandler {
                 return this.processCommand(socket, command);
             }
 
-            // If the bot was tagged in the message with no additional text/arguments
-            // given we'll send the user some information about the bot, just to
-            // let the user know that the bot is alive and how to use it.
-            if (message.hasBot() && _.startsWith(message, '<@') && _.endsWith(message.trim(), `${bot.User.id}>`)) {
-                return this.sendTagInformationMessage(socket);
-            }
+            // Checks to see if the bot was tagged in the message the user
+            // sent, either using the full username, or a nickname.
+            if (message.hasBot()) {
+                // If the bot was tagged in the message with no additional text/arguments
+                // given we'll send the user some information about the bot, just to
+                // let the user know that the bot is alive and how to use it.
+                if (_.startsWith(message, '<@') && _.endsWith(message.trim(), `${bot.User.id}>`)) {
+                    return this.sendTagInformationMessage(socket);
+                }
 
-            // Checks to see if the bot was taged in the message and if AI messages in enabled,
-            // if AI messages is enabled the message will be passed onto the AI handler.
-            if (app.service.ai.isEnabled && message.hasBot()) {
+                // Checks to see if the bot was tagged, followed by the word prefix, if both
+                // are ture we'll parse any additional arguments to socket so they can be
+                // picked up later by the Process Command middleware, and call the
+                // Change Prefix Command for the current user.
+                let parts = message.split(' ');
+                if (parts.length > 1 && _.startsWith(parts[0], '<@') && parts[1].toLowerCase() === 'prefix') {
+                    socket.processCommandProperties = {
+                        args: parts
+                    };
+
+                    return this.processCommand(socket, {
+                        command: app.bot.commands.ChangePrefixCommand
+                    });
+                }
+
+                // Checks to see  if AI messages in enabled, if AI messages is
+                // enabled the message will be passed onto the AI handler.
                 if (channel.get('ai.enabled', false)) {
                     return app.service.ai.textRequest(socket, message);
                 }

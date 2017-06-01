@@ -45,6 +45,12 @@ class ProcessCommand extends Middleware {
             socket.message.content.trim().split(' ')
         ).join(' ').match(/[^\s"]+|"([^"]*)"/gi);
 
+        if (socket.hasOwnProperty('processCommandProperties')) {
+            rawArguments = _.drop(
+                socket.processCommandProperties.args
+            , 2).join(' ').match(/[^\s"]+|"([^"]*)"/gi);
+        }
+
         if (this.command.useAlias && this.command.args.length > 0) {
             if (rawArguments === null) {
                 rawArguments = [];
