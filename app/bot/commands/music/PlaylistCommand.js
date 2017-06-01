@@ -36,6 +36,7 @@ class PlaylistCommand extends Command {
                 '[name] create',
                 '[name] delete',
                 '[name] load',
+                '[name] removesong [id]',
                 '[name] renameto [new name]',
                 '[name] [page number]'
             ]
@@ -60,7 +61,11 @@ class PlaylistCommand extends Command {
                 function: (...args) => this.loadPlaylist(...args)
             },
             {
-                triggers: ['renameto', 'rename', 'r'],
+                triggers: ['removesong', 'remove'],
+                function: (...args) => this.removeSongFromPlaylist(...args)
+            },
+            {
+                triggers: ['renameto', 'rename'],
                 function: (...args) => this.renamePlaylist(...args)
             }
         ];
@@ -338,6 +343,66 @@ class PlaylistCommand extends Command {
     }
 
     /**
+     * Removes a song for the current playlist if a number is given and the user has
+     * a remove-playlist-song cache item, otherwise show songs for the given query.
+     *
+     * @param  {IMessage}             message   The Discordie message object that triggered the command.
+     * @param  {Array}                args      The array of arguments parsed to the onCommand method.
+     * @param  {GuildTransformer}     guild     The database guild transformer for the current guild.
+     * @param  {PlaylistTransformer}  playlist  The database playlist transformer that was loaded in the onCommand method.
+     * @return {Promise}
+     */
+    removeSongFromPlaylist(message, args, guild, playlist) {
+        if (args.length === 0) {
+            return app.envoyer.sendWarn(message, 'Invalid format, missing the `id` property!\n`:command`', {
+                command: this.getPrefix(message) + this.getTriggers()[0] + ` ${playlist.get('name')} removesong <id>`
+            });
+        }
+
+        if (playlist.get('songs').length === 0) {
+            return app.envoyer.sendWarn(message, 'The `:playlist` playlist is already empty, there is nothing to remove.', {
+                playlist: playlist.get('name')
+            });
+        }
+
+        let index = parseInt(args[0], 10);
+        if (isNaN(index)) {
+            return app.envoyer.sendWarn(message, 'Invalid id given, the id must be a number\n`:command`', {
+                command: this.getPrefix(message) + this.getTriggers()[0] + ` ${playlist.get('name')} removesong <id>`
+            });
+        }
+
+        let id = index - 1;
+        if (id < 0 || id >= playlist.get('songs').length) {
+            return app.envoyer.sendWarn(message, 'Invalid id given, the number given is too :type.\n`:command`', {
+                command: this.getPrefix(message) + this.getTriggers()[0] + ` ${playlist.get('name')} removesong <id>`,
+                type: id < 0 ? 'low' : 'high'
+            });
+        }
+
+        let songs = playlist.get('songs', []);
+        let song = songs[id];
+
+        songs.splice(id, 1);
+        playlist.data.songs = songs;
+        playlist.data.amount = songs.length;
+
+        return app.database.update(
+            app.constants.PLAYLIST_TABLE_NAME, playlist.toDatabaseBindings(),
+            query => query.where('id', playlist.get('id')).andWhere('guild_id', app.getGuildIdFrom(message))
+        ).then(() => {
+            return app.envoyer.sendSuccess(message, ':song has been successfully removed from the `:playlist` playlist', {
+                playlist: playlist.get('name'),
+                song: `[${song.title}](${song.link})`
+            });
+        }).catch(err => {
+            app.logger.error('Failed to add a song to the queue: ', err);
+
+            return app.envoyer.sendError(message, 'Somthing went wrong while trying to save the playlist changes to the database, try again later.');
+        });
+    }
+
+    /**
      * Renames the given playlist to a given new name.
      *
      * @param  {IMessage}             message   The Discordie message object that triggered the command.
@@ -463,7 +528,7 @@ class PlaylistCommand extends Command {
             }
 
             let song = songs[i];
-            playlistSongs.push(`[${song.title}](${song.link}) [${song.duration}]`);
+            playlistSongs.push(`\`${i + 1}\` [${song.title}](${song.link}) [${song.duration}]`);
         }
 
         let note = [
@@ -474,7 +539,7 @@ class PlaylistCommand extends Command {
         return app.envoyer.sendEmbededMessage(message, {
             color: 0x3498DB,
             title: `:musical_note: ${playlist.get('name')}`,
-            description: '• ' + playlistSongs.join('\n• ') + '\n\n' + note.join('\n')
+            description: playlistSongs.join('\n') + '\n\n' + note.join('\n')
         }, {
             command: this.getPrefix(message) + this.getTriggers()[0]
         });
