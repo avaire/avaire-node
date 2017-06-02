@@ -21,8 +21,8 @@ class GuildTypeTransformer extends Transformer {
             name: 'Default',
             limits: {
                 playlist: {
-                    lists: 3,
-                    songs: 10
+                    lists: 5,
+                    songs: 30
                 },
                 aliases: 20
             }

@@ -10,10 +10,21 @@ const GUILD_TYPES_CONSTANTS = Object.freeze({
             name: 'VIP',
             limits: {
                 playlist: {
-                    lists: 5,
-                    songs: 25
+                    lists: 10,
+                    songs: 50
                 },
                 aliases: 50
+            }
+        },
+        {
+            id: 2,
+            name: 'VIP+',
+            limits: {
+                playlist: {
+                    lists: 25,
+                    songs: 100
+                },
+                aliases: 150
             }
         }
     ]
