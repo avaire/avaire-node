@@ -25,6 +25,10 @@ class GuildCreateEvent extends EventHandler {
         }, query => query.where('id', app.getGuildIdFrom(socket)))
             .catch(err => app.logger.error(err));
 
+        if (app.permission.has(bot.User, socket.guild.generalChannel, 'text.send_messages')) {
+            this.sendWelcomeMessage(socket);
+        }
+
         if (isEnvironmentInDevelopment()) {
             return;
         }
@@ -67,6 +71,30 @@ class GuildCreateEvent extends EventHandler {
                     value: `${owner.username}#${owner.discriminator}`
                 }
             ]
+        });
+    }
+
+    /**
+     * Sends a welcome message to the guild the bot just
+     * joined, letting them know how to use the bot.
+     *
+     * @param  {GatewaySocket} socket  The Discordie gateway socket
+     * @return {Promise}
+     */
+    sendWelcomeMessage(socket) {
+        return app.envoyer.sendEmbededMessage(socket.guild.generalChannel, {
+            color: 0xE91E63,
+            title: `Hi there, I'm ${bot.User.username}`,
+            description: [
+                'Thank you for inviting me to your server, it\'s nice to meet you 👋',
+                'To get started, use `.help` to see a list of my commands, for more in-depth guides and information you can check out my [documentation](https://avairebot.com/docs).',
+                '',
+                '**Documentation**',
+                'https://avairebot.com/docs',
+                '',
+                '**AvaIre Support Server**',
+                'https://avairebot.com/support'
+            ].join('\n')
         });
     }
 }
