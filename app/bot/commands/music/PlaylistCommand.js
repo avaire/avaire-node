@@ -270,7 +270,7 @@ class PlaylistCommand extends Command {
 
         // Setup and prepares the song urls, if the given song
         // url isn't a valid url the command will be stoped.
-        let songUrl = args[0];
+        let songUrl = args.join(' ');
         let parsedUrl = URL.parse(songUrl);
 
         if (parsedUrl.host === null) {
