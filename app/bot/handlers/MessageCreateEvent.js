@@ -83,7 +83,7 @@ class MessageCreateEvent extends EventHandler {
                 // picked up later by the Process Command middleware, and call the
                 // Change Prefix Command for the current user.
                 let parts = message.split(' ');
-                if (parts.length > 1 && _.startsWith(parts[0], '<@') && parts[1].toLowerCase() === 'prefix') {
+                if (this.isBotTaggedFollowedByPrefix(parts)) {
                     socket.processCommandProperties = {
                         args: parts
                     };
@@ -212,6 +212,22 @@ class MessageCreateEvent extends EventHandler {
             name: bot.User.username,
             help: CommandHandler.getPrefix(socket.message, 'help') + 'help'
         });
+    }
+
+    /**
+     * Checks to see if the bot is tagged, followed
+     * by the word prefix, or prefix?
+     *
+     * @param  {[type]}  parts [description]
+     * @return {Boolean}
+     */
+    isBotTaggedFollowedByPrefix(parts) {
+        return parts.length > 1 &&
+               _.startsWith(parts[0], '<@') &&
+               (
+                    parts[1].toLowerCase() === 'prefix' ||
+                    parts[1].toLowerCase() === 'prefix?'
+               );
     }
 }
 
