@@ -14,7 +14,7 @@ class GuildCreateEvent extends EventHandler {
     /**
      * The event-handler that is executed by Discords event dispatcher.
      *
-     * @param  {GatewaySocket} socket  The Discordie gateway socket
+     * @param  {GatewaySocket} socket  The Discordie gateway socket.
      * @return {mixed}
      */
     handle(socket) {
@@ -78,11 +78,50 @@ class GuildCreateEvent extends EventHandler {
      * Sends a welcome message to the guild the bot just
      * joined, letting them know how to use the bot.
      *
-     * @param  {GatewaySocket} socket  The Discordie gateway socket
+     * @param  {GatewaySocket} socket  The Discordie gateway socket.
      * @return {Promise}
      */
     sendWelcomeMessage(socket) {
-        return app.envoyer.sendEmbededMessage(socket.guild.generalChannel, {
+        let timeLeft = 5;
+
+        return app.envoyer.sendEmbededMessage(socket.guild.generalChannel, this.buildWelcomeEmbededMessage(timeLeft))
+                  .then(editedMessage => this.sendRecurringWelcomeMessages(socket, editedMessage, timeLeft))
+                  .catch(err => app.logger.error(err));
+    }
+
+    /**
+     * Send and edit the welcome message recursively until the time is up.
+     *
+     * @param  {GatewaySocket} socket    The Discordie gateway socket.
+     * @param  {IMessage}      message   The Discordie message object that should be edited.
+     * @param  {Number}        timeLeft  The time left before the message should be deleted.
+     * @return {Promise}
+     */
+    sendRecurringWelcomeMessages(socket, message, timeLeft) {
+        if (timeLeft <= 0) {
+            return message.delete();
+        }
+
+        return message.edit('', this.buildWelcomeEmbededMessage(timeLeft)).then(editedMessage => {
+            return app.scheduler.scheduleDelayedTask(() => {
+                return this.sendRecurringWelcomeMessages(socket, editedMessage, timeLeft - 1);
+            }, 60 * 1000);
+        }).catch(err => {
+            if (err.message.indexOf('Not Found') > -1 && err.message.indexOf('Unknown Message') > -1) {
+                return;
+            }
+            app.logger.error(err);
+        });
+    }
+
+    /**
+     * Builds the embeded welcome message object.
+     *
+     * @param  {Number}  timeLeft  The time left before the message should be deleted.
+     * @return {Object}
+     */
+    buildWelcomeEmbededMessage(timeLeft) {
+        return {
             color: 0xE91E63,
             title: `Hi there, I'm ${bot.User.username}`,
             description: [
@@ -94,8 +133,11 @@ class GuildCreateEvent extends EventHandler {
                 '',
                 '**AvaIre Support Server**',
                 'https://avairebot.com/support'
-            ].join('\n')
-        });
+            ].join('\n'),
+            footer: {
+                text: `This message will automatically be deleted in ${timeLeft} minute` + (timeLeft === 1 ? '' : 's')
+            }
+        };
     }
 }
 
