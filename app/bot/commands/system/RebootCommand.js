@@ -66,11 +66,7 @@ class RebootCommand extends Command {
             // Shifts the queue so the new reboot message is first and call
             // the music Next method to start playing the announcement.
             Music.queues[guildId].shift();
-            Music.next({
-                guild: {
-                    id: guildId
-                }
-            }, false);
+            Music.next(guildId, false);
         }
 
         // Waits 5 seconds, and then checks every half second if there are still
