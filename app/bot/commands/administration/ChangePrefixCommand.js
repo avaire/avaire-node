@@ -52,7 +52,7 @@ class ChangePrefixCommand extends Command {
 
         let module = this.getModule(args[0]);
         if (module === null) {
-            return app.envoyer.sendWarn(message, 'Invalid module given, there are no modules matching `:module`', {
+            return app.envoyer.sendWarn(message, 'commands.administration.changeprefix.invalid', {
                 module: args[0]
             });
         }
@@ -72,7 +72,7 @@ class ChangePrefixCommand extends Command {
                 prefixes: JSON.stringify(guild.data.prefixes)
             }, query => query.where('id', app.getGuildIdFrom(message)));
 
-            return app.envoyer.sendSuccess(message, 'All commands in the `:module` module now uses the `:prefix` prefix.', {
+            return app.envoyer.sendSuccess(message, 'commands.administration.changeprefix.updated', {
                 prefix, module
             });
         });
@@ -91,7 +91,7 @@ class ChangePrefixCommand extends Command {
             let prefix = CommandHandler.getGlobalPrefix(module);
 
             if (!prefixes.hasOwnProperty(module)) {
-                return app.envoyer.sendSuccess(message, 'All commands in the `:module` module has been reset to use the `:prefix` prefix.', {
+                return app.envoyer.sendSuccess(message, 'commands.administration.changeprefix.reset', {
                     prefix, module
                 });
             }
@@ -103,7 +103,7 @@ class ChangePrefixCommand extends Command {
                 prefixes: JSON.stringify(guild.data.prefixes)
             }, query => query.where('id', app.getGuildIdFrom(message)));
 
-            return app.envoyer.sendSuccess(message, 'All commands in the `:module` module has been reset to use the `:prefix` prefix.', {
+            return app.envoyer.sendSuccess(message, 'commands.administration.changeprefix.reset', {
                 prefix, module
             });
         });

@@ -51,20 +51,20 @@ class AliasCommand extends Command {
             }
 
             if (this.getOrderedAlias(aliases, args[0].toLowerCase()) !== null) {
-                return app.envoyer.sendWarn(message, 'There is already a custom alias called `:alias`', {
+                return app.envoyer.sendWarn(message, 'commands.administration.alias.already-exists', {
                     alias: args[0]
                 });
             }
 
             let guildType = guild.getType();
             if (aliases.length >= guildType.get('limits.aliases')) {
-                return app.envoyer.sendWarn(message, 'The server doesn\'t have any more aliases slots.');
+                return app.envoyer.sendWarn(message, 'commands.administration.alias.missing-server-slots');
             }
 
             let commandString = _.drop(args).join(' ');
             let command = CommandHandler.getCommand(message, commandString, false);
             if (command === null) {
-                return app.envoyer.sendWarn(message, 'Invalid command given, I don\'t know of any command called `:command`', {
+                return app.envoyer.sendWarn(message, 'commands.administration.alias.invalid-command', {
                     command: args[1]
                 });
             }
@@ -77,7 +77,7 @@ class AliasCommand extends Command {
             }, query => query.where('id', app.getGuildIdFrom(message)))
                 .catch(err => app.logger.error(err));
 
-            return app.envoyer.sendSuccess(message, 'The `:alias` allias has been linked to `:command`\nThe server has `:slots` more aliases slots available.', {
+            return app.envoyer.sendSuccess(message, 'commands.administration.alias.alias-created', {
                 alias: args[0],
                 command: _.drop(args).join(' '),
                 slots: guildType.get('limits.aliases') - Object.keys(aliases).length
@@ -98,7 +98,7 @@ class AliasCommand extends Command {
         let customAlias = this.getOrderedAlias(aliases, alias);
 
         if (customAlias === null) {
-            return app.envoyer.sendSuccess(message, 'Invalid alias given, there are no aliases matching `:alias`.', {
+            return app.envoyer.sendSuccess(message, 'commands.administration.alias.invalid-alias', {
                 alias
             });
         }
@@ -110,7 +110,7 @@ class AliasCommand extends Command {
             aliases: JSON.stringify(guild.data.aliases)
         }, query => query.where('id', app.getGuildIdFrom(message)));
 
-        return app.envoyer.sendSuccess(message, 'The `:alias` alias has been deleted successfully.', {
+        return app.envoyer.sendSuccess(message, 'commands.administration.alias.alias-deleted', {
             alias
         });
     }

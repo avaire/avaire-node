@@ -42,9 +42,9 @@ class AliasesCommand extends Command {
 
             if (Object.keys(aliases).length === 0) {
                 return app.envoyer.sendEmbededMessage(message, {
-                    title: 'List of Aliases',
+                    title: app.lang.get(message, 'commands.administration.aliases.title'),
                     color: app.envoyer.colors.warn,
-                    description: 'The server doesn\'t have any aliases right now, you can create one using\nthe `:command` command'
+                    description: app.lang.get(message, 'commands.administration.aliases.empty')
                 }, {
                     command: this.getPrefix(message) + app.bot.commands.AliasCommand.triggers[0]
                 });
@@ -81,17 +81,14 @@ class AliasesCommand extends Command {
                 aliasesMessage.push(`\`${aliasesKeys[i]}\` => \`${aliases[aliasesKeys[i]]}\``);
             }
 
-            let note = [
-                `Page **${pageNumber}** out of **${pages}** pages.`,
-                `\`:command [page number]\``
-            ];
-
             return app.envoyer.sendEmbededMessage(message, {
-                title: 'List of Aliases',
+                title: app.lang.get(message, 'commands.administration.aliases.title'),
                 color: app.envoyer.colors.success,
-                description: aliasesMessage.join('\n') + '\n\n' + note.join('\n')
+                description: aliasesMessage.join('\n') + '\n\n' +
+                    app.lang.get(message, 'commands.administration.aliases.note')
             }, {
-                command: this.getCommandTrigger(message)
+                command: this.getCommandTrigger(message),
+                page: pageNumber, pages
             });
         });
     }

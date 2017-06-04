@@ -1,4 +1,41 @@
 {
+    "alias": {
+        "already-exists": "Der er allerede et brugerdefineret alias kaldet `:alias`",
+        "missing-server-slots": "Serveren har ikke flere alias slots.",
+        "invalid-command": "Ugyldig command givet, jeg kender ikke nogen command kaldet `:command`",
+        "invalid-alias": "Ugyldigt alias givet, der er ingen aliaser, der matcher `:alias`.",
+        "alias-created": "`:alias` alias er blivet forbundet til `:command`\nServeren har `:slots` flere alias slots til rådighed.",
+        "alias-deleted": "Aliaset `:alias' er blevet slettet."
+    },
+
+    "aliases": {
+        "title": "Liste over Aliaser",
+        "empty": "Serveren har ikke nogen aliaser lige nu, du kan oprette en ved at bruge `:command` commanden",
+        "note": "Side **:page** ud af **:pages** sider.\n`:command [sidetal]`"
+    },
+
+    "ban": {
+        "missing-user": "Du skal nævne den bruger du ønsker at ban.",
+        "hierarchy": "Du kan ikke ban folk med en højere eller samme rolle som dig selv.",
+        "no-reason": "Ingen grund givet.",
+        "modlog-message": ":target blev permanent banet af :sender for :reason",
+        "invalid-user": ":warning: Ugyldigt bruger-id er angivet, brug venligst et gyldigt id for den bruger, du ønsker at bane.",
+        "error": "Kunne ikke bane :user på grund af en fejl: :error"
+    },
+
+    "changeprefix": {
+        "invalid": "Ugyldigt modul givet, der er ingen moduler, der matcher `:module`",
+        "updated": "Alle commands i `:module` modulet bruger nu prefixet `:prefix`.",
+        "reset": "Alle kommandoer i modulet `:module` er blevet nulstillet til at bruge prefixet `:prefix`."
+    },
+
+    "kick": {
+        "no-reason": "Ingen grund givet.",
+        "modlog-message": ":target er blivet kicket af :sender for :reason",
+        "invalid-user": ":warning: Ugyldigt bruger-id er angivet, brug venligst et gyldigt id for den bruger, du ønsker at kicke.",
+        "error": "Kunne ikke kicke :user på grund af en fejl: :error"
+    },
+
     "purge": {
         "all-messages": ":white_check_mark: `:amount` beskeder er blevet slettet!",
         "user-messages": ":white_check_mark: `:amount` beskeder er blevet slettet fra `:users`"
@@ -9,6 +46,14 @@
         "selected": "Valgt sprog",
         "available": "Tilgængelige sprog",
         "note": ":information_source: *Du kan bruge `:command [local]` til at ændre det sprog der bruges på denne server, som standard vil `:default` blive brugt!*"
+    },
+
+    "serverid": {
+        "message": "<@:userid> :id: af denne server er `:serverid`"
+    },
+
+    "userid": {
+        "message": "<@:userid> :id: for brugeren **:target** er `:targetid`"
     },
 
     "modules": {

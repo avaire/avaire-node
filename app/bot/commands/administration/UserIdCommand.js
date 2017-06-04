@@ -38,7 +38,10 @@ class UserIdCommand extends Command {
             user = message.mentions[0];
         }
 
-        return app.envoyer.sendSuccess(message, `<@:userid> :id: of the user **${user.username}#${user.discriminator}** is \`${user.id}\``);
+        return app.envoyer.sendSuccess(message, 'commands.administration.userid.message', {
+            target: `${user.username}#${user.discriminator}`,
+            targetid: user.id
+        });
     }
 }
 

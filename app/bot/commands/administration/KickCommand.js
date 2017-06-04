@@ -47,12 +47,15 @@ class KickCommand extends Command {
         }
 
         user.kick().then(() => {
-            let reason = (args.join(' ').trim().length === 0) ? '*No reason given*' : `"${args.join(' ')}"`;
+            let reason = (args.join(' ').trim().length === 0) ? `*${app.lang.get(message, 'commands.administration.kick.no-reason')}*` : `"${args.join(' ')}"`;
 
-            return app.bot.features.modlog.send(message, sender, user, `:target was kicked by :sender for ${reason}`);
+            return app.bot.features.modlog.send(message, sender, user, 'commands.administration.kick.modlog-message', {reason});
         }).catch(err => {
             app.logger.error(err);
-            return app.envoyer.sendWarn(message, `Failed to kick ${user.username}#${user.discriminator} due to an error: ${err.message}`);
+            return app.envoyer.sendWarn(message, `commands.administration.kick.error`, {
+                user: `${user.username}#${user.discriminator}`,
+                error: err.message
+            });
         });
     }
 
@@ -71,7 +74,7 @@ class KickCommand extends Command {
         user = message.guild.members.find(gUser => gUser.id === user);
 
         if (user === undefined) {
-            app.envoyer.sendWarn(message, ':warning: Invalid user id provided, please use a valid id of the user you want to kick');
+            app.envoyer.sendWarn(message, 'commands.administration.kick.invalid-user');
             return undefined;
         }
 

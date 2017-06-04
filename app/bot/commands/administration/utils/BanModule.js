@@ -15,7 +15,7 @@ class BanModule {
      */
     ban(sender, message, args, deleteMessages = false) {
         if (message.mentions.length === 0) {
-            return app.envoyer.sendWarn(message, 'You have to mention the user you want to ban.');
+            return app.envoyer.sendWarn(message, 'commands.administration.ban.missing-user');
         }
 
         let user = this.getUser(message, args.shift());
@@ -24,7 +24,7 @@ class BanModule {
         }
 
         if (this.isInHigherRole(message, sender, user)) {
-            return app.envoyer.sendWarn(message, 'You can\'t ban people with a higher, or the same role as yourself.');
+            return app.envoyer.sendWarn(message, 'commands.administration.ban.hierarchy');
         }
 
         let mockUser = {
@@ -36,12 +36,15 @@ class BanModule {
         app.cache.put(`ban.${app.getGuildIdFrom(message)}.${user.id}`, new Date, 30, 'memory');
 
         user.ban(deleteMessages ? 7 : 0).then(() => {
-            let reason = (args.join(' ').trim().length === 0) ? '*No reason given*' : `"${args.join(' ')}"`;
+            let reason = (args.join(' ').trim().length === 0) ? `*${app.lang.get(message, 'commands.administration.ban.no-reason')}*` : `"${args.join(' ')}"`;
 
-            return app.bot.features.modlog.send(message, sender, mockUser, `:target was permanently banned by :sender for ${reason}`);
+            return app.bot.features.modlog.send(message, sender, mockUser, app.lang.get(message, 'commands.administration.ban.modlog-message', {reason}));
         }).catch(err => {
             app.logger.error(err);
-            return app.envoyer.sendWarn(message, `Failed to ban ${user.username}#${user.discriminator} due to an error: ${err.message}`);
+            return app.envoyer.sendWarn(message, `commands.administration.ban.error`, {
+                user: `${user.username}#${user.discriminator}`,
+                error: err.message
+            });
         });
     }
 
@@ -60,7 +63,7 @@ class BanModule {
         user = message.guild.members.find(gUser => gUser.id === user);
 
         if (user === undefined) {
-            app.envoyer.sendWarn(message, ':warning: Invalid user id provided, please use a valid id of the user you want to ban');
+            app.envoyer.sendWarn(message, 'commands.administration.ban.invalid-user');
             return undefined;
         }
 

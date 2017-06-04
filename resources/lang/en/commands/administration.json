@@ -1,4 +1,41 @@
 {
+    "alias": {
+        "already-exists": "There is already a custom alias called `:alias`",
+        "missing-server-slots": "The server doesn't have any more aliases slots.",
+        "invalid-command": "Invalid command given, I don't know of any command called `:command`",
+        "invalid-alias": "Invalid alias given, there are no aliases matching `:alias`.",
+        "alias-created": "The `:alias` alias has been linked to `:command`\nThe server has `:slots` more aliases slots available.",
+        "alias-deleted": "The `:alias` alias has been deleted successfully."
+    },
+
+    "aliases": {
+        "title": "List of Aliases",
+        "empty": "The server doesn't have any aliases right now, you can create one using\nthe `:command` command",
+        "note": "Page **:page** out of **:pages** pages.\n`:command [page number]`"
+    },
+
+    "ban": {
+        "missing-user": "You have to mention the user you want to ban.",
+        "hierarchy": "You can't ban people with a higher, or the same role as yourself.",
+        "no-reason": "No reason given",
+        "modlog-message": ":target was permanently banned by :sender for :reason",
+        "invalid-user": ":warning: Invalid user id provided, please use a valid id of the user you want to ban.",
+        "error": "Failed to ban :user due to an error: :error"
+    },
+
+    "changeprefix": {
+        "invalid": "Invalid module given, there are no modules matching `:module`",
+        "updated": "All commands in the `:module` module now uses the `:prefix` prefix.",
+        "reset": "All commands in the `:module` module has been reset to use the `:prefix` prefix."
+    },
+
+    "kick": {
+        "no-reason": "No reason given",
+        "modlog-message": ":target was kicked by :sender for :reason",
+        "invalid-user": ":warning: Invalid user id provided, please use a valid id of the user you want to ban.",
+        "error": "Failed to kick :user due to an error: :error"
+    },
+
     "purge": {
         "all-messages": ":white_check_mark: `:amount` messages has been deleted!",
         "user-messages": ":white_check_mark: `:amount` messages has been deleted from `:users`"
@@ -9,6 +46,14 @@
         "selected": "Selected Language",
         "available": "Available Languages",
         "note": ":information_source: *You can use `:command [local]` to change the language that is used on this server, by default the language will be set to `:default`!*"
+    },
+
+    "serverid": {
+        "message": "<@:userid> :id: of this server is `:serverid`"
+    },
+
+    "userid": {
+        "message": "<@:userid> :id: of the user **:target** is `:targetid`"
     },
 
     "modules": {
