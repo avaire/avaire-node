@@ -18,21 +18,11 @@ class RemindCommand extends Command {
             ]
         });
 
-        this.formats = {
-            h: {
-                name: 'hour',
-                parse: n => n * 60 * 60
-            },
-            m: {
-                name: 'minute',
-                parse: n => n * 60
-            },
-            s: {
-                name: 'second',
-                parse: n => n
-            }
-        };
-
+        /**
+         * The reminders object.
+         *
+         * @type {Object}
+         */
         this.reminderes = {};
     }
 
@@ -49,9 +39,9 @@ class RemindCommand extends Command {
             return this.sendMissingArguments(message);
         }
 
-        let {timeArr, seconds} = this.parseStringifiedTimeFormat(args[0]);
-        if (timeArr.length === 0) {
-            return app.envoyer.sendInfo(message, 'Invalid format given!');
+        let time = app.time.parse(args[0]);
+        if (time.timeArr.length === 0) {
+            return app.envoyer.sendWarn(message, 'Invalid format given!');
         }
 
         delete args[0];
@@ -62,13 +52,20 @@ class RemindCommand extends Command {
             user: message.author.id
         };
 
-        this.startReminderSchedule(hash, seconds);
+        this.startReminderSchedule(hash, time.seconds);
         return app.envoyer.sendInfo(message, ':ok_hand: I will DM you in :time with the following message:\n\n```:message```', {
-            time: this.formatedTimeMessage(timeArr),
+            time: time.format,
             message: this.reminderes[hash].message
         });
     }
 
+    /**
+     * Starts the reminder schedule task.
+     *
+     * @param  {String}  hash     The hash ID for the given reminder schedule task.
+     * @param  {Number}  seconds  The amount of seconds before the reminder exppires.
+     * @return {Task}
+     */
     startReminderSchedule(hash, seconds) {
         return app.scheduler.scheduleDelayedTask(() => {
             if (!this.reminderes.hasOwnProperty(hash)) {
@@ -84,37 +81,6 @@ class RemindCommand extends Command {
                 return app.envoyer.sendInfo(m, this.reminderes[hash].message);
             });
         }, seconds * 1000);
-    }
-
-    parseStringifiedTimeFormat(string) {
-        let seconds = 0;
-        let timeArr = [];
-        let parts = string.toLowerCase().match(/([0-9]+[h|m|s])/gi);
-
-        for (let i in parts) {
-            let timeString = parts[i];
-            let identifier = timeString.substr(-1);
-            let number = parseInt(timeString.substr(0, timeString.length - 1), 10);
-
-            seconds += this.formats[identifier].parse(number);
-            timeArr.push(`${number} ${this.formats[identifier].name}` + (number === 1 ? '' : 's'));
-        }
-
-        return {
-            timeArr, seconds
-        };
-    }
-
-    formatedTimeMessage(timeArr) {
-        let lastTime = timeArr.pop();
-
-        if (timeArr.length === 0) {
-            return lastTime;
-        } else if (timeArr.length === 1) {
-            return timeArr[0] + ' and ' + lastTime;
-        }
-
-        return timeArr.join(', ') + ', and ' + lastTime;
     }
 }
 

@@ -23,21 +23,6 @@ class CreateYesNoPollCommand extends Command {
             ]
         });
 
-        this.formats = {
-            h: {
-                name: 'hour',
-                parse: n => n * 60 * 60
-            },
-            m: {
-                name: 'minute',
-                parse: n => n * 60
-            },
-            s: {
-                name: 'second',
-                parse: n => n
-            }
-        };
-
         /**
          * The yes emoji.
          *
@@ -72,7 +57,7 @@ class CreateYesNoPollCommand extends Command {
             return this.sendMissingArguments(message);
         }
 
-        let time = this.parseStringifiedTimeFormat(args[0]);
+        let time = app.time.parse(args[0]);
         if (time.timeArr.length === 0 && time.seconds === 0) {
             return app.envoyer.sendWarn(message, [
                 'Invalid time format given, the format has to look something like `25m52s` to make the poll last for 25 minutes and 52 seconds,' +
@@ -210,25 +195,6 @@ class CreateYesNoPollCommand extends Command {
         return message.addReaction(this.yesEmoji).then(() => {
             return message.addReaction(this.noEmoji);
         });
-    }
-
-    parseStringifiedTimeFormat(string) {
-        let seconds = 0;
-        let timeArr = [];
-        let parts = string.toLowerCase().match(/([0-9]+[h|m|s])/gi);
-
-        for (let i in parts) {
-            let timeString = parts[i];
-            let identifier = timeString.substr(-1);
-            let number = parseInt(timeString.substr(0, timeString.length - 1), 10);
-
-            seconds += this.formats[identifier].parse(number);
-            timeArr.push(`${number} ${this.formats[identifier].name}` + (number === 1 ? '' : 's'));
-        }
-
-        return {
-            timeArr, seconds
-        };
     }
 }
 

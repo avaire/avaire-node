@@ -6,6 +6,7 @@ module.exports = {
     // Utilities
     guild: require('./utils/guild/Guild'),
     lang: require('./utils/lang/Language'),
+    time: require('./utils/time/TimeParser'),
     logger: require('./utils/logger/Logger'),
     process: require('./utils/process/Process'),
     envoyer: require('./utils/envoyer/Envoyer'),
