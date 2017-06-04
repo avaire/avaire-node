@@ -91,7 +91,7 @@ class AliasesCommand extends Command {
                 color: app.envoyer.colors.success,
                 description: aliasesMessage.join('\n') + '\n\n' + note.join('\n')
             }, {
-                command: this.getPrefix(message) + this.getTriggers()[0]
+                command: this.getCommandTrigger(message)
             });
         });
     }

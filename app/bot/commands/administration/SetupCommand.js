@@ -68,7 +68,7 @@ class SetupCommand extends Command {
      * @return {Promise}
      */
     sendFeatureList(sender, message, args) {
-        let command = this.getPrefix(message) + this.getTriggers()[0];
+        let command = this.getCommandTrigger(message);
         let fields = [];
 
         for (let token in this.features) {

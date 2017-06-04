@@ -50,6 +50,16 @@ class Command {
     }
 
     /**
+     * Gets the command with the prefix for the given guild and the main command trigger.
+     *
+     * @param  {IMessage|null}  message  The Discordie message object, or null.
+     * @return {String}
+     */
+    getCommandTrigger(message) {
+        return this.getPrefix(message) + this.getTriggers()[0];
+    }
+
+    /**
      * Gets the command prefix.
      *
      * @param  {IMessage|null}  message  The Discordie message object, or null.
@@ -131,8 +141,8 @@ class Command {
         let helpCommand = app.bot.commands.HelpCommand;
 
         return app.envoyer.sendWarn(message, 'language.errors.missing-arguments', {
-            command: this.getPrefix(message) + this.getTriggers()[0],
-            help: CommandHandler.getPrefix(message, helpCommand.category) + helpCommand.triggers[0]
+            help: CommandHandler.getPrefix(message, helpCommand.category) + helpCommand.triggers[0],
+            command: this.getCommandTrigger(message)
         });
     }
 

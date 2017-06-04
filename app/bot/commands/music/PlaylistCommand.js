@@ -98,7 +98,7 @@ class PlaylistCommand extends Command {
 
             if (playlists.length === 0 && args.length === 0) {
                 return app.envoyer.sendInfo(message, 'This server does not have any music playlists yet, you can create one with\n`:command` to get started', {
-                    command: this.getPrefix(message) + this.getTriggers()[0] + ' <name> create'
+                    command: this.getCommandTrigger(message) + ' <name> create'
                 });
             }
 
@@ -112,7 +112,7 @@ class PlaylistCommand extends Command {
                 }
 
                 return app.envoyer.sendWarn(message, 'There are no playlists called `:playlist`, you can create the playlist by using the\n`:command` command', {
-                    command: this.getPrefix(message) + this.getTriggers()[0] + ' <name> create',
+                    command: this.getCommandTrigger(message) + ' <name> create',
                     playlist: args[0]
                 });
             }
@@ -154,7 +154,7 @@ class PlaylistCommand extends Command {
             return app.envoyer.sendWarn(message, 'Invalid `property` given, there are no playlist properties called `:property`.\nYou can learm more by running `:helpcommand :command`', {
                 property: trigger,
                 helpcommand: CommandHandler.getPrefix(message, 'help') + 'help',
-                command: this.getPrefix(message) + this.getTriggers()[0]
+                command: this.getCommandTrigger(message)
             });
         });
     }
@@ -190,7 +190,7 @@ class PlaylistCommand extends Command {
             app.cache.forget('database-playlist.' + app.getGuildIdFrom(message), 'memory');
 
             return app.envoyer.sendSuccess(message, 'The `:playlist` playlist has been been created successfully!\nYou can start adding songs to it with `:command :playlist add <song>`', {
-                command: this.getPrefix(message) + this.getTriggers()[0],
+                command: this.getCommandTrigger(message),
                 playlist: args[0]
             });
         });
@@ -257,7 +257,7 @@ class PlaylistCommand extends Command {
     addSongToPlaylist(message, args, guild, playlist) {
         if (args.length === 0) {
             return app.envoyer.sendWarn(message, 'Invalid format, missing song `url`\n`:command`', {
-                command: this.getPrefix(message) + this.getTriggers()[0] + ` ${playlist.get('name')} add <song url>`
+                command: this.getCommandTrigger(message) + ` ${playlist.get('name')} add <song url>`
             });
         }
 
@@ -358,7 +358,7 @@ class PlaylistCommand extends Command {
     removeSongFromPlaylist(message, args, guild, playlist) {
         if (args.length === 0) {
             return app.envoyer.sendWarn(message, 'Invalid format, missing the `id` property!\n`:command`', {
-                command: this.getPrefix(message) + this.getTriggers()[0] + ` ${playlist.get('name')} removesong <id>`
+                command: this.getCommandTrigger(message) + ` ${playlist.get('name')} removesong <id>`
             });
         }
 
@@ -371,14 +371,14 @@ class PlaylistCommand extends Command {
         let index = parseInt(args[0], 10);
         if (isNaN(index)) {
             return app.envoyer.sendWarn(message, 'Invalid id given, the id must be a number\n`:command`', {
-                command: this.getPrefix(message) + this.getTriggers()[0] + ` ${playlist.get('name')} removesong <id>`
+                command: this.getCommandTrigger(message) + ` ${playlist.get('name')} removesong <id>`
             });
         }
 
         let id = index - 1;
         if (id < 0 || id >= playlist.get('songs').length) {
             return app.envoyer.sendWarn(message, 'Invalid id given, the number given is too :type.\n`:command`', {
-                command: this.getPrefix(message) + this.getTriggers()[0] + ` ${playlist.get('name')} removesong <id>`,
+                command: this.getCommandTrigger(message) + ` ${playlist.get('name')} removesong <id>`,
                 type: id < 0 ? 'low' : 'high'
             });
         }
@@ -417,7 +417,7 @@ class PlaylistCommand extends Command {
     renamePlaylist(message, args, guild, playlist) {
         if (args.length === 0) {
             return app.envoyer.sendWarn(message, 'Invalid format, missing the `new name` property!\n`:command`', {
-                command: this.getPrefix(message) + this.getTriggers()[0] + ` ${playlist.get('name')} renameto <new name>`
+                command: this.getCommandTrigger(message) + ` ${playlist.get('name')} renameto <new name>`
             });
         }
 
@@ -475,7 +475,7 @@ class PlaylistCommand extends Command {
                 title: `:musical_note: Music Playlist ${counter}`,
                 description: 'This server does not have any music playlists yet, you can create one with\n`:command` to get started'
             }, {
-                command: this.getPrefix(message) + this.getTriggers()[0] + ' <name> create'
+                command: this.getCommandTrigger(message) + ' <name> create'
             });
         }
 
@@ -508,7 +508,7 @@ class PlaylistCommand extends Command {
         let songs = playlist.get('songs', []);
         if (songs.length === 0) {
             return app.envoyer.sendWarn(message, 'There are no songs in this playlist, you can add songs to it by using the\n`:command` commmand', {
-                command: this.getPrefix(message) + this.getTriggers()[0] + ` ${playlist.get('name')} add <song url>`
+                command: this.getCommandTrigger(message) + ` ${playlist.get('name')} add <song url>`
             });
         }
 
@@ -544,7 +544,7 @@ class PlaylistCommand extends Command {
             title: `:musical_note: ${playlist.get('name')}`,
             description: playlistSongs.join('\n') + '\n\n' + note.join('\n')
         }, {
-            command: this.getPrefix(message) + this.getTriggers()[0]
+            command: this.getCommandTrigger(message)
         });
     }
 

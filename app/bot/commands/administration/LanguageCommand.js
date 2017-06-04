@@ -69,8 +69,6 @@ class LanguageCommand extends Command {
      * @return {Promise}
      */
     showLanguageMessage(message) {
-        let command = this.getPrefix(message) + this.getTriggers()[0];
-
         return app.database.getGuild(app.getGuildIdFrom(message)).then(transformer => {
             let local = typeof transformer.get('local') === 'string' ? transformer.get('local').toUpperCase() : 'Default';
             let languages = Object.keys(app.lang.getFiles()).map(lang => {
@@ -78,7 +76,7 @@ class LanguageCommand extends Command {
             });
 
             let note = app.lang.get(message, 'commands.administration.language.note', {
-                command: this.getPrefix(message) + this.getTriggers()[0],
+                command: this.getCommandTrigger(message),
                 default: app.lang.defaultLocal.toUpperCase()
             });
 

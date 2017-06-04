@@ -79,7 +79,7 @@ class CreateYesNoPollCommand extends Command {
                 'you can combine or exclude any combination of the number followed by a `m` for minutes or `s` for seconds',
                 '\n**Format:** `:command <format> <poll message>`'
             ].join(' '), {
-                command: this.getPrefix(message) + this.getTriggers()[0]
+                command: this.getCommandTrigger(message)
             });
         } else if (time.seconds < 30) {
             return app.envoyer.sendWarn(message, 'Time given for the poll is too low, the poll time must be atleast `30 seconds` or more.');
