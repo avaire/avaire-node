@@ -42,7 +42,7 @@ class SayCommand extends Command {
         }
 
         message.delete().then(() => {
-            return app.envoyer.sendNormalMessage(message, args.join(' '));
+            return app.envoyer.sendNormalMessage(message, args.join(' '), {}, true);
         }).catch(err => app.logger.error(err));
     }
 }

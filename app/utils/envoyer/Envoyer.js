@@ -1,4 +1,6 @@
 /** @ignore */
+const URL = require('url');
+/** @ignore */
 const _ = require('lodash');
 
 /**
@@ -142,11 +144,12 @@ class Envoyer {
      * @param  {IMessage|ITextChannel} channel       The IMessage or ITextChannel object from Discordies event emitter.
      * @param  {String}                message       The message that should be sent in the provided channel.
      * @param  {Object}                placeholders  The placeholders that should replace placeholders in the language string.
+     * @param  {Boolean}               ignoreLang    Determins if the message should ignore language strings completely.
      * @return {Promise}
      */
-    sendNormalMessage(channel, message, placeholders) {
+    sendNormalMessage(channel, message, placeholders, ignoreLang = false) {
         return new Promise((resolve, reject) => {
-            message = this.prepareMessage(channel, message, placeholders);
+            message = this.prepareMessage(channel, message, placeholders, ignoreLang);
 
             return this.prepareChannel(channel).sendMessage(message)
                 .then(sentMessage => resolve(sentMessage))
@@ -169,13 +172,14 @@ class Envoyer {
      * @param  {IMessage|ITextChannel} channel       The IMessage or ITextChannel object from Discordies event emitter.
      * @param  {String}                message       The message that should be sent in the provided channel.
      * @param  {Object}                placeholders  The placeholders that should replace placeholders in the language string.
+     * @param  {Boolean}               ignoreLang    Determins if the message should ignore language strings completely.
      * @return {String}
      */
-    prepareMessage(channel, message, placeholders) {
+    prepareMessage(channel, message, placeholders, ignoreLang = false) {
         // If the channel parameter is an IMessage Discordie object and the description of the
         // embed object looks like a language string, the description of the embed object
         // will be replaced by the language specific equivalent of the language string.
-        if (channel.constructor.name === 'IMessage' && this.isLangString(message)) {
+        if (!ignoreLang && channel.constructor.name === 'IMessage' && this.isLangString(message)) {
             return app.lang.get(channel, message, placeholders);
         } else if (channel.constructor.name === 'IMessage') {
             placeholders = app.lang.addDefaultPlacehodlers(channel, placeholders);
@@ -259,7 +263,8 @@ class Envoyer {
                string.indexOf('\n') === -1 &&
                string.indexOf('.') !== -1 &&
                string.substr(0, 1) !== '.' &&
-               string.substr(-1) !== '.';
+               string.substr(-1) !== '.' &&
+               URL.parse(string).host === null;
     }
 
     /**

@@ -32,10 +32,10 @@ class RepeatCommand extends Command {
         }
 
         if (message.isPrivate) {
-            return app.envoyer.sendNormalMessage(message, args.join(' '));
+            return app.envoyer.sendNormalMessage(message, args.join(' '), {}, true);
         }
 
-        return app.envoyer.sendNormalMessage(message, args.join(' '));
+        return app.envoyer.sendNormalMessage(message, args.join(' '), {}, true);
     }
 }
 

@@ -41,7 +41,7 @@ class SlowClapCommand extends Command {
     onCommand(sender, message, args) {
         let index = Math.floor(Math.random() * (this.hashes.length - 1));
 
-        return app.envoyer.sendNormalMessage(message, ` https://media.senither.com/static/reactions/sc-${this.hashes[index]}.gif`);
+        return app.envoyer.sendNormalMessage(message, `https://media.senither.com/static/reactions/sc-${this.hashes[index]}.gif`);
     }
 }
 
