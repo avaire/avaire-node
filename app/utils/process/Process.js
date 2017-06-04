@@ -12,8 +12,17 @@ class Process {
      * @return {String}
      */
     getUptime(useShorthand = true) {
-        let seconds = (new Date().getTime() - app.runTime) / 1000;
+        return this.formatSeconds((new Date().getTime() - app.runTime) / 1000, useShorthand);
+    }
 
+    /**
+     * Formats seconds into a readable format.
+     *
+     * @param  {Number}   seconds       The seconds that should be formatted.
+     * @param  {Boolean}  useShorthand  Determines if we use shorthand for the times.
+     * @return {String}
+     */
+    formatSeconds(seconds, useShorthand = true) {
         let d = Math.floor(seconds / 86400);
         let h = Math.floor((seconds % 86400) / 3600);
         let m = Math.floor(((seconds % 86400) % 3600) / 60);
