@@ -84,6 +84,10 @@ class Application {
             app.logger.info(' - Loading configuration');
         }
         app.config = app.configLoader.loadConfiguration('config.json');
+
+        if (!app.config.bot.hasOwnProperty('activationDelay')) {
+            app.config.bot.activationDelay = 0;
+        }
     }
 
     /**

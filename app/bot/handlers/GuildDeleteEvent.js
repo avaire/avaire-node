@@ -20,6 +20,10 @@ class GuildDeleteEvent extends EventHandler {
     handle(socket) {
         app.logger.info(`Left guild with an ID of ${socket.data.id} called: ${socket.data.name}`);
 
+        if (!app.process.isReady) {
+            return;
+        }
+
         app.database.update(app.constants.GUILD_TABLE_NAME, {
             leftguild_at: new Date
         }, query => query.where('id', socket.data.id))

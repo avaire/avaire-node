@@ -20,6 +20,10 @@ class GuildCreateEvent extends EventHandler {
     handle(socket) {
         app.logger.info(`Joined guild with an ID of ${app.getGuildIdFrom(socket)} called: ${socket.guild.name}`);
 
+        if (!app.process.isReady) {
+            return;
+        }
+
         app.database.update(app.constants.GUILD_TABLE_NAME, {
             leftguild_at: null
         }, query => query.where('id', app.getGuildIdFrom(socket)))

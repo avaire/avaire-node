@@ -46,6 +46,14 @@ class MessageCreateEvent extends EventHandler {
 
         // Loads the guild and channel from the database so they can be used later.
         return ChannelModule.getChannel(socket.message).then(({guild, channel}) => {
+            // Checks if the application process is ready to be used, if the process is not ready we'll
+            // cancel out the rest of the event, the reason the check is placed after the event loads
+            // the guild transformer from the database is because the transformers are cached and
+            // ready to be used when they're needed after the application is ready for use.
+            if (!app.process.isReady) {
+                return;
+            }
+
             // Checks if slowmode is enabled for the given channel in the current guild, if it
             // is enabled and the user has exceeded the message limit the users message will
             // be deleted without triggering any of the command or service logic.

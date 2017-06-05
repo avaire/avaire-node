@@ -6,6 +6,35 @@
 class Process {
 
     /**
+     * Sets up and prepares the needed properties.
+     */
+    constructor() {
+        /**
+         * Determins if the process is ready to be used or not.
+         *
+         * @type {Boolean}
+         */
+        this.isProcessReady = false;
+    }
+
+    /**
+     * Determins if the application process is ready to be used.
+     *
+     * @return {Boolean}
+     */
+    get isReady() {
+        if (this.isProcessReady) {
+            return true;
+        }
+
+        let seconds = (new Date().getTime() - app.runTime) / 1000;
+        if (seconds > app.config.bot.activationDelay) {
+            this.isProcessReady = true;
+        }
+        return this.isProcessReady;
+    }
+
+    /**
      * Gets the process uptime of the bot.
      *
      * @param  {Boolean}  useShorthand  Determines if we use shorthand names for the times.
