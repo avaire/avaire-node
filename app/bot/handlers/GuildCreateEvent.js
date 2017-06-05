@@ -20,14 +20,19 @@ class GuildCreateEvent extends EventHandler {
     handle(socket) {
         app.logger.info(`Joined guild with an ID of ${app.getGuildIdFrom(socket)} called: ${socket.guild.name}`);
 
+        app.database.getGuild(app.getGuildIdFrom(socket)).then(guild => {
+            let leftGuildAt = guild.get('leftguild_at');
+            if (leftGuildAt !== null && leftGuildAt !== undefined) {
+                app.database.update(app.constants.GUILD_TABLE_NAME, {
+                    leftguild_at: null
+                }, query => query.where('id', app.getGuildIdFrom(socket)))
+                    .catch(err => app.logger.error(err));
+            }
+        });
+
         if (!app.process.isReady) {
             return;
         }
-
-        app.database.update(app.constants.GUILD_TABLE_NAME, {
-            leftguild_at: null
-        }, query => query.where('id', app.getGuildIdFrom(socket)))
-            .catch(err => app.logger.error(err));
 
         if (app.permission.has(bot.User, socket.guild.generalChannel, 'text.send_messages')) {
             this.sendWelcomeMessage(socket);
