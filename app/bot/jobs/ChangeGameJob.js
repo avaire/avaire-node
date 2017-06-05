@@ -31,6 +31,14 @@ class ChangeGameJob extends Job {
      * @override
      */
     run() {
+        if (!app.process.isReady) {
+            bot.User.setStatus(null, 'loading components...');
+
+            return app.scheduler.scheduleDelayedTask(() => {
+                return this.run();
+            }, app.config.bot.activationDelay * 1000);
+        }
+
         let game = _.sample(app.config.playing);
 
         game = game.replace(/%guilds%/gi, bot.Guilds.length);
