@@ -15,6 +15,10 @@ module.exports = {
         intent: 'Random dog',
         handler: require('./intents/RequestDog')
     },
+    'request.song': {
+        intent: 'Find song',
+        handler: require('./intents/FindSong')
+    },
     'command.prefix': {
         intent: 'Command Prefix',
         handler: require('./intents/CommandPrefix')
