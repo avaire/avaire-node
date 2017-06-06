@@ -35,6 +35,8 @@
         "pause-on-empty": "Afspilningslisten er tom, der er ikke noget der kan pauses.",
         "resume-on-empty": "Afspilningslisten er tom, der er ikke noget der kan startes.",
         "resume-while-alone": "Der skal være mindst én anden person i kanalen for at genoptage musikken.",
+        "is-paused": "Musikken er allerede pauset, brug `!resume` for at genoptage musikken.",
+        "is-playing": "Musikken spiller allerede, brug `!pause` for at stoppe musikken.",
         "paused": "Musikken er blivet `pauset`",
         "resumed": "Musikken er blivet `genoptage`"
     },

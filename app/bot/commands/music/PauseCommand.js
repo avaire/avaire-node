@@ -39,6 +39,10 @@ class PauseCommand extends Command {
             return app.envoyer.sendWarn(message, 'commands.music.pauseresume.pause-on-empty');
         }
 
+        if (Music.isPaused(message)) {
+            return app.envoyer.sendWarn(message, 'commands.music.pauseresume.is-paused');
+        }
+
         Music.pauseStream(message);
         return app.envoyer.sendSuccess(message, 'commands.music.pauseresume.paused');
     }

@@ -433,8 +433,11 @@ class MusicHandler {
      * @return {undefinded}
      */
     pauseStream(message) {
-        this.setPausedState(message, true);
+        if (this.isPaused(message)) {
+            return;
+        }
 
+        this.setPausedState(message, true);
         return this.getVoiceConnection(message)
                    .voiceConnection
                    .getEncoderStream()
@@ -448,8 +451,11 @@ class MusicHandler {
      * @return {undefinded}
      */
     unpauseStream(message) {
-        this.setPausedState(message, false);
+        if (!this.isPaused(message)) {
+            return;
+        }
 
+        this.setPausedState(message, false);
         return this.getVoiceConnection(message)
                    .voiceConnection
                    .getEncoderStream()

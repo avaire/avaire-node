@@ -35,6 +35,8 @@
         "pause-on-empty": "The queue is empty, there is nothing to pause.",
         "resume-on-empty": "The queue is empty, there is nothing to resume.",
         "resume-while-alone": "There must be atleast one other person in the voice channel to resume the music.",
+        "is-paused": "The music is already paused, use `!resume` to resume the music.",
+        "is-playing": "The music is already playing, use `!pause` to pause the music.",
         "paused": "The music has been `paused`",
         "resumed": "The music has been `resumed`"
     },

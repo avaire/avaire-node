@@ -39,6 +39,10 @@ class ResumeCommand extends Command {
             return app.envoyer.sendWarn(message, 'commands.music.pauseresume.resume-on-empty');
         }
 
+        if (!Music.isPaused(message)) {
+            return app.envoyer.sendWarn(message, 'commands.music.pauseresume.is-playing');
+        }
+
         if (this.isAloneInVoiceChannel(message)) {
             return app.envoyer.sendWarn(message, 'commands.music.pauseresume.resume-while-alone');
         }
