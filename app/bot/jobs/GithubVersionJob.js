@@ -44,7 +44,7 @@ class GithubVersionJob extends Job {
      */
     run() {
         request({
-            headers: {'User-Agent': 'AvaIre-Discord-Bot'},
+            headers: {'User-Agent': `AvaIre-Discord-Bot (${bot.User.id})`},
             url: 'https://raw.githubusercontent.com/Senither/AvaIre/master/package.json',
             method: 'GET'
         }, (error, response, body) => {

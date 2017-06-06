@@ -83,7 +83,7 @@ class DiscordBotStatsUpdateJob extends Job {
      */
     buildHeaders(authToken) {
         return {
-            'User-Agent': `Discord-Bot-${bot.User.id}`,
+            'User-Agent': `AvaIre-Discord-Bot (${bot.User.id})`,
             'Content-Type': 'application/json',
             Authorization: authToken
         };
