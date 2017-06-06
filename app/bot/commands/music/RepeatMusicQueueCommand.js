@@ -3,7 +3,7 @@ const Command = require('./../Command');
 /** @ignore */
 const Music = require('./MusicHandler');
 
-class SkipCommand extends Command {
+class RepeatMusicQueueCommand extends Command {
 
     /**
      * Sets up the command by providing the prefix, command trigger, any
@@ -11,12 +11,12 @@ class SkipCommand extends Command {
      * might be usfull for the abstract command class.
      */
     constructor() {
-        super('skip', [], {
+        super('repeatsongs', ['repeat', 'loop'], {
             allowDM: false,
-            description: 'Use this to skip a song if you\'re not enjoying it.',
+            description: 'Repeats the songs currently in the music queue.',
             middleware: [
                 'require:text.send_messages',
-                'throttle.user:2,5',
+                'throttle.channel:2,5',
                 'hasRole:DJ'
             ]
         });
@@ -36,24 +36,16 @@ class SkipCommand extends Command {
         }
 
         if (Music.getQueue(message).length === 0) {
-            return app.envoyer.sendWarn(message, 'commands.music.empty-queue');
+            return app.envoyer.sendWarn(message, 'commands.music.repeat.empty-queue');
         }
 
-        if (!Music.isInSameVoiceChannelAsBot(message, sender)) {
-            return app.envoyer.sendWarn(message, 'commands.music.skip-while-not-in-channel').then(message => {
-                return app.scheduler.scheduleDelayedTask(() => {
-                    return message.delete().catch(err => app.logger.error(err));
-                }, 10000);
-            });
-        }
+        let guildId = app.getGuildIdFrom(message);
+        let status = !Music.isRepeat(guildId);
 
-        let song = Music.getQueue(message).shift();
-        if (Music.isRepeat(message)) {
-            Music.getQueue(message).push(song);
-        }
+        Music.setRepeat(guildId, status);
 
-        return Music.next(message);
+        return app.envoyer.sendSuccess(message, 'commands.music.repeat.' + (status ? 'enabled' : 'disabled'));
     }
 }
 
-module.exports = SkipCommand;
+module.exports = RepeatMusicQueueCommand;

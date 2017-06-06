@@ -58,7 +58,11 @@ class VoteSkipCommand extends Command {
         let votePercentage = this.getVotePercentage(usersInVoiceLength, voteSkips);
 
         if (votePercentage >= 50) {
-            Music.getQueue(message).shift();
+            let song = Music.getQueue(message).shift();
+            if (Music.isRepeat(message)) {
+                Music.getQueue(message).push(song);
+            }
+
             return Music.next(message);
         }
 

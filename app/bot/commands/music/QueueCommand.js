@@ -50,7 +50,12 @@ class QueueCommand extends Command {
                     name: app.lang.get(message, 'commands.music.queue.in-queue'),
                     value: app.lang.get(message, 'commands.music.queue.empty-queue')
                 }
-            ]
+            ],
+            footer: {
+                text: app.lang.get(message, 'commands.music.queue.repeat.status', {
+                    status: app.lang.get(message, 'commands.music.queue.repeat.' + (Music.isRepeat(message) ? 'on' : 'off'))
+                })
+            }
         };
 
         // If the queue has more than one song the additional songs will added to the embeded

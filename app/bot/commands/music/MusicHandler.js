@@ -33,6 +33,13 @@ class MusicHandler {
         this.paused = {};
 
         /**
+         * The music repeat status for guilds.
+         *
+         * @type {Object}
+         */
+        this.repeats = {};
+
+        /**
          * The channel id the music was requested in for the guilds.
          *
          * @type {Object}
@@ -159,6 +166,10 @@ class MusicHandler {
             this.channel[guildId] = message.channel.id;
         }
 
+        if (!this.repeats.hasOwnProperty(guildId)) {
+            this.repeats[guildId] = false;
+        }
+
         if (!this.voteskips.hasOwnProperty(guildId)) {
             this.voteskips[guildId] = [];
         }
@@ -197,7 +208,6 @@ class MusicHandler {
             }
 
             let song = this.queues[app.getGuildIdFrom(message)][0];
-
             if (song.url === 'INVALID') {
                 this.queues[app.getGuildIdFrom(message)].shift();
 
@@ -236,7 +246,11 @@ class MusicHandler {
             }
 
             encoder.once('end', () => {
-                this.queues[app.getGuildIdFrom(message)].shift();
+                let song = this.queues[app.getGuildIdFrom(message)].shift();
+                if (this.isRepeat(message)) {
+                    this.queues[app.getGuildIdFrom(message)].push(song);
+                }
+
                 return this.next(message, sendMessages);
             });
         }
@@ -338,6 +352,29 @@ class MusicHandler {
         }
 
         return false;
+    }
+
+    /**
+     * Sets the repeat status for the given guild.
+     *
+     * @param {mixed}    guildId  A object or string that contains the guild id.
+     * @param {Boolean}  status   The repeat status that should be set.
+     */
+    setRepeat(guildId, status = false) {
+        this.repeats[app.getGuildIdFrom(guildId)] = status;
+    }
+
+    /**
+     * Gets the repeat status for the given guild.
+     *
+     * @param  {mixed}  guildId  A object or string that contains the guild id.
+     * @return {Boolean}
+     */
+    isRepeat(guildId) {
+        if (!this.repeats.hasOwnProperty(app.getGuildIdFrom(guildId))) {
+            return false;
+        }
+        return this.repeats[app.getGuildIdFrom(guildId)];
     }
 
     /**
@@ -474,6 +511,7 @@ class MusicHandler {
     forcefullyDeleteQueue(guildId) {
         delete this.voteskips[guildId];
         delete this.channel[guildId];
+        delete this.repeats[guildId];
         delete this.queues[guildId];
         delete this.volume[guildId];
         delete this.paused[guildId];

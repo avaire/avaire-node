@@ -23,7 +23,12 @@
         "in-queue": "Sange i køen",
         "empty-queue": "*Der er ingen andre sange i køen lige nu*",
         "extra-singular": "_Og **1** mere sang!_",
-        "extra-plural": "_Og **:number** andre sange..._"
+        "extra-plural": "_Og **:number** andre sange..._",
+        "repeat": {
+            "status": "Musik gentagelse er for øjeblikket slået :status!",
+            "on": "til",
+            "off": "fra"
+        }
     },
 
     "pauseresume": {
@@ -32,6 +37,12 @@
         "resume-while-alone": "Der skal være mindst én anden person i kanalen for at genoptage musikken.",
         "paused": "Musikken er blivet `pauset`",
         "resumed": "Musikken er blivet `genoptage`"
+    },
+
+    "repeat": {
+        "enabled": "Musik gentagelse er nu slået `til`.",
+        "disabled": "Musik gentagelse er nu slået `fra`.",
+        "empty-queue": "Afspilningslisten er tom, der er ikke noget der kan gentages."
     },
 
     "shuffle": {
