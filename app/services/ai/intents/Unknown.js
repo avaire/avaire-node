@@ -16,7 +16,7 @@ class Unknown extends IntentHandler {
      * returns a matching response action the intent.
      */
     handle() {
-        app.envoyer.sendWarn(this.getMessage(), 'I\'m not sure what you mean');
+        app.envoyer.sendWarn(this.getMessage(), this.response.result.fulfillment.speech);
     }
 }
 
