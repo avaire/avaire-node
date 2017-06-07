@@ -12,6 +12,7 @@ class JoinLeaveMessageHandler {
      */
     send(socket, member, module, defaultMessage) {
         let guild = socket.guild;
+        let chain = [];
 
         // Attempts to load the guild settings and channels from the database,
         // if the guild data is already cached in memory the cached data
@@ -33,8 +34,10 @@ class JoinLeaveMessageHandler {
                 }
 
                 let message = channel.get(module + '.message', defaultMessage);
-                return app.envoyer.sendNormalMessage(textChannel, this.prepareMessage(message, member, textChannel, guild));
+                chain.push(app.envoyer.sendNormalMessage(textChannel, this.prepareMessage(message, member, textChannel, guild)));
             }
+
+            return Promise.all(chain);
         });
     }
 
