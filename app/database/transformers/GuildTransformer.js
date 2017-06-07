@@ -110,9 +110,10 @@ class GuildTransformer extends Transformer {
     getType() {
         let id = this.get('type', 0);
 
-        for (let i in app.constants.GUILD_TYPES) {
-            if (app.constants.GUILD_TYPES[i].id === id) {
-                return new GuildTypeTransformer(app.constants.GUILD_TYPES[i]);
+        let guildTypes = app.cache.get('database.guild-types', [], 'memory');
+        for (let i in guildTypes) {
+            if (guildTypes[i].get('id') === id) {
+                return guildTypes[i];
             }
         }
         return new GuildTypeTransformer;
