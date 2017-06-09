@@ -1,5 +1,7 @@
 /** @ignore */
 const Command = require('./../Command');
+/** @ignore */
+const Music = require('./../music/MusicHandler');
 
 class StatsCommand extends Command {
 
@@ -134,6 +136,9 @@ class StatsCommand extends Command {
 
             return Promise.resolve();
         }).then(() => {
+            let songsInQueue = this.getSongsInQueue();
+            let servers = bot.VoiceConnections.length;
+
             return app.envoyer.sendEmbededMessage(message, {
                 timestamp: new Date,
                 color: 0x3498DB,
@@ -145,7 +150,7 @@ class StatsCommand extends Command {
                     name: `${bot.User.username} v${app.version}`
                 },
                 footer: {
-                    text: `Created by Senither#8023 using the Discordie framework`
+                    text: `Currenting playing in ${servers} servers with ${songsInQueue} songs in the queue.`
                 },
                 fields
             });
@@ -193,6 +198,14 @@ class StatsCommand extends Command {
                 };
             }));
         });
+    }
+
+    getSongsInQueue() {
+        let songsInQueue = 0;
+        for (let guildId in Music.queues) {
+            songsInQueue += Music.queues[guildId].length;
+        }
+        return songsInQueue;
     }
 
     getMessagesReceivedStats() {
