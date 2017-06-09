@@ -39,6 +39,13 @@ class ChangeGameJob extends Job {
             }, app.config.bot.activationDelay * 1000);
         }
 
+        // If the cache has the custom bot status token it means we have
+        // a custom bot status set, so we don't want to overwrite it
+        // with the job until it is removed again.
+        if (app.cache.has('custom.bot-status', 'memory')) {
+            return;
+        }
+
         let game = _.sample(app.config.playing);
 
         game = game.replace(/%guilds%/gi, bot.Guilds.length);
