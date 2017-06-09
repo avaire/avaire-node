@@ -4,6 +4,7 @@ module.exports = {
     service: require('./services'),
 
     // Utilities
+    role: require('./utils/role/Role'),
     guild: require('./utils/guild/Guild'),
     lang: require('./utils/lang/Language'),
     time: require('./utils/time/TimeParser'),

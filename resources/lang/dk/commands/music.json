@@ -24,6 +24,7 @@
         "empty-queue": "*Der er ingen andre sange i køen lige nu*",
         "extra-singular": "_Og **1** mere sang!_",
         "extra-plural": "_Og **:number** andre sange..._",
+        "missing-dj-role": "`DJ` rollen er krævet for at kunne slette sange fra afspilningslisten.",
         "repeat": {
             "status": "Musik gentagelse er for øjeblikket slået :status!",
             "on": "til",

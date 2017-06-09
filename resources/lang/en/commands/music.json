@@ -24,6 +24,7 @@
         "empty-queue": "*There are no other songs in the queue right now*",
         "extra-singular": "_And **1** more song!_",
         "extra-plural": "_And **:number** other songs..._",
+        "missing-dj-role": "The `DJ` role is required to remove songs from the music queue.",
         "repeat": {
             "status": "Music looping is currently turned :status!",
             "on": "on",

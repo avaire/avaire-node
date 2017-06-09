@@ -39,6 +39,14 @@ class QueueCommand extends Command {
             return this.sendQueueIsEmpty(message);
         }
 
+        if (args.length > 1 && args[0].toLowerCase() === 'remove') {
+            let songId = parseInt(args[1], 10);
+
+            if (!isNaN(songId)) {
+                return this.removeSongFromQueue(sender, message, songId);
+            }
+        }
+
         // Begins building the embeded element that should be sent to the user.
         let song = queue[0];
         let embed = {
@@ -102,6 +110,38 @@ class QueueCommand extends Command {
     sendQueueIsEmpty(message) {
         return app.envoyer.sendWarn(message, 'commands.music.empty-queue').then(m => {
             return app.scheduler.scheduleDelayedTask(() => m.delete(), 6000);
+        });
+    }
+
+    /**
+     * Removes the song with the given ID from the music queue.
+     *
+     * @param  {IUser}     sender   The Discordie user object that ran the command.
+     * @param  {IMessage}  message  The Discordie message object that triggered the command.
+     * @param  {Number}    songId   The ID that should be removed from the music queue.
+     * @return {Promise}
+     */
+    removeSongFromQueue(sender, message, songId) {
+        if (!app.role.has(message.member, 'dj')) {
+            return app.envoyer.sendWarn(message, 'commands.music.queue.missing-dj-role');
+        }
+
+        let id = songId - 1;
+        if (id < 0 || id >= Music.getQueue(message).length) {
+            return app.envoyer.sendWarn(message, 'Invalid id given, the number given is too :type.\n`:command`', {
+                command: this.getCommandTrigger(message) + ` remove <id>`,
+                type: id < 0 ? 'low' : 'high'
+            });
+        }
+
+        let queue = Music.queues[app.getGuildIdFrom(message)];
+        let song = queue[id];
+        queue.splice(id, 1);
+
+        Music.queues[app.getGuildIdFrom(message)] = queue;
+
+        return app.envoyer.sendSuccess(message, ':song has been successfully removed from the music queue.', {
+            song: `[${song.title}](${song.link})`
         });
     }
 

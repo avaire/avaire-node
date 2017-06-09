@@ -34,7 +34,7 @@ class HasRole extends Middleware {
         for (let i in roles) {
             let role = roles[i];
 
-            if (!this.hasRole(request.message.member, role)) {
+            if (!app.role.has(request.message.member, role)) {
                 return app.envoyer.sendError(request.message, 'You must have the `:role` role to do that.', {role});
             }
         }
@@ -56,19 +56,6 @@ class HasRole extends Middleware {
         }
 
         return false;
-    }
-
-    /**
-     * Checks if the user has the given role.
-     *
-     * @param  {IGuildMember}  member    The guild member object instance.
-     * @param  {String}        roleName  The name of the role the user should have
-     * @return {Boolean}
-     */
-    hasRole(member, roleName) {
-        return member.roles.find(role => {
-            return role.name.toLowerCase() === roleName.toLowerCase();
-        }) !== undefined;
     }
 }
 
