@@ -72,14 +72,8 @@ class StatsCommand extends Command {
             });
 
             fields.push({
-                name: 'Active Voice',
-                value: bot.VoiceConnections.length,
-                inline: true
-            });
-
-            fields.push({
-                name: 'Servers',
-                value: bot.Guilds.length,
+                name: 'Shard ID',
+                value: app.shard.getId(),
                 inline: true
             });
 
@@ -95,42 +89,42 @@ class StatsCommand extends Command {
                 inline: true
             });
 
-            return this.getMemberStats();
-        }).then(members => {
             fields.push({
-                name: 'Members',
-                value: [
-                    members.totalMembers + ' Total',
-                    members.totalOnline + ' Online',
-                    members.uniqueMembers + ' Unique',
-                    members.uniqueOnline + ' Unique online'
-                ].join('\n'),
+                name: 'Uptime',
+                value: app.process.getUptime(),
                 inline: true
             });
 
-            return this.getChannelStats();
-        }).then(channels => {
+            return Promise.resolve();
+        }).then(() => {
             fields.push({
-                name: 'Channels',
+                name: 'Members',
                 value: [
-                    channels.totalChannels + ' Total',
-                    channels.textChannels + ' Text',
-                    channels.voiceChannels + ' Voice'
+                    app.shard.getUsers() + ' Total',
+                    bot.Users.length + ' in shard'
                 ].join('\n'),
                 inline: true
             });
 
             return Promise.resolve();
         }).then(() => {
-            let uptime = app.process.getUptime(false).split(', ');
-            if (uptime.length > 1) {
-                let length = uptime.length - 1;
-                uptime[length] = uptime[length].substr(4, uptime[length].length - 1);
-            }
-
             fields.push({
-                name: 'Uptime',
-                value: uptime.join('\n'),
+                name: 'Channels',
+                value: [
+                    app.shard.getChannels() + ' Total',
+                    bot.Channels.length + ' in shard'
+                ].join('\n'),
+                inline: true
+            });
+
+            return Promise.resolve();
+        }).then(() => {
+            fields.push({
+                name: 'Servers',
+                value: [
+                    app.shard.getGuilds() + ' Total',
+                    bot.Guilds.length + ' in shard'
+                ].join('\n'),
                 inline: true
             });
 
@@ -154,49 +148,6 @@ class StatsCommand extends Command {
                 },
                 fields
             });
-        });
-    }
-
-    getChannelStats() {
-        return new Promise((resolve, reject) => {
-            resolve(app.cache.remember('bot.stats.channels', 60, () => {
-                let channels = bot.Channels.toArray();
-                let textChannels = channels.reduce((a, channel) => {
-                    return (channel.constructor.name === 'ITextChannel') ? a + 1 : a;
-                }, 0);
-
-                return {
-                    textChannels,
-                    totalChannels: channels.length,
-                    voiceChannels: channels.length - textChannels
-                };
-            }));
-        });
-    }
-
-    getMemberStats() {
-        return new Promise((resolve, reject) => {
-            resolve(app.cache.remember('bot.stats.members', 60, () => {
-                let guildMembers = bot.Guilds.map(guild => {
-                    return guild.members;
-                });
-
-                return {
-                    totalMembers: guildMembers.reduce((a, b) => {
-                        return a + b.length;
-                    }, 0),
-                    totalOnline: guildMembers.reduce((a, b) => {
-                        return a + b.reduce((c, member) => {
-                            return (member.status === 'offline') ? c : c + 1;
-                        }, 0);
-                    }, 0),
-
-                    uniqueMembers: bot.Users.length,
-                    uniqueOnline: bot.Users.toArray().reduce((a, member) => {
-                        return (member.status === 'offline') ? a : a + 1;
-                    }, 0)
-                };
-            }));
         });
     }
 

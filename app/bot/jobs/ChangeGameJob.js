@@ -48,7 +48,9 @@ class ChangeGameJob extends Job {
 
         let game = _.sample(app.config.playing);
 
-        game = game.replace(/%guilds%/gi, bot.Guilds.length);
+        game = game.replace(/%guilds%/gi, app.shard.getGuilds());
+        game = game.replace(/%shardid%/gi, app.shard.getId());
+        game = game.replace(/%shardcount%/gi, app.shard.getCount());
 
         bot.User.setStatus(null, game);
     }

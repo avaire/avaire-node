@@ -8,6 +8,8 @@ const directory = require('require-directory');
 const Discordie = require('discordie');
 /** @ignore */
 const Helpers = require('./app/helpers');
+/** @ignore */
+const ShardManager = require('./app/shards/ShardManager');
 
 class Application {
 
@@ -18,6 +20,7 @@ class Application {
      */
     bootstrap() {
         global.app = require('./app');
+        app.bot.jobs = {};
 
         app.logger.info(`Bootstraping AvaIre v${app.version}`);
 
@@ -32,6 +35,7 @@ class Application {
      */
     bootstrapTests() {
         global.app = require('./app');
+        app.bot.jobs = {};
 
         this.prepareConfig(false);
         app.config.environment = 'testing';
@@ -51,6 +55,8 @@ class Application {
     register() {
         app.logger.info('Registering events, jobs & services');
 
+        app.shard = new ShardManager();
+
         this.registerEvents();
         this.registerJobs();
         this.registerServices();
@@ -61,6 +67,8 @@ class Application {
      * Registers and prepares the events, and services that Ava uses.
      */
     registerEventsServicesAndPrefixes() {
+        app.shard = new ShardManager();
+
         this.registerEvents();
         this.registerServices();
         this.registerPrefixes();
@@ -140,16 +148,14 @@ class Application {
      * Registers the jobs.
      */
     registerJobs() {
-        app.bot.jobs = {};
+        app.shard.registerJobs();
 
-        let jobs = directory(module, './app/bot/jobs');
-
-        app.logger.info(` - Registering ${Object.keys(jobs).length - 1} jobs`);
-        _.each(jobs, (Job, key) => {
+        _.each(directory(module, './app/bot/jobs'), (Job, key) => {
             if (key !== 'Job') {
                 app.bot.jobs[key] = app.scheduler.registerJob(new Job);
             }
         });
+        app.logger.info(` - Registering ${Object.keys(app.bot.jobs).length - 1} jobs`);
     }
 
     /**

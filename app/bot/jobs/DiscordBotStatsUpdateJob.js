@@ -102,12 +102,21 @@ class DiscordBotStatsUpdateJob extends Job {
     /**
      * Builds the request body.
      *
-     * @return {Array}
+     * @return {Object}
      */
     buildRequestBody() {
-        return {
+        let body = {
             server_count: bot.Guilds.length
         };
+
+        if (!app.shard.isEnabled()) {
+            return body;
+        }
+
+        body.shard_id = app.shard.getId();
+        body.shard_count = app.shard.getCount();
+
+        return body;
     }
 
     /**
