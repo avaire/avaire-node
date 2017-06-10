@@ -10,7 +10,9 @@
     "includeSource": true,
     "test": {
         "type": "mocha",
-        "source": "./tests"
+        "source": "./tests",
+        "includes": ["Tests\\.(js|es6)$"],
+        "excludes": ["\\.config\\.(js|es6)$"]
     },
     "title": "AvaIre",
     "index": "./README.md",
