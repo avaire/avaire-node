@@ -8,7 +8,7 @@ class Permission {
      * @return {Boolean}
      */
     requestHas(request, permission) {
-        return this.has(request.message.author, request.message.guild, permission) ||
+        return this.has(request.message.author, request.message.guild, permission) &&
                this.has(request.message.author, request.message.channel, permission);
     }
 
@@ -20,7 +20,7 @@ class Permission {
      * @return {Boolean }
      */
     botHas(message, permission) {
-        return this.has(bot.User, message.guild, permission) ||
+        return this.has(bot.User, message.guild, permission) &&
                this.has(bot.User, message.channel, permission);
     }
 
@@ -32,7 +32,7 @@ class Permission {
      * @return {Boolean }
      */
     userHas(message, permission) {
-        return this.has(message.member, message.guild, permission) ||
+        return this.has(message.member, message.guild, permission) &&
                this.has(message.member, message.channel, permission);
     }
 
