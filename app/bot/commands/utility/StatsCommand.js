@@ -3,6 +3,12 @@ const Command = require('./../Command');
 /** @ignore */
 const Music = require('./../music/MusicHandler');
 
+/**
+ * Stats command, shows information about the bot instance,
+ * version number and a bunch of other things to the user.
+ *
+ * @extends {Command}
+ */
 class StatsCommand extends Command {
 
     /**
@@ -38,119 +44,93 @@ class StatsCommand extends Command {
             });
         }
 
-        let fields = [];
+        let fields = [
+            // First line
+            this.buildEmbedItem('Author', 'Senither#8023'),
+            this.buildEmbedItem('Bot ID', bot.User.id),
+            this.buildEmbedItem('Library', '[Discordie](http://qeled.github.io/discordie/)'),
 
-        return Promise.resolve().then(() => {
-            fields.push({
-                name: 'Author',
-                value: 'Senither#8023',
-                inline: true
-            });
+            // Second line
+            this.buildEmbedItem('DB Queries run', app.bot.statistics.databaseQueries),
+            this.buildEmbedItem('Messages Received', this.getMessagesReceivedStats()),
+            this.buildEmbedItem('Shard ID', app.shard.getId()),
 
-            fields.push({
-                name: 'Bot ID',
-                value: bot.User.id,
-                inline: true
-            });
+            // Third line
+            this.buildEmbedItem('Commands Run', app.bot.statistics.commands),
+            this.buildEmbedItem('Memory Usage', app.process.getSystemMemoryUsage()),
+            this.buildEmbedItem('Uptime', app.process.getUptime()),
 
-            fields.push({
-                name: 'Library',
-                value: '[Discordie](http://qeled.github.io/discordie/)',
-                inline: true
-            });
+            // Fourth line
+            this.buildEmbedItem('Members', () => {
+                if (app.shard.isEnabled()) {
+                    return [
+                        app.shard.getUsers() + ' Total',
+                        bot.Users.length + ' in shard'
+                    ].join('\n');
+                }
+                return app.shard.getUsers() + ' Total';
+            }),
+            this.buildEmbedItem('Channels', () => {
+                if (app.shard.isEnabled()) {
+                    return [
+                        app.shard.getChannels() + ' Total',
+                        bot.Channels.length + ' in shard'
+                    ].join('\n');
+                }
+                return app.shard.getChannels() + ' Total';
+            }),
+            this.buildEmbedItem('Servers', () => {
+                if (app.shard.isEnabled()) {
+                    return [
+                        app.shard.getGuilds() + ' Total',
+                        bot.Guilds.length + ' in shard'
+                    ].join('\n');
+                }
+                return app.shard.getGuilds() + ' Total';
+            })
+        ];
 
-            fields.push({
-                name: 'DB Queries run',
-                value: app.bot.statistics.databaseQueries,
-                inline: true
-            });
+        let songsInQueue = this.getSongsInQueue();
+        let servers = bot.VoiceConnections.length;
 
-            fields.push({
-                name: 'Messages Received',
-                value: this.getMessagesReceivedStats(),
-                inline: true
-            });
-
-            fields.push({
-                name: 'Shard ID',
-                value: app.shard.getId(),
-                inline: true
-            });
-
-            fields.push({
-                name: 'Commands Run',
-                value: app.bot.statistics.commands,
-                inline: true
-            });
-
-            fields.push({
-                name: 'Memory Usage',
-                value: app.process.getSystemMemoryUsage(),
-                inline: true
-            });
-
-            fields.push({
-                name: 'Uptime',
-                value: app.process.getUptime(),
-                inline: true
-            });
-
-            return Promise.resolve();
-        }).then(() => {
-            fields.push({
-                name: 'Members',
-                value: [
-                    app.shard.getUsers() + ' Total',
-                    bot.Users.length + ' in shard'
-                ].join('\n'),
-                inline: true
-            });
-
-            return Promise.resolve();
-        }).then(() => {
-            fields.push({
-                name: 'Channels',
-                value: [
-                    app.shard.getChannels() + ' Total',
-                    bot.Channels.length + ' in shard'
-                ].join('\n'),
-                inline: true
-            });
-
-            return Promise.resolve();
-        }).then(() => {
-            fields.push({
-                name: 'Servers',
-                value: [
-                    app.shard.getGuilds() + ' Total',
-                    bot.Guilds.length + ' in shard'
-                ].join('\n'),
-                inline: true
-            });
-
-            return Promise.resolve();
-        }).then(() => {
-            let songsInQueue = this.getSongsInQueue();
-            let servers = bot.VoiceConnections.length;
-
-            return app.envoyer.sendEmbededMessage(message, {
-                timestamp: new Date,
-                color: 0x3498DB,
-                url: 'https://discordapp.com/invite/gt2FWER',
-                title: 'Official Bot Server Invite',
-                description: description.trim(),
-                author: {
-                    icon_url: `https://cdn.discordapp.com/avatars/${bot.User.id}/${bot.User.avatar}.png?size=256`,
-                    name: `${bot.User.username} v${app.version}`
-                },
-                footer: {
-                    text: `Currenting playing in ${servers} servers with ${songsInQueue} songs in the queue.`
-                },
-                fields
-            });
+        return app.envoyer.sendEmbededMessage(message, {
+            timestamp: new Date,
+            color: 0x3498DB,
+            url: 'https://discordapp.com/invite/gt2FWER',
+            title: 'Official Bot Server Invite',
+            description: description.trim(),
+            author: {
+                icon_url: `https://cdn.discordapp.com/avatars/${bot.User.id}/${bot.User.avatar}.png?size=256`,
+                name: `${bot.User.username} v${app.version}`
+            },
+            footer: {
+                text: `Currenting playing in ${servers} servers with ${songsInQueue} songs in the queue.`
+            },
+            fields
         });
     }
 
+    /**
+     * Builds a embeded item.
+     *
+     * @param  {String}  name   The name of the item.
+     * @param  {mixed}   value  The value of the item.
+     * @return {Object}
+     */
+    buildEmbedItem(name, value) {
+        let obj = {name, value, inline: true};
+
+        if (value.constructor.name === 'Function') {
+            obj.value = value();
+        }
+        return obj;
+    }
+
+    /**
+     * Gets the amount of songs currently in the music queue.
+     *
+     * @return {Number}
+     */
     getSongsInQueue() {
         let songsInQueue = 0;
         for (let guildId in Music.queues) {
@@ -159,6 +139,12 @@ class StatsCommand extends Command {
         return songsInQueue;
     }
 
+    /**
+     * Gets the messages received and how many the bot
+     * have gotten every second since it started.
+     *
+     * @return {String}
+     */
     getMessagesReceivedStats() {
         let perSecond = app.bot.statistics.messages / ((new Date().getTime() - app.runTime) / 1000);
 
