@@ -51,9 +51,9 @@ class StatsCommand extends Command {
             this.buildEmbedItem('Library', '[Discordie](http://qeled.github.io/discordie/)'),
 
             // Second line
-            this.buildEmbedItem('DB Queries run', app.bot.statistics.databaseQueries),
+            this.buildEmbedItem('DB Queries run', this.getDatabaseQueriesStats()),
             this.buildEmbedItem('Messages Received', this.getMessagesReceivedStats()),
-            this.buildEmbedItem('Shard ID', app.shard.getId()),
+            this.buildEmbedItem('Shard ID', app.shard.getId() + 1),
 
             // Third line
             this.buildEmbedItem('Commands Run', app.bot.statistics.commands),
@@ -137,6 +137,18 @@ class StatsCommand extends Command {
             songsInQueue += Music.queues[guildId].length;
         }
         return songsInQueue;
+    }
+
+    /**
+     * Gets the number of database queries that has been run since the bot was
+     * started, as well as how many queries has been run per minute on average.
+     *
+     * @return {String}
+     */
+    getDatabaseQueriesStats() {
+        let perSecond = app.bot.statistics.databaseQueries / ((new Date().getTime() - app.runTime) / (1000 * 60));
+
+        return app.bot.statistics.databaseQueries + ` (${perSecond.toFixed(2)} per min)`;
     }
 
     /**
