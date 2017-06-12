@@ -51,6 +51,10 @@ class RebootCommand extends Command {
             let connection = bot.VoiceConnections[id];
             let guildId = app.getGuildIdFrom(connection);
 
+            if (Music.queues[guildId] === undefined) {
+                continue;
+            }
+
             // Flushes the queue of any extra songs that might be in the
             // queue and add our reboot message to the queue instead.
             Music.queues[guildId] = Music.queues[guildId].slice(0, 1);
