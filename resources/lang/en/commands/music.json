@@ -13,6 +13,7 @@
 
     "require": {
         "added-song": "<@:userid> has added [:title](:link) to the queue. There are `:position` song(s) ahead of it in the queue.",
+        "invalid-youtube-link": "The YouTube link given is invalid, only YouTube video links are supported.",
         "error": "I couldn't add that to the queue."
     },
 

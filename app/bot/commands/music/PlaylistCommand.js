@@ -273,6 +273,10 @@ class PlaylistCommand extends Command {
         let songUrl = args.join(' ');
         let parsedUrl = URL.parse(songUrl);
 
+        if (parsedUrl.host === 'www.youtube.com' && parsedUrl.path.indexOf('v=') === -1) {
+            return app.envoyer.sendWarn(message, 'commands.music.require.invalid-youtube-link');
+        }
+
         if (parsedUrl.host === null) {
             songUrl = 'ytsearch:' + songUrl;
         }

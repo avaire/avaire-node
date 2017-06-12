@@ -13,6 +13,7 @@
 
     "require": {
         "added-song": "<@:userid> har tilføjede [:title](:link) til køen. Der er `:position` sang(e) foran i køen.",
+        "invalid-youtube-link": "Den givne YouTube link er ugyldig, kun YouTube-videoer er understøttes.",
         "error": "Jeg kunne ikke tilføje, at til afspilningslisten."
     },
 

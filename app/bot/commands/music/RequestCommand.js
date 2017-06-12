@@ -45,11 +45,15 @@ class RequestCommand extends Command {
         // Forces the bot into the same voice channel the user is connected to if the
         // bot isn't already connected to a voice channel for the given guild.
         return Music.prepareVoice(message).then(() => {
-            message.channel.sendTyping();
-
             let url = args.join(' ');
+            let parsedUrl = URL.parse(url);
 
-            this.fetchSong(message, url).then(song => {
+            if (parsedUrl.host === 'www.youtube.com' && parsedUrl.path.indexOf('v=') === -1) {
+                return app.envoyer.sendWarn(message, 'commands.music.require.invalid-youtube-link');
+            }
+
+            message.channel.sendTyping();
+            this.fetchSong(message, url, parsedUrl).then(song => {
                 let queueSize = Music.getQueue(message).length;
 
                 if (song.hasOwnProperty('webpage_url')) {
@@ -96,16 +100,20 @@ class RequestCommand extends Command {
     /**
      * Attempts to fetch the song using the YouTubeDL library.
      *
-     * @param  {IMessage}  message  The Discordie message object that triggered the command.
-     * @param  {String}    url      The URl of the song that should be fetched.
+     * @param  {IMessage}  message    The Discordie message object that triggered the command.
+     * @param  {String}    url        The URl of the song that should be fetched.
+     * @param  {URL}       parsedUrl  The parsed url instance.
      * @return {Promise}
      */
-    fetchSong(message, url) {
+    fetchSong(message, url, parsedUrl) {
         return new Promise((resolve, reject) => {
-            let parsedUrl = URL.parse(url);
             let options = ['--skip-download', '-f bestaudio/worstvideo'];
 
             if (url.indexOf('youtu') > -1 || parsedUrl.host === null) {
+                if (parsedUrl.host === 'www.youtube.com' && parsedUrl.path.indexOf('v=') === -1) {
+                    return reject(new Error('YouTube links must have a video attached to it.'));
+                }
+
                 options.push('--add-header', 'Authorization:' + app.config.apiKeys.google);
             }
 
