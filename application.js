@@ -91,7 +91,10 @@ class Application {
         if (sendMessage) {
             app.logger.info(' - Loading configuration');
         }
-        app.config = app.configLoader.loadConfiguration('config.json');
+        app.config = app.configLoader.loadConfiguration('config.json', err => {
+            app.logger.error('Failed to load the config.json file, make sure the file exists in the root of the project!');
+            throw err;
+        });
 
         if (!app.config.bot.hasOwnProperty('activationDelay')) {
             app.config.bot.activationDelay = 0;
