@@ -1,0 +1,112 @@
+/** @ignore */
+const _ = require('lodash');
+/** @ignore */
+const Command = require('./../Command');
+
+/** @ignore */
+let categories = _.orderBy(require('./../Categories'));
+
+/**
+ * Command Modules Command, sends the status for all the command modules
+ * and their statuses for the current channel and server if any of the
+ * command modules are disabled globally.
+ *
+ * @extends {Command}
+ */
+class CommandModulesCommand extends Command {
+
+    /**
+     * Sets up the command by providing the prefix, command trigger, any
+     * aliases the command might have and additional options that
+     * might be usfull for the abstract command class.
+     */
+    constructor() {
+        super('modules', ['module', 'mod'], {
+            allowDM: false,
+            description: 'Shows the status of the given command modules for the current channel, and globally',
+            middleware: [
+                'require.user:general.administrator',
+                'throttle.user:2,5'
+            ]
+        });
+
+        this.categoryNames = _.map(categories, category => category.name);
+    }
+
+    /**
+     * Executes the given command.
+     *
+     * @param  {IUser}     sender   The Discordie user object that ran the command.
+     * @param  {IMessage}  message  The Discordie message object that triggered the command.
+     * @param  {Array}     args     The arguments that was parsed to the command.
+     * @return {mixed}
+     */
+    onCommand(sender, message, args) {
+        return app.database.getGuild(app.getGuildIdFrom(message)).then(guild => {
+            let fields = [];
+            for (let i in this.categoryNames) {
+                fields.push(`${this.getStatusFor(guild, message.channel.id, this.categoryNames[i])}`);
+            }
+
+            let status = [
+                `${this.enabledIcon} Enabled`,
+                `${this.disabledIcon} Disabled in Channel`,
+                `${this.disabledGloballyIcon} Disabled Globally`
+            ];
+
+            return app.envoyer.sendEmbededMessage(message, {
+                title: `Command Modules Status for #${message.channel.name}`,
+                description: `${status.join('   ')}\n\n${fields.join('\n')}`,
+                color: 0x3498DB
+            });
+        });
+    }
+
+    /**
+     * Gets the status for the current channel and guild.
+     *
+     * @param  {GuildTransformer}  guild      The database guild transformer for the current guild.
+     * @param  {String}            channelId  The ID of the channel the command was run in.
+     * @param  {String}            module     The module the command was triggered for.
+     * @return {String}
+     */
+    getStatusFor(guild, channelId, module) {
+        if (!guild.get(`modules.all.${module.toLowerCase()}`, true)) {
+            return this.disabledGloballyIcon + module;
+        }
+
+        if (!guild.get(`modules.${channelId}.${module.toLowerCase()}`, true)) {
+            return this.disabledIcon + module;
+        }
+        return this.enabledIcon + module;
+    }
+
+    /**
+     * Gets the enabled emoji icon.
+     *
+     * @return {String}
+     */
+    get enabledIcon() {
+        return '<:online:324986081378435072>';
+    }
+
+    /**
+     * Gets the disabled emoji icon.
+     *
+     * @return {String}
+     */
+    get disabledIcon() {
+        return '<:away:324986135346675712>';
+    }
+
+    /**
+     * Gets the disabled globally emoji icon.
+     *
+     * @return {String}
+     */
+    get disabledGloballyIcon() {
+        return '<:dnd:324986174806425610>';
+    }
+}
+
+module.exports = CommandModulesCommand;

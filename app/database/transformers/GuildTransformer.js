@@ -26,6 +26,7 @@ class GuildTransformer extends Transformer {
         data.channels = this.parseJson(data, 'channels');
         data.prefixes = this.parseJson(data, 'prefixes');
         data.aliases = this.parseJson(data, 'aliases');
+        data.modules = this.parseJson(data, 'modules');
 
         return data;
     }
@@ -64,7 +65,8 @@ class GuildTransformer extends Transformer {
             local: null,
             channels: {},
             prefixes: null,
-            aliases: null
+            aliases: null,
+            modules: null
         };
     }
 

@@ -73,7 +73,7 @@ class MessageCreateEvent extends EventHandler {
             // Checks to see if a valid command was found from the message context, if a
             // command was found the onCommand method will be called for the handler.
             if (command !== null) {
-                return this.processCommand(socket, command);
+                return this.processCommand(socket, command, guild);
             }
 
             // Checks to see if the bot was tagged in the message the user
@@ -98,7 +98,7 @@ class MessageCreateEvent extends EventHandler {
 
                     return this.processCommand(socket, {
                         command: app.bot.commands.ChangePrefixCommand
-                    });
+                    }, guild);
                 }
 
                 // Checks to see  if AI messages in enabled, if AI messages is
@@ -117,11 +117,16 @@ class MessageCreateEvent extends EventHandler {
     /**
      * Process command by building the middleware stack and running it.
      *
-     * @param  {GatewaySocket} socket   The Discordie gateway socket
-     * @param  {Command}       command  The command that should be executed
+     * @param  {GatewaySocket}     socket   The Discordie gateway socket.
+     * @param  {Command}           command  The command that should be executed.
+     * @param  {GuildTransformer}  guild    The database guild transformers.
      * @return {mixed}
      */
-    processCommand(socket, command) {
+    processCommand(socket, command, guild) {
+        if (this.isCommandModuleDisabled(socket, command, guild)) {
+            return;
+        }
+
         if (!command.command.handler.getOptions('allowDM', true) && socket.message.isPrivate) {
             return app.envoyer.sendWarn(socket.message, 'language.errors.cant-run-in-dms');
         }
@@ -236,6 +241,25 @@ class MessageCreateEvent extends EventHandler {
                     parts[1].toLowerCase() === 'prefix' ||
                     parts[1].toLowerCase() === 'prefix?'
                );
+    }
+
+    /**
+     * Checks if the given command module is enabled for the given guild.
+     *
+     * @param  {GatewaySocket}     socket   The Discordie gateway socket.
+     * @param  {Command}           command  The command that should be executed.
+     * @param  {GuildTransformer}  guild    The database guild transformers.
+     * @return {Boolean}
+     */
+    isCommandModuleDisabled(socket, command, guild) {
+        if (socket.message.isPrivate) {
+            return false;
+        }
+
+        if (!guild.get(`modules.all.${command.command.category}`, true)) {
+            return true;
+        }
+        return !guild.get(`modules.${socket.message.channel.id}.${command.command.category}`, true);
     }
 }
 

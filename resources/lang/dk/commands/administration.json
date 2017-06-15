@@ -52,6 +52,20 @@
         "message": "<@:userid> :id: af denne server er `:serverid`"
     },
 
+    "togglemodule": {
+        "invalid": "Ugyldigt modul givet, der er ingen moduler, der matcher `:module`",
+        "disable-admin": "Du kan ikke deaktivere admin-kommando modulet lige nu, hvis du gør det kan du ikke genaktivere det igen. Funktionerne er i værker, der kan give dig mulighed for at deaktivere admin kommandoer igen... snart~ish.",
+        "invalid-target": "Ugyldigt kanal angivet, tag venligst den kanal du vil toggle modulet for, eller brug `all` for at påvirke alle kanaler på serveren.",
+        "channel": {
+            "enabled": "Kommando modulet `:module` er blivet `Aktiveret' i :channel",
+            "disabled": "Kommando modulet `:module` er blivet `Deaktiveret' i :channel"
+        },
+        "global": {
+            "enabled": "Kommando modulet `:module` er blivet `Aktiveret` i **alle tekstkanaler**.",
+            "disabled": "Kommando modulet `:module` er blivet `Deaktiveret` i **alle tekstkanaler**."
+        }
+    },
+
     "userid": {
         "message": "<@:userid> :id: for brugeren **:target** er `:targetid`"
     },

@@ -52,6 +52,20 @@
         "message": "<@:userid> :id: of this server is `:serverid`"
     },
 
+    "togglemodule": {
+        "invalid": "Invalid module given, there are no modules matching `:module`",
+        "disable-admin": "You can not disable the admin command module as of right now, if you do that you have no way of re-enabling it again. Features are in the works that should allow you to disable admin commands soon... ish.",
+        "invalid-target": "Invalid target given, please tag the channel you want to change the module for, or use `all` to affect all channels on the server at the same time.",
+        "channel": {
+            "enabled": "The `:module` command module has been `Enabled` in :channel.",
+            "disabled": "The `:module` command module has been `Disabled` in :channel."
+        },
+        "global": {
+            "enabled": "The `:module` command module has been `Enabled` for **all channels**.",
+            "disabled": "The `:module` command module has been `Disabled` for **all channels**"
+        }
+    },
+
     "userid": {
         "message": "<@:userid> :id: of the user **:target** is `:targetid`"
     },
