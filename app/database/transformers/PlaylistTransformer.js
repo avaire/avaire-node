@@ -23,14 +23,7 @@ class PlaylistTransformer extends Transformer {
      * @return {Object}
      */
     prepare(data, _) {
-        if (data.hasOwnProperty('songs')) {
-            try {
-                data.songs = JSON.parse(data.songs);
-            } catch (err) {
-                app.logger.error(err);
-                data.songs = [];
-            }
-        }
+        data.songs = this.parseJson(data, 'songs');
 
         return data;
     }

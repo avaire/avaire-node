@@ -19,14 +19,7 @@ class GuildTypeTransformer extends Transformer {
      * @return {Object}
      */
     prepare(data, _) {
-        if (data.hasOwnProperty('limits')) {
-            try {
-                data.limits = JSON.parse(data.limits);
-            } catch (err) {
-                app.logger.error(err);
-                data.limits = {};
-            }
-        }
+        data.limits = this.parseJson(data, 'limits');
 
         return data;
     }

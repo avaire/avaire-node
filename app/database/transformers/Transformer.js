@@ -114,6 +114,24 @@ class Transformer {
     toDatabaseBindings() {
         return this.data;
     }
+
+    /**
+     * Parses the given property name to a json object.
+     *
+     * @param  {Object}  data  The data that should be parsed.
+     * @param  {String}  name  The name that should be parsed.
+     * @return {Object}
+     */
+    parseJson(data, name) {
+        if (data.hasOwnProperty(name)) {
+            try {
+                return JSON.parse(data[name]);
+            } catch (err) {
+                app.logger.error(err);
+            }
+        }
+        return {};
+    }
 }
 
 module.exports = Transformer;

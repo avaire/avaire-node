@@ -23,32 +23,9 @@ class GuildTransformer extends Transformer {
      * @return {Object}
      */
     prepare(data, _) {
-        if (data.hasOwnProperty('channels')) {
-            try {
-                data.channels = JSON.parse(data.channels);
-            } catch (err) {
-                app.logger.error(err);
-                data.channels = {};
-            }
-        }
-
-        if (data.hasOwnProperty('prefixes')) {
-            try {
-                data.prefixes = JSON.parse(data.prefixes);
-            } catch (err) {
-                app.logger.error(err);
-                data.prefixes = {};
-            }
-        }
-
-        if (data.hasOwnProperty('aliases')) {
-            try {
-                data.aliases = JSON.parse(data.aliases);
-            } catch (err) {
-                app.logger.error(err);
-                data.aliases = {};
-            }
-        }
+        data.channels = this.parseJson(data, 'channels');
+        data.prefixes = this.parseJson(data, 'prefixes');
+        data.aliases = this.parseJson(data, 'aliases');
 
         return data;
     }
