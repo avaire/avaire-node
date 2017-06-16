@@ -24,6 +24,7 @@ class CommandModulesCommand extends Command {
         super('modules', ['module', 'mod'], {
             allowDM: false,
             description: 'Shows the status of the given command modules for the current channel, and globally',
+            usage: '[channel]',
             middleware: [
                 'require.user:general.administrator',
                 'throttle.user:2,5'
@@ -43,9 +44,14 @@ class CommandModulesCommand extends Command {
      */
     onCommand(sender, message, args) {
         return app.database.getGuild(app.getGuildIdFrom(message)).then(guild => {
+            let channelId = message.channel.id;
+            if (args.length > 0) {
+                channelId = this.getChannelId(message, args[0]);
+            }
+
             let fields = [];
             for (let i in this.categoryNames) {
-                fields.push(`${this.getStatusFor(guild, message.channel.id, this.categoryNames[i])}`);
+                fields.push(`${this.getStatusFor(guild, channelId, this.categoryNames[i])}`);
             }
 
             let status = [
@@ -55,7 +61,7 @@ class CommandModulesCommand extends Command {
             ];
 
             return app.envoyer.sendEmbededMessage(message, {
-                title: `Command Modules Status for #${message.channel.name}`,
+                title: `Command Modules Status for #${bot.Channels.get(channelId).name}`,
                 description: `${status.join('   ')}\n\n${fields.join('\n')}`,
                 color: 0x3498DB
             });
@@ -79,6 +85,25 @@ class CommandModulesCommand extends Command {
             return this.disabledIcon + module;
         }
         return this.enabledIcon + module;
+    }
+
+    /**
+     * Gets the channel ID from the given message.
+     *
+     * @param  {IMessage} message        The Discordie message object that triggered the command.
+     * @param  {String}   channelString  The channel argument given to the command.
+     * @return {String|null}
+     */
+    getChannelId(message, channelString) {
+        let id = channelString.substr(2, channelString.length - 3);
+        let channels = message.guild.channels;
+        for (let i in channels) {
+            let channel = channels[i];
+            if (channel.type === 0 && channel.id === id) {
+                return id;
+            }
+        }
+        return message.channel.id;
     }
 
     /**
