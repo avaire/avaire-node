@@ -23,7 +23,7 @@ class ToggleModuleCommand extends Command {
         super('togglemodule', ['tmod'], {
             allowDM: false,
             description: 'Toggles a command module on or off for the given channel, or globally for the whole server',
-            usage: '<module> <channel|all> [on|off]',
+            usage: '<module> [channel|all] [on|off]',
             middleware: [
                 'require.user:general.administrator',
                 'throttle.user:2,5'
@@ -47,14 +47,15 @@ class ToggleModuleCommand extends Command {
      * @return {mixed}
      */
     onCommand(sender, message, args) {
-        if (args.length < 2) {
+        if (args.length < 1) {
             return this.sendMissingArguments(message);
         }
 
-        let module = this.getModule(args[0]);
+        let moduleName = args.shift();
+        let module = this.getModule(moduleName);
         if (module === null) {
             return app.envoyer.sendWarn(message, 'commands.administration.togglemodule.invalid', {
-                module: args[0]
+                module: moduleName
             });
         }
 
@@ -62,9 +63,14 @@ class ToggleModuleCommand extends Command {
             return app.envoyer.sendWarn(message, 'commands.administration.togglemodule.disable-admin');
         }
 
-        let channel = this.getChannelId(message, args[1]);
-        if (channel === null) {
-            return app.envoyer.sendWarn(message, 'commands.administration.togglemodule.invalid-target');
+        let channel = 'all';
+        let secondArgument = args.shift();
+        if (secondArgument !== undefined) {
+            channel = this.getChannelId(message, secondArgument);
+            if (channel === null) {
+                channel = 'all';
+                args.unshift(secondArgument);
+            }
         }
 
         return app.database.getGuild(app.getGuildIdFrom(message)).then(guild => {
@@ -155,11 +161,11 @@ class ToggleModuleCommand extends Command {
      * @return {Boolean}
      */
     getStatus(args, status) {
-        if (args.length < 3) {
+        if (args.length < 1) {
             return status;
         }
 
-        let stringStatus = args[2].toLowerCase();
+        let stringStatus = args[0].toLowerCase();
         return stringStatus === 'on' ? true : stringStatus === 'off' ? false : status;
     }
 }
