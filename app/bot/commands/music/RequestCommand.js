@@ -35,9 +35,10 @@ class RequestCommand extends Command {
      * @param  {IUser}     sender   The Discordie user object that ran the command.
      * @param  {IMessage}  message  The Discordie message object that triggered the command.
      * @param  {Array}     args     The arguments that was parsed to the command.
+     * @param  {Boolean}   delMsg   Dertermins if the message should be deleted or not.
      * @return {mixed}
      */
-    onCommand(sender, message, args) {
+    onCommand(sender, message, args, delMsg = true) {
         if (args.length === 0) {
             return app.envoyer.sendError(message, 'commands.music.require.error');
         }
@@ -81,14 +82,14 @@ class RequestCommand extends Command {
                 // playing the song that was just requested immediately.
                 if (queueSize === 0) {
                     Music.next(message);
-                    return this.deleteMessage(message);
+                    return this.deleteMessage(message, delMsg);
                 }
 
                 app.envoyer.sendInfo(message, 'commands.music.require.added-song', {
                     position: Music.getQueue(message).length - 1,
                     title: song.title,
                     link: url
-                }).then(() => this.deleteMessage(message));
+                }).then(() => this.deleteMessage(message, delMsg));
             }).catch(err => {
                 app.logger.error('Failed to add a song to the queue: ', err);
 
@@ -136,11 +137,12 @@ class RequestCommand extends Command {
     /**
      * Deletes the given message if the bot has permissions to delete messages.
      *
-     * @param  {IMessage}  message  The Discordie message object that triggered the command.
+     * @param  {IMessage}  message              The Discordie message object that triggered the command.
+     * @param  {Boolean}   shouldDeleteMessage  Dertermins if the message should be deleted or not.
      * @return {Promise}
      */
-    deleteMessage(message) {
-        if (app.permission.botHas(message, 'text.manage_messages')) {
+    deleteMessage(message, shouldDeleteMessage) {
+        if (shouldDeleteMessage && app.permission.botHas(message, 'text.manage_messages')) {
             return message.delete();
         }
         return Promise.resolve();

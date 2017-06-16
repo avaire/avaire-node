@@ -30,23 +30,23 @@ class RequestCat extends IntentHandler {
 
         let handler = app.bot.commands.RequestCommand.handler;
         if (!this.categories.hasOwnProperty(parameters.music.toLowerCase())) {
-            return handler.onCommand(bot.User, this.getMessage(), [parameters.music]);
+            return handler.onCommand(bot.User, this.getMessage(), [parameters.music], false);
         }
 
         let songs = this.getSongsCacheFromCategory(parameters.music.toLowerCase());
         let song = this.pickRandom(songs);
 
         if (song.hasOwnProperty('url')) {
-            return handler.onCommand(bot.User, this.getMessage(), [song.url]);
+            return handler.onCommand(bot.User, this.getMessage(), [song.url], false);
         }
 
         if (song.service === 'YouTubeVideo' && song.hasOwnProperty('identifier')) {
             return handler.onCommand(bot.User, this.getMessage(), [
                 `https://www.youtube.com/watch?v=${song.identifier}`
-            ]);
+            ], false);
         }
 
-        return handler.onCommand(bot.User, this.getMessage(), [song.title]);
+        return handler.onCommand(bot.User, this.getMessage(), [song.title], false);
     }
 
     /**
