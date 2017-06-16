@@ -30,7 +30,11 @@ class RequestCat extends IntentHandler {
 
         let handler = app.bot.commands.RequestCommand.handler;
         if (!this.categories.hasOwnProperty(parameters.music.toLowerCase())) {
-            return handler.onCommand(bot.User, this.getMessage(), [parameters.music], false);
+            let song = parameters.music;
+            if (song.trim().length === 0) {
+                song = parameters.song;
+            }
+            return handler.onCommand(bot.User, this.getMessage(), [song], false);
         }
 
         let songs = this.getSongsCacheFromCategory(parameters.music.toLowerCase());
