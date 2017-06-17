@@ -3,6 +3,8 @@ const Knex = require('knex');
 /** @ignore */
 let Cache = null;
 /** @ignore */
+const UserTransformer = require('./transformers/UserTransformer');
+/** @ignore */
 const GuildTransformer = require('./transformers/GuildTransformer');
 /** @ignore */
 const PlaylistTransformer = require('./transformers/PlaylistTransformer');
@@ -71,8 +73,8 @@ class Database {
     /**
      * Gets the guild with the provided id.
      *
-     * @param  {String}  guildId    The id of the guild that should fetched.
-     * @param  {Boolean} skipCache  Determines if the cache should be used if is valid.
+     * @param  {String}   guildId    The id of the guild that should fetched.
+     * @param  {Boolean}  skipCache  Determines if the cache should be used if is valid.
      * @return {Promise}
      */
     getGuild(guildId, skipCache = false) {
@@ -141,8 +143,8 @@ class Database {
     /**
      * Gets the playlists for the given guild id.
      *
-     * @param  {String}   guildId   The id of the guild that should have its playlists fetched.
-     * @param  {Boolean}  skipCache Determines if the cache should be used if it is valid.
+     * @param  {String}   guildId    The id of the guild that should have its playlists fetched.
+     * @param  {Boolean}  skipCache  Determines if the cache should be used if it is valid.
      * @return {Promise}
      */
     getPlaylist(guildId, skipCache = false) {
@@ -175,6 +177,60 @@ class Database {
                 }).catch(err => {
                     return reject(err);
                 });
+        });
+    }
+
+    /**
+     * Gets the user database transformer.
+     *
+     * @param  {String}   guildId    The guild the user should be fetched for.
+     * @param  {IUser}    user       The user that should be have their data fetched from the database.
+     * @param  {Boolean}  skipCache  Determines if the cache should be used if is valid.
+     * @return {UserTransformer}
+     */
+    getUser(guildId, user, skipCache = false) {
+        let token = `database-user.${guildId}.${user.id}`;
+
+        // If we shouldn't skip the cache and the cache already has a version of the guild
+        // stored, we'll just fetch that and return it without hitting the database.
+        if (!skipCache && Cache.has(token)) {
+            return new Promise(resolve => {
+                resolve(Cache.get(token));
+            });
+        }
+
+        return new Promise((resolve, reject) => {
+            this.getClient().select().from(app.constants.USER_EXPERIENCE_TABLE_NAME)
+                .where('user_id', user.id).andWhere('guild_id', guildId)
+                .then(response => {
+                    app.bot.statistics.databaseQueries++;
+
+                    // If the query didn't return any valid data we'll try and find the guild in
+                    // the list of guilds that Ava is connected to and setup a default guild
+                    // transformer, as well as inserting a new record into the database
+                    // so we can find the guild on the next call to the database.
+                    if (response.length <= 0) {
+                        let bindings = {
+                            user_id: user.id,
+                            guild_id: guildId,
+                            username: user.username,
+                            discriminator: user.discriminator,
+                            avatar: user.avatar,
+                            experience: 100
+                        };
+
+                        // Sets up our default user transformer and stores it in the cache for 10 minutes.
+                        Cache.put(token, new UserTransformer(bindings), 600);
+
+                        this.insert(app.constants.USER_EXPERIENCE_TABLE_NAME, bindings)
+                            .catch(err => reject(err));
+                    } else {
+                        Cache.put(token, new UserTransformer(response[0]), 600);
+                    }
+
+                    // Resolves the guild transformer from the cache.
+                    resolve(Cache.get(token));
+                }).catch(err => reject(err));
         });
     }
 

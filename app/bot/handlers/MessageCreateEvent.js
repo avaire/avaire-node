@@ -9,7 +9,7 @@ const CommandHandler = require('./../commands/CommandHandler');
 /** @ignore */
 const ProcessCommand = require('./../middleware/global/ProcessCommand');
 /** @ignore */
-const ChannelModule = require('./../commands/administration/utils/ChannelModule');
+const ChannelTransformer = require('./../../database/transformers/ChannelTransformer');
 
 /**
  * Emitted when a user sends a text message in any valid text channel in a guild.
@@ -45,7 +45,7 @@ class MessageCreateEvent extends EventHandler {
         }
 
         // Loads the guild and channel from the database so they can be used later.
-        return ChannelModule.getChannel(socket.message).then(({guild, channel}) => {
+        return this.getDatabaseProperties(socket).then(({guild, channel, user}) => {
             // Checks if the application process is ready to be used, if the process is not ready we'll
             // cancel out the rest of the event, the reason the check is placed after the event loads
             // the guild transformer from the database is because the transformers are cached and
@@ -65,6 +65,13 @@ class MessageCreateEvent extends EventHandler {
                 if (!app.throttle.can(fingerprint, limit, decay)) {
                     return socket.message.delete();
                 }
+            }
+
+            // If the message was sent in a guild and the levels feature is enabled for the
+            // guild, the user should be checked if they're ready to be rewarded XP yet,
+            // if they are some portion of XP will be given to them randomly.
+            if (!socket.message.isPrivate && guild.get('levels', 0) !== 0) {
+                this.rewardUserExperience(socket, guild, user);
             }
 
             let message = socket.message.content;
@@ -175,7 +182,7 @@ class MessageCreateEvent extends EventHandler {
      * messages if the user typed something that wasen't a command,
      * otherwise there will just be too much spam everywhere.
      *
-     * @param  {GatewaySocket} socket   The Discordie gateway socket
+     * @param  {GatewaySocket}  socket  The Discordie gateway socket
      * @return {Promise}
      */
     sendInformationMessage(socket) {
@@ -199,6 +206,42 @@ class MessageCreateEvent extends EventHandler {
             oauth: app.config.bot.oauth
         });
     }
+
+    /**
+     * Rewards the user xp from sending a message in the guild, the
+     * user will receive a random amount of XP between 15 and 20,
+     * limited to once every minute.
+     *
+     * @param  {GatewaySocket}     socket  The Discordie gateway socket.
+     * @param  {GuildTransformer}  guild   The database guild transformer for the current guild.
+     * @param  {UserTransformer}   user    The database user transformer for the current guild.
+     * @return {mixed}
+     */
+    rewardUserExperience(socket, guild, user) {
+        let cacheToken = `user-message-xp-event.${user.get('guild_id')}.${user.get('user_id')}`;
+        if (app.cache.has(cacheToken, 'memory')) {
+            return;
+        }
+
+        app.cache.put(cacheToken, new Date, 60, 'memory');
+
+        let exp = user.get('experience', 0);
+        let lvl = Math.floor(app.bot.features.level.getLevelFromXp(exp));
+
+        exp += Math.floor(Math.random() * 5) + 15;
+
+        user.data.experience = exp;
+        return app.database.update(app.constants.USER_EXPERIENCE_TABLE_NAME, {
+            experience: user.data.experience
+        }, query => query.where('user_id', socket.message.author.id).andWhere('guild_id', app.getGuildIdFrom(socket.message))).then(() => {
+            if (guild.get('level_alerts', 0) !== 0 && app.bot.features.level.getLevelFromXp(exp) > lvl) {
+                return app.envoyer.sendInfo(socket.message, 'GG <@:userid>, you just reached **Level :level**', {
+                    level: app.bot.features.level.getLevelFromXp(exp)
+                });
+            }
+        });
+    }
+
     /**
      * Sends the tag information message, this is only sent if the bot was
      * tagged in a message with no additional text/arguments given.
@@ -224,6 +267,46 @@ class MessageCreateEvent extends EventHandler {
         return app.envoyer.sendInfo(socket.message, message.join('\n'), {
             name: bot.User.username,
             help: CommandHandler.getPrefix(socket.message, 'help') + 'help'
+        });
+    }
+
+    /**
+     * Get the channel and guild database transformer from the Discordie gateway socket.
+     *
+     * @param  {GatewaySocket}  socket  The Discordie gateway socket
+     * @return {Promise}
+     */
+    getDatabaseProperties(socket) {
+        if (socket.message.isPrivate) {
+            return new Promise((resolve, reject) => {
+                return resolve({
+                    guild: null,
+                    channel: new ChannelTransformer({
+                        name: 'Private Channel'
+                    }),
+                    user: null
+                });
+            });
+        }
+
+        return new Promise((resolve, reject) => {
+            return app.database.getGuild(app.getGuildIdFrom(socket.message)).then(transformer => {
+                let channel = transformer.getChannel(socket.message.channel.id);
+
+                if (transformer.data.channels === null) {
+                    transformer.data.channels = {};
+                }
+
+                transformer.data.channels[socket.message.channel.id] = channel.all();
+
+                if (!transformer.get('levels')) {
+                    return resolve({guild: transformer, channel, user: null});
+                }
+
+                return app.database.getUser(app.getGuildIdFrom(socket.message), socket.message.author).then(user => {
+                    return resolve({guild: transformer, channel, user});
+                }).catch(err => reject(err));
+            }).catch(err => reject(err));
         });
     }
 
