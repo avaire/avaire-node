@@ -11,7 +11,7 @@ class LeaderboardCommand extends Command {
      * might be usfull for the abstract command class.
      */
     constructor() {
-        super('leaderboard', ['board'], {
+        super('leaderboard', ['top'], {
             allowDM: false,
             description: 'Gets your rank, leve and xp for the current server.',
             middleware: [
