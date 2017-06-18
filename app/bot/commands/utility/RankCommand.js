@@ -29,6 +29,11 @@ class RankCommand extends Command {
      * @return {mixed}
      */
     onCommand(sender, message, args) {
+        let guild = app.cache.get(`database.${app.getGuildIdFrom(message)}`, null, 'memory');
+        if (guild === null || guild.get('levels', 0) === 0) {
+            return app.envoyer.sendWarn(message, 'This command requires the `Levels & Experience` feature to be enabled for the server, you can ask a server admin if they want to enable it with `.level`');
+        }
+
         return this.loadProperties(message).then(({total, score, user}) => {
             let experience = user.get('experience', 0);
             let level = app.bot.features.level.getLevelFromXp(experience);
