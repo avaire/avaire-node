@@ -7,7 +7,7 @@ const Transformer = require('./Transformer');
  *
  * @extends {Transformer}
  */
-class GuildTransformer extends Transformer {
+class UserTransformer extends Transformer {
 
     /**
      * Converts the transformers data into database bindable data.
@@ -45,4 +45,4 @@ class GuildTransformer extends Transformer {
     }
 }
 
-module.exports = GuildTransformer;
+module.exports = UserTransformer;
