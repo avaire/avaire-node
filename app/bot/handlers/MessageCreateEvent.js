@@ -228,7 +228,7 @@ class MessageCreateEvent extends EventHandler {
         let exp = user.get('experience', 0);
         let lvl = Math.floor(app.bot.features.level.getLevelFromXp(exp));
 
-        exp += Math.floor(Math.random() * 5) + 15;
+        exp += Math.floor(Math.random() * 5) + 10;
 
         user.data.experience = exp;
         return app.database.update(app.constants.USER_EXPERIENCE_TABLE_NAME, {
