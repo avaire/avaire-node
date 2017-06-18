@@ -53,10 +53,9 @@ class RankCommand extends Command {
                     name: message.author.username,
                     icon_url: `https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.png?size=256`
                 },
-                // Leaderboards haven't been implemented yet, but as soon as they are this code that be uncommented to give a link to it.
-                // footer: {
-                //     text: `https://avairebot.com/leaderboard/${app.getGuildIdFrom(message)}`
-                // },
+                footer: {
+                    text: `https://avairebot.com/leaderboard/${app.getGuildIdFrom(message)}`
+                },
                 fields: [
                     {
                         name: 'Rank',
