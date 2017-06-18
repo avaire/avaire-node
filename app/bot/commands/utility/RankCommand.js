@@ -70,7 +70,7 @@ class RankCommand extends Command {
                     },
                     {
                         name: 'Experience',
-                        value: `${user.get('experience', 0)} (Total: ${total})`,
+                        value: `${experience - 100 < 0 ? 0 : experience - 100} (Total: ${total})`,
                         inline: true
                     },
                     {
@@ -92,13 +92,14 @@ class RankCommand extends Command {
         return new Promise((resolve, reject) => {
             app.bot.statistics.databaseQueries++;
             return app.database.getUser(app.getGuildIdFrom(message), message.author).then(user => {
-                app.bot.statistics.databaseQueries++;
                 return this.getScore(message, message.author.id).then(score => {
+                    app.bot.statistics.databaseQueries++;
                     return app.database.getClient().table(app.constants.USER_EXPERIENCE_TABLE_NAME)
-                        .sum('experience as total').where('user_id', message.author.id).then(totalObject => {
-                            return resolve({total: totalObject[0].total, score, user});
-                        }
-                    );
+                              .select(
+                                  app.database.getClient().raw('sum(`experience`) - (count(`user_id`) * 100) as `total`')
+                              ).where('user_id', message.author.id).then(totalObject => {
+                                  return resolve({total: totalObject[0].total, score, user});
+                              });
                 });
             });
         });
