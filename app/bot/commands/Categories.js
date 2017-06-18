@@ -16,6 +16,10 @@ module.exports = [
         prefix: '!'
     },
     {
+        name: 'Search',
+        prefix: '>'
+    },
+    {
         name: 'System',
         prefix: ';'
     },
