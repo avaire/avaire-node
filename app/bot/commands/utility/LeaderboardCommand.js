@@ -94,6 +94,7 @@ class LeaderboardCommand extends Command {
                 return resolve(transformedUsers);
             }
 
+            app.bot.statistics.databaseQueries++;
             return app.database.getClient()
                                .table(app.constants.USER_EXPERIENCE_TABLE_NAME)
                                .where('guild_id', app.getGuildIdFrom(message))
