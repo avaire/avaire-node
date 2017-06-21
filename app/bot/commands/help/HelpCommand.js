@@ -101,13 +101,16 @@ class HelpCommand extends Command {
         }
 
         let fields = [];
-
-        let prefix = CommandHandler.getPrefix(message, commands[0].category);
+        let prefixes = {};
 
         commands = _.sortBy(commands, [command => command.triggers[0]]);
         for (let commandIndex in commands) {
             let command = commands[commandIndex];
-            let field = prefix + command.triggers[0];
+            if (!prefixes.hasOwnProperty(command.category)) {
+                prefixes[command.category] = CommandHandler.getPrefix(message, command.category);
+            }
+
+            let field = prefixes[command.category] + command.triggers[0];
 
             for (let i = field.length; i < 28; i++) {
                 field += ' ';
@@ -115,7 +118,7 @@ class HelpCommand extends Command {
 
             let triggers = [];
             for (let i = 1; i < command.triggers.length; i++) {
-                triggers.push(prefix + command.triggers[i]);
+                triggers.push(prefixes[command.category] + command.triggers[i]);
             }
             field += '[' + triggers + ']';
 
@@ -127,7 +130,8 @@ class HelpCommand extends Command {
 
         app.envoyer.sendNormalMessage(message, ':page_with_curl: **' + listOfCommands + ':** ```apache\n' + fields.join('\n') + '```');
         return app.envoyer.sendInfo(message, 'commands.utility.help.command-note', {
-            trigger: commands[randomCommandIndex].triggers[0], prefix,
+            trigger: commands[randomCommandIndex].triggers[0],
+            prefix: CommandHandler.getPrefix(message, commands[randomCommandIndex].category),
             help: CommandHandler.getPrefix(message, 'help') + 'help'
         });
     }
