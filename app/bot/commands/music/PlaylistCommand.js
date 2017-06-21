@@ -92,8 +92,8 @@ class PlaylistCommand extends Command {
         // Loads the guild and playlists from memory, if either of them are
         // not found in memory they will be re-retrived from the database.
         return this.getGuildAndPlaylists(message).then(({guild, playlists}) => {
-            if (args.length === 0) {
-                return this.sendPlaylists(message, guild, playlists);
+            if (args.length === 0 || !isNaN(parseInt(args[0], 10))) {
+                return this.sendPlaylists(message, guild, playlists, args);
             }
 
             if (playlists.length === 0 && args.length === 0) {
@@ -464,12 +464,12 @@ class PlaylistCommand extends Command {
      * to the current guild to the current channel.
      *
      * @param  {IMessage}          message    The Discordie message object that triggered the command.
-     * @param  {Array}             args       The array of arguments parsed to the onCommand method.
      * @param  {GuildTransformer}  guild      The database guild transformer for the current guild.
      * @param  {Array}             playlists  An array of database playlist transformers that belongs to the current guild.
+     * @param  {Array}             args       The array of arguments parsed to the onCommand method.
      * @return {Promise}
      */
-    sendPlaylists(message, guild, playlists) {
+    sendPlaylists(message, guild, playlists, args) {
         let guildType = guild.getType();
         let counter = `   ‍   [ ${playlists.length} out of ${guildType.get('limits.playlist.lists')} ]`;
 
@@ -483,18 +483,52 @@ class PlaylistCommand extends Command {
             });
         }
 
+        let pageNumber = 1;
+        if (args.length > 0) {
+            pageNumber = parseInt(args[0], 10);
+        }
+
+        if (isNaN(pageNumber) || pageNumber < 1) {
+            pageNumber = 1;
+        }
+
+        let pages = Math.ceil(playlists.length / 5);
+        if (pageNumber > pages) {
+            pageNumber = pages;
+        }
+
+        let start = 5 * (pageNumber - 1);
+        let playlistKeys = [];
+        for (let i = start; i < start + 5; i++) {
+            if (playlists.length <= i) {
+                break;
+            }
+            playlistKeys.push(i);
+        }
+
         let stringMessage = [];
         playlists.forEach(playlist => {
             stringMessage.push(
                 playlist.get('name') + '\n   ‍   Playlist has **' + playlist.get('amount') + '** song(s)'
             );
         });
-
         stringMessage.sort();
+
+        let playlistMessage = [];
+        for (let i in playlistKeys) {
+            if (stringMessage.length <= playlistKeys[i]) {
+                break;
+            }
+            playlistMessage.push(stringMessage[playlistKeys[i]]);
+        }
+
         return app.envoyer.sendEmbededMessage(message, {
             color: 0x3498DB,
             title: `:musical_note: Music Playlist ${counter}`,
-            description: '• ' + stringMessage.join('\n• ')
+            description: '• ' + playlistMessage.join('\n• '),
+            footer: {
+                text: `Showing page ${pageNumber} out of ${pages} pages.`
+            }
         });
     }
 
