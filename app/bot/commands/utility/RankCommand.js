@@ -34,7 +34,16 @@ class RankCommand extends Command {
             return app.envoyer.sendWarn(message, 'This command requires the `Levels & Experience` feature to be enabled for the server, you can ask a server admin if they want to enable it with `.level`');
         }
 
-        return this.loadProperties(message).then(({total, score, user}) => {
+        let author = message.author;
+        if (message.mentions.length > 0) {
+            author = message.mentions[0];
+        }
+
+        if (author.bot) {
+            return app.envoyer.sendWarn(message, 'Bots cannot receive xp and therefore can\'t be ranked, try and tag a user instead.');
+        }
+
+        return this.loadProperties(message, author).then(({total, score, user}) => {
             let experience = user.get('experience', 0);
             let level = app.bot.features.level.getLevelFromXp(experience);
             let currn = app.bot.features.level.getLevelXp(level);
@@ -50,8 +59,8 @@ class RankCommand extends Command {
             return app.envoyer.sendEmbededMessage(message, {
                 color: 0xE91E63,
                 author: {
-                    name: message.author.username,
-                    icon_url: `https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.png?size=256`
+                    name: author.username,
+                    icon_url: `https://cdn.discordapp.com/avatars/${author.id}/${author.avatar}.png?size=256`
                 },
                 footer: {
                     text: `https://avairebot.com/leaderboard/${app.getGuildIdFrom(message)}`
@@ -59,7 +68,7 @@ class RankCommand extends Command {
                 fields: [
                     {
                         name: 'Rank',
-                        value: `${score} / ${message.guild.member_count}`,
+                        value: score === 'Unranked' ? score : `${score} / ${message.guild.member_count}`,
                         inline: true
                     },
                     {
@@ -87,16 +96,16 @@ class RankCommand extends Command {
      * @param  {IMessage}  message  The Discordie message object that triggered the command.
      * @return {Promise}
      */
-    loadProperties(message) {
+    loadProperties(message, author) {
         return new Promise((resolve, reject) => {
             app.bot.statistics.databaseQueries++;
-            return app.database.getUser(app.getGuildIdFrom(message), message.author).then(user => {
-                return this.getScore(message, message.author.id).then(score => {
+            return app.database.getUser(app.getGuildIdFrom(message), author).then(user => {
+                return this.getScore(message, author.id).then(score => {
                     app.bot.statistics.databaseQueries++;
                     return app.database.getClient().table(app.constants.USER_EXPERIENCE_TABLE_NAME)
                               .select(
                                   app.database.getClient().raw('sum(`experience`) - (count(`user_id`) * 100) as `total`')
-                              ).where('user_id', message.author.id).then(totalObject => {
+                              ).where('user_id', author.id).then(totalObject => {
                                   return resolve({total: totalObject[0].total, score, user});
                               });
                 });
@@ -116,7 +125,7 @@ class RankCommand extends Command {
         let cacheToken = this.cacheToken + app.getGuildIdFrom(message);
         if (app.cache.has(cacheToken, 'memory')) {
             let users = app.cache.get(cacheToken, [], 'memory');
-            let score = 'Unknown';
+            let score = 'Unranked';
 
             for (let i = 0; i < users.length; i++) {
                 if (users[i].user_id === userId) {
