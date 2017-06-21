@@ -79,7 +79,8 @@ class RemindCommand extends Command {
 
             return user.openDM().then(m => {
                 return app.envoyer.sendInfo(m, this.reminderes[hash].message);
-            });
+            }).then(() => delete this.reminderes[hash])
+             .catch(() => delete this.reminderes[hash]);
         }, seconds * 1000);
     }
 }
