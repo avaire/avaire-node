@@ -71,7 +71,9 @@ class MessageCreateEvent extends EventHandler {
             // guild, the user should be checked if they're ready to be rewarded XP yet,
             // if they are some portion of XP will be given to them randomly.
             if (!socket.message.isPrivate && guild.get('levels', 0) !== 0) {
-                this.rewardUserExperience(socket, guild, user);
+                app.bot.features.level.rewardUserExperience(
+                    socket.message, guild, user, Math.floor(Math.random() * 5) + 10
+                );
             }
 
             let message = socket.message.content;
@@ -204,41 +206,6 @@ class MessageCreateEvent extends EventHandler {
         message.push('\nAvaIre Support Server:\n*https://avairebot.com/support*');
         return app.envoyer.sendNormalMessage(socket.message, message.join('\n'), {
             oauth: app.config.bot.oauth
-        });
-    }
-
-    /**
-     * Rewards the user xp from sending a message in the guild, the
-     * user will receive a random amount of XP between 15 and 20,
-     * limited to once every minute.
-     *
-     * @param  {GatewaySocket}     socket  The Discordie gateway socket.
-     * @param  {GuildTransformer}  guild   The database guild transformer for the current guild.
-     * @param  {UserTransformer}   user    The database user transformer for the current guild.
-     * @return {mixed}
-     */
-    rewardUserExperience(socket, guild, user) {
-        let cacheToken = `user-message-xp-event.${user.get('guild_id')}.${user.get('user_id')}`;
-        if (app.cache.has(cacheToken, 'memory')) {
-            return;
-        }
-
-        app.cache.put(cacheToken, new Date, 60, 'memory');
-
-        let exp = user.get('experience', 0);
-        let lvl = Math.floor(app.bot.features.level.getLevelFromXp(exp));
-
-        exp += Math.floor(Math.random() * 5) + 10;
-
-        user.data.experience = exp;
-        return app.database.update(app.constants.USER_EXPERIENCE_TABLE_NAME, {
-            experience: user.data.experience
-        }, query => query.where('user_id', socket.message.author.id).andWhere('guild_id', app.getGuildIdFrom(socket.message))).then(() => {
-            if (guild.get('level_alerts', 0) !== 0 && app.bot.features.level.getLevelFromXp(exp) > lvl) {
-                return app.envoyer.sendInfo(socket.message, 'GG <@:userid>, you just reached **Level :level**', {
-                    level: app.bot.features.level.getLevelFromXp(exp)
-                });
-            }
         });
     }
 

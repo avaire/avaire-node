@@ -61,6 +61,69 @@ class Level extends Feature {
 
         return x < 0 ? 0 : Math.floor(x);
     }
+
+    /**
+     * Rewards the user xp from sending a message in the guild, the
+     * user will receive a random amount of XP between 15 and 20,
+     * limited to once every minute.
+     *
+     * @param  {IMessage}          message  The Discordie message object that triggered the event.
+     * @param  {GuildTransformer}  guild    The database guild transformer for the current guild.
+     * @param  {UserTransformer}   user     The database user transformer for the current guild.
+     * @param  {Number}            amount   The amount of XP that should be given to the user.
+     * @return {mixed}
+     */
+    rewardUserExperience(message, guild, user, amount) {
+        let cacheToken = `user-message-xp-event.${user.get('guild_id')}.${user.get('user_id')}`;
+        if (app.cache.has(cacheToken, 'memory')) {
+            return;
+        }
+
+        app.cache.put(cacheToken, new Date, 60, 'memory');
+
+        let exp = user.get('experience', 0);
+        let lvl = Math.floor(this.getLevelFromXp(exp));
+
+        exp += amount;
+
+        user.data.experience = exp;
+        return app.database.update(app.constants.USER_EXPERIENCE_TABLE_NAME,
+            this.buildUserExperienceUpdateObject(message, user),
+        query => query.where('user_id', message.author.id).andWhere('guild_id', app.getGuildIdFrom(message))).then(() => {
+            if (guild.get('level_alerts', 0) !== 0 && this.getLevelFromXp(exp) > lvl) {
+                return app.envoyer.sendInfo(message, 'GG <@:userid>, you just reached **Level :level**', {
+                    level: this.getLevelFromXp(exp)
+                });
+            }
+        });
+    }
+
+    /**
+     * Builds the field update object for the SQL query, if the user has
+     * changed their username, avatar or discriminator since they last
+     * received XP their user data will also be updated.
+     *
+     * @param  {IMessage}         message  The Discordie message object that triggered the event.
+     * @param  {UserTransformer}  user     The database user transformer for the current guild.
+     * @return {Object}
+     */
+    buildUserExperienceUpdateObject(message, user) {
+        let updateObject = {
+            experience: user.data.experience
+        };
+
+        if (message.author.username !== user.get('username')) {
+            updateObject.username = message.author.username;
+        }
+        if (message.author.discriminator !== user.get('discriminator')) {
+            updateObject.discriminator = message.author.discriminator;
+        }
+        if (message.author.avatar !== user.get('avatar')) {
+            updateObject.avatar = message.author.avatar;
+        }
+
+        return updateObject;
+    }
 }
 
 module.exports = new Level;
