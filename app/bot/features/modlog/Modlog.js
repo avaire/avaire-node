@@ -54,11 +54,11 @@ class Modlog extends Feature {
                     return textChannel.id === id;
                 });
 
-                if (modlogChannel === undefined) {
+                if (modlogChannel === undefined || modlogChannel === null) {
                     continue;
                 }
 
-                app.envoyer.sendNormalMessage(message, this.prefix + formattedMessage);
+                app.envoyer.sendNormalMessage(modlogChannel, this.prefix + formattedMessage);
             }
         });
     }
