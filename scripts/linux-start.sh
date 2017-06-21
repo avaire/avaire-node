@@ -1,7 +1,9 @@
 #!/bin/bash
 
+AvaIre=`pwd`
+
 while true; do
-    cd .. && clear && npm start
+    cd "$AvaIre/.." && clear && npm start
 
     echo ""
     echo "The application has been stopped, and will restart in 5 seconds."
