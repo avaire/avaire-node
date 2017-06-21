@@ -195,8 +195,13 @@ class CommandHandler {
         }
 
         let sortable = [];
-        for (let module in this.prefixes[guildId]) {
-            sortable.push([module, this.prefixes[guildId][module]]);
+        for (let i in categories) {
+            let module = categories[i];
+            if (this.prefixes[guildId].hasOwnProperty(module.name.toLowerCase())) {
+                sortable.push([module.name.toLowerCase(), this.prefixes[guildId][module.name.toLowerCase()]]);
+                continue;
+            }
+            sortable.push([module.name.toLowerCase(), module.prefix]);
         }
         sortable.sort((a, b) => b[1].length - a[1].length);
 
