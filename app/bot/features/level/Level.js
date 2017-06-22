@@ -91,8 +91,9 @@ class Level extends Feature {
             this.buildUserExperienceUpdateObject(message, user),
         query => query.where('user_id', message.author.id).andWhere('guild_id', app.getGuildIdFrom(message))).then(() => {
             if (guild.get('level_alerts', 0) !== 0 && this.getLevelFromXp(exp) > lvl) {
-                return app.envoyer.sendInfo(message, 'GG <@:userid>, you just reached **Level :level**', {
-                    level: this.getLevelFromXp(exp)
+                return app.envoyer.sendInfo(this.getLevelUpChannel(message, guild), 'GG <@:userid>, you just reached **Level :level**', {
+                    level: this.getLevelFromXp(exp),
+                    userid: message.author.id
                 });
             }
         });
@@ -123,6 +124,29 @@ class Level extends Feature {
         }
 
         return updateObject;
+    }
+
+    /**
+     * Gets the level up channel for the given guild is one is set.
+     *
+     * @param  {IMessage}          message  The Discordie message object that triggered the event.
+     * @param  {GuildTransformer}  guild    The database guild transformer for the current guild.
+     * @return {IMessage|IChannel}
+     */
+    getLevelUpChannel(message, guild) {
+        let channelId = guild.get('level_channel', null);
+        if (channelId === null || channelId === undefined) {
+            return message;
+        }
+
+        let channels = message.guild.channels;
+        for (let i in channels) {
+            let channel = channels[i];
+            if (channel.type === 0 && channel.id === channelId) {
+                return channel;
+            }
+        }
+        return message;
     }
 }
 

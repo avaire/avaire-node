@@ -1,5 +1,5 @@
 /** @ignore */
-const dot = require('dot-object');
+const _ = require('lodash');
 /** @ignore */
 const Command = require('./../Command');
 
@@ -42,16 +42,52 @@ class LevelAlertsCommand extends Command {
             }
 
             let status = !guild.get('level_alerts', 0);
+
+            let channelId = null;
+            if (args.length > 0) {
+                channelId = this.getChannelId(message, args[0]);
+
+                if (channelId !== null) {
+                    status = 1;
+                }
+            }
+
             guild.data.level_alerts = status;
+            guild.data.level_channel = channelId;
 
             return app.database.update(app.constants.GUILD_TABLE_NAME, {
-                level_alerts: guild.data.level_alerts
+                level_alerts: guild.data.level_alerts,
+                level_channel: channelId
             }, query => query.where('id', app.getGuildIdFrom(message))).then(() => {
-                return app.envoyer.sendSuccess(message, '`Levels up alerts` has been `:status` for the server.', {
-                    status: status ? 'Enabled' : 'Disabled'
+                return app.envoyer.sendSuccess(message, '`Levels up alerts` has been `:status` for the server.:note', {
+                    status: status ? 'Enabled' : 'Disabled',
+                    note: channelId === null ? `` : `\nAll level up messages will be logged into the <#${channelId}> channel.`
                 });
             }).catch(err => app.logger.error(err));
         });
+    }
+
+    /**
+     * Gets the channel ID from the given message.
+     *
+     * @param  {IMessage} message        The Discordie message object that triggered the command.
+     * @param  {String}   channelString  The channel argument given to the command.
+     * @return {String|null}
+     */
+    getChannelId(message, channelString) {
+        if (!_.startsWith(channelString, '<#')) {
+            return channelString.toLowerCase() === 'all' ? 'all' : null;
+        }
+
+        let id = channelString.substr(2, channelString.length - 3);
+        let channels = message.guild.channels;
+        for (let i in channels) {
+            let channel = channels[i];
+            if (channel.type === 0 && channel.id === id) {
+                return id;
+            }
+        }
+        return null;
     }
 }
 
