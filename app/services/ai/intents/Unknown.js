@@ -2,6 +2,8 @@
 const _ = require('lodash');
 /** @ignore */
 const IntentHandler = require('./IntentHandler');
+/** @ignore */
+const CommandHandler = require('./../../../bot/commands/CommandHandler');
 
 /**
  * Unknown intent handler, this is used when the
@@ -16,7 +18,11 @@ class Unknown extends IntentHandler {
      * returns a matching response action the intent.
      */
     handle() {
-        app.envoyer.sendWarn(this.getMessage(), this.response.result.fulfillment.speech);
+        let speech = this.response.result.fulfillment.speech;
+
+        speech = speech.replace(/\.help/gi, CommandHandler.getPrefix(this.getMessage(), 'help') + 'help');
+
+        return app.envoyer.sendWarn(this.getMessage(), speech);
     }
 }
 
