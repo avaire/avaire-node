@@ -4,6 +4,11 @@ module.exports = {
     GATEWAY_RESUMED: require('./handlers/GatewayResumedEvent'),
     DISCONNECTED: require('./handlers/GatewayDisconnectedEvent'),
 
+    // Channel Handlers
+    CHANNEL_CREATE: require('./handlers/ChannelCreateEvent'),
+    CHANNEL_DELETE: require('./handlers/ChannelDeleteEvent'),
+    CHANNEL_UPDATE: require('./handlers/ChannelUpdateEvent'),
+
     // Voice Handlers
     VOICE_CONNECTED: require('./handlers/VoiceConnectedEvent'),
     VOICE_DISCONNECTED: require('./handlers/VoiceDisconnectedEvent'),

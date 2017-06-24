@@ -8,6 +8,8 @@ const UserTransformer = require('./transformers/UserTransformer');
 const GuildTransformer = require('./transformers/GuildTransformer');
 /** @ignore */
 const PlaylistTransformer = require('./transformers/PlaylistTransformer');
+/** @ignore */
+const ChannelsHandler = require('./../bot/handlers/utils/UpdateGuildChannelsHandler');
 
 /**
  * Database manager class, this class allows you to interact with
@@ -125,7 +127,8 @@ class Database {
                             id: app.getGuildIdFrom(guild),
                             owner: guild.owner_id,
                             name: guild.name,
-                            icon: guild.icon
+                            icon: guild.icon,
+                            channels_data: JSON.stringify(ChannelsHandler.getChannels(guild))
                         });
                     } else {
                         Cache.put(token, new GuildTransformer(response[0]), 500);
