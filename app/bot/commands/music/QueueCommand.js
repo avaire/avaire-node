@@ -126,11 +126,11 @@ class QueueCommand extends Command {
             return app.envoyer.sendWarn(message, 'commands.music.queue.missing-dj-role');
         }
 
-        let id = songId - 1;
-        if (id < 0 || id >= Music.getQueue(message).length) {
+        let id = songId;
+        if (id < 1 || id >= Music.getQueue(message).length) {
             return app.envoyer.sendWarn(message, 'Invalid id given, the number given is too :type.\n`:command`', {
                 command: this.getCommandTrigger(message) + ` remove <id>`,
-                type: id < 0 ? 'low' : 'high'
+                type: id < 1 ? 'low' : 'high'
             });
         }
 
