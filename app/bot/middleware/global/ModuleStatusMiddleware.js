@@ -16,14 +16,17 @@ class ModuleStatusMiddleware extends Middleware {
      * Handles the incomming command request
      *
      * @override
-     * @param  {GatewaySocket} request  Discordie message create socket
-     * @param  {Closure}       next     The next request in the stack
+     * @param  {GatewaySocket}  request  Discordie message create socket
+     * @param  {Closure}        next     The next request in the stack
      * @return {mixed}
      */
     handle(request, next) {
         if (this.shouldContinue(request)) {
             return next(request);
         }
+
+        let user = request.message.author;
+        app.logger.info(`Executing Command <${this.prettifyContent(request)}> from ${user.username}#${user.discriminator} | Module is disabled, command was canceled`);
 
         return app.envoyer.sendWarn(request.message, 'language.errors.module-is-disabled', {
             category: this.command.command.category
@@ -34,7 +37,7 @@ class ModuleStatusMiddleware extends Middleware {
      * Determines if the middleware should continue to the next
      * middleware in the stack or if it should be canceled.
      *
-     * @param  {GatewaySocket} request  Discordie message create socket
+     * @param  {GatewaySocket}  request  Discordie message create socket
      * @return {Boolean}
      */
     shouldContinue(request) {
@@ -43,6 +46,16 @@ class ModuleStatusMiddleware extends Middleware {
         }
 
         return app.config.botAccess.indexOf(request.message.author.id) > -1;
+    }
+
+    /**
+     * Prettify the contents of the request.
+     *
+     * @param  {GatewaySocket}  request  Discordie message create socket
+     * @return {String}
+     */
+    prettifyContent(request) {
+        return request.message.resolveContent().replace(/\n/g, '\\n');
     }
 }
 
