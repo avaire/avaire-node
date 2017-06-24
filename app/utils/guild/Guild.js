@@ -45,6 +45,10 @@ class Guild {
             if (context.hasOwnProperty('channel')) {
                 return this.getIdFrom(context.channel);
             }
+
+            if (context.hasOwnProperty('guild_id')) {
+                return this.getIdFrom(context.guild_id);
+            }
         }
 
         switch (type) {

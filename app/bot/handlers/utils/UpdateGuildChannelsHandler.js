@@ -9,17 +9,18 @@ class UppdateGuildChannelsHandler {
     /**
      * Handles the uppdate guild channels request.
      *
-     * @param  {GatewaySocket}  socket  The channel related Discordie gateway socket.
+     * @param  {GatewaySocket}  socket   The channel related Discordie gateway socket.
+     * @param  {mixed}          channel  The channel data that was affected by the event.
      * @return {mixed}
      */
-    handle(socket) {
-        if (socket.channel.type !== 0) {
+    handle(socket, channel) {
+        if (channel.type !== 0) {
             return;
         }
 
-        let guild = bot.Guilds.get(app.getGuildIdFrom(socket.channel));
+        let guild = bot.Guilds.get(app.getGuildIdFrom(channel));
         if (guild === null || guild === undefined) {
-            return app.logger.error('Failed to resolve guild from guild ID in a channel event, guild ID: ', app.getGuildIdFrom(socket.channel));
+            return app.logger.error('Failed to resolve guild from guild ID in a channel event, guild ID: ', app.getGuildIdFrom(channel));
         }
 
         let channels = this.getChannels(guild);

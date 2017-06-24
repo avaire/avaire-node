@@ -19,7 +19,7 @@ class ChannelCreateEvent extends EventHandler {
      * @return {mixed}
      */
     handle(socket) {
-        return Handler.handle(socket);
+        return Handler.handle(socket, socket.channel);
     }
 }
 

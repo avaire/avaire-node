@@ -19,7 +19,7 @@ class ChannelDeleteEvent extends EventHandler {
      * @return {mixed}
      */
     handle(socket) {
-        return Handler.handle(socket);
+        return Handler.handle(socket, socket.data);
     }
 }
 
