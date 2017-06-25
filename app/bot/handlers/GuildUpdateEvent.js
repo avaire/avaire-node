@@ -18,7 +18,7 @@ class GuildUpdateEvent extends EventHandler {
      */
     handle(socket) {
         return app.database.update(app.constants.GUILD_TABLE_NAME, {
-            name: socket.guild.name,
+            name: app.database.stringifyEmojis(socket.guild.name),
             icon: socket.guild.icon,
             owner: socket.guild.owner_id
         }, query => query.where('id', app.getGuildIdFrom(socket)));
