@@ -23,10 +23,8 @@ class UppdateGuildChannelsHandler {
             return app.logger.error('Failed to resolve guild from guild ID in a channel event, guild ID: ', app.getGuildIdFrom(channel));
         }
 
-        let channels = this.getChannels(guild);
-
         return app.database.update(app.constants.GUILD_TABLE_NAME, {
-            channels_data: JSON.stringify(channels)
+            channels_data: JSON.stringify(this.getChannels(guild))
         }, query => query.where('id', app.getGuildIdFrom(guild)));
     }
 
@@ -42,9 +40,12 @@ class UppdateGuildChannelsHandler {
 
         for (let i = 0; i < textChannels.length; i++) {
             let c = textChannels[i];
+
+            let channelName = app.database.stringifyEmojis(c.name);
+
             channels.push({
                 id: c.id,
-                name: c.name,
+                name: channelName === null ? 'Invalid Channel Name' : channelName,
                 topic: c.topic,
                 position: c.position
             });

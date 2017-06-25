@@ -1,6 +1,8 @@
 /** @ignore */
 const Knex = require('knex');
 /** @ignore */
+const emojiStrip = require('emoji-strip');
+/** @ignore */
 let Cache = null;
 /** @ignore */
 const UserTransformer = require('./transformers/UserTransformer');
@@ -119,14 +121,14 @@ class Database {
                         Cache.put(token, new GuildTransformer({
                             id: app.getGuildIdFrom(guild),
                             owner: guild.owner_id,
-                            name: guild.name,
+                            name: this.stringifyEmojis(guild.name),
                             icon: guild.icon
                         }), 500);
 
                         this.insert(app.constants.GUILD_TABLE_NAME, {
                             id: app.getGuildIdFrom(guild),
                             owner: guild.owner_id,
-                            name: guild.name,
+                            name: this.stringifyEmojis(guild.name),
                             icon: guild.icon,
                             channels_data: JSON.stringify(ChannelsHandler.getChannels(guild))
                         });
@@ -216,7 +218,7 @@ class Database {
                         let bindings = {
                             user_id: user.id,
                             guild_id: guildId,
-                            username: user.username,
+                            username: this.stringifyEmojis(user.username),
                             discriminator: user.discriminator,
                             avatar: user.avatar,
                             experience: 100
@@ -317,6 +319,19 @@ class Database {
         return Cache.put(token, new GuildTransformer({
             id, owner, name
         }), 5);
+    }
+
+    /**
+     * Stringify a string by removing emojis from it,
+     * allowing it to be stored in the database.
+     *
+     * @param  {String}  string  The string that should be stringified.
+     * @return {String|null}
+     */
+    stringifyEmojis(string) {
+        let striped = emojiStrip(string);
+
+        return striped.trim() === 0 ? null : striped;
     }
 }
 
