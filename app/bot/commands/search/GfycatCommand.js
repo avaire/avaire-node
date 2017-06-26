@@ -12,6 +12,7 @@ class GfycatCommand extends Command {
      */
     constructor() {
         super('gfycat', ['gif'], {
+            usage: '<query>',
             middleware: [
                 'throttle.channel:1,1'
             ]

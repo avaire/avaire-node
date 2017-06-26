@@ -10,6 +10,7 @@ class FeedbackCommand extends Command {
      */
     constructor() {
         super('feedback', [], {
+            usage: '<message>',
             middleware: [
                 'throttle.user:1,5'
             ]
