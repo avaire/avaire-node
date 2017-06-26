@@ -50,7 +50,7 @@ class AIServiceProvider extends ServiceProvider {
         request.on('response', response => {
             // If the reponse action is a smalltalk action we'll just send it directly back to the user.
             if (_.startsWith(response.result.action, 'smalltalk.')) {
-                return app.envoyer.sendSuccess(socket.message, response.result.fulfillment.speech);
+                return this.handleSmalltalkIntent(socket, response);
             }
 
             // If the response action isn't a smalltalk action we'll try and find it in
@@ -73,6 +73,27 @@ class AIServiceProvider extends ServiceProvider {
         });
 
         return request.end();
+    }
+
+    /**
+     * Handles the smalltalk AI intent.
+     *
+     * @param  {GatewaySocket}  socket    Discordie message create socket.
+     * @param  {TextRequest}    response  The AI text request response.
+     * @return {Promise}
+     */
+    handleSmalltalkIntent(socket, response) {
+        let speech = response.result.fulfillment.speech;
+
+        let nickname = socket.message.author.username;
+        if (!socket.message.isPrivate && socket.message.member.nick !== null) {
+            nickname = socket.message.member.nick;
+        }
+
+        speech = speech.replace(/%user%/gi, socket.message.author.username);
+        speech = speech.replace(/%nick%/gi, nickname);
+
+        return app.envoyer.sendSuccess(socket.message, speech);
     }
 }
 
