@@ -9,9 +9,7 @@ class CoinCommand extends Command {
      * might be usfull for the abstract command class.
      */
     constructor() {
-        super('coin', [], {
-            description: 'Flips a coin for heads or tails for you'
-        });
+        super('coin');
 
         this.images = {
             1: 'https://cdn.discordapp.com/attachments/279462105277530112/279614727406223360/Heads.png',

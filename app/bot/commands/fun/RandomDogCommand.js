@@ -12,7 +12,6 @@ class RandomDogCommand extends Command {
      */
     constructor() {
         super('randomdog', ['dog'], {
-            description: 'I will get a random dog for you',
             middleware: [
                 'throttle.channel:1,1'
             ]

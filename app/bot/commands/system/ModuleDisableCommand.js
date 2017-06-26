@@ -16,7 +16,6 @@ class ModuleDisableCommand extends Command {
      */
     constructor() {
         super('md', [], {
-            description: 'Disable a given module',
             usage: '<module>',
             middleware: [
                 'isBotAdmin'

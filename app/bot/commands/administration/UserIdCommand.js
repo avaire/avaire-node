@@ -18,8 +18,7 @@ class UserIdCommand extends Command {
      */
     constructor() {
         super('userid', ['uid'], {
-            allowDM: false,
-            description: 'Shows user ID.'
+            allowDM: false
         });
     }
 

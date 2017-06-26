@@ -19,11 +19,7 @@ class LanguageCommand extends Command {
     constructor() {
         super('language', ['lang'], {
             allowDM: false,
-            description: 'Allows you to change the language the bot will use on this server.',
-            usage: [
-                '',
-                '[local]'
-            ],
+            usage: '[local]',
             middleware: [
                 'require.user:general.manage_server',
                 'throttle.user:1,3'

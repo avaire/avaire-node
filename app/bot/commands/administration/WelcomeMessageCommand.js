@@ -19,11 +19,7 @@ class WelcomeMessageCommand extends Command {
     constructor() {
         super('welcomemessage', ['welmsg'], {
             allowDM: false,
-            description: 'Sets the welcome message.',
-            usage: [
-                '',
-                '[message]'
-            ],
+            usage: '[message]',
             middleware: [
                 'require.user:general.manage_server',
                 'throttle.guild:1,5'

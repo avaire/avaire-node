@@ -14,7 +14,6 @@ class EvalCommand extends Command {
      */
     constructor() {
         super('eval', [], {
-            description: 'Evaluates and executes raw JS code.',
             usage: '[code]',
             middleware: [
                 'isBotAdmin'

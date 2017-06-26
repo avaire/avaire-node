@@ -13,7 +13,6 @@ class ShuffleCommand extends Command {
     constructor() {
         super('shuffle', [], {
             allowDM: false,
-            description: 'Use this to shuffle the songs waiting in the music queue.',
             middleware: [
                 'require:text.send_messages',
                 'throttle.channel:2,4',

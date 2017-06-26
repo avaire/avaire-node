@@ -14,11 +14,10 @@ class XKCDCommand extends Command {
      */
     constructor() {
         super('xkcd', [], {
-            description: 'I will get the latest xkcd comic, or the comic with the given id.',
+            usage: '[comic id]',
             middleware: [
                 'throttle.channel:1,1'
-            ],
-            usage: '[comic id]'
+            ]
         });
     }
 

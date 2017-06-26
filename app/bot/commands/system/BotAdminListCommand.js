@@ -10,7 +10,6 @@ class BotAdminListCommand extends Command {
      */
     constructor() {
         super('bal', [], {
-            description: 'Lists all the current bot admins.',
             middleware: [
                 'isBotAdmin'
             ]

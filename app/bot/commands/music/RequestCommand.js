@@ -17,7 +17,6 @@ class RequestCommand extends Command {
     constructor() {
         super('request', ['play'], {
             allowDM: false,
-            description: 'Use this to request songs from youtube, soundcloud or twitch streams.',
             usage: [
                 '<link>',
                 '<name of song>'

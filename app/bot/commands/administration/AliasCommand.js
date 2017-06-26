@@ -21,7 +21,6 @@ class AliasCommand extends Command {
     constructor() {
         super('alias', ['cmdmap'], {
             allowDM: false,
-            description: 'Creates and maps a custom aliase for a pre-existing command. Provide no alias to remove an existing alias.',
             usage: '<command alias> [command]',
             middleware: [
                 'throttle.user:2,5',

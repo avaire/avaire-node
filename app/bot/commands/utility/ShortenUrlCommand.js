@@ -14,10 +14,7 @@ class ShortenUrlCommand extends Command {
      */
     constructor() {
         super('shorten', ['s'], {
-            description: 'Shorten a URL using https://goo.gl/',
-            usage: [
-                '<url>'
-            ]
+            usage: '<url>'
         });
     }
 

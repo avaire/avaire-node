@@ -20,7 +20,6 @@ class AliasesCommand extends Command {
     constructor() {
         super('aliases', ['aliaslist'], {
             allowDM: false,
-            description: 'Lists all the existing command aliases.',
             middleware: [
                 'throttle.user:2,5',
                 'require.user:general.manage_server'

@@ -13,7 +13,6 @@ class RepeatMusicQueueCommand extends Command {
     constructor() {
         super('repeatsongs', ['repeat', 'loop'], {
             allowDM: false,
-            description: 'Repeats the songs currently in the music queue.',
             middleware: [
                 'require:text.send_messages',
                 'throttle.channel:2,5',

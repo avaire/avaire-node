@@ -16,7 +16,6 @@ class MemeCommand extends Command {
      */
     constructor() {
         super('meme', [], {
-            description: 'Generates memes with your given text, you can tag users to use their avatar as a meme, or just give the meme name you wanna use.',
             usage: '<meme|user|list> [top text] [bottom text]',
             middleware: [
                 'throttle.user:2,4'

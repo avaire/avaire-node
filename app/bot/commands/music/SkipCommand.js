@@ -13,7 +13,6 @@ class SkipCommand extends Command {
     constructor() {
         super('skip', [], {
             allowDM: false,
-            description: 'Use this to skip a song if you\'re not enjoying it.',
             middleware: [
                 'require:text.send_messages',
                 'throttle.user:2,5',

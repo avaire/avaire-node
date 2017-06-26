@@ -19,7 +19,6 @@ class WelcomeCommand extends Command {
     constructor() {
         super('welcome', ['wel'], {
             allowDM: false,
-            description: 'Toggles the welcome module on or off for the current channel.',
             middleware: [
                 'require.user:general.manage_server',
                 'throttle.guild:1,5'

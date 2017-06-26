@@ -12,7 +12,6 @@ class BlacklistAddCommand extends Command {
      */
     constructor() {
         super('bla', [], {
-            description: 'Add a given user ID to the bot blacklist.',
             usage: '<user> [reason]',
             middleware: [
                 'isBotAdmin'

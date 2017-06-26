@@ -22,7 +22,6 @@ class ToggleModuleCommand extends Command {
     constructor() {
         super('togglemodule', ['tmod'], {
             allowDM: false,
-            description: 'Toggles a command module on or off for the given channel, or globally for the whole server',
             usage: '<module> [channel|all] [on|off]',
             middleware: [
                 'require.user:general.administrator',

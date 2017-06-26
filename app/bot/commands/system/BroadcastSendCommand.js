@@ -21,7 +21,6 @@ class BroadcastSendCommand extends Command {
      */
     constructor() {
         super('broadcastsend', ['bcsend'], {
-            description: 'Broadcasts the message linked to the given hash ID.',
             usage: '<hash>',
             middleware: [
                 'isBotAdmin'

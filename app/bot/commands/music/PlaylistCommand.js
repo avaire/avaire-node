@@ -23,9 +23,6 @@ class PlaylistCommand extends Command {
     constructor() {
         super('playlist', ['list', 'pl'], {
             allowDM: false,
-            description: [
-                'Music playlist command, alows music DJs to create, delete, and load playlists to the music queue, as well as adding and removing songs from any of the playlists.'
-            ],
             middleware: [
                 'require:text.send_messages',
                 'throttle.channel:2,4',

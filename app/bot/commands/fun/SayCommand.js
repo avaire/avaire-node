@@ -10,7 +10,6 @@ class SayCommand extends Command {
      */
     constructor() {
         super('say', [], {
-            description: 'I will say anything you want',
             usage: '[message]',
             middleware: [
                 'throttle.user:2,4'

@@ -16,7 +16,6 @@ class DuckDuckGoCommand extends Command {
      */
     constructor() {
         super('search', ['ddg', 'g'], {
-            description: 'Searchs DuckDuckGo.com with your given search your query',
             middleware: [
                 'throttle.user:2,5'
             ]

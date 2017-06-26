@@ -19,11 +19,7 @@ class GoodbyeMessageCommand extends Command {
     constructor() {
         super('goodbyemessage', ['byemsg'], {
             allowDM: false,
-            description: 'Sets the goodbye message.',
-            usage: [
-                '',
-                '[message]'
-            ],
+            usage: '[message]',
             middleware: [
                 'require.user:general.manage_server',
                 'throttle.guild:1,5'

@@ -21,11 +21,7 @@ class UserInfoCommand extends Command {
     constructor() {
         super('userinfo', ['uinfo'], {
             allowDM: false,
-            description: 'Tells you information about the taged user, or yourself.',
-            usage: [
-                '',
-                '[user]'
-            ],
+            usage: '[user]',
             middleware: [
                 'throttle.user:2,5'
             ]

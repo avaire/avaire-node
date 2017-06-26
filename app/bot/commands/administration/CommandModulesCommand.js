@@ -23,7 +23,6 @@ class CommandModulesCommand extends Command {
     constructor() {
         super('modules', ['module', 'mod'], {
             allowDM: false,
-            description: 'Shows the status of the given command modules for the current channel, and globally',
             usage: '[channel]',
             middleware: [
                 'require.user:general.administrator',

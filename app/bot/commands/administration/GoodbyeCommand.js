@@ -19,7 +19,6 @@ class GoodbyeCommand extends Command {
     constructor() {
         super('goodbye', ['bye'], {
             allowDM: false,
-            description: 'Toggles the goodbye module on or off for the current channel.',
             middleware: [
                 'require.user:general.manage_server',
                 'throttle.guild:1,5'

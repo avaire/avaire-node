@@ -10,7 +10,6 @@ class FeedbackCommand extends Command {
      */
     constructor() {
         super('feedback', [], {
-            description: 'Gives feedback about the bot.',
             middleware: [
                 'throttle.user:1,5'
             ]

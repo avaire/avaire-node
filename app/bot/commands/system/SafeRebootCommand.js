@@ -10,9 +10,6 @@ class SafeRebootCommand extends Command {
      */
     constructor() {
         super('safereboot', ['sreboot'], {
-            description: [
-                'Reboots the bot and all of its processes safely.'
-            ],
             middleware: [
                 'isBotAdmin'
             ]

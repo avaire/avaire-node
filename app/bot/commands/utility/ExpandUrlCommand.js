@@ -14,10 +14,7 @@ class ExpandUrlCommand extends Command {
      */
     constructor() {
         super('expand', ['e'], {
-            description: 'Expands a short URL.',
-            usage: [
-                '<url>'
-            ]
+            usage: '<url>'
         });
     }
 

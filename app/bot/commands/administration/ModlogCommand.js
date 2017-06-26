@@ -19,7 +19,6 @@ class ModlogCommand extends Command {
     constructor() {
         super('modlog', ['mlog'], {
             allowDM: false,
-            description: 'Toggles the ModLog module on or off for the current channel.',
             middleware: [
                 'require.user:general.manage_server',
                 'throttle.guild:1,5'

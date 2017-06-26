@@ -9,9 +9,7 @@ class SlowClapCommand extends Command {
      * might be usfull for the abstract command class.
      */
     constructor() {
-        super('slowclap', ['sc'], {
-            description: 'Clap... Clap... Clap...'
-        });
+        super('slowclap', ['sc']);
 
         this.hashes = [
             '1f0e3dad99908345f7439f8ffabdffc4', '1ff1de774005f8da13f42943881c655f',

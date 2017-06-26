@@ -11,9 +11,7 @@ class UrbanDictionaryCommand extends Command {
      * might be usfull for the abstract command class.
      */
     constructor() {
-        super('urbandictionary', ['urban'], {
-            description: 'Get the defenition of a word or sentence from urbandictionary.com'
-        });
+        super('urbandictionary', ['urban']);
     }
 
     /**

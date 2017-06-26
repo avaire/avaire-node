@@ -13,7 +13,6 @@ class LeaderboardCommand extends Command {
     constructor() {
         super('leaderboard', ['top'], {
             allowDM: false,
-            description: 'Gets your rank, leve and xp for the current server.',
             middleware: [
                 'throttle.user:1,5'
             ]

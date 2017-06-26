@@ -12,7 +12,6 @@ class ChuckNorrisCommand extends Command {
      */
     constructor() {
         super('chucknorris', ['chuck', 'norris'], {
-            description: 'I will get a random 100% true, real facts about Chuck Norris for you using the "Internet Chuck Norris Database".',
             middleware: [
                 'throttle.channel:1,1'
             ]

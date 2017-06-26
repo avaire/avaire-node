@@ -12,9 +12,6 @@ class SetStatusCommand extends Command {
      */
     constructor() {
         super('setstatus', ['status'], {
-            description: [
-                'Sets the status of the bot instance for all servers the bot is on, if no status is set the bot status will go back to cycling status from the config.'
-            ],
             middleware: [
                 'isBotAdmin'
             ]

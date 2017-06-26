@@ -11,7 +11,6 @@ class RankCommand extends Command {
     constructor() {
         super('rank', ['level'], {
             allowDM: false,
-            description: 'Gets your rank, leve and xp for the current server.',
             middleware: [
                 'throttle.user:1,5'
             ]

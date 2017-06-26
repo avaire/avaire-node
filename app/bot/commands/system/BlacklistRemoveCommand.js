@@ -12,7 +12,6 @@ class BlacklistRemoveCommand extends Command {
      */
     constructor() {
         super('blr', [], {
-            description: 'Removes a given user ID from the bot blacklist.',
             usage: '<user>',
             middleware: [
                 'isBotAdmin'

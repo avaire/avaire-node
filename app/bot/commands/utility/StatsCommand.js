@@ -18,7 +18,6 @@ class StatsCommand extends Command {
      */
     constructor() {
         super('stats', ['about'], {
-            description: 'Tells you information about the bot itself.',
             middleware: [
                 'throttle.channel:1,5'
             ]

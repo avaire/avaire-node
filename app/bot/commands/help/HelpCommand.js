@@ -18,14 +18,7 @@ class HelpCommand extends Command {
     constructor() {
         super('help', [], {
             ignoreHelpMenu: true,
-            description: [
-                'Tells you about what commands the bot has, what they do and how you can use them.'
-            ],
-            usage: [
-                '',
-                '[command]',
-                '[category]'
-            ]
+            usage: '[command|category]'
         });
     }
 

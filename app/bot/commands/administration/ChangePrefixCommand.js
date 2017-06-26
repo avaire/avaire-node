@@ -23,10 +23,6 @@ class ChangePrefixCommand extends Command {
      */
     constructor() {
         super('changeprefix', ['avaireprefix'], {
-            description: [
-                'Sets the prefix that should be used for all commands in a given module, if no prefix is provided the modules prefix will be reset back to the default instead.',
-                'Command prefixes cannot contain spaces and some modules can not share prefixes since they already share commands with the same triggers.'
-            ],
             usage: '<module> [prefix]',
             middleware: [
                 'require.user:general.administrator',

@@ -15,7 +15,6 @@ class SetServerTypeCommand extends Command {
     constructor() {
         super('sst', [], {
             allowDM: false,
-            description: 'Sets the current server type, or the server with the given ID.',
             usage: '<type> [server id]',
             middleware: [
                 'isBotAdmin'

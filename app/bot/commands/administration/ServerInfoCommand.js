@@ -20,7 +20,6 @@ class ServerInfoCommand extends Command {
     constructor() {
         super('serverinfo', ['sinfo'], {
             allowDM: false,
-            description: 'Tells you information about the server.',
             middleware: [
                 'throttle.channel:2,5'
             ]

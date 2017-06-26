@@ -18,7 +18,6 @@ class SetupCommand extends Command {
     constructor() {
         super('setup', [], {
             allowDM: false,
-            description: 'Helps you setup different features within Ava for the current server.',
             middleware: [
                 'require.user:general.administrator',
                 'throttle.guild:2,5'

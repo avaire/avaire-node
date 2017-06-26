@@ -13,7 +13,6 @@ class FlushQueueCommand extends Command {
     constructor() {
         super('flushqueue', ['fqueue'], {
             allowDM: false,
-            description: 'Flushs the music queue, removing all songs currently in the queue.',
             middleware: [
                 'require:text.send_messages',
                 'throttle.user:1,5',

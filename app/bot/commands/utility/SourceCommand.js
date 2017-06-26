@@ -12,11 +12,7 @@ class SourceCommand extends Command {
      */
     constructor() {
         super('source', [], {
-            description: 'Gives you the source code for the Bot, or the code for a given command.',
-            usage: [
-                '',
-                '[command]'
-            ]
+            usage: '[command]'
         });
 
         this.rootUrl = 'https://github.com/AvaIre/AvaIre';

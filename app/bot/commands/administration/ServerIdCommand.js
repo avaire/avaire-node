@@ -17,8 +17,7 @@ class ServerIdCommand extends Command {
      */
     constructor() {
         super('serverid', ['sid'], {
-            allowDM: false,
-            description: 'Shows current server ID.'
+            allowDM: false
         });
     }
 

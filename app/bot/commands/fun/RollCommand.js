@@ -10,7 +10,6 @@ class RollCommand extends Command {
      */
     constructor() {
         super('roll', [], {
-            description: 'Rolls a random number.',
             usage: [
                 '[min] [max]'
             ]

@@ -12,10 +12,7 @@ class DiceCommand extends Command {
      */
     constructor() {
         super('dice', [], {
-            description: 'Rolls a set of D&D dice.',
-            usage: [
-                '[D&D eg 4D8]'
-            ],
+            usage: '[D&D eg 4D8]',
             middleware: [
                 'throttle.user:2,4'
             ]

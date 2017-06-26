@@ -13,7 +13,6 @@ class MoveHereCommand extends Command {
     constructor() {
         super('movehere', ['moveh'], {
             allowDM: false,
-            description: 'Moves the bot to the same voice channel you\'re in.',
             middleware: [
                 'require:text.send_messages',
                 'throttle.user:2,5',

@@ -14,10 +14,7 @@ class CreateYesNoPollCommand extends Command {
      */
     constructor() {
         super('yesnopoll', ['ynpoll', 'poll'], {
-            description: 'Creates a poll people can bot yes or no on, after the given amount of time the result will sent and the poll will be locked.',
-            usage: [
-                '<time> <poll>'
-            ],
+            usage: '<time> <poll>',
             middleware: [
                 'require.user:general.manage_emojis'
             ]

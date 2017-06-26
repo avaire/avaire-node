@@ -10,7 +10,6 @@ class RepeatCommand extends Command {
      */
     constructor() {
         super('repeat', ['echo'], {
-            description: 'I will repeat anything you say.',
             usage: '[message]',
             middleware: [
                 'throttle.user:2,4'

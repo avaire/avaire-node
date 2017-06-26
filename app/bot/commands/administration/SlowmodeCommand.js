@@ -19,11 +19,7 @@ class SlowmodeCommand extends Command {
     constructor() {
         super('slowmode', [], {
             allowDM: false,
-            description: 'Disables the slowmode module or enables it with the given settings, users with the **text.manage_messages** permission are exempt from slowmode limits.',
-            usage: [
-                '',
-                '<limit> <decay in seconds>'
-            ],
+            usage: '<limit> <decay in seconds>',
             middleware: [
                 'require.user:general.manage_server',
                 'throttle.guild:1,5'

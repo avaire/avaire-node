@@ -12,7 +12,6 @@ class BotAdminAddCommand extends Command {
      */
     constructor() {
         super('baa', [], {
-            description: 'Add a bot admin to the bot-admin list.',
             usage: '<user>',
             middleware: [
                 'isBotAdmin'

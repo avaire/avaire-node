@@ -19,7 +19,6 @@ class LevelAlertsCommand extends Command {
     constructor() {
         super('levelalerts', ['lvlalert'], {
             allowDM: false,
-            description: 'Toggles the Leveling system on and off for the current server',
             middleware: [
                 'require.user:general.manage_server',
                 'throttle.user:1,5'

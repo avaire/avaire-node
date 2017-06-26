@@ -13,7 +13,6 @@ class QueueCommand extends Command {
     constructor() {
         super('queue', ['songs', 'song'], {
             allowDM: false,
-            description: 'Lists all the song currently in the queue.',
             middleware: [
                 'require:text.send_messages',
                 'throttle.user:2,5'

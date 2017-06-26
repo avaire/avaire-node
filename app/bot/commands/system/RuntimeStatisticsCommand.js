@@ -10,7 +10,6 @@ class RuntimeStatisticsCommand extends Command {
      */
     constructor() {
         super('rstats', ['stats'], {
-            description: 'Tells you information about the bot itself.',
             middleware: [
                 'isBotAdmin'
             ]

@@ -91,7 +91,11 @@ class Command {
      * @return {Array|String}
      */
     getDescription() {
-        return this.getOptions('description', 'This command doesn\'t have a description yet...');
+        let name = this.constructor.name;
+
+        return app.lang.findLangEntity(
+            `${app.lang.getLocal(null, true)}.command-descriptions.${app.bot.commands[name].category}.${name}`
+        );
     }
 
     /**

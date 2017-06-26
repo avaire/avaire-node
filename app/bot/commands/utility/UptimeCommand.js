@@ -10,7 +10,6 @@ class UptimeCommand extends Command {
      */
     constructor() {
         super('uptime', [], {
-            description: 'Tells you how long the bot has been online for.',
             middleware: [
                 'throttle.user:1,2'
             ]
