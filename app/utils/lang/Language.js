@@ -57,6 +57,11 @@ class Language {
      * @throws {SyntaxError}  Thrown if any of the language files has invalid JSON formatted in them.
      */
     loadLanguageFiles() {
+        /**
+         * Sets the language files to an array of the language folder structor.
+         *
+         * @type {Array}
+         */
         this.languageFiles = directory(module, this.resourcePath);
     }
 

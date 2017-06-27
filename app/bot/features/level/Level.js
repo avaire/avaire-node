@@ -8,6 +8,10 @@ const Feature = require('./../Feature');
  */
 class Level extends Feature {
 
+    /**
+     * Creates and prepares the level feature by setting
+     * up the quadratic a, b, and c values.
+     */
     constructor() {
         super();
 

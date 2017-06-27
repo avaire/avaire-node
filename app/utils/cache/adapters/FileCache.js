@@ -7,6 +7,12 @@ const fs = require('fs-extra');
 /** @ignore */
 const CacheAdapter = require('./CacheAdapter');
 
+/**
+ * File Cache Adapter, used to cache things in
+ * files in the storage folder long-term.
+ *
+ * @extends {CacheAdapter}
+ */
 class FileCache extends CacheAdapter {
 
     /**
@@ -15,7 +21,18 @@ class FileCache extends CacheAdapter {
      * @return {undefined}
      */
     setup() {
+        /**
+         * The storeage path for all file caches.
+         *
+         * @type {String}
+         */
         this.storagePath = path.resolve('storage', 'cache');
+
+        /**
+         * The status for the cache adapter.
+         *
+         * @type {Boolean}
+         */
         this.setup = true;
     }
 

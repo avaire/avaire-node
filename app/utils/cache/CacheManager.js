@@ -3,6 +3,10 @@ const MemoryCache = require('./adapters/MemoryCache');
 /** @ignore */
 const FileCache = require('./adapters/FileCache');
 
+/**
+ * Cache Manage, the cache manager, any valid cache adapter has to
+ * follow the same format and have the same methods as this class.
+ */
 class CacheManager {
 
     /**
@@ -96,6 +100,12 @@ class CacheManager {
     resolveAdapter(adapter) {
         if (adapter === undefined) {
             if (typeof this.defaultAdapter === 'undefined') {
+                /**
+                 * Sets the default adapter that should be falled back to
+                 * if no valid adapter is given on cache requests.
+                 *
+                 * @type {String}
+                 */
                 this.defaultAdapter = 'file';
             }
 

@@ -30,6 +30,12 @@ class ChangePrefixCommand extends Command {
             ]
         });
 
+        /**
+         * The list of valid category names the
+         * user can change the prefix for.
+         *
+         * @type {Array}
+         */
         this.categoryNames = _.map(categories, category => category.name.toLowerCase());
     }
 

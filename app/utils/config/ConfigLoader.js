@@ -1,6 +1,9 @@
 /** @ignore */
 const path = require('path');
 
+/**
+ * Config Loader, used to load a json config a bit easier.
+ */
 class ConfigLoader {
 
     /**

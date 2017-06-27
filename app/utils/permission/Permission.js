@@ -1,3 +1,8 @@
+
+/**
+ * Permission, helps check if any given request,
+ * user, or the bot has some permission node.
+ */
 class Permission {
 
     /**

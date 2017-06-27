@@ -12,6 +12,11 @@ class ServiceProvider {
      * Setups the service provider by making sure it is disabled by default.
      */
     constructor() {
+        /**
+         * Determins if the service provided has been enabled or not.
+         *
+         * @type {Boolean}
+         */
         this.isEnabled = false;
     }
 
@@ -54,7 +59,14 @@ class ServiceProvider {
      * @param {Object} service  The service that should be set.
      */
     setService(service) {
+        /**
+         * Sets the service to the global service property
+         * for the given service provided.
+         *
+         * @type {Object}
+         */
         this.service = service;
+
         return true;
     }
 }

@@ -22,6 +22,11 @@ class DiscordBotStatsUpdateJob extends Job {
     constructor() {
         super();
 
+        /**
+         * The stat services that Ava is currently using.
+         *
+         * @type {Array}
+         */
         this.statsServices = [
             {
                 name: 'bots.discord.pw',

@@ -1,3 +1,10 @@
+
+/**
+ * Cache Adapter, all cache adaptations has to follow this
+ * class format to work correctly with the cache manage.
+ *
+ * @abstract
+ */
 class CacheAdapter {
 
     /**

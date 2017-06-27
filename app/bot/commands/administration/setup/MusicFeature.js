@@ -1,5 +1,12 @@
+/** @ignore */
 const Feature = require('./Feature');
 
+/**
+ * Music Feature, this feature is used to create the music
+ * DJ role for the server is it doesn't already exists.
+ *
+ * @extends {Feature}
+ */
 class MusicFeature extends Feature {
 
     /**

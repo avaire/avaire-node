@@ -1,3 +1,8 @@
+
+/**
+ * Role, can be used to easily check if a
+ * user has a role with the given name.
+ */
 class Role {
 
     /**

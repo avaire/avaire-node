@@ -239,6 +239,12 @@ class Database {
         });
     }
 
+    /**
+     * Gets the database bot blacklist, any users returned from this query
+     * will be prevented from using any features within the bot.
+     *
+     * @return {Promise}
+     */
     getBlacklist() {
         return new Promise((resolve, reject) => {
             app.bot.statistics.databaseQueries++;

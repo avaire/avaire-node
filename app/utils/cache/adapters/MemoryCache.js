@@ -1,6 +1,11 @@
 /** @ignore */
 const CacheAdapter = require('./CacheAdapter');
 
+/**
+ * Memory Cache Adapter, used to cache things in memory.
+ *
+ * @extends {CacheAdapter}
+ */
 class MemoryCache extends CacheAdapter {
 
     /**

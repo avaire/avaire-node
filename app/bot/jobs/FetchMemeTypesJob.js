@@ -20,6 +20,11 @@ class FetchMemeTypesJob extends Job {
     constructor() {
         super();
 
+        /**
+         * The MemeGenerator API Template URL.
+         *
+         * @type {String}
+         */
         this.templateUrl = 'https://memegen.link/api/templates/';
 
         if (!app.cache.has('meme.types')) {

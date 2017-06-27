@@ -1,3 +1,8 @@
+
+/**
+ * Time parser, helps with parsing time strings
+ * to formatting them nicely for the user.
+ */
 class TimeParser {
 
     /**

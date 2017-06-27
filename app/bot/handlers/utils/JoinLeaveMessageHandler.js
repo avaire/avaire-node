@@ -1,4 +1,8 @@
 
+/**
+ * Join and Leave Message Handler, used to send welcome and goodbye
+ * easier per-server for channels that has the modules enabled.
+ */
 class JoinLeaveMessageHandler {
 
     /**

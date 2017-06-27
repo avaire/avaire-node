@@ -30,6 +30,12 @@ class CommandModulesCommand extends Command {
             ]
         });
 
+        /**
+         * The list of valid category names
+         * the user can toggle on or off.
+         *
+         * @type {Array}
+         */
         this.categoryNames = _.map(categories, category => category.name);
     }
 

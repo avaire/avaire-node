@@ -1,3 +1,8 @@
+
+/**
+ * Throttle, helps creating user, channel, and guild throtteling
+ * within Ava with some help from the Cache utility.
+ */
 class Throttle {
 
     /**

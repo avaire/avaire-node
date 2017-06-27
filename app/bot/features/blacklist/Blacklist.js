@@ -14,6 +14,11 @@ class Blacklist extends Feature {
     constructor() {
         super();
 
+        /**
+         * The list of user IDs that are backlisted from using the bot.
+         *
+         * @type {Array}
+         */
         this.blacklist = [];
     }
 

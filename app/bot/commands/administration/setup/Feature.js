@@ -1,3 +1,11 @@
+
+/**
+ * The abstract Feature class for setup features, the class
+ * helps create some boilerplate for setup features that
+ * users can use through the setup command.
+ *
+ * @abstract
+ */
 class Feature {
 
     /**
