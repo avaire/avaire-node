@@ -23,9 +23,13 @@ class UppdateGuildChannelsHandler {
             return app.logger.error('Failed to resolve guild from guild ID in a channel event, guild ID: ', app.getGuildIdFrom(channel));
         }
 
+        let channels = this.getChannels(guild);
+
         return app.database.update(app.constants.GUILD_TABLE_NAME, {
-            channels_data: JSON.stringify(this.getChannels(guild))
-        }, query => query.where('id', app.getGuildIdFrom(guild)));
+            channels_data: JSON.stringify(channels)
+        }, query => query.where('id', app.getGuildIdFrom(guild))).catch(err => {
+            return app.logger.error('Failed to update guild channel data, ', err, '\nchannels: ', channels);
+        });
     }
 
     /**

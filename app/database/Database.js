@@ -125,12 +125,16 @@ class Database {
                             icon: guild.icon
                         }), 500);
 
+                        let channels = ChannelsHandler.getChannels(guild);
+
                         this.insert(app.constants.GUILD_TABLE_NAME, {
                             id: app.getGuildIdFrom(guild),
                             owner: guild.owner_id,
                             name: this.stringifyEmojis(guild.name),
                             icon: guild.icon,
-                            channels_data: JSON.stringify(ChannelsHandler.getChannels(guild))
+                            channels_data: JSON.stringify(channels)
+                        }).catch(err => {
+                            return app.logger.error('Failed to insert database record ', err, '\nchannels: ', channels);
                         });
                     } else {
                         Cache.put(token, new GuildTransformer(response[0]), 500);
