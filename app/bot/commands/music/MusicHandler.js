@@ -204,7 +204,11 @@ class MusicHandler {
                     });
                 }
 
-                return connection.voiceConnection.disconnect();
+                try {
+                    return connection.voiceConnection.disconnect();
+                } catch (err) {
+                    app.logger.err(err);
+                }
             }
 
             let song = this.queues[app.getGuildIdFrom(message)][0];
