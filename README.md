@@ -40,6 +40,10 @@ There are currently not many resources for users wishing to run AvaIre on their 
 
 If you are not into hosting the bot yourself, you can always invite AvaIre to your server [from here](https://avairebot.com/invite).
 
+## Contributing
+
+Thank you for considering contributing to AvaIre! The contribution guide can be found in the [AvaIre documentation](https://avairebot.com/docs/contributions).
+
 ## License
 
 AvaIre is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
