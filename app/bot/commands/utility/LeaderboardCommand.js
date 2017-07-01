@@ -64,6 +64,7 @@ class LeaderboardCommand extends Command {
             return app.envoyer.sendEmbededMessage(message, {
                 color: 0xE91E63,
                 title: `${message.guild.name} Leaderboard`,
+                url: `https://avairebot.com/leaderboard/${app.getGuildIdFrom(message)}`,
                 description: formattedUsers.join('\n'),
                 footer: {
                     text: `Showing page ${pageNumber} out of ${pages} pages`
