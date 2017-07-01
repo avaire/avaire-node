@@ -50,7 +50,6 @@ class UppdateGuildChannelsHandler {
             channels.push({
                 id: c.id,
                 name: channelName === null ? 'Invalid Channel Name' : channelName,
-                topic: c.topic,
                 position: c.position
             });
         }
