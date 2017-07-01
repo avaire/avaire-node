@@ -15,6 +15,10 @@ module.exports = {
         intent: 'Random dog',
         handler: require('./intents/RequestDog')
     },
+    'request.level': {
+        intent: 'Request Level',
+        handler: require('./intents/RequestLevel')
+    },
     'request.song': {
         intent: 'Find song',
         handler: require('./intents/FindSong')
