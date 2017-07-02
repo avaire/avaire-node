@@ -172,6 +172,7 @@ class HelpCommand extends Command {
         return app.envoyer.sendEmbededMessage(message, {
             color: app.envoyer.colors.info,
             title: title.charAt(0).toUpperCase() + title.slice(1),
+            url: `https://avairebot.com/docs/commands#${command.handler.constructor.name}`,
             description,
             fields
         });
