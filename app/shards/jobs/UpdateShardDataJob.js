@@ -51,7 +51,7 @@ class UpdateShardDataJob extends Job {
 
             return app.database.update(app.constants.SHARD_TABLE_NAME, shard.toDatabaseBindings(),
                 query => query.where('id', app.shard.getId()));
-        }).catch(err => app.logger.error(err));
+        }).catch(err => app.logger.raven(err));
     }
 
     /**

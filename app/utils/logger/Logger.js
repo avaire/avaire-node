@@ -98,11 +98,51 @@ class Logger {
      */
     error(...args) {
         if (isEnvironmentInProduction()) {
+            if (app.raven !== null && args.length > 0 && typeof args[0] !== 'string') {
+                app.raven.captureException(args[0]);
+            }
+
             return this.winston.debug(...args);
         }
 
         if (!isEnvironmentInTesting()) {
             return this.winston.error(...args);
+        }
+    }
+
+    /**
+     * Sends a error message to raven if it is enabled, and then logs everything to a file.
+     *
+     * @param  {Error}   err      The error that is being logged.
+     * @param  {Object}  options  The options that should be given to raven.
+     */
+    raven(err, options = {}) {
+        if (app.raven === null) {
+            return isEnvironmentInProduction() ? this.debug(err, options) : this.error(err, options);
+        }
+
+        if (options.constructor.name === 'IMessage') {
+            options = {
+                user: options.author,
+                channel: {
+                    id: options.channel.id,
+                    name: options.channel.name,
+                    type: options.channel.type,
+                    guild_id: options.channel.guild_id
+                }
+            };
+        }
+
+        app.raven.captureException(err, {
+            extra: options
+        });
+
+        if (isEnvironmentInProduction()) {
+            return this.debug(err, options);
+        }
+
+        if (!isEnvironmentInTesting()) {
+            return this.winston.error(err, options);
         }
     }
 

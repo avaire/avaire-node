@@ -34,7 +34,7 @@ class ChannelModule {
                     channelname: message.channel.name
                 });
             });
-        }).catch(err => app.logger.error(err));
+        }).catch(err => app.logger.raven(err, message));
     }
 
     /**
@@ -68,7 +68,7 @@ class ChannelModule {
                 guild.data.channels[message.channel.id] = channel.all();
 
                 return resolve(this.updateChannel(message, guild));
-            }).catch(err => app.logger.error(err));
+            }).catch(err => app.logger.raven(err, message));
         });
     }
 

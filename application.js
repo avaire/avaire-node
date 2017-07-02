@@ -7,6 +7,8 @@ const directory = require('require-directory');
 /** @ignore */
 const Discordie = require('discordie');
 /** @ignore */
+const Raven = require('raven');
+/** @ignore */
 const Helpers = require('./app/helpers');
 /** @ignore */
 const ShardManager = require('./app/shards/ShardManager');
@@ -21,6 +23,7 @@ class Application {
     bootstrap() {
         global.app = require('./app');
         app.bot.jobs = {};
+        app.raven = null;
 
         app.logger.info(`Bootstraping AvaIre v${app.version}`);
 
@@ -57,6 +60,7 @@ class Application {
 
         app.shard = new ShardManager();
 
+        this.registerRaven();
         this.registerEvents();
         this.registerJobs();
         this.registerServices();
@@ -126,6 +130,20 @@ class Application {
 
         options.autoReconnect = true;
         global.bot = new Discordie(options);
+    }
+
+    /**
+     * Register raven, if a raven api token has been given the raven package will be
+     * configured and installed, allowing Ava to log errors to a web interface
+     * where it's easier for developers to figure out what went wrong.
+     */
+    registerRaven() {
+        if (!app.config.apiKeys.hasOwnProperty('raven') || app.config.apiKeys.raven.trim() === 0) {
+            return;
+        }
+
+        Raven.config(app.config.apiKeys.raven).install();
+        app.raven = Raven;
     }
 
     /**

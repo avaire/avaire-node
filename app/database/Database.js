@@ -59,7 +59,9 @@ class Database {
             this.getClient().migrate.latest().then(() => {
                 resolve();
             }).catch(err => {
-                app.logger.error(err);
+                app.logger.raven(err, {
+                    message: `Failed to run/update database migrations.`
+                });
                 reject(err);
             });
         });
@@ -134,7 +136,10 @@ class Database {
                             icon: guild.icon,
                             channels_data: JSON.stringify(channels)
                         }).catch(err => {
-                            return app.logger.error('Failed to insert database record ', err, '\nchannels: ', channels);
+                            return app.logger.raven(err, {
+                                message: `Failed to insert database record`,
+                                channels
+                            });
                         });
                     } else {
                         Cache.put(token, new GuildTransformer(response[0]), 500);
@@ -280,11 +285,7 @@ class Database {
                 app.bot.statistics.databaseQueries++;
 
                 return resolve();
-            }).catch(err => {
-                app.logger.error(err);
-
-                return reject(err);
-            });
+            }).catch(err => reject(err));
         });
     }
 
@@ -312,7 +313,7 @@ class Database {
 
             return query.then(() => {
                 return resolve(app.bot.statistics.databaseQueries++);
-            }).catch(err => app.logger.error(err));
+            }).catch(err => reject(err));
         });
     }
 

@@ -316,7 +316,7 @@ class PlaylistCommand extends Command {
                     playlist: playlist.get('name'),
                     slots: guildType.get('limits.playlist.songs') - playlistSongs.length
                 }).then(() => this.deleteMessage(message));
-            }).catch(err => app.logger.error(err));
+            }).catch(err => app.logger.raven(err, message));
         }).catch(err => {
             app.logger.error('Failed to add a song to the queue: ', err);
 
@@ -448,7 +448,7 @@ class PlaylistCommand extends Command {
                     playlist: args[0]
                 });
             }).catch(err => {
-                app.logger.error(err);
+                app.logger.raven(err, message);
                 playlist.data.name = oldName;
 
                 return app.envoyer.sendError(message, 'Looks like something went wrong while trying to update the playlist.');

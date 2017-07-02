@@ -52,7 +52,7 @@ class LevelCommand extends Command {
                 return app.envoyer.sendSuccess(message, '`Levels & Experience` has been `:status` for the server.:note', {
                     status: status ? 'Enabled' : 'Disabled', note
                 });
-            }).catch(err => app.logger.error(err));
+            }).catch(err => app.logger.raven(err, message));
         });
     }
 }

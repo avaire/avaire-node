@@ -141,8 +141,10 @@ class DiscordBotStatsUpdateJob extends Job {
                 body: this.buildRequestBody()
             }, (error, response, body) => {
                 if (response.statusCode !== 200) {
-                    app.logger.error(`Failed to update ${service.name} bot stats, the API returned an error:`);
-                    app.logger.error(error, body);
+                    app.logger.raven(error, {
+                        message: `Failed to update ${service.name} bot stats, the API returned an error.`,
+                        body
+                    });
                 }
 
                 return resolve();

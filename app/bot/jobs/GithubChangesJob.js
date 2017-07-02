@@ -54,8 +54,10 @@ class GithubChangeJob extends Job {
 
                     app.cache.forever('github.commits', parsed);
                 } catch (err) {
-                    app.logger.error('Github Changes job: The API returned an unconventional response.');
-                    app.logger.error(err);
+                    app.logger.raven(error, {
+                        message: `Github Changes job: The API returned an unconventional response.`,
+                        body
+                    });
                 }
             }
         });

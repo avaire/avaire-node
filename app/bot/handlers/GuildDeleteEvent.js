@@ -23,7 +23,9 @@ class GuildDeleteEvent extends EventHandler {
         app.database.update(app.constants.GUILD_TABLE_NAME, {
             leftguild_at: new Date
         }, query => query.where('id', socket.data.id))
-            .catch(err => app.logger.error(err));
+            .catch(err => app.logger.raven(err, {
+                guild: socket.data
+            }));
 
         if (!app.process.isReady) {
             return;

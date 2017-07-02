@@ -58,8 +58,10 @@ class GithubVersionJob extends Job {
 
                     app.cache.forever('github.version', parsed.version);
                 } catch (err) {
-                    app.logger.error('Github Version Job: The API returned an unconventional response.');
-                    app.logger.error(err);
+                    app.logger.raven(error, {
+                        message: `Github Version Job: The API returned an unconventional response.`,
+                        body
+                    });
                 }
             }
         });

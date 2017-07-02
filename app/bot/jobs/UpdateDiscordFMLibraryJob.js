@@ -82,8 +82,10 @@ class UpdateDiscordFMLibraryJob extends Job {
 
                     app.cache.forever(token, parsed);
                 } catch (err) {
-                    app.logger.error('Update Discord FM Library Job: The API returned an unconventional response.');
-                    app.logger.error(err);
+                    app.logger.raven(error, {
+                        message: `Update Discord FM Library Job: The API returned an unconventional response.`,
+                        body
+                    });
                 }
             }
         });

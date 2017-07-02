@@ -74,7 +74,7 @@ class AliasCommand extends Command {
             app.database.update(app.constants.GUILD_TABLE_NAME, {
                 aliases: JSON.stringify(guild.data.aliases)
             }, query => query.where('id', app.getGuildIdFrom(message)))
-                .catch(err => app.logger.error(err));
+                .catch(err => app.logger.raven(err, message));
 
             return app.envoyer.sendSuccess(message, 'commands.administration.alias.alias-created', {
                 alias: args[0],

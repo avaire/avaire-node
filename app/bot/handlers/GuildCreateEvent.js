@@ -26,7 +26,9 @@ class GuildCreateEvent extends EventHandler {
                 app.database.update(app.constants.GUILD_TABLE_NAME, {
                     leftguild_at: null
                 }, query => query.where('id', app.getGuildIdFrom(socket)))
-                    .catch(err => app.logger.error(err));
+                    .catch(err => app.logger.raven(err, {
+                        guild: guild.toDatabaseBindings()
+                    }));
             }
         });
 

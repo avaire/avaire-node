@@ -28,7 +28,10 @@ class UppdateGuildChannelsHandler {
         return app.database.update(app.constants.GUILD_TABLE_NAME, {
             channels_data: JSON.stringify(channels)
         }, query => query.where('id', app.getGuildIdFrom(guild))).catch(err => {
-            return app.logger.error('Failed to update guild channel data, ', err, '\nchannels: ', channels);
+            return app.logger.raven(err, {
+                message: 'Failed to update guild channel data',
+                guild, channels
+            });
         });
     }
 

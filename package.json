@@ -1,6 +1,6 @@
 {
     "name": "Ava-Ire",
-    "version": "0.52.13",
+    "version": "0.52.14",
     "description": "A Discord Bot",
     "main": "start.js",
     "maintainers": [
@@ -78,6 +78,7 @@
         "moment": "^2.18.1",
         "mysql": "^2.13.0",
         "node-schedule": "^1.2.0",
+        "raven": "^2.1.0",
         "relevant-urban": "^2.0.0",
         "request": "^2.81.0",
         "require-directory": "^2.1.1",

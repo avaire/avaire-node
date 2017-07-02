@@ -70,7 +70,7 @@ class FileCache extends CacheAdapter {
 
         fs.ensureDirSync(token.path.storage, err => {
             if (err) {
-                app.logger.error(err);
+                app.logger.raven(err);
             }
         });
 
@@ -210,7 +210,7 @@ class FileCache extends CacheAdapter {
     flush() {
         let item = fs.emptyDirSync(this.storagePath, err => {
             if (err) {
-                app.logger.error(err);
+                app.logger.raven(err);
             }
         });
 

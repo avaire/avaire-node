@@ -68,8 +68,10 @@ class FetchMemeTypesJob extends Job {
 
                     app.cache.forever('meme.types', storeArray);
                 } catch (err) {
-                    app.logger.error('Fetch Meme Types job: The API returned an unconventional response.');
-                    app.logger.error(err);
+                    app.logger.raven(error, {
+                        message: `Fetch Meme Types job: The API returned an unconventional response.`,
+                        body
+                    });
                 }
             }
         });

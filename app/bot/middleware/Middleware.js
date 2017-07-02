@@ -58,9 +58,10 @@ class Middleware {
         let middleware = this.nextMiddleware;
 
         if (middleware === undefined) {
-            app.logger.error(`${this.constructor.name} failed to call the next middleware in the stack, middleware is undefined!`);
-            app.logger.error('Request:');
-            app.logger.error(request);
+            app.logger.raven(new TypeError('Invalid middleware given in stack'), {
+                message: `Update Discord FM Library Job: The API returned an unconventional response.`,
+                request
+            });
             return null;
         }
 

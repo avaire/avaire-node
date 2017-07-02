@@ -62,7 +62,7 @@ class LevelAlertsCommand extends Command {
                     status: status ? 'Enabled' : 'Disabled',
                     note: channelId === null ? `` : `\nAll level up messages will be logged into the <#${channelId}> channel.`
                 });
-            }).catch(err => app.logger.error(err));
+            }).catch(err => app.logger.raven(err, message));
         });
     }
 
