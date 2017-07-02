@@ -11,7 +11,7 @@ const Job = require('./../../bot/jobs/Job');
  *
  * @extends {Job}
  */
-class UppdateShardDataJob extends Job {
+class UpdateShardDataJob extends Job {
 
     /**
      * The jobs constructor, this will check if the cache
@@ -67,4 +67,4 @@ class UppdateShardDataJob extends Job {
     }
 }
 
-module.exports = UppdateShardDataJob;
+module.exports = UpdateShardDataJob;
