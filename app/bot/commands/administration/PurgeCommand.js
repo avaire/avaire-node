@@ -94,7 +94,7 @@ class PurgeCommand extends Command {
             // and starts and delayed taks to delete the message after 3½ seconds.
             return app.envoyer.sendSuccess(message, languageString, placeholders).then(message => {
                 return app.scheduler.scheduleDelayedTask(() => {
-                    return message.delete();
+                    return app.envoyer.delete(message);
                 }, 3500);
             });
         }).catch(err => {

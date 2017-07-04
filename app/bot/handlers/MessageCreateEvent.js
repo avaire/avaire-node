@@ -63,7 +63,7 @@ class MessageCreateEvent extends EventHandler {
                 let decay = channel.get('slowmode.messageLimit', 5);
 
                 if (!app.throttle.can(fingerprint, limit, decay)) {
-                    return socket.message.delete();
+                    return app.envoyer.delete(socket.message);
                 }
             }
 

@@ -96,7 +96,7 @@ class QueueCommand extends Command {
             time: this.getTimeLeft(song.playTime, song.duration),
             requester: `<@${song.requester}>`
         }).then(m => {
-            return app.scheduler.scheduleDelayedTask(() => m.delete(), 29500);
+            return app.scheduler.scheduleDelayedTask(() => app.envoyer.delete(m), 29500);
         });
     }
 
@@ -109,7 +109,7 @@ class QueueCommand extends Command {
      */
     sendQueueIsEmpty(message) {
         return app.envoyer.sendWarn(message, 'commands.music.empty-queue').then(m => {
-            return app.scheduler.scheduleDelayedTask(() => m.delete(), 6000);
+            return app.scheduler.scheduleDelayedTask(() => app.envoyer.delete(m), 6000);
         });
     }
 

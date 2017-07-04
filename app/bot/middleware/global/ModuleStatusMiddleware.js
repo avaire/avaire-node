@@ -30,7 +30,7 @@ class ModuleStatusMiddleware extends Middleware {
 
         return app.envoyer.sendWarn(request.message, 'language.errors.module-is-disabled', {
             category: this.command.command.category
-        }).then(message => app.scheduler.scheduleDelayedTask(() => message.delete(), 17500));
+        }).then(message => app.scheduler.scheduleDelayedTask(() => app.envoyer.delete(message), 17500));
     }
 
     /**

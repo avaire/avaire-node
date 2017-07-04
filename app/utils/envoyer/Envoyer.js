@@ -205,6 +205,28 @@ class Envoyer {
     }
 
     /**
+     * Deletes the given message, if it has already been deleted no errors will be
+     * thrown since the intented state of the message has already been reached.
+     *
+     * @param  {IMessage}  message  The message that should be deleted.
+     * @return {Promise}
+     */
+    delete(message) {
+        return new Promise((resolve, reject) => {
+            if (message.deleted) {
+                return resolve();
+            }
+
+            return message.delete().then(() => resolve()).catch(err => {
+                if (err.message.indexOf('Not Found') > -1 && err.message.indexOf('Unknown Message') > -1) {
+                    return resolve();
+                }
+                return reject(err);
+            });
+        });
+    }
+
+    /**
      * Transforms the provided color and message into
      * a simple Discord embed message object.
      *

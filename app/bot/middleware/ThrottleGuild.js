@@ -32,7 +32,7 @@ class ThrottleGuild extends Middleware {
             seconds: secondsLeft, command
         }).then(message => {
             return app.scheduler.scheduleDelayedTask(() => {
-                return message.delete();
+                return app.envoyer.delete(message);
             }, 4500);
         });
     }

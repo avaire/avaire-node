@@ -110,7 +110,7 @@ class GuildCreateEvent extends EventHandler {
      */
     sendRecurringWelcomeMessages(socket, message, timeLeft) {
         if (timeLeft <= 0) {
-            return message.delete();
+            return app.envoyer.delete(message);
         }
 
         return message.edit('', this.buildWelcomeEmbededMessage(timeLeft)).then(editedMessage => {

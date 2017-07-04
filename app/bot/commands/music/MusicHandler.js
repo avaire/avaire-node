@@ -200,7 +200,7 @@ class MusicHandler {
 
                 if (sendMessages) {
                     app.envoyer.sendInfo(message, 'commands.music.end-of-queue').then(m => {
-                        return app.scheduler.scheduleDelayedTask(() => m.delete(), 7500);
+                        return app.scheduler.scheduleDelayedTask(() => app.envoyer.delete(m), 7500);
                     });
                 }
 

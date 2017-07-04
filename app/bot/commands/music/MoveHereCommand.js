@@ -93,7 +93,7 @@ class MoveHereCommand extends Command {
     sendAndDeleteWarning(message, stringMessage, placeholders = {}, delay = 10000) {
         return app.envoyer.sendWarn(message, stringMessage, placeholders).then(message => {
             return app.scheduler.scheduleDelayedTask(() => {
-                return message.delete().catch(err => app.logger.error(err));
+                return app.envoyer.delete(message);
             }, delay);
         });
     }

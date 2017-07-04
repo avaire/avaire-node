@@ -645,7 +645,7 @@ class PlaylistCommand extends Command {
      */
     deleteMessage(message) {
         if (app.permission.botHas(message, 'text.manage_messages')) {
-            return message.delete();
+            return app.envoyer.delete(message);
         }
         return Promise.resolve();
     }

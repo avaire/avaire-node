@@ -45,7 +45,7 @@ class VolumeCommand extends Command {
         if (!Music.isInSameVoiceChannelAsBot(message, sender)) {
             return app.envoyer.sendWarn(message, 'commands.music.volume-while-not-in-channel').then(message => {
                 return app.scheduler.scheduleDelayedTask(() => {
-                    return message.delete().catch(err => app.logger.error(err));
+                    return app.envoyer.delete(message);
                 }, 10000);
             });
         }
@@ -62,7 +62,7 @@ class VolumeCommand extends Command {
 
         return app.envoyer.sendInfo(message, `🎵 Volume set to **${volume}%**\n${volumeString}`).then(message => {
             return app.scheduler.scheduleDelayedTask(() => {
-                return message.delete().catch(err => app.logger.error(err));
+                return app.envoyer.delete(message);
             }, 6500);
         });
     }
