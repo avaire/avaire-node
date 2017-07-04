@@ -56,7 +56,7 @@ class Guild {
                 return context.id;
 
             case 'IMessage':
-                return context.guild.id;
+                return this.getIdFrom(context.guild);
 
             case 'IChannel':
             case 'ITextChannel':
@@ -67,10 +67,10 @@ class Guild {
                 return context.guildId;
 
             case 'IVoiceConnection':
-                return context.guild.id;
+                return this.getIdFrom(context.guild);
 
             case 'VoiceConnectionInfo':
-                return context.voiceConnection.guild.id;
+                return this.getIdFrom(context.voiceConnection.guild);
 
             case 'IGuildMember':
                 return context.guild_id;
