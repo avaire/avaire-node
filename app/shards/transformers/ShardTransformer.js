@@ -1,6 +1,8 @@
 /** @ignore */
 const os = require('os');
 /** @ignore */
+const Music = require('./../../bot/commands/music/MusicHandler');
+/** @ignore */
 const Transformer = require('./../../database/transformers/Transformer');
 
 /**
@@ -30,7 +32,9 @@ class ShardTransformer extends Transformer {
             version: app.version,
             users: bot.Users.length,
             guilds: bot.Guilds.length,
-            channels: bot.Channels.length
+            channels: bot.Channels.length,
+            voices: bot.VoiceConnections.length,
+            songs: this.getSongsInQueue()
         };
     }
 
@@ -51,6 +55,19 @@ class ShardTransformer extends Transformer {
             guilds: bot.Guilds.length,
             channels: bot.Channels.length
         };
+    }
+
+    /**
+     * Loops through all the songs currently in the queue and adds them up.
+     *
+     * @return {Number}
+     */
+    getSongsInQueue() {
+        let songsInQueue = 0;
+        for (let guildId in Music.queues) {
+            songsInQueue += Music.queues[guildId].length;
+        }
+        return songsInQueue;
     }
 }
 
