@@ -114,8 +114,12 @@ class InactiveVoiceStreamJob extends Job {
      * @return {Boolean}
      */
     isThereAnyNoneBotsInVoiceChannel(connection) {
-        let members = connection.voiceConnection.channel.members;
+        let channel = connection.voiceConnection.channel;
+        if (!channel.hasOwnProperty('members') || channel.members === null) {
+            return false;
+        }
 
+        let members = channel.members;
         for (let i in members) {
             if (!members[i].bot) {
                 return true;
