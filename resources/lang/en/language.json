@@ -6,6 +6,7 @@
         "cant-run-in-dms": ":warning: You can not use this command in direct messages!",
         "must-be-bot-admin": ":warning: You must be a bot administrator to use this command!",
         "throttle-limit-hit": "Too many `:command` attempts. Please try again in **:seconds** seconds.",
+        "require-command-perms": "I don't have permission to send messages and embedded links in the server/channel you ran the command in, so the command cannot be executed :(",
         "require-bot-missing": "I don't have the required permission node to execute this command:\n`:permission`",
         "require-user-missing": "You're missing the required permission node for this command:\n`:permission`",
         "missing-arguments": ":warning: Missing arguments, use `:help :command` to learn more about the command",

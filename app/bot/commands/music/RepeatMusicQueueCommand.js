@@ -14,7 +14,6 @@ class RepeatMusicQueueCommand extends Command {
         super('repeatsongs', ['repeat', 'loop'], {
             allowDM: false,
             middleware: [
-                'require:text.send_messages',
                 'throttle.channel:2,5',
                 'hasRole:DJ'
             ]

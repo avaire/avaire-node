@@ -14,7 +14,6 @@ class VoteSkipCommand extends Command {
         super('voteskip', ['vskip'], {
             allowDM: false,
             middleware: [
-                'require:text.send_messages',
                 'throttle.user:2,5'
             ]
         });

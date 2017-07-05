@@ -14,7 +14,6 @@ class VolumeCommand extends Command {
         super('volume', ['vol'], {
             allowDM: false,
             middleware: [
-                'require:text.send_messages',
                 'throttle.channel:2,4',
                 'hasRole:DJ'
             ]

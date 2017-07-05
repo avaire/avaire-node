@@ -14,7 +14,6 @@ class MoveHereCommand extends Command {
         super('movehere', ['moveh'], {
             allowDM: false,
             middleware: [
-                'require:text.send_messages',
                 'throttle.user:2,5',
                 'hasRole:DJ'
             ]

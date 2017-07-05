@@ -14,7 +14,6 @@ class FlushQueueCommand extends Command {
         super('flushqueue', ['fqueue'], {
             allowDM: false,
             middleware: [
-                'require:text.send_messages',
                 'throttle.user:1,5',
                 'hasRole:DJ'
             ]

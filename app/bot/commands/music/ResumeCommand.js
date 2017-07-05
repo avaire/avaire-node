@@ -14,7 +14,6 @@ class ResumeCommand extends Command {
         super('resume', [], {
             allowDM: false,
             middleware: [
-                'require:text.send_messages',
                 'throttle.channel:2,5',
                 'hasRole:DJ'
             ]

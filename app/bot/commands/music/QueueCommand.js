@@ -15,7 +15,6 @@ class QueueCommand extends Command {
             allowDM: false,
             usage: '[remove] [id]',
             middleware: [
-                'require:text.send_messages',
                 'throttle.user:2,5'
             ]
         });

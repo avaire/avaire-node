@@ -22,7 +22,6 @@ class RequestCommand extends Command {
                 '<name of song>'
             ],
             middleware: [
-                'require:text.send_messages',
                 'throttle.user:2,5'
             ]
         });
