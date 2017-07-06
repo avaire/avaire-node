@@ -441,11 +441,13 @@ class MusicHandler {
             return;
         }
 
+        let voice = this.getVoiceConnection(message);
+        if (typeof voice === 'undefined') {
+            return;
+        }
+
         this.setPausedState(message, true);
-        return this.getVoiceConnection(message)
-                   .voiceConnection
-                   .getEncoderStream()
-                   .cork();
+        return voice.voiceConnection.getEncoderStream().cork();
     }
 
     /**
@@ -459,11 +461,13 @@ class MusicHandler {
             return;
         }
 
+        let voice = this.getVoiceConnection(message);
+        if (typeof voice === 'undefined') {
+            return;
+        }
+
         this.setPausedState(message, false);
-        return this.getVoiceConnection(message)
-                   .voiceConnection
-                   .getEncoderStream()
-                   .uncork();
+        return voice.voiceConnection.getEncoderStream().uncork();
     }
 
     /**
