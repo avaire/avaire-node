@@ -113,6 +113,12 @@ class GuildCreateEvent extends EventHandler {
             return app.envoyer.delete(message);
         }
 
+        // If the message was already deleted of the server have kicked the bot
+        // we'll just end the loop here so it doesn't throw an error later on.
+        if (message.id === null || message.deleted) {
+            return;
+        }
+
         return message.edit('', this.buildWelcomeEmbededMessage(timeLeft)).then(editedMessage => {
             return app.scheduler.scheduleDelayedTask(() => {
                 return this.sendRecurringWelcomeMessages(socket, editedMessage, timeLeft - 1);
