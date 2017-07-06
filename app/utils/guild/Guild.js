@@ -34,6 +34,10 @@ class Guild {
         }
 
         if (type === 'Object') {
+            if (context.hasOwnProperty('id')) {
+                return this.getIdFrom(context.id);
+            }
+
             if (context.hasOwnProperty('message')) {
                 return this.getIdFrom(context.message);
             }
