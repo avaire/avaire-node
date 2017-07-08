@@ -59,19 +59,21 @@ class RequestCommand extends Command {
                     url = song.webpage_url;
                 }
 
-                // Filters through all of the song formants to make sure all the song
-                // candidates is in a webm format and has an average audio bitrate
-                // that's suitable for streaming via Discord.
-                let formats = song.formats.filter(format => {
-                    return format.ext === 'webm' && format.abr > 0;
-                }).sort((a, b) => a.abr - b.abr);
+                if (song.formats !== undefined) {
+                    // Filters through all of the song formants to make sure all the song
+                    // candidates is in a webm format and has an average audio bitrate
+                    // that's suitable for streaming via Discord.
+                    let formats = song.formats.filter(format => {
+                        return format.ext === 'webm' && format.abr > 0;
+                    }).sort((a, b) => a.abr - b.abr);
 
-                // Attempts to find the best bitrate audio version of the song.
-                let audio = formats.find(format => format.abr > 0 && !format.tbr) ||
-                            formats.find(format => format.abr > 0);
+                    // Attempts to find the best bitrate audio version of the song.
+                    let audio = formats.find(format => format.abr > 0 && !format.tbr) ||
+                                formats.find(format => format.abr > 0);
 
-                if (audio !== undefined) {
-                    song.url = audio.url;
+                    if (audio !== undefined) {
+                        song.url = audio.url;
+                    }
                 }
 
                 Music.addToQueue(message, song, url);

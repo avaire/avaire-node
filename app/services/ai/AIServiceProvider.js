@@ -57,8 +57,12 @@ class AIServiceProvider extends ServiceProvider {
             // the intents object list, if the handler is found a new instance will
             // be created of it with the current message properties.
             try {
-                let IntentHandler = Intents[response.result.action].handler;
+                let ActionIntent = Intents[response.result.action];
+                if (ActionIntent === undefined) {
+                    return;
+                }
 
+                let IntentHandler = ActionIntent.handler;
                 let intent = new IntentHandler(socket, response, message);
 
                 return intent.handle();

@@ -114,15 +114,14 @@ class InactiveVoiceStreamJob extends Job {
      * @return {Boolean}
      */
     isThereAnyNoneBotsInVoiceChannel(connection) {
-        let channel = connection.voiceConnection.channel;
-        if (!channel.hasOwnProperty('members') || channel.members === null) {
+        let members = app.loadProperty(connection, ['voiceConnection', 'channel', 'members']);
+        if (!members === null) {
             // There might not be any users in the channel but we'll return true anyway
             // since droping the music mid-playing if there were an error somewhere
             // else would be kinda shit for the users listening to music.
             return true;
         }
 
-        let members = channel.members;
         for (let i in members) {
             if (!members[i].bot) {
                 return true;

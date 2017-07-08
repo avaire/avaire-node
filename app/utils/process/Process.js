@@ -109,6 +109,34 @@ class Process {
 
         return parseFloat((memoryInBytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
     }
+
+    /**
+     * Loads the given list of properties from the given context
+     * if they exists, if they don't null is returned instead.
+     *
+     * @param  {mixed}  context     The context that should have content loaded from it.
+     * @param  {Array}  properties  The properties that should be loaded.
+     * @return {mixed|null}
+     */
+    getProperty(context, properties = []) {
+        if (typeof properties === 'string') {
+            properties = [properties];
+        }
+
+        if (context === null || context === undefined) {
+            return null;
+        }
+
+        if (properties.length === 0) {
+            return context;
+        }
+
+        try {
+            return this.getProperty(context[properties.shift()], properties);
+        } catch (err) {
+            return null;
+        }
+    }
 }
 
 module.exports = new Process;
