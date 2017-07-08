@@ -23,6 +23,7 @@ class ChangePrefixCommand extends Command {
      */
     constructor() {
         super('changeprefix', ['avaireprefix'], {
+            allowDM: false,
             usage: '<module> [prefix]',
             middleware: [
                 'require.user:general.administrator',
