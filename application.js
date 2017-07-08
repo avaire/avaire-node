@@ -39,6 +39,7 @@ class Application {
     bootstrapTests() {
         global.app = require('./app');
         app.bot.jobs = {};
+        app.raven = null;
 
         this.prepareConfig(false);
         app.config.environment = 'testing';
