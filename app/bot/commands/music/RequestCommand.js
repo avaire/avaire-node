@@ -22,7 +22,7 @@ class RequestCommand extends Command {
                 '<name of song>'
             ],
             middleware: [
-                'throttle.user:2,5'
+                'throttle.guild:2,4'
             ]
         });
     }

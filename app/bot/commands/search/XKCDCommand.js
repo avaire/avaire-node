@@ -16,7 +16,7 @@ class XKCDCommand extends Command {
         super('xkcd', [], {
             usage: '[comic id]',
             middleware: [
-                'throttle.channel:1,1'
+                'throttle.user:1,2'
             ]
         });
     }

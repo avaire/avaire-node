@@ -14,6 +14,7 @@ class CreateYesNoPollCommand extends Command {
      */
     constructor() {
         super('yesnopoll', ['ynpoll', 'poll'], {
+            allowDM: false,
             usage: '<time> <poll>',
             middleware: [
                 'require.user:general.manage_emojis'

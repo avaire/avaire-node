@@ -14,7 +14,7 @@ class ResumeCommand extends Command {
         super('resume', [], {
             allowDM: false,
             middleware: [
-                'throttle.channel:2,5',
+                'throttle.guild:2,5',
                 'hasRole:DJ'
             ]
         });

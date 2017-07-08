@@ -14,7 +14,7 @@ class SkipCommand extends Command {
         super('skip', [], {
             allowDM: false,
             middleware: [
-                'throttle.user:2,5',
+                'throttle.guild:2,5',
                 'hasRole:DJ'
             ]
         });

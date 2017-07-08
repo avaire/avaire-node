@@ -15,7 +15,7 @@ class QueueCommand extends Command {
             allowDM: false,
             usage: '[remove] [id]',
             middleware: [
-                'throttle.user:2,5'
+                'throttle.channel:1,2'
             ]
         });
     }

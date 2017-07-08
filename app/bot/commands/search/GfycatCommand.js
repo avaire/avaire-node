@@ -14,7 +14,7 @@ class GfycatCommand extends Command {
         super('gfycat', ['gif'], {
             usage: '<query>',
             middleware: [
-                'throttle.channel:1,1'
+                'throttle.user:1,2'
             ]
         });
     }

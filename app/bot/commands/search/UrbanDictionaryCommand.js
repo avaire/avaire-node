@@ -11,7 +11,11 @@ class UrbanDictionaryCommand extends Command {
      * might be usfull for the abstract command class.
      */
     constructor() {
-        super('urbandictionary', ['urban']);
+        super('urbandictionary', ['urban'], {
+            middleware: [
+                'throttle.user:1,2'
+            ]
+        });
     }
 
     /**

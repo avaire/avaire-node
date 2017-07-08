@@ -14,7 +14,7 @@ class VolumeCommand extends Command {
         super('volume', ['vol'], {
             allowDM: false,
             middleware: [
-                'throttle.channel:2,4',
+                'throttle.guild:2,4',
                 'hasRole:DJ'
             ]
         });

@@ -10,10 +10,7 @@ class RepeatCommand extends Command {
      */
     constructor() {
         super('repeat', ['echo'], {
-            usage: '[message]',
-            middleware: [
-                'throttle.user:2,4'
-            ]
+            usage: '[message]'
         });
     }
 
