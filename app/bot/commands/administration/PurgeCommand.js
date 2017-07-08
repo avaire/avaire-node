@@ -1,6 +1,8 @@
 /** @ignore */
 const _ = require('lodash');
 /** @ignore */
+const moment = require('moment');
+/** @ignore */
 const Command = require('./../Command');
 
 /**
@@ -20,7 +22,6 @@ class PurgeCommand extends Command {
         super('purge', ['clear'], {
             allowDM: false,
             usage: [
-                '<amount>',
                 '<amount> [@tagedUser]'
             ],
             middleware: [
@@ -28,6 +29,13 @@ class PurgeCommand extends Command {
                 'require:text.manage_messages'
             ]
         });
+
+        /**
+         * The amount of milliseconds in 14 days.
+         *
+         * @type {Number}
+         */
+        this.fourteenDays = 1000 * 60 * 60 * 24 * 14;
     }
 
     /**
@@ -49,7 +57,11 @@ class PurgeCommand extends Command {
         // without any filter, this will delete all the messages that can be fetched
         // from the Discord API within the message amount limit given.
         if (message.mentions.length === 0) {
-            let promise = this.deleteMessages(message.channel, amount);
+            let promise = this.deleteMessages(message.channel, amount, messages => {
+                return _.filter(messages, message => {
+                    return !this.is14DaysOld(message.timestamp);
+                });
+            });
 
             return this.processDeletedMessages(promise, message, 'commands.administration.purge.all-messages');
         }
@@ -63,8 +75,11 @@ class PurgeCommand extends Command {
 
         return this.processDeletedMessages(this.deleteMessages(message.channel, amount, messages => {
             return _.filter(messages, message => {
-                let authorId = message.author.id;
+                if (this.is14DaysOld(message.timestamp)) {
+                    return false;
+                }
 
+                let authorId = message.author.id;
                 for (let i = 0; i < mentions.length; i++) {
                     if (mentions[i].id === authorId) {
                         return true;
@@ -87,8 +102,9 @@ class PurgeCommand extends Command {
      * @return {Promise}
      */
     processDeletedMessages(promise, message, languageString, placeholders = {}) {
-        return promise.then(amountOfDeletedMessages => {
-            placeholders.amount = amountOfDeletedMessages;
+        return promise.then(stats => {
+            placeholders.amount = stats.deletedMessages;
+            placeholders.skiped = stats.skipedMessages;
 
             // Sends the deleted messages confirmation message from the language files
             // and starts and delayed taks to delete the message after 3½ seconds.
@@ -114,28 +130,53 @@ class PurgeCommand extends Command {
      * @param  {Number}        deletedMessages  Number of messages that has been deleted.
      * @return {Promise}
      */
-    deleteMessages(channel, left, filter = null, deletedMessages = 0) {
+    deleteMessages(channel, left, filter = null, stats = null) {
+        if (stats === null) {
+            stats = {
+                deletedMessages: 0,
+                skipedMessages: 0
+            };
+        }
         return channel.fetchMessages(Math.min(left, 100)).then(result => {
             // If the filter variable is a callback and the list of messages isn't undefined
             // we'll parse in the messages from the Discord API request to filter them
             // down so we're left with only the messages matching our filter.
             if (typeof filter === 'function' && typeof result.messages !== 'undefined') {
+                let before = result.messages.length;
+
                 result.messages = filter(result.messages);
+                stats.skipedMessages += before - result.messages.length;
+            }
+
+            // If the messages length is 1 or lower we'll end the loop and send back the amount of deleted messages
+            // since the only message in the fetch request would be the message that triggered the command.
+            if (result.messages.length < 2) {
+                return stats;
             }
 
             return bot.Messages.deleteMessages(result.messages).then(() => {
-                deletedMessages += result.messages.length;
+                stats.deletedMessages += result.messages.length;
 
                 // Checks to see if we have more messages that needs to be deleted, and if the result from
                 // the last request to the Discord API returned less then what we requested for, if
                 // that is the case we can assume the channel doesn't have anymore messages.
                 if (left > 100 && result.limit === 100 && result.limit === result.messages.length) {
-                    return this.deleteMessages(channel, left - 100, filter, deletedMessages);
+                    return this.deleteMessages(channel, left - 100, filter, stats);
                 }
 
-                return deletedMessages;
+                return stats;
             });
         });
+    }
+
+    /**
+     * Check if the given timestamp is older than 14 days.
+     *
+     * @param  {String}  timestamp  The message timestamp that should be checked.
+     * @return {Boolean}
+     */
+    is14DaysOld(timestamp) {
+        return (moment(timestamp).diff(new Date) * -1) > this.fourteenDays;
     }
 }
 
