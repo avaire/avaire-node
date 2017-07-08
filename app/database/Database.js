@@ -119,20 +119,25 @@ class Database {
                     // transformer, as well as inserting a new record into the database
                     // so we can find the guild on the next call to the database.
                     if (response.length <= 0) {
-                        // Sets up our default guild transformer and stores it in the cache for 5 minutes.
+                        let guildName = this.stringifyEmojis(guild.name);
+                        if (guildName !== null) {
+                            guildName = guildName.toDatabaseFormat();
+                        }
+
+                        // Sets up our default guild transformer and stores it in the cache for 10 minutes.
                         Cache.put(token, new GuildTransformer({
                             id: app.getGuildIdFrom(guild),
                             owner: guild.owner_id,
-                            name: this.stringifyEmojis(guild.name),
+                            name: guildName,
                             icon: guild.icon
-                        }), 500);
+                        }), 600);
 
                         let channels = ChannelsHandler.getChannels(guild);
 
                         this.insert(app.constants.GUILD_TABLE_NAME, {
                             id: app.getGuildIdFrom(guild),
                             owner: guild.owner_id,
-                            name: this.stringifyEmojis(guild.name),
+                            name: guildName,
                             icon: guild.icon,
                             channels_data: JSON.stringify(channels)
                         }).catch(err => {
@@ -142,7 +147,7 @@ class Database {
                             });
                         });
                     } else {
-                        Cache.put(token, new GuildTransformer(response[0]), 500);
+                        Cache.put(token, new GuildTransformer(response[0]), 600);
                     }
 
                     // Resolves the guild transformer from the cache.
@@ -219,6 +224,8 @@ class Database {
                 .then(response => {
                     app.bot.statistics.databaseQueries++;
 
+                    let userUsername = this.stringifyEmojis(user.username);
+
                     // If the query didn't return any valid data we'll try and find the guild in
                     // the list of guilds that Ava is connected to and setup a default guild
                     // transformer, as well as inserting a new record into the database
@@ -227,7 +234,7 @@ class Database {
                         let bindings = {
                             user_id: user.id,
                             guild_id: guildId,
-                            username: this.stringifyEmojis(user.username),
+                            username: userUsername === null ? 'Invalid Username' : userUsername.toDatabaseFormat(),
                             discriminator: user.discriminator,
                             avatar: user.avatar,
                             experience: 100

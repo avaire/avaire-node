@@ -52,7 +52,7 @@ class UppdateGuildChannelsHandler {
 
             channels.push({
                 id: c.id,
-                name: channelName === null ? 'Invalid Channel Name' : channelName,
+                name: channelName === null ? 'Invalid Channel Name' : channelName.toDatabaseFormat(),
                 position: c.position
             });
         }
