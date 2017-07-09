@@ -91,7 +91,7 @@ class MessageCreateEvent extends EventHandler {
                 // If the bot was tagged in the message with no additional text/arguments
                 // given we'll send the user some information about the bot, just to
                 // let the user know that the bot is alive and how to use it.
-                if (_.startsWith(message, '<@') && _.endsWith(message.trim(), `${bot.User.id}>`)) {
+                if (message.split(' ').length === 1 && _.startsWith(message, '<@') && _.endsWith(message.trim(), `${bot.User.id}>`)) {
                     return this.sendTagInformationMessage(socket);
                 }
 
