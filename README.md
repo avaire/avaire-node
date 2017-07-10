@@ -34,9 +34,9 @@ No problem, we maintain a public instance of AvaIre that you can invite to your 
 
 ## Want more control and run AvaIre yourself?
 
-The advantages of selfhosting AvaIre are numerous. A few core freedoms that are added can be for instance the ability to tweak commands and add custom commands, changing the bot's workings et cetera.
+There are a lot of advantages of self-hosting AvaIre, like removing playlists and aliases limits, stream music from your own computer with no worry about anyone else using bandwidth for streaming music, create custom commands or language files to change how Ava responds to commands, et cetera.
 
-There are currently not many resources for users wishing to run AvaIre on their own, but guides and documentation are continuously being worked on and added to the [documentation](https://avairebot.com/docs), you can check there for any setup or configuration guides.
+You can find self-hosting guides for [Windows](https://avairebot.com/docs/windows-guide), and [Linux](https://avairebot.com/docs/linux-guide) systems that should help you get started. If you'd like to contribute to Ava and are a bit confused about the framework, you can also find the [Developers Handbook](https://avairebot.com/docs/contributions) in the documentation.
 
 If you are not into hosting the bot yourself, you can always invite AvaIre to your server [from here](https://avairebot.com/invite).
 
