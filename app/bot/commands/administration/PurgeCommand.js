@@ -124,10 +124,10 @@ class PurgeCommand extends Command {
      * is given the method will call itself with the next set of
      * messages until it has deleted all of the messages.
      *
-     * @param  {ITextChannel}  channel          The channel the messages should be deleted in.
-     * @param  {Number }       left             The number of messages there are left to be deleted
-     * @param  {Function}      filter           The filter that separates messages that should and shouldn't be deleted.
-     * @param  {Number}        deletedMessages  Number of messages that has been deleted.
+     * @param  {ITextChannel}  channel  The channel the messages should be deleted in.
+     * @param  {Number }       left     The number of messages there are left to be deleted
+     * @param  {Function}      filter   The filter that separates messages that should and shouldn't be deleted.
+     * @param  {Object}        stats    Number of messages that has been deleted.
      * @return {Promise}
      */
     deleteMessages(channel, left, filter = null, stats = null) {
