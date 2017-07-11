@@ -86,9 +86,15 @@ class VoteSkipCommand extends Command {
      * @return {Array}
      */
     getUsersInVoice(message) {
-        return Music.getVoiceConnection(message)
-                    .voiceConnection.channel.members
-                    .filter(member => !member.bot);
+        let members = app.loadProperty(
+            Music.getVoiceConnection(message),
+            ['voiceConnection', 'channel', 'members']
+        );
+
+        if (members === null) {
+            return [];
+        }
+        return members.filter(member => !member.bot);
     }
 
     /**

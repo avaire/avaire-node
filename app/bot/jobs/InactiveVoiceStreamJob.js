@@ -103,7 +103,12 @@ class InactiveVoiceStreamJob extends Job {
             app.envoyer.sendInfo(channel, entity);
         }
 
-        connection.voiceConnection.channel.leave();
+        let voiceChannel = app.loadProperty(connection, ['voiceConnection', 'channel']);
+        if (voiceChannel === null) {
+            return false;
+        }
+
+        voiceChannel.leave();
         return Music.forcefullyDeleteQueue(guildId);
     }
 
