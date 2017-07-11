@@ -6,6 +6,10 @@
  * @return {Promise}
  */
 exports.up = function (knex, Promise) {
+    if (app.config.database.type.toLowerCase() !== 'mysql') {
+        return Promise.resolve();
+    }
+
     return knex.schema.alterTable(app.constants.GUILD_TABLE_NAME, table => {
         table.text('name', 4080).collate('utf8mb4_unicode_ci').alter();
     });
@@ -18,6 +22,10 @@ exports.up = function (knex, Promise) {
  * @return {Promise}
  */
 exports.down = function (knex, Promise) {
+    if (app.config.database.type.toLowerCase() !== 'mysql') {
+        return Promise.resolve();
+    }
+
     return knex.schema.alterTable(app.constants.GUILD_TABLE_NAME, table => {
         table.string('name').collate('utf8mb4_unicode_ci').alter();
     });
