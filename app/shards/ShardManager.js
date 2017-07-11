@@ -2,6 +2,8 @@
 const _ = require('lodash');
 /** @ignore */
 const directory = require('require-directory');
+/** @ignore */
+const ServerLogger = require('./ServerLogger');
 
 /**
  * Shard manager, helps get a quick overview of how many
@@ -21,6 +23,15 @@ class ShardManager {
          */
         this.isUsingShards = bot.options.hasOwnProperty('shardId') &&
                              bot.options.hasOwnProperty('shardCount');
+    }
+
+    /**
+     * Returns the server logger instance.
+     *
+     * @return {ServerLogger}
+     */
+    get logger() {
+        return ServerLogger;
     }
 
     /**

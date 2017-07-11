@@ -20,6 +20,17 @@ class GuildCreateEvent extends EventHandler {
     handle(socket) {
         app.logger.info(`Joined guild with an ID of ${app.getGuildIdFrom(socket)} called: ${socket.guild.name}`);
 
+        let owner = bot.Users.get(socket.guild.owner_id);
+        app.shard.logger.create({
+            description: `${socket.guild.name} (ID: ${app.getGuildIdFrom(socket)})`,
+            fields: [
+                {
+                    name: 'Owner',
+                    value: `${owner.username}#${owner.discriminator} (ID: ${owner.id})`
+                }
+            ]
+        });
+
         app.database.getGuild(app.getGuildIdFrom(socket)).then(guild => {
             let leftGuildAt = guild.get('leftguild_at');
             if (leftGuildAt !== null && leftGuildAt !== undefined) {
@@ -39,50 +50,6 @@ class GuildCreateEvent extends EventHandler {
         if (app.permission.has(bot.User, socket.guild.generalChannel, 'text.send_messages')) {
             this.sendWelcomeMessage(socket);
         }
-
-        if (isEnvironmentInDevelopment()) {
-            return;
-        }
-
-        let avaireCentral = bot.Guilds.find(guild => app.getGuildIdFrom(guild) === '284083636368834561');
-
-        if (typeof avaireCentral === 'undefined' || avaireCentral === null) {
-            return;
-        }
-
-        let channel = avaireCentral.textChannels.find(channel => channel.name === 'bot-activity');
-        if (typeof channel === 'undefined') {
-            return;
-        }
-
-        let owner = bot.Users.get(socket.guild.owner_id);
-
-        return app.envoyer.sendEmbededMessage(channel, {
-            title: 'Join Server',
-            color: 0x16D940,
-            fields: [
-                {
-                    name: 'Name',
-                    value: socket.guild.name
-                },
-                {
-                    name: 'ID',
-                    value: app.getGuildIdFrom(socket)
-                },
-                {
-                    name: 'Members',
-                    value: socket.guild.member_count
-                },
-                {
-                    name: 'Owner ID',
-                    value: socket.guild.owner_id
-                },
-                {
-                    name: 'Owner',
-                    value: `${owner.username}#${owner.discriminator}`
-                }
-            ]
-        });
     }
 
     /**

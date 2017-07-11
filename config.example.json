@@ -18,6 +18,10 @@
     "botAccess": [
         "88739639380172800"
     ],
+    "weebbook": {
+        "id": "",
+        "token": ""
+    },
     "apiKeys": {
         "google": "",
         "apiai": "",
