@@ -12,7 +12,8 @@ class SayCommand extends Command {
         super('say', [], {
             usage: '[message]',
             middleware: [
-                'throttle.user:2,4'
+                'throttle.user:2,4',
+                'require.user:text.manage_messages'
             ]
         });
     }
@@ -32,12 +33,6 @@ class SayCommand extends Command {
 
         if (message.isPrivate) {
             return app.envoyer.sendNormalMessage(message, args.join(' '));
-        }
-
-        if (!app.permission.botHas(message, 'text.manage_messages')) {
-            return app.envoyer.sendWarn(message, 'language.errors.require-bot-missing', {
-                permission: 'text.manage_messages'
-            });
         }
 
         return app.envoyer.delete(message).then(() => {
