@@ -133,11 +133,11 @@ class QueueCommand extends Command {
             });
         }
 
-        let queue = Music.queues[app.getGuildIdFrom(message)];
+        let queue = Music.getQueue(message);
         let song = queue[id];
         queue.splice(id, 1);
 
-        Music.queues[app.getGuildIdFrom(message)] = queue;
+        Music.setQueue(message, queue);
 
         return app.envoyer.sendSuccess(message, ':song has been successfully removed from the music queue.', {
             song: `[${song.title}](${song.link})`

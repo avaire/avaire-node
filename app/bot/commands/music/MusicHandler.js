@@ -104,8 +104,17 @@ class MusicHandler {
         if (!_.isObjectLike(this.queues[app.getGuildIdFrom(message)])) {
             this.queues[app.getGuildIdFrom(message)] = [];
         }
-
         return this.queues[app.getGuildIdFrom(message)];
+    }
+
+    /**
+     * Set the queue value for the given guild.
+     *
+     * @param {IMessage}  message  The Discordie message object.
+     * @param {Object}    queue    The queue object that should be set.
+     */
+    setQueue(message, queue) {
+        this.queues[app.getGuildIdFrom(message)] = queue;
     }
 
     /**
@@ -211,9 +220,9 @@ class MusicHandler {
                 }
             }
 
-            let song = this.queues[app.getGuildIdFrom(message)][0];
+            let song = this.getQueue(message)[0];
             if (song.url === 'INVALID') {
-                this.queues[app.getGuildIdFrom(message)].shift();
+                this.getQueue(message).shift();
 
                 return this.next(message, sendMessages);
             }
@@ -250,9 +259,9 @@ class MusicHandler {
             }
 
             encoder.once('end', () => {
-                let song = this.queues[app.getGuildIdFrom(message)].shift();
+                let song = this.getQueue(message).shift();
                 if (this.isRepeat(message)) {
-                    this.queues[app.getGuildIdFrom(message)].push(song);
+                    this.getQueue(message).push(song);
                 }
 
                 return this.next(message, sendMessages);

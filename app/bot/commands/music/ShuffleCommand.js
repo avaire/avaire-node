@@ -62,7 +62,7 @@ class ShuffleCommand extends Command {
             }
         }
 
-        Music.queues[app.getGuildIdFrom(message)] = queue;
+        Music.setQueue(message, queue);
 
         return app.envoyer.sendSuccess(message, 'commands.music.shuffle.on-shuffle');
     }
