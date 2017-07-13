@@ -87,12 +87,27 @@ class MessageCreateEvent extends EventHandler {
 
             // Checks to see if the bot was tagged in the message the user
             // sent, either using the full username, or a nickname.
-            if (message.hasBot()) {
+            let split = message.match(/[^\s"]+|"([^"]*)"/gi);
+            if ((new RegExp(`<@(!|)+${bot.User.id}+>`, 'g')).test(split[0])) {
                 // If the bot was tagged in the message with no additional text/arguments
                 // given we'll send the user some information about the bot, just to
                 // let the user know that the bot is alive and how to use it.
-                if (message.split(' ').length === 1 && _.startsWith(message, '<@') && _.endsWith(message.trim(), `${bot.User.id}>`)) {
+                if (split.length === 1) {
                     return this.sendTagInformationMessage(socket);
+                }
+
+                if (!socket.message.isPrivate && split.length > 2 && socket.message.mentions.length > 1 && /<@(!|)+[0-9]+>/g.test(split[2])) {
+                    let interaction = app.bot.features.interaction.getInteraction(split[1].toLowerCase());
+                    if (interaction !== null) {
+                        socket.message.channel.sendTyping();
+
+                        return interaction.onInteraction(
+                            socket.message.guild.members.find(u => u.id === socket.message.author.id),
+                            socket.message.guild.members.find(u => u.id === socket.message.mentions[0].id),
+                            socket.message,
+                            _.drop(split, 3)
+                        );
+                    }
                 }
 
                 // Checks to see if the bot was tagged, followed by the word prefix, if both
