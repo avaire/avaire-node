@@ -88,7 +88,7 @@ class MessageCreateEvent extends EventHandler {
             // Checks to see if the bot was tagged in the message the user
             // sent, either using the full username, or a nickname.
             let split = message.match(/[^\s"]+|"([^"]*)"/gi);
-            if ((new RegExp(`<@(!|)+${bot.User.id}+>`, 'g')).test(split[0])) {
+            if (split !== null && (new RegExp(`<@(!|)+${bot.User.id}+>`, 'g')).test(split[0])) {
                 // If the bot was tagged in the message with no additional text/arguments
                 // given we'll send the user some information about the bot, just to
                 // let the user know that the bot is alive and how to use it.
