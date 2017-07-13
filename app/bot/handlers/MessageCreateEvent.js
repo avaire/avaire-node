@@ -124,12 +124,12 @@ class MessageCreateEvent extends EventHandler {
                         command: app.bot.commands.ChangePrefixCommand
                     }, guild);
                 }
+            }
 
-                // Checks to see  if AI messages in enabled, if AI messages is
-                // enabled the message will be passed onto the AI handler.
-                if (channel.get('ai.enabled', false)) {
-                    return app.service.ai.textRequest(socket, message);
-                }
+            // Checks to see  if AI messages in enabled, if AI messages is
+            // enabled the message will be passed onto the AI handler.
+            if (message.hasBot() && channel.get('ai.enabled', false)) {
+                return app.service.ai.textRequest(socket, message);
             }
 
             if (socket.message.isPrivate) {
