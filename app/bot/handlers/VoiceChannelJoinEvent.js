@@ -17,7 +17,7 @@ class VoiceChannelJoinEvent extends EventHandler {
      * @return {mixed}
      */
     handle(socket) {
-        if (socket.user.bot && socket.user.id !== bot.User.id) {
+        if (socket.user !== null && socket.user.bot && socket.user.id !== bot.User.id) {
             return;
         }
 
