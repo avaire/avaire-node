@@ -118,7 +118,10 @@ class Level extends Feature {
         };
 
         if (message.author.username !== user.get('username')) {
-            updateObject.username = message.author.username;
+            let username = app.database.stringifyEmojis(message.author.username);
+            if (username !== null) {
+                updateObject.username = username.toDatabaseFormat();
+            }
         }
         if (message.author.discriminator !== user.get('discriminator')) {
             updateObject.discriminator = message.author.discriminator;
