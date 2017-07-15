@@ -68,7 +68,8 @@ class MusicHandler {
             'id', 'asr', 'abr', 'tbr', 'fps', 'series', 'formats', 'creator', 'playlist',
             '_filename', 'uploader', 'format_note', 'extractor', 'format', 'player_url',
             'tags', 'license', 'extractor_key', 'end_time', 'is_live', 'n_entries',
-            'view_count', 'uploader_id', 'webpage_url_basename', 'playlist_index'
+            'view_count', 'uploader_id', 'webpage_url_basename', 'playlist_index',
+            'chapters', 'vcodec', 'acodec'
         ];
     }
 
