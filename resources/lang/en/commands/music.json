@@ -8,6 +8,7 @@
     "empty-queue": "The queue is already empty.",
     "volume-while-not-in-channel": "You must be connected to the voice channel I'm playing music in to change the volume.",
     "skip-while-not-in-channel": "You must be connected to the voice channel I'm playing music in to skip the song.",
+    "skip-while-deafened": "You can't vote skip while being deafened.",
     "disconnect-due-to-inactivity": "The music has ended due to inactivity.",
     "move-now-streaming": "I am now streaming music in **:channel**",
 

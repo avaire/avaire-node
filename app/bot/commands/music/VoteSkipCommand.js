@@ -44,6 +44,14 @@ class VoteSkipCommand extends Command {
             });
         }
 
+        if (this.isDeafened(message, sender)) {
+            return app.envoyer.sendWarn(message, 'commands.music.skip-while-deafened').then(message => {
+                return app.scheduler.scheduleDelayedTask(() => {
+                    return app.envoyer.delete(message);
+                }, 10000);
+            });
+        }
+
         let hadUserBefore = true;
 
         let voteSkips = Music.getVoteSkips(message);
@@ -125,6 +133,22 @@ class VoteSkipCommand extends Command {
         }
 
         return Math.ceil(usersInVoiceLength / 2);
+    }
+
+    /**
+     * Checks if the user is deafened, if they are they're not listening to
+     * the music and thus should not be allowed to vote skip the music.
+     *
+     * @param  {IMessage}  message  The Discordie message object.
+     * @param  {IUser}     sender   The user who should used to checked.
+     * @return {Boolean}
+     */
+    isDeafened(message, sender) {
+        let guildMember = message.guild.members.find(u => u.id === sender.id);
+        if (guildMember === null || guildMember === undefined) {
+            return false;
+        }
+        return guildMember.deaf || guildMember.self_deaf;
     }
 }
 
