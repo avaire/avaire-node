@@ -25,17 +25,17 @@ class MessageCreateEvent extends EventHandler {
      * @return {mixed}
      */
     handle(socket) {
+        // This will increment by one every time we get a message, this is used to
+        // give a better idea of how many valid MessageCreate events are being
+        // broadcasted to the bot during a session.
+        app.bot.statistics.messages++;
+
         // Checks if the message was sent from the bot itself, or another bot, if that's
         // the case we want to simply just end the event there, otherwise we'll end up
         // with an endless loop of messages going on and on and on and on and...
         if (bot.User.id === socket.message.author.id || socket.message.author.bot) {
             return;
         }
-
-        // This will increment by one every time we get a message, this is used to
-        // give a better idea of how many valid MessageCreate events are being
-        // broadcasted to the bot during a session.
-        app.bot.statistics.messages++;
 
         // Checks if the user who triggered the message event is on the bots blacklist,
         // if they are we're just going to ignore anything they're doing, preventing
