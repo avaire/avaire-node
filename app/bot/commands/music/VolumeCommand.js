@@ -29,16 +29,22 @@ class VolumeCommand extends Command {
      * @return {mixed}
      */
     onCommand(sender, message, args) {
-        if (args.length === 0) {
-            return this.sendMissingArguments(message);
-        }
-
         if (!Music.isConnectedToVoice(message)) {
             return app.envoyer.sendWarn(message, 'commands.music.missing-connection');
         }
 
         if (Music.getQueue(message).length === 0) {
             return app.envoyer.sendWarn(message, 'commands.music.empty-queue');
+        }
+
+        if (args.length === 0) {
+            let volume = Music.getVolume(message);
+
+            return app.envoyer.sendInfo(message, `🎵 Music is playing at **${volume}%** volume\n${this.getVolumeString(volume, 21)}`).then(message => {
+                return app.scheduler.scheduleDelayedTask(() => {
+                    return app.envoyer.delete(message);
+                }, 12000);
+            });
         }
 
         if (!Music.isInSameVoiceChannelAsBot(message, sender)) {
@@ -54,16 +60,26 @@ class VolumeCommand extends Command {
         let volume = Math.max(Math.min(parseInt(args[0], 10), 100), 0);
         Music.setVolume(message, volume);
 
-        let volumeString = '';
-        for (let i = 1; i <= 10; i++) {
-            volumeString += (i - 1) * 10 < volume ? '▒' : '░';
-        }
-
-        return app.envoyer.sendInfo(message, `🎵 Volume set to **${volume}%**\n${volumeString}`).then(message => {
+        return app.envoyer.sendInfo(message, `🎵 Volume set to **${volume}%**\n${this.getVolumeString(volume, 14)}`).then(message => {
             return app.scheduler.scheduleDelayedTask(() => {
                 return app.envoyer.delete(message);
-            }, 6500);
+            }, 12000);
         });
+    }
+
+    /**
+     * Generates the volume string with the given volume and miltiplier.
+     *
+     * @param  {Number}  volume      The current volume of the music.
+     * @param  {Number}  multiplier  The multiplier that should be used to generate the string.
+     * @return {String}
+     */
+    getVolumeString(volume, multiplier = 10) {
+        let volumeString = '';
+        for (let i = 1; i <= multiplier; i++) {
+            volumeString += (i - 1) * (100 / multiplier) < volume ? '▒' : '░';
+        }
+        return volumeString;
     }
 }
 
