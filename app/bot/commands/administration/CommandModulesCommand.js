@@ -25,7 +25,7 @@ class CommandModulesCommand extends Command {
             allowDM: false,
             usage: '[channel]',
             middleware: [
-                'require.user:general.administrator',
+                'require.user:general.manage_server',
                 'throttle.user:2,5'
             ]
         });
