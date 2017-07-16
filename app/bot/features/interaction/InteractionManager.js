@@ -1,4 +1,6 @@
 /** @ignore */
+const _ = require('lodash');
+/** @ignore */
 const Interactions = require('./Interactions');
 
 /**
@@ -20,6 +22,42 @@ class InteractionManager {
             }
         }
         return null;
+    }
+
+    /**
+     * Handles the interaction.
+     *
+     * @param  {GatewaySocket}  socket       The Discordie gateway socket.
+     * @param  {Interaction}    interaction  The interaction that should be handled.
+     * @param  {Array}          args         The arguments for the interaction.
+     * @return {mixed}
+     */
+    handle(socket, interaction, args) {
+        let target = this.getGuildMemberFromId(socket, args[2]);
+        if (target === null || target === undefined) {
+            return;
+        }
+
+        socket.message.channel.sendTyping();
+        return interaction.onInteraction(socket.message.member, target, socket.message, _.drop(args, 3));
+    }
+
+    /**
+     * Gets the guild member object from the given user ID.
+     *
+     * @param  {GatewaySocket}  socket  The Discordie gateway socket.
+     * @param  {string}         userId  The ID of the user that should be fetched.
+     * @return {String|null}
+     */
+    getGuildMemberFromId(socket, userId) {
+        userId = userId.substr(2, userId.length - 3);
+        if (userId[0] === '!') {
+            userId = userId.substr(1);
+        }
+
+        return socket.message.guild.members.find(user => {
+            return user.id === userId;
+        });
     }
 }
 

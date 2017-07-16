@@ -96,17 +96,10 @@ class MessageCreateEvent extends EventHandler {
                     return this.sendTagInformationMessage(socket);
                 }
 
-                if (!socket.message.isPrivate && split.length > 2 && socket.message.mentions.length > 1 && /<@(!|)+[0-9]+>/g.test(split[2])) {
+                if (this.isInteractionMessage(socket, split)) {
                     let interaction = app.bot.features.interaction.getInteraction(split[1].toLowerCase());
                     if (interaction !== null) {
-                        socket.message.channel.sendTyping();
-
-                        return interaction.onInteraction(
-                            socket.message.guild.members.find(u => u.id === socket.message.author.id),
-                            socket.message.guild.members.find(u => u.id === socket.message.mentions[0].id),
-                            socket.message,
-                            _.drop(split, 3)
-                        );
+                        return app.bot.features.interaction.handle(socket, interaction, split);
                     }
                 }
 
@@ -325,6 +318,19 @@ class MessageCreateEvent extends EventHandler {
             return true;
         }
         return !guild.get(`modules.${socket.message.channel.id}.${command.command.category}`, true);
+    }
+
+    /**
+     * Checks to see if the given message and splited up arguments
+     * matches the patteren of a interaction message.
+     *
+     * @param  {GatewaySocket}  socket  The Discordie gateway socket.
+     * @param  {Array}          args    The array of message arguments.
+     * @return {Boolean}
+     */
+    isInteractionMessage(socket, args) {
+        return !socket.message.isPrivate && socket.message.mentions.length > 1 &&
+                args.length > 2 && /<@(!|)+[0-9]+>/g.test(args[2]);
     }
 }
 
