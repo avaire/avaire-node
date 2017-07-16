@@ -226,12 +226,13 @@ class MessageCreateEvent extends EventHandler {
      */
     sendTagInformationMessage(socket) {
         let message = [
-            'Hi there! I\'m :name, a multipurpose Discord bot built for fun!',
-            'Here is a bit of(hopefully) helpful information.',
+            'Hi there! I\'m **:name**, a multipurpose Discord bot built for fun by :author!',
+            'You can see what commands I have by using the `:help` command.',
             '',
-            '**Commands**',
-            'You can use `:help` to to learn more about what commands I have.',
-            '',
+            ':botNote'
+        ];
+
+        let botNote = [
             '**Website**',
             'https://avairebot.com',
             '',
@@ -239,9 +240,41 @@ class MessageCreateEvent extends EventHandler {
             'https://avairebot.com/support'
         ];
 
-        return app.envoyer.sendInfo(socket.message, message.join('\n'), {
+        if (bot.User.username !== 'AvaIre') {
+            botNote = [
+                `I am currently running **AvaIre v${app.version}**`,
+                '',
+                'You can find the whole project on github:',
+                'https://github.com/AvaIre/AvaIre'
+            ];
+        }
+
+        let author = '**Senither#8023**';
+        if (!socket.message.isPrivate) {
+            let member = socket.message.guild.members.find(user => {
+                return user.id === '88739639380172800';
+            });
+
+            if (member !== null && member !== undefined) {
+                author = `<@88739639380172800>`;
+            }
+        }
+
+        return app.envoyer.sendEmbededMessage(socket.message, {
+            color: 0xE91E63,
+            description: message.join('\n'),
+            footer: {
+                text: 'This message will be deleted in one minute.'
+            }
+        }, {
+            author,
+            botNote: botNote.join('\n'),
             name: bot.User.username,
             help: CommandHandler.getPrefix(socket.message, 'help') + 'help'
+        }).then(sentMessage => {
+            return app.scheduler.scheduleDelayedTask(() => {
+                return app.envoyer.delete(sentMessage);
+            }, 60000);
         });
     }
 
