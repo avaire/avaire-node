@@ -11,6 +11,8 @@ const GuildTransformer = require('./transformers/GuildTransformer');
 /** @ignore */
 const PlaylistTransformer = require('./transformers/PlaylistTransformer');
 /** @ignore */
+const StatisticsTransformer = require('./transformers/StatisticsTransformer');
+/** @ignore */
 const ChannelsHandler = require('./../bot/handlers/utils/UpdateGuildChannelsHandler');
 
 /**
@@ -268,6 +270,42 @@ class Database {
             return this.getClient().select().from(app.constants.BLACKLIST_TABLE_NAME)
                         .then(response => resolve(response))
                         .catch(err => reject(err));
+        });
+    }
+
+    /**
+     * Gets the database statistics transformer, the statistics transformer
+     * makes it easy to keep track of global stats within Ava.
+     *
+     * @return {Promise}
+     */
+    getStatistics() {
+        let token = `database-statistics`;
+
+        // If we shouldn't skip the cache and the cache already has a version of the guild
+        // stored, we'll just fetch that and return it without hitting the database.
+        if (Cache.has(token)) {
+            return new Promise(resolve => {
+                resolve(Cache.get(token));
+            });
+        }
+
+        return new Promise((resolve, reject) => {
+            app.bot.statistics.databaseQueries++;
+
+            return this.getClient().select().from(app.constants.STATISTICS_TABLE_NAME)
+                        .then(response => {
+                            if (response.length <= 0) {
+                                return reject(new Error('The statistics table didn\'t return any valid records.'));
+                            }
+
+                            let statistics = new StatisticsTransformer(response[0]);
+
+                            // Caches the transformer for 2½ minutes.
+                            Cache.put(token, statistics, 210);
+
+                            return resolve(Cache.get(token));
+                        }).catch(err => reject(err));
         });
     }
 
