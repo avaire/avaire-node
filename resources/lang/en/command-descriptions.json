@@ -30,6 +30,7 @@
         "WelcomeMessageCommand": "Sets the welcome message."
     },
     "fun": {
+        "EightBallCommand": "Ask 8Ball a question",
         "BlahCommand": "Blah?",
         "CanYouNotCommand": "Why?",
         "ChuckNorrisCommand": "I will get a random 100% true, real facts about Chuck Norris for you using the \"Internet Chuck Norris Database\".",
