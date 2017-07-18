@@ -36,6 +36,7 @@
         "ChuckNorrisCommand": "I will get a random 100% true, real facts about Chuck Norris for you using the \"Internet Chuck Norris Database\".",
         "CoinCommand": "Flips a coin for heads or tails for you.",
         "DiceCommand": "Rolls a set of D&D dice.",
+        "HolidayCommand": "Find out of today is a holyday.",
         "LennyCommand": "( ͡° ͜ʖ ͡°)",
         "MemeCommand": "Generates memes with your given text, you can tag users to use their avatar as a meme, or just give the meme name you wanna use.",
         "RandomCatCommand": "I will get a random cat for you.",

@@ -25,6 +25,7 @@
     "apiKeys": {
         "google": "",
         "apiai": "",
-        "raven": ""
+        "raven": "",
+        "holidayapi": ""
     }
 }
