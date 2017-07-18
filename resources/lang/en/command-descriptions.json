@@ -41,6 +41,7 @@
         "RandomCatCommand": "I will get a random cat for you.",
         "RandomDogCommand": "I will get a random dog for you.",
         "RepeatCommand": "I will repeat anything you say.",
+        "RipCommand": "Pay your respects.",
         "RollCommand": "Rolls a random number.",
         "SayCommand": "I will say anything you want.",
         "ShrugCommand": "¯\\_(ツ)_/¯",
