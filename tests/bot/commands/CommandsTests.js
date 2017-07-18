@@ -23,6 +23,21 @@ describe('app/bot/commands/...', () => {
         });
     });
 
+    describe('Command Descriptions', () => {
+        it('checks if all commands has a valid description', () => {
+            _.each(Categories, category => {
+                _.each(directory(module, path.resolve(appRoot, 'app/bot/commands', category.name.toLowerCase())), (CommandInstance, key) => {
+                    if (CommandInstance.prototype instanceof Command) {
+                        let instance = new CommandInstance;
+                        let type = typeof instance.getDescription();
+
+                        assert.equal(true, (type === 'string' || type === 'object'), `${key} has an invalid command description, command description must be a string or an object`);
+                    }
+                });
+             });
+        });
+    });
+
     describe('Class Name => File Name', () => {
         it('checks if all commands shares a class and file name', () => {
             _.each(Categories, category => {
