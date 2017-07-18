@@ -139,7 +139,7 @@ class Application {
      * where it's easier for developers to figure out what went wrong.
      */
     registerRaven() {
-        if (!app.config.apiKeys.hasOwnProperty('raven') || app.config.apiKeys.raven.trim() === 0) {
+        if (!app.config.apiKeys.hasOwnProperty('raven') || app.config.apiKeys.raven.trim().length === 0) {
             return;
         }
 
