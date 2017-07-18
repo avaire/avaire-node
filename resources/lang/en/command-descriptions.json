@@ -94,6 +94,7 @@
         "ExpandUrlCommand": "Expands a short URL.",
         "FeedbackCommand": "Gives feedback about Ava to the developers and staff team.",
         "InviteCommand": "Gives you an invite link you can use to invite Ava with.",
+        "IPInfoCommand": "Gives information about the given IP address.",
         "LeaderboardCommand": "Shows the top 100 users, their rank, level, and xp for the current server.",
         "PingCommand": "Ping, Pong.",
         "RankCommand": "Gets your rank, level, xp for the current server and total xp for all servers that you're on, you can tag a user to see their level stats instead.",
