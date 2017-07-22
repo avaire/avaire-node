@@ -52,9 +52,11 @@ class RemindCommand extends Command {
         };
 
         this.startReminderSchedule(hash, time.seconds);
-        return app.envoyer.sendInfo(message, ':ok_hand: I will DM you in :time with the following message:\n\n```:message```', {
-            time: time.format,
-            message: this.reminderes[hash].message
+        return app.envoyer.sendInfo(message, ':ok_hand: I will remind you via a DM in :time.', {
+            time: time.format
+            // This property has been removed from the message but it might be usfull later on
+            // when the message is moved into language files, so I'll kee it here for now.
+            // message: this.reminderes[hash].message
         });
     }
 
