@@ -32,7 +32,7 @@
     "kick": {
         "no-reason": "No reason given",
         "modlog-message": ":target was kicked by :sender for :reason",
-        "invalid-user": ":warning: Invalid user id provided, please use a valid id of the user you want to ban.",
+        "invalid-user": ":warning: Invalid user id provided, please use a valid id of the user you want to kick.",
         "error": "Failed to kick :user due to an error: :error"
     },
 
