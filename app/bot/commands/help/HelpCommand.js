@@ -133,8 +133,11 @@ class HelpCommand extends Command {
         let listOfCommands = app.lang.get(message, 'commands.utility.help.commands');
         let randomCommandIndex = _.random(0, commands.length - 1);
 
+        let values = Object.keys(prefixes).map(key => prefixes[key]);
+        let color = (values.indexOf('.') > -1 || values.indexOf('#') > -1) ? 0x2E66C8 : 0x416E10;
+
         app.envoyer.sendNormalMessage(message, ':page_with_curl: **' + listOfCommands + ':** ```css\n' + fields.join('\n') + '```');
-        return app.envoyer.sendMessage(message, 'commands.utility.help.command-note', 0x2E66C8, {
+        return app.envoyer.sendMessage(message, 'commands.utility.help.command-note', color, {
             trigger: commands[randomCommandIndex].triggers[0],
             prefix: CommandHandler.getPrefix(message, commands[randomCommandIndex].category),
             help: CommandHandler.getPrefix(message, 'help') + 'help'
