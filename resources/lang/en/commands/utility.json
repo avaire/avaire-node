@@ -7,7 +7,7 @@
         "command-note": "**Type `:help <CommandTrigger>` to see the help for that specified command.**\nExample: `:help :prefix:trigger`",
 
         "category-doesnt-exists": [
-            "I'm pretty sure **:category** is not a cateogry.",
+            "I'm pretty sure **:category** is not a category.",
             "I don't have anything on **:category** yet",
             "There are no category called **:category**"
         ],

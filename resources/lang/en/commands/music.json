@@ -45,8 +45,8 @@
     },
 
     "repeat": {
-        "enabled": "Music queue looping and been turned `on`.",
-        "disabled": "Music queue looping and been turned `off`.",
+        "enabled": "Music queue looping has been turned `on`.",
+        "disabled": "Music queue looping has been turned `off`.",
         "empty-queue": "The music queue is empty, there is nothing to be repeated."
     },
 
