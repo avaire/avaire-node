@@ -57,8 +57,19 @@ class LeaderboardCommand extends Command {
 
                 let user = users[i];
                 let xp = user.get('experience');
+                let username = user.get('username');
 
-                formattedUsers.push(`\`${i + 1}\` **${user.get('username')}** is level **${app.bot.features.level.getLevelFromXp(xp)}** with **${xp - 100}** xp.`);
+                if (username.indexOf('\\u') > -1) {
+                    let guildUser = message.guild.members.find(u => {
+                        return u.id === user.get('user_id');
+                    });
+
+                    if (!(guildUser === undefined || guildUser === null)) {
+                        username = guildUser.username;
+                    }
+                }
+
+                formattedUsers.push(`\`${i + 1}\` **${username}** is level **${app.bot.features.level.getLevelFromXp(xp)}** with **${xp - 100}** xp.`);
             }
 
             return app.envoyer.sendEmbededMessage(message, {
