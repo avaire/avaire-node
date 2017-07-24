@@ -1,26 +1,35 @@
 {
     "name": "Ava-Ire",
-    "version": "0.57.7",
-    "description": "A Discord Bot",
+    "version": "0.57.8",
+    "description": "A multipurpose Discord bot made for fun",
     "main": "start.js",
+    "license": "MIT",
+    "homepage": "https://avairebot.com/",
     "maintainers": [
         {
             "name": "Alexis Tan",
             "email": "alexis@sen-dev.com"
         }
     ],
-    "author": {
-        "name": "Alexis Tan",
-        "email": "alexis@sen-dev.com",
-        "url": "https://senither.com"
-    },
     "scripts": {
         "start": "node start.js",
         "test": "xo && mocha tests",
         "generate-docs": "esdoc"
     },
+    "author": {
+        "name": "Alexis Tan",
+        "email": "alexis@sen-dev.com",
+        "url": "https://senither.com"
+    },
+    "bugs": {
+        "url": "https://github.com/AvaIre/AvaIre/issues"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/AvaIre/AvaIre"
+    },
     "engines": {
-        "node": "4.x.x - 6.x.x",
+        "node": ">=6.0.0",
         "npm": ">=3.x.x"
     },
     "xo": {
@@ -64,7 +73,6 @@
             }
         ]
     },
-    "license": "MIT",
     "dependencies": {
         "apiai": "4.0.1",
         "discordie": "^0.11.0",
