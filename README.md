@@ -4,7 +4,7 @@
 
 <p align="center">
     <img src="https://img.shields.io/badge/license-MIT-4A8F80.svg" alt="License">
-    <img src="https://api.travis-ci.org/AvaIre/AvaIre.svg?branch=master" alt="Travis CI">
+    <img src="https://api.travis-ci.org/AvaIre/avaire.svg?branch=master" alt="Travis CI">
     <img src="https://avairebot.com/assets/img/documentation.svg" alt="Documented code">
 </p>
 
