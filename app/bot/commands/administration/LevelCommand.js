@@ -46,7 +46,7 @@ class LevelCommand extends Command {
                 let note = '';
                 if (status) {
                     let alertStatus = guild.get('level_alerts', 0) ? 'Enabled' : 'Disabled';
-                    note = `\nLevel alerts are current \`${alertStatus}\`, you can toggel them on or off with \`.levelalerts\``;
+                    note = `\nLevel alerts are current \`${alertStatus}\`, you can toggle them on or off with \`.levelalerts\``;
                 }
 
                 return app.envoyer.sendSuccess(message, '`Levels & Experience` has been `:status` for the server.:note', {
