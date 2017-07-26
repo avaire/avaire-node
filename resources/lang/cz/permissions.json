@@ -1,0 +1,37 @@
+{
+    "general": {
+        "administrator": "General - Administrátor",
+        "manage_roles": "General - Správa rolí",
+        "manage_server": "General - Správa serverů",
+        "manage_channels": "General - Správa kanálů",
+        "kick_members": "General - Vyhazování uživatele",
+        "ban_members": "General - Banování uživatele",
+        "create_instant_invite": "General - Vytvořit okamžité pozvánky",
+        "change_nickname": "General - Změnit přezdívku",
+        "manage_nicknames": "General - Spravovat přezdívky",
+        "manage_emojis": "General - Spravovat Emotikony",
+        "manage_webhooks": "General - Spravovat Webhooky"
+    },
+
+    "text": {
+        "read_messages": "Čtení zprávy",
+        "send_messages": "Posílání zprávy",
+        "send_tts_messages": "Posílání TTS zprávy",
+        "manage_messages": "Spravovat textové zprávy",
+        "embed_links": "Vložit odkazy",
+        "attach_files": "Přidání souborů",
+        "read_message_history": "Čtení historie zpráv",
+        "mention_everyone": "Zmínit každého",
+        "external_emotes": "Externí emotikony",
+        "add_reactions": "Přidání reakcí"
+    },
+
+    "voice": {
+        "connect": "Připojení k hlasovému kanálu",
+        "speak": "Mluvení v hlasovém kanálu",
+        "mute_members": "Ztlumení uživatelů v hlasovém kanálu",
+        "deafen_members": "Ohlušení uživatelů v hlasovém kanálu",
+        "move_members": "Přesunutí uživatelů",
+        "use_vad": "Použití VAD"
+    }
+}

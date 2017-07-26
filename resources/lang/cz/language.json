@@ -1,0 +1,15 @@
+{
+    "name": "Čeština",
+    "selected": "Všechny zprávy příkazů budou v `Češtině (CZ)`.",
+
+    "errors": {
+        "cant-run-in-dms": ":warning: Nemůžete používat příkazy v přímých zprávách!",
+        "must-be-bot-admin": ":warning: Musíte být bot administrátor pro použití tohoto příkazu!!",
+        "throttle-limit-hit": "Příliš mnoho `:command` pokusů. Prosím zkuste znovu za **:seconds** vteřin/y/u.",
+        "require-command-perms": "Nemám práva k posílání odkazů a vložených odkazů v tomto serveru/kanálu, proto příkaz nemůže být spuštěn :(.",
+        "require-bot-missing": "Nemám potřebné práva k tomuto příkazu:\n`:permission`",
+        "require-user-missing": "Nemáte potřebné práva pro použití tohoto příkazu:\n`:permission`",
+        "missing-arguments": ":warning: Chybí argumenty, použijte `:help :command` abyste se dozvěděli více.",
+        "module-is-disabled": "<@:userid> Příkaz, který se snažíte použít, patří do `:category` modulu, který je právě vypnut."
+    }
+}

@@ -1,0 +1,8 @@
+{
+    "blah": "Blah vám také <@:userid>",
+
+    "roll": {
+        "number": "<@:userid> hodil **:number** z :min - :max",
+        "dice": "<@:userid> **:dice** hodil **:result** :details"
+    }
+}

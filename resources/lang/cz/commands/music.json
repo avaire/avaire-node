@@ -1,0 +1,61 @@
+{
+    "missing-permissions": "Nemůžu se připojit, protože nemám práva (`:permission`).",
+    "end-of-queue": "Fronta skončila, opouštím hlasový kanál.",
+    "voice-required": "Musíte být připojen do hlasového kanálu.",
+    "now-playing": "Právě hraje: [:title](:link)\n`:duration` - zažádáno uživatelem <@:requester>",
+    "missing-connection": "Nejsem právě připojen k žádnému hlasovému kanálu.",
+    "sharing-connection": "Jsem ve stejném hlasovém kanálu jako vy, tak tady zůstanu.",
+    "empty-queue": "Fronta je prázdná.",
+    "volume-while-not-in-channel": "Musíte být připojeni v hlasovém kanálu pro zesílení hlasitosti.",
+    "skip-while-not-in-channel": "Musíte být připojeni v hlasovém kanálu pro přeskočení.",
+    "skip-while-deafened": "Nemůžete zahlasovat o přeskočení pokud jste ohlušeni.",
+    "disconnect-due-to-inactivity": "Muzika skončila kvůli neaktivitě.",
+    "move-now-streaming": "Právě hraju v **:channel**",
+
+    "require": {
+        "added-song": "<@:userid> přidal [:title](:link) do fronty. `:position` skladba(y/eb) ve frontě.",
+        "invalid-youtube-link": "Neplatný youtube link, jen YouTube video linky jsou podporovány.",
+        "error": "Nemohl jsem to přidat do fronty."
+    },
+
+    "queue": {
+        "currently-playing": "Právě hraje",
+        "currently-paused": "Právě pozastaveno",
+        "playing": "[:title](:link)\nHraje na `:volume%` hlasitosti a zbývá `:time` - zažádáno uživatelem :requester",
+        "in-queue": "Skladeb ve frontě",
+        "empty-queue": "*Ve frontě nejsou žádné další skladby.*",
+        "extra-singular": "_A **1** další skladba!_",
+        "extra-plural": "_A **:number** další/ch skladby/eb..._",
+        "missing-dj-role": "`DJ` role je požadována pro vymazání muziky z fronty.",
+        "repeat": {
+            "status": "Opakování muziky je právě :status!",
+            "on": "zapnuto",
+            "off": "vypnuto"
+        }
+    },
+
+    "pauseresume": {
+        "pause-on-empty": "Fronta je prázdná, není co pozastavit.",
+        "resume-on-empty": "Fronta je prázdná, není co obnovit.",
+        "resume-while-alone": "V hlasovém kanálu musí byt alespoň jěště jeden uživatel.",
+        "is-paused": "Muzika už je pozastavená, použijte `!resume` pro obnovu.",
+        "is-playing": "Muzika už hraje, použijte `!pause` pro obnovu.",
+        "paused": "Muzika byla `pozastavena`",
+        "resumed": "Muzika byla `obnovena`"
+    },
+
+    "repeat": {
+        "enabled": "Opakování muziky je `zapnuto`.",
+        "disabled": "Opakování muziky je `vypnuto`.",
+        "empty-queue": "Fronta muziky je prázdná, není nic k opakování."
+    },
+
+    "shuffle": {
+        "on-shuffle": "Fronta je promíchána."
+    },
+
+    "voteskip": {
+        "has-voted": "Vote skip můžete použít jen jednou! Dalších `:total` hlasů je potřebných pro přeskočení skladby.",
+        "just-voted": "Tvůj hlas byl zapsán! Dalších `:total` hlasů je potřebných pro přeskočení skladby."
+    }
+}
