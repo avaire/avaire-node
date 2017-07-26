@@ -1,0 +1,83 @@
+{
+    "alias": {
+        "already-exists": "Alias `:alias` už existuje.",
+        "missing-server-slots": "Server už nemá žádné alias sloty.",
+        "invalid-command": "Neplatný příkaz, neznám žádný příkaz jménem `:command`",
+        "invalid-alias": "Neplatný alias, neexistuje žádný odpovídající alias pro `:alias`.",
+        "alias-created": "Alias `:alias` už byl přidán pro příkaz `:command`\nServer má ještě `:slots` dostupných slotů.",
+        "alias-deleted": "Alias `:alias` byl úspěšně smazán."
+    },
+
+    "aliases": {
+        "title": "List Aliasů",
+        "empty": "Server nemá žádné aliasy, můžete vytvořit použitím\n`:command` pžíkaz",
+        "note": "Strana **:page** z **:pages** stran.\n`:command [číslo stránky]`"
+    },
+
+    "ban": {
+        "missing-user": "Pro zabanování musíte označit uživatele.",
+        "hierarchy": "Nemůžete zabanovat uživatele vyšší, nebo stejné role jako jste vy.",
+        "no-reason": "Důvod nebyl zadán",
+        "modlog-message": ":target byl permanentně zabanován uživatelem :sender za :reason",
+        "invalid-user": ":warning: Neplatné ID uživatele, prosím, zadejte platné ID uživatele, kterého chcete zabanovat.",
+        "error": "Chyba při banování uživatele :user kvůli: :error"
+    },
+
+    "changeprefix": {
+        "invalid": "Neplatný modul, žádné moduly shodné s `:module`",
+        "updated": "Všechny příkazy v `:module` modulu používají prefix `:prefix`.",
+        "reset": "Všechny příkazy v `:module` modulu byly resetovány do prefixu `:prefix`."
+    },
+
+    "kick": {
+        "no-reason": "Důvod nebyl zadán",
+        "modlog-message": ":target byl vyhozen uživatelem :sender za :reason",
+        "invalid-user": ":warning: Neplatné ID uživatele, prosím, zadejte platné ID uživatele, kterého chcete vyhodit.",
+        "error": "Chyba při vyhazování uživatele :user kvůli: :error"
+    },
+
+    "purge": {
+        "all-messages": ":white_check_mark: `:amount` zpráv/a smazáno/a!",
+        "user-messages": ":white_check_mark: `:amount` zpráv/a bylo/a smazáno/a od uživate `:users`"
+    },
+
+    "language": {
+        "invalid": "Neplatný jazyk, `:local` není podporovaný jazyk.",
+        "selected": "Vybraný Jazyk",
+        "available": "Dostupné Jazyky",
+        "note": ":information_source: *Můžete použít `:command [jazyk]` pro změnu jazyka na tomto serveru, základní nastavení je `:default`!*"
+    },
+
+    "serverid": {
+        "message": "<@:userid> :id: tohoto serveru je `:serverid`"
+    },
+
+    "togglemodule": {
+        "invalid": "Neplatný modul, žádné moduly shodné s `:module`",
+        "disable-admin": "Nemůžete vypnout admin command modul právě teď, pokud to uděláte, není žádná cesta zpět k zapnutí. Postupujeme ve vývoji, který by vám měl dát brzo možnost vypnutí admin přákazů",
+        "channel": {
+            "enabled": "`:module` modul byl `Zapnut` v :channel.",
+            "disabled": "`:module` modul byl `Vypnut` v :channel."
+        },
+        "global": {
+            "enabled": "`:module` modul byl `Zapnut` pro **všechny kanály**.",
+            "disabled": "`:module` modul byl `Vypnut` pro **všechny kanály**."
+        }
+    },
+
+    "userid": {
+        "message": "<@:userid> :id: uživatele **:target** je `:targetid`"
+    },
+
+    "modules": {
+        "enabled": "`:module` modul byl **zapnut** pro kanál <#:channelid>.",
+        "disabled": "`:module` modul byl **vypnut** pro kanál <#:channelid>",
+        "not-enabled": "`:module` modul není zapnut, zapnete to příkazem `:command`",
+        "messages": {
+            "set-message": "Zpráva modulu `:module` byla nastavena na:\n\n`:message`",
+            "set-default": "Zpráva modulu `:module` byla nastavena na původní."
+        },
+        "slowmode-enabled": "Zprávy jsou limitovány na :limit zprávu(y) každou(ých) :decay vteřinu(y).",
+        "slowmode-require-ints": "Neplatné číslo, `:field` muí byt pozitivní celé číslo!"
+    }
+}

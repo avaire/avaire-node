@@ -1,0 +1,26 @@
+{
+    "help": {
+        "module": "List modulů",
+        "commands": "List příkazů",
+
+        "category-note": ":information_source: Napište `:command <JménoModulu>` pro získání příkazů v určitým modulu.\nNapříklad: `:command :category` nebo `:command :shortcategory`",
+        "command-note": "**Napište `:help <PříkazováZkratka>` pro zobrazení nápovědy pro určitý příkaz.**\nNapříklad: `:help :prefix:trigger`",
+
+        "category-doesnt-exists": [
+            "Jsem si docela jistý, že **:category** není kategorie.",
+            "Zatím nemám nic v **:category**.",
+            "Nejsou tam žádné kategorie nazvané **:category**"
+        ],
+
+        "command-doesnt-exists": [
+            "Nevím o žádném příkazu nazvaném **:command**.",
+            "Nemám žadný přikaz nazvaný **:command** v mých registrech.",
+            "Chyba 404, příkaz nenalezen!",
+            "Příkaz není v mých registrech, možná je to pro jiného bota?"
+        ]
+    },
+
+    "invite": {
+        "message": "Můžete mě pozvat na vás server [kliknutím sem](:oauth) nebo použitím linku níže:\n\n:oauth"
+    }
+}
