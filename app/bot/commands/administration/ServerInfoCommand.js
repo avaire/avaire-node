@@ -88,9 +88,16 @@ class ServerInfoCommand extends Command {
         if (guild.emojis.length !== 0) {
             let emojis = [];
 
+            let pushEmojisToString = guild.emojis.length < 18;
+
             for (let i in guild.emojis) {
                 let emoji = guild.emojis[i];
-                emojis.push(`${emoji.name} <:${emoji.name}:${emoji.id}>`);
+
+                if (pushEmojisToString) {
+                    emojis.push(`${emoji.name} <:${emoji.name}:${emoji.id}>`);
+                    continue;
+                }
+                emojis.push(`${emoji.name}`);
             }
 
             fields.push({
