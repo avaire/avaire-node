@@ -23,6 +23,7 @@ class GuildTransformer extends Transformer {
      * @return {Object}
      */
     prepare(data, _) {
+        data.claimable_roles = this.parseJson(data, 'claimable_roles');
         data.channels = this.parseJson(data, 'channels');
         data.prefixes = this.parseJson(data, 'prefixes');
         data.aliases = this.parseJson(data, 'aliases');
@@ -66,6 +67,7 @@ class GuildTransformer extends Transformer {
             levels: 0,
             level_alerts: 0,
             level_channel: null,
+            claimable_roles: null,
             channels: {},
             prefixes: null,
             aliases: null,

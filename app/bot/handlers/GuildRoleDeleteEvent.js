@@ -17,7 +17,19 @@ class GuildRoleDeleteEvent extends EventHandler {
      * @return {mixed}
      */
     handle(socket) {
-        //
+        return app.database.getGuild(app.getGuildIdFrom(socket)).then(guild => {
+            let claimableRoles = guild.get('claimable_roles', {});
+            if (!claimableRoles.hasOwnProperty(socket.roleId)) {
+                return;
+            }
+
+            delete claimableRoles[socket.roleId];
+            guild.data.claimable_roles = claimableRoles;
+
+            return app.database.update(app.constants.GUILD_TABLE_NAME, {
+                claimable_roles: JSON.stringify(claimableRoles)
+            }, query => query.where('id', app.getGuildIdFrom(socket)));
+        });
     }
 }
 
