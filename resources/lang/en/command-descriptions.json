@@ -1,5 +1,6 @@
 {
     "administration": {
+        "AddClaimableRoleCommand": "Adds a role to the self-assignable/claimable roles list, any role on the list can be claimed by users when they use `.iam`.",
         "AiCommand": "Toggles the AI module on or off for the current channel.",
         "AliasCommand": "Creates and maps a custom aliase for a pre-existing command. Provide no alias to remove an existing alias.",
         "AliasesCommand": "Lists all the existing command aliases.",
@@ -12,12 +13,16 @@
         "CommandModulesCommand": "Shows the status of the given command modules for the current channel, and globally.",
         "GoodbyeCommand": "Toggles the goodbye module on or off for the current channel.",
         "GoodbyeMessageCommand": "Sets the goodbye message.",
+        "IAmCommand": "Claims the role with the given name if it is claimable, giving the user the role.",
+        "IAmNotCommand": "Unclaims the role with the given name, removing the role from the user if the role is claimable.",
         "KickCommand": "Kicks the mentioned user off the server with the provided reason, this action will be reported to any channel that has modloging enabled on the server.",
         "LanguageCommand": "Allows you to change the language that Ava uses on current server.",
         "LevelAlertsCommand": "Toggles the Leveling alerts system on or off for the current server or channel.",
+        "ListClaimableRoleCommand": "List all the claimable roles, 10 per-page.",
         "LevelCommand": "Toggles the Leveling system on or off for the current server.",
         "ModlogCommand": "Toggles the ModLog module on or off for the current channel.",
         "PurgeCommand": "Deletes up to 1,000 chat messages in any channel, you can mention a user if you only want to delete messages by the mentioned user.",
+        "RemoveClaimableRoleCommand": "Removes the role from the self-assignable/claimable roles list, preventing users from claiming the role.",
         "ServerIdCommand": "Shows current server ID.",
         "ServerInfoCommand": "Tells you information about the server.",
         "SetupCommand": "Helps you setup different features within Ava for the current server.",

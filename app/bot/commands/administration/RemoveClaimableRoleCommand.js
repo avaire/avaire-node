@@ -19,6 +19,7 @@ class RemoveClaimableRoleCommand extends Command {
     constructor() {
         super('removeclaimablerole', ['rcr'], {
             allowDM: false,
+            usage: '<role>',
             middleware: [
                 'require.user:general.administrator',
                 'throttle.guild:1,5'

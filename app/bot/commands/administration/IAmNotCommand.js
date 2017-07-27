@@ -19,6 +19,7 @@ class IAmNotCommand extends Command {
     constructor() {
         super('iamnot', ['iamn'], {
             allowDM: false,
+            usage: '<role>',
             middleware: [
                 'throttle.user:1,4'
             ]

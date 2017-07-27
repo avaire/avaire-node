@@ -19,6 +19,7 @@ class IAmCommand extends Command {
     constructor() {
         super('iam', [], {
             allowDM: false,
+            usage: '<role>',
             middleware: [
                 'throttle.user:1,4'
             ]
