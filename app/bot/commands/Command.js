@@ -53,10 +53,11 @@ class Command {
      * Gets the command with the prefix for the given guild and the main command trigger.
      *
      * @param  {IMessage|null}  message  The Discordie message object, or null.
+     * @param  {Number}         index    The index of the command prefix to get.
      * @return {String}
      */
-    getCommandTrigger(message) {
-        return this.getPrefix(message) + this.getTriggers()[0];
+    getCommandTrigger(message, index = 0) {
+        return this.getPrefix(message) + this.getTriggers()[index];
     }
 
     /**
