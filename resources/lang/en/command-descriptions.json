@@ -4,6 +4,7 @@
         "AiCommand": "Toggles the AI module on or off for the current channel.",
         "AliasCommand": "Creates and maps a custom aliase for a pre-existing command. Provide no alias to remove an existing alias.",
         "AliasesCommand": "Lists all the existing command aliases.",
+        "AutoAssignRoleCommand": "Automaticaly assigns a specified role to every user who joins the server.",
         "BanCommand": "Bans the mentioned user off the server with the provided reason, all messages the user has sent in the last 7 days will also be deleted in the process, this action will be reported to any channel that has modloging enabled on the server.",
         "ChangePrefixCommand": [
             "Sets the prefix that should be used for all commands in a given module, if no prefix is provided the modules prefix will be reset back to the default instead.",

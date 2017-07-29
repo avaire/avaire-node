@@ -68,6 +68,7 @@ class GuildTransformer extends Transformer {
             level_alerts: 0,
             level_channel: null,
             claimable_roles: null,
+            autorole: null,
             channels: {},
             prefixes: null,
             aliases: null,
