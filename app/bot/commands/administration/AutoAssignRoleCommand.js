@@ -84,6 +84,8 @@ class AutoAssignRoleCommand extends Command {
      * @return {Promise}
      */
     disableAutoRole(message, guild) {
+        guild.data.autorole = null;
+
         return app.database.update(app.constants.GUILD_TABLE_NAME, {
             autorole: null
         }, query => query.where('id', app.getGuildIdFrom(message))).then(() => {
