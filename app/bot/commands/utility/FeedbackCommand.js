@@ -50,11 +50,16 @@ class FeedbackCommand extends Command {
      * @return {String}
      */
     buildJsonUser(message) {
+        let username = app.database.stringifyEmojis(message.author.username);
+        if (username === null) {
+            username = 'Invalid Username';
+        }
+
         return JSON.stringify({
             id: message.author.id,
-            username: message.author.username,
             discriminator: message.author.discriminator,
-            avatar: message.author.avatar
+            avatar: message.author.avatar,
+            username
         });
     }
 
@@ -65,15 +70,20 @@ class FeedbackCommand extends Command {
      * @return {String}
      */
     buildJsonChannel(message) {
-        let channel = {
-            id: message.channel.id,
-            name: message.channel.name
-        };
+        let name = app.database.stringifyEmojis(message.channel.name);
+
+        if (name === null) {
+            name = name.toDatabaseFormat();
+        }
 
         if (message.channel.constructor.name === 'IDirectMessageChannel') {
-            channel.name = `Direct Message with ${message.author.username}`;
+            name = `Direct Message with ${message.author.username}`;
         }
-        return JSON.stringify(channel);
+
+        return JSON.stringify({
+            id: message.channel.id,
+            name: name.toDatabaseFormat()
+        });
     }
 
     /**
@@ -88,9 +98,14 @@ class FeedbackCommand extends Command {
             return null;
         }
 
+        let guildName = app.database.stringifyEmojis(message.guild.name);
+        if (guildName === null) {
+            guildName = 'Invalid Guild Name';
+        }
+
         return JSON.stringify({
             id: message.guild.id,
-            name: message.guild.name,
+            name: guildName.toDatabaseFormat(),
             owner_id: message.guild.owner_id,
             icon: message.guild.icon
         });
