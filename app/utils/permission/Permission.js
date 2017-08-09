@@ -54,6 +54,10 @@ class Permission {
             return false;
         }
 
+        if (!this.isValidObjectType(context)) {
+            return false;
+        }
+
         let permissionNode = this.preparePermission(permission);
         let contextPermissions = user.permissionsFor(context);
 
@@ -87,6 +91,24 @@ class Permission {
         let perms = parts[1];
 
         return {group, perms};
+    }
+
+    /**
+     * Checks if the given context is a valid IChannel or IGuild object.
+     *
+     * @param  {mixed}  context  The context that should be checked.
+     * @return {Boolean}
+     */
+    isValidObjectType(context) {
+        if (context === null) {
+            return false;
+        }
+
+        return context.constructor.name === 'IGuild' ||
+               context.constructor.name === 'IChannel' ||
+               context.constructor.name === 'ITextChannel' ||
+               context.constructor.name === 'IVoiceChannel' ||
+               context.constructor.name === 'IDirectMessageChannel';
     }
 }
 
