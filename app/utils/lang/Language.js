@@ -189,9 +189,11 @@ class Language {
             placeholders = {};
         }
 
-        for (let placeholder in this.defaultPlaceholders) {
-            if (!placeholders.hasOwnProperty(placeholder)) {
-                placeholders[placeholder] = this.defaultPlaceholders[placeholder](message);
+        if (message.constructor.name === 'IMessage') {
+            for (let placeholder in this.defaultPlaceholders) {
+                if (!placeholders.hasOwnProperty(placeholder)) {
+                    placeholders[placeholder] = this.defaultPlaceholders[placeholder](message);
+                }
             }
         }
 
