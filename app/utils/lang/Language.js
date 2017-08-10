@@ -40,11 +40,11 @@ class Language {
          * @type {Object}
          */
         this.defaultPlaceholders = {
-            userid: message => message.author.id,
-            channelid: message => message.channel.id,
-            username: message => message.author.username,
-            useravatar: message => message.author.avatar,
-            userdiscr: message => message.author.discriminator
+            userid: message => app.loadProperty(message, ['author', 'id'], 'Invalid ID'),
+            channelid: message => app.loadProperty(message, ['channel', 'id'], 'Invalid ID'),
+            username: message => app.loadProperty(message, ['author', 'username'], 'Invalid Username'),
+            useravatar: message => app.loadProperty(message, ['author', 'avatar'], 'Invalid Username'),
+            userdiscr: message => app.loadProperty(message, ['author', 'discriminator'], 'Invalid Discriminator')
         };
 
         // Loads all the language strings.
