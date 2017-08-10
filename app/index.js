@@ -23,5 +23,5 @@ module.exports = {
 
     // Quick helper function for the guild utility
     getGuildIdFrom: context => app.guild.getIdFrom(context),
-    loadProperty: (context, properties) => app.process.getProperty(context, properties)
+    loadProperty: (context, properties, fallback = null) => app.process.getProperty(context, properties, fallback)
 };

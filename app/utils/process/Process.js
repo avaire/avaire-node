@@ -116,15 +116,16 @@ class Process {
      *
      * @param  {mixed}  context     The context that should have content loaded from it.
      * @param  {Array}  properties  The properties that should be loaded.
+     * @param  {mixed}  fallback    The default fallback value.
      * @return {mixed|null}
      */
-    getProperty(context, properties = []) {
+    getProperty(context, properties = [], fallback = null) {
         if (typeof properties === 'string') {
             properties = [properties];
         }
 
         if (context === null || context === undefined) {
-            return null;
+            return fallback;
         }
 
         if (properties.length === 0) {
@@ -134,7 +135,7 @@ class Process {
         try {
             return this.getProperty(context[properties.shift()], properties);
         } catch (err) {
-            return null;
+            return fallback;
         }
     }
 }
