@@ -31,25 +31,34 @@ class GuildCreateEvent extends EventHandler {
             ]
         });
 
-        app.database.getGuild(app.getGuildIdFrom(socket)).then(guild => {
-            let leftGuildAt = guild.get('leftguild_at');
-            if (leftGuildAt !== null && leftGuildAt !== undefined) {
-                app.database.update(app.constants.GUILD_TABLE_NAME, {
-                    leftguild_at: null
-                }, query => query.where('id', app.getGuildIdFrom(socket)))
-                    .catch(err => app.logger.raven(err, {
-                        guild: guild.toDatabaseBindings()
-                    }));
-            }
-        });
-
-        if (!app.process.isReady) {
+        let guildId = app.getGuildIdFrom(socket);
+        if (guildId === null) {
+            // Somtimes Discords API is a bit weird or it's an issue with Discordie
+            // where the guild is null/undefined, so to make sure we actually
+            // have valid data we're having a check for the guild ID.
             return;
         }
 
-        if (app.permission.has(bot.User, socket.guild.generalChannel, 'text.send_messages')) {
-            this.sendWelcomeMessage(socket);
+        if (!app.process.isReady && app.permission.has(bot.User, socket.guild.generalChannel, 'text.send_messages')) {
+            return app.database.getClient().select('id').table(app.constants.GUILD_TABLE_NAME).where('id', guildId).then(data => {
+                if (data.length === 0) {
+                    this.sendWelcomeMessage(socket);
+                }
+            });
         }
+
+        app.scheduler.scheduleDelayedTask(() => {
+            app.database.getGuild(guildId).then(guild => {
+                let leftGuildAt = guild.get('leftguild_at');
+                if (leftGuildAt !== null && leftGuildAt !== undefined) {
+                    return app.database.update(app.constants.GUILD_TABLE_NAME, {
+                        leftguild_at: null
+                    }, query => query.where('id', guildId)).catch(err => app.logger.raven(err, {
+                        guild: guild.toDatabaseBindings()
+                    }));
+                }
+            });
+        }, 3500);
     }
 
     /**
