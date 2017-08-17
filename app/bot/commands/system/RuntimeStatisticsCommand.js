@@ -102,7 +102,7 @@ class RuntimeStatisticsCommand extends Command {
                 title: 'Runtime Bot Statistics',
                 url: 'https://discordapp.com/invite/gt2FWER',
                 author: {
-                    icon_url: `https://cdn.discordapp.com/avatars/${bot.User.id}/${bot.User.avatar}.png?size=256`,
+                    icon_url: bot.User.avatarURL,
                     name: `${bot.User.username} v${app.version}`
                 },
                 footer: {

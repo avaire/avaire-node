@@ -39,7 +39,7 @@ class SendServerLogWebhookJob extends Job {
             },
             body: {
                 username: bot.User.username,
-                avatar_url: `https://cdn.discordapp.com/avatars/${bot.User.id}/${bot.User.avatar}.webp?size=256`,
+                avatar_url: bot.User.avatarURL,
                 embeds
             }
         }, (error, response, body) => {

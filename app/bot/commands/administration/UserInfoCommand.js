@@ -52,7 +52,7 @@ class UserInfoCommand extends Command {
         return app.envoyer.sendEmbededMessage(message, {
             color: this.getEmbededColor(roles),
             thumbnail: {
-                url: `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=128`
+                url: user.avatarURL
             },
             fields: [
                 {

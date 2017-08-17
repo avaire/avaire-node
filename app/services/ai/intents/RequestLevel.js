@@ -39,11 +39,10 @@ class RequestCat extends IntentHandler {
                 color: 0xE91E63,
                 author: {
                     name: author.username,
-                    icon_url: `https://cdn.discordapp.com/avatars/${author.id}/${author.avatar}.png?size=256`
+                    icon_url: author.avatarURL
                 },
-                footer: {
-                    text: `https://avairebot.com/leaderboard/${app.getGuildIdFrom(this.getMessage())}`
-                },
+                url: `https://avairebot.com/leaderboard/${app.getGuildIdFrom(this.getMessage())}`,
+                footer: {text: `https://avairebot.com/leaderboard/${app.getGuildIdFrom(this.getMessage())}`},
                 fields: [
                     {
                         name: 'Rank',

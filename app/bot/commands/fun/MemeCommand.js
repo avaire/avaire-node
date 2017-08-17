@@ -136,10 +136,8 @@ class MemeCommand extends Command {
             return app.envoyer.sendWarn(message, 'The top and bottom messages can\'t be empty!');
         }
 
-        let userAvatar = `https://images.discordapp.net/avatars/${user.id}/${user.avatar}.png?size=256`;
-
         message.channel.sendTyping();
-        return this.uploadMeme(message, `${this.customUrl}${text.top}/${text.bottom}.jpg?alt=${userAvatar}`);
+        return this.uploadMeme(message, `${this.customUrl}${text.top}/${text.bottom}.jpg?alt=${user.staticAvatarURL}?size=256`);
     }
 
     /**
