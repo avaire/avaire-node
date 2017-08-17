@@ -72,6 +72,7 @@ class ProcessCommand extends Middleware {
         let skipNext = false;
         for (let i = 0; i < rawArguments.length; i++) {
             if (skipNext) {
+                skipNext = false;
                 continue;
             }
 
