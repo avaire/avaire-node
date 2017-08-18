@@ -41,15 +41,19 @@ class SetStatusCommand extends Command {
             return app.envoyer.sendSuccess(message, 'The bot status cycle has been re-enabled, the change game job can now change the bot status again.');
         }
 
-        let status = args.join(' ');
-        if (status.indexOf('twitch.tv') > -1) {
-            let parts = status.split('/');
+        let status = {
+            type: 0,
+            name: args.join(' ')
+        };
+
+        if (status.name.indexOf('twitch.tv') > -1) {
+            let parts = status.name.split('/');
             let twitchUser = parts[parts.length - 1];
 
             status = {
                 type: 1,
                 name: `Broadcasting ${twitchUser} on Twitch.TV`,
-                url: status
+                url: status.name
             };
         }
 

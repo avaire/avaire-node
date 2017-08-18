@@ -52,7 +52,10 @@ class ChangeGameJob extends Job {
         game = game.replace(/%shardid%/gi, app.shard.getId());
         game = game.replace(/%shardcount%/gi, app.shard.getCount());
 
-        bot.User.setStatus(null, game);
+        bot.User.setStatus(null, {
+            type: 0,
+            name: game
+        });
     }
 }
 
