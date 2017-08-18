@@ -32,11 +32,11 @@ class GuildMemberAddEvent extends EventHandler {
                 return;
             }
 
-            return member.assignRole(role);
-        });
+            member.assignRole(role);
 
-        return JoinMessageHandler.send(socket, socket.member, 'welcome', 'Welcome %user% to **%server%!**')
-                                 .catch(err => app.logger.error(err));
+            return JoinMessageHandler.send(socket, socket.member, 'welcome', 'Welcome %user% to **%server%!**')
+                                     .catch(err => app.logger.error(err));
+        });
     }
 }
 
