@@ -1,7 +1,5 @@
 /** @ignore */
 const Command = require('./../Command');
-/** @ignore */
-const Music = require('./../music/MusicHandler');
 
 /**
  * Stats command, shows information about the bot instance,
@@ -89,9 +87,6 @@ class StatsCommand extends Command {
             })
         ];
 
-        let songsInQueue = this.getSongsInQueue();
-        let servers = bot.VoiceConnections.length;
-
         return app.envoyer.sendEmbededMessage(message, {
             timestamp: new Date,
             color: 0x3498DB,
@@ -103,7 +98,7 @@ class StatsCommand extends Command {
                 name: `${bot.User.username} v${app.version}`
             },
             footer: {
-                text: `Currenting playing in ${servers} servers with ${songsInQueue} songs in the queue.`
+                text: `Currenting playing in ${app.shard.getVoiceConnections()} servers with ${app.shard.getSongsInQueue()} songs in the queue.`
             },
             fields
         });
@@ -123,19 +118,6 @@ class StatsCommand extends Command {
             obj.value = value();
         }
         return obj;
-    }
-
-    /**
-     * Gets the amount of songs currently in the music queue.
-     *
-     * @return {Number}
-     */
-    getSongsInQueue() {
-        let songsInQueue = 0;
-        for (let guildId in Music.queues) {
-            songsInQueue += Music.queues[guildId].length;
-        }
-        return songsInQueue;
     }
 
     /**

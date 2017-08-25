@@ -4,6 +4,8 @@ const _ = require('lodash');
 const directory = require('require-directory');
 /** @ignore */
 const ServerLogger = require('./ServerLogger');
+/** @ignore */
+const Music = require('./../bot/commands/music/MusicHandler');
 
 /**
  * Shard manager, helps get a quick overview of how many
@@ -104,6 +106,35 @@ class ShardManager {
      */
     getChannels() {
         return this.getCountedProperty('channels', () => bot.Channels.length);
+    }
+
+    /**
+     * Gets the number of active/open voice connections for the bot
+     * between all the shards the bot is connected to, if the bot
+     * is not in a sharded mode the voice connections will just
+     * return the currnt bot instances voice connections.
+     *
+     * @return {Number}
+     */
+    getVoiceConnections() {
+        return this.getCountedProperty('voices', () => bot.VoiceConnections.length);
+    }
+
+    /**
+     * Gets the number of songs currently in the music queue for the bot between
+     * all the shards the bot is connected to, if the bot is not in a sharded
+     * mode the queue size will just be return for the currnt bot instance.
+     *
+     * @return {Number}
+     */
+    getSongsInQueue() {
+        return this.getCountedProperty('songs', () => {
+            let songsInQueue = 0;
+            for (let guildId in Music.queues) {
+                songsInQueue += Music.queues[guildId].length;
+            }
+            return songsInQueue;
+        });
     }
 
     /**
