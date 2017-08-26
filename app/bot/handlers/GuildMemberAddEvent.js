@@ -19,10 +19,13 @@ class GuildMemberAddEvent extends EventHandler {
      * @return {mixed}
      */
     handle(socket) {
-        app.database.getGuild(app.getGuildIdFrom(socket)).then(guild => {
-            let member = app.loadProperty(socket, ['member']);
+        return app.database.getGuild(app.getGuildIdFrom(socket)).then(guild => {
+            JoinMessageHandler.send(socket, socket.member, 'welcome', 'Welcome %user% to **%server%!**')
+                              .catch(err => app.logger.error(err));
 
+            let member = app.loadProperty(socket, ['member']);
             let autorole = guild.get('autorole', null);
+
             if (member === null || autorole === null || autorole === undefined) {
                 return;
             }
@@ -32,10 +35,7 @@ class GuildMemberAddEvent extends EventHandler {
                 return;
             }
 
-            member.assignRole(role);
-
-            return JoinMessageHandler.send(socket, socket.member, 'welcome', 'Welcome %user% to **%server%!**')
-                                     .catch(err => app.logger.error(err));
+            return member.assignRole(role);
         });
     }
 }
