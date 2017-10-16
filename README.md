@@ -2,12 +2,6 @@
     <img src="https://avairebot.com/assets/img/banner-simple.png">
 </p>
 
-<p align="center">
-    <img src="https://img.shields.io/badge/license-MIT-4A8F80.svg" alt="License">
-    <img src="https://api.travis-ci.org/avaire/avaire.svg?branch=master" alt="Travis CI">
-    <img src="https://avairebot.com/assets/img/documentation.svg" alt="Documented code">
-</p>
-
 ## About AvaIre
 
 AvaIre is a multipurpose Discord bot made for fun, written in JavaScript [Node.JS](https://nodejs.org), using the [Discordie](https://qeled.github.io/discordie) library.
