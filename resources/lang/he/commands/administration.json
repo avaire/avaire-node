@@ -1,0 +1,84 @@
+{
+    "alias": {
+        "already-exists": "כבר יש כינוי הנקרא `:alias`",
+        "missing-server-slots": "לשרת אין עוד מקום לכינויים.",
+        "invalid-command": "פקודה לא יודע ניתנה, אני לא מכיר שום פקודה שנקראת  `:command`",
+        "invalid-alias": "כינוי לא מוכר, אין כינוי בשם  `:alias`.",
+        "alias-created": "הכינוי `:alias` השתנה גם ל `:command`\nלשרת יש עוד `:slots` מקומות לכינויים.",
+        "alias-deleted": "הכינוי `:alias` נמחק בהצלחה."
+    },
+
+    "aliases": {
+        "title": "רשימת כינויים",
+        "empty": "זה לא נראה כאילו לשרת יש רשימת כינויים כרגע, אתה יכול ליצור אותם על ידיי הפקודה \nthe `:command` command",
+        "note": "דף **:page** מתוך **:pages** דפים.\n`:command [page number]`"
+    },
+
+    "ban": {
+        "missing-user": "אתה לא ציינת את המשתמש שאתה רוצה להעיף.",
+        "hierarchy": "אתה לא יכול להעיף אנשים עם רמה דומה לשלך או גבוהה ממך.",
+        "no-reason": "לא ניתנה סיבה",
+        "modlog-message": ":המטרה הועפה לצמיתות על ידיי :sender בגלל :reason",
+        "invalid-user": ":warning: קוד משתמש שגוי נכתב, תשתמש בקוד המשתמש שאותו תרצה להעיף לצמיתות.",
+        "error": "נכשל להעיף :user בגלל טעות: :error"
+    },
+
+    "changeprefix": {
+        "invalid": "קטגוריה לא נכונה נכתבה, אין קטגוריה בשם `:module`",
+        "updated": "כל הפקודות `:module` הקטגוריה עכשיו משתמשת ב `:prefix` prefix.",
+        "reset": "כל הפקודות בקטגוריה `:module` השתנו בחזרה ל `:prefix` prefix."
+    },
+
+    "kick": {
+        "no-reason": "לא ניתנה סיבה",
+        "modlog-message": ":המטרה נזרקה על ידיי :sender בגלל :reason",
+        "invalid-user": ":warning: , please use a valid id of the user you want to kick.",
+        "error": "נכשל להעיף את :user בגלל תקלה: :error"
+    },
+
+    "purge": {
+        "all-messages": ":white_check_mark: `:amount` הודעות נמחקו!",
+        "user-messages": ":white_check_mark: `:amount` הודעות נמחקו מ `:users`"
+    },
+
+    "language": {
+        "invalid": "שפה לא הגיונית נבחרה, `:local` היא לא שפה נתמכת.",
+        "selected": "שפה שנבחרה",
+        "available": "שפה אפשרית",
+        "note": ":information_source: *אתה יכול להשתמש ב `:command [שפה]` בשביל לשנות את השפה הנוכחית, כברירת מחדל השפה תשתנה ל `:default`!*"
+    },
+
+    "serverid": {
+        "message": "<@:userid> :id: של השרת הוא `:serverid`"
+    },
+
+    "togglemodule": {
+        "invalid": "קטגוריה לא נכונה נבחרה, אין קטגוריה בשם `:module`",
+        "disable-admin": "אתה לא יכול לשנות את הפקודה של האדמין בקטגוריה הנוכחית, if you do that you have no way of re-enabling it again. Features are in the works that should allow you to disable admin commands soon... ish.",
+        "invalid-target": "מטרה שגויה ניתנה, בבקשה תטייג את החדר שאתה רוצה לשנות לו את הקטגוריה, או שתשתמש ב `all` בשביל בשביל להשפיע על כל החדרים בשרת.",
+        "channel": {
+            "enabled": "78989+789 `:module` פקודת קטגוריה `הופעלה` ב :channel.",
+            "disabled": "ה `:module` פקודה הזו  `Disabled` in :channel."
+        },
+        "global": {
+            "enabled": "ה `:module` פקודת הקטגוריה `הופעלה` בשביל **כל החדרים**.",
+            "disabled": "The `:module` פקודת הקטגוריה כובתה `כובתה` בשביל **כל החדרים**"
+        }
+    },
+
+    "userid": {
+        "message": "<@:userid> :id: של המשתמש **:target** הוא `:targetid`"
+    },
+
+    "modules": {
+        "enabled": "ה `:module` קטגוריה **מופעלת** בשביל <#:channelid> חדר.",
+        "disabled": "ה `:module` קטגוריה **כובתה** בשביל <#:channelid> channel.",
+        "not-enabled": "ה `:module` קטגוריה לא מופעלה, תפעיל אותה עם `:command`",
+        "messages": {
+            "set-message": "ה `:module` הודעת הקגוריה הוגדרה ל :\n\n`:message`",
+            "set-default": "ה `:module` קטגוריה הוגדרה לקטגוריה ברירת המחדל."
+        },
+        "slowmode-enabled": "עכשיו הודעות מוגבלות ל :limit הודעות כל :decay seconds.",
+        "slowmode-require-ints": "מספר לא חוקי ניתן, ה `:field` חייב להיות מספר הגיוני!"
+    }
+}

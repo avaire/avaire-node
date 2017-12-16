@@ -1,0 +1,8 @@
+{
+    "blah": "בלה גם לך <@:userid>",
+
+    "roll": {
+        "number": "<@:userid> גלגל **:number** מתוך :min - :max",
+        "dice": "<@:userid> **:dice** גלגל **:result** :details"
+    }
+}

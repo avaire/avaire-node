@@ -1,0 +1,15 @@
+{
+    "name": "עברית",
+    "selected": "כל הפקודות עכשיו ישתמשו בקבצים של השפה `עברית (He)` .",
+
+    "errors": {
+        "cant-run-in-dms": ":warning: אתה לא יכול להשתמש בפקודה זו בהודעות פרטיות!",
+        "must-be-bot-admin": ":warning: אתה חייב להיות מנהל הבוט כדי לבצע פקודה זו!",
+        "throttle-limit-hit": "יותר מידיי `:command` נסיונות. בבקשה נסה בעוד **:seconds** שניות .",
+        "require-command-perms": "אין לי גישות לשלוח לינקים ותמונות בצא'ט הזה', אז הפקודה לא תתקיים :(",
+        "require-bot-missing": "אין לי את ה:\n`:permission`",
+        "require-user-missing": "אין לך את הדרגה המתאימה:\n`:permission`",
+        "missing-arguments": ":warning: חסרות מילים, השתמש ב `:help :command` כדיי ללמוד עוד על הפקודה",
+        "module-is-disabled": "<@:userid> הפקודה שכתבת מתאימה לקטגוריה  `:category` שכבוייה כרגע."
+    }
+}

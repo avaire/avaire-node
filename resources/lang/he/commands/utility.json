@@ -1,0 +1,26 @@
+{
+    "help": {
+        "module": "רשימת קטגוריות",
+        "commands": "רשימת פקודות",
+
+        "category-note": ":information_source: תכתוב `:command <ModuleName>` בשביל לקבל את רשימת הפקודות בקטגוריה הזאת.\nלדוגמא: `:command :category` או `:command :shortcategory`",
+        "command-note": "**תכתוב `:help <CommandTrigger>`בשביל לראות את הפקודה הספציפית .**\nלדוגמא: `:help :prefix:trigger`",
+
+        "category-doesnt-exists": [
+            "אני דיי בטוח ש **:category** היא לא קטגוריה.",
+            "אין לי כלום על הקטגוריה  **:category** עדיין",
+            "אין קטגוריה בשם **:category**"
+        ],
+
+        "command-doesnt-exists": [
+            "אני לא מכיר פקודה שנקראת **:command**.",
+            "אני לא מכיר פקודה שנקראת  **:command** בקוד שלי",
+            "תקלה  404, הפקודה שאתה מחפש לא קיימת!",
+            "הפקודה כתבת לא נמצאת אצלי בקוד, אולי זה של בוט אחר?"
+        ]
+    },
+
+    "invite": {
+        "message": "אתה יכול להזמין אותי לשרת שלך על ידיי [לחיצה כאן](:oauth) oאו להשתמש בלינק למטה:\n\n:oauth"
+    }
+}

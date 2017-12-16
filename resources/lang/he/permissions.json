@@ -1,0 +1,37 @@
+{
+    "general": {
+        "administrator": "כללי - ניהול",
+        "manage_roles": "כללי - לשלוט ברולים",
+        "manage_server": "כללי - לנהל את השרת",
+        "manage_channels": "כללי -לנהל חדרים",
+        "kick_members": "כללי - להעיף משתמשים",
+        "ban_members": "כללי - להרחיק משתמשים",
+        "create_instant_invite": "כללי - ליצור לינקים חדשים להזמנה",
+        "change_nickname": "כללי - לשנות כינויים",
+        "manage_nicknames": "כללי - לנהל כינויים",
+        "manage_emojis": "כללי - לנהל אימוג'ים'",
+        "manage_webhooks": "כללי -לנהל WebHook"
+    },
+
+    "text": {
+        "read_messages": "קרא הודעות",
+        "send_messages": "שלח הודעות",
+        "send_tts_messages": "שלח הודעות קוליות",
+        "manage_messages": "נהל הודעות",
+        "embed_links": "הוסף לינקים",
+        "attach_files": "הוסף קבצים",
+        "read_message_history": "קרא היסטוריית הודעות",
+        "mention_everyone": "תייג את כולם",
+        "external_emotes": "להוסיף אימוג'ים'",
+        "add_reactions": "להוסיף תגובות"
+    },
+
+    "voice": {
+        "connect": "להתחבר לחדר",
+        "speak": "לדבר בחדר",
+        "mute_members": "להשתיק אנשים בחדר",
+        "deafen_members": "להשתיק אנשים בחדר",
+        "move_members": "להזיז אנשים",
+        "use_vad": "דיבור חופשי"
+    }
+}
